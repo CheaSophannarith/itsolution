@@ -39,5 +39,29 @@
       { "id": 39, "name": "Power Adapters", "slug": "power-adapters" },
       { "id": 40, "name": "Webcams", "slug": "webcams" }
     ]
+  },
+  {
+    "id": 4,
+    "name": "Cameras & Camcorders",
+    "slug": "cameras-camcorders",
+    "subcategories": [
+      { "id": 41, "name": "Camera & Camcorder Accessories", "slug": "camera-camcorder-accessories" },
+      { "id": 42, "name": "Digital Cameras & Camcorders", "slug": "digital-cameras-camcorders" },
+      { "id": 43, "name": "Security Cameras", "slug": "security-cameras" },
+      { "id": 44, "name": "Video Conference Cameras", "slug": "video-conference-cameras" },
+      { "id": 45, "name": "Webcams", "slug": "webcams" }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Pc & Server Components",
+    "slug": "pc-server-components",
+    "subcategories": [
+      { "id": 51, "name": "Memory (RAM)", "slug": "memory-ram" },
+      { "id": 52, "name": "Motherboards", "slug": "motherboards" },
+      { "id": 53, "name": "Processors (CPUs)", "slug": "processors-cpus" },
+      { "id": 55, "name": "Sound Cards", "slug": "sound-cards" },
+      { "id": 56, "name": "Video Cards", "slug": "video-cards" }
+    ]
   }
 ]
