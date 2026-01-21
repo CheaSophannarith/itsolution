@@ -29,6 +29,67 @@
                 "name": "Thin Clients",
                 "slug": "thin-clients"
             }
+        ],
+    },
+    {
+        "id": 2,
+        "name": "Cables",
+        "slug": "cables",
+        "subcategories": [
+            {
+                "id": 21,
+                "name": "Audio & Video Cables",
+                "slug": "audio-video-cables"
+            },
+            {
+                "id": 22,
+                "name": "Ethernet Cables",
+                "slug": "ethernet-cables"
+            },
+            {
+                "id": 23,
+                "name": "Power Cables",
+                "slug": "power-cables"
+            },
+            {   
+                "id": 24,
+                "name": "Network Cables",
+                "slug": "network-cables"
+            },
+            {
+                "id": 25,
+                "name": "USB Cables",
+                "slug": "usb-cables"
+            }
+        ],
+    },
+    {
+        "id": 3,
+        "name": "Computer Accessories",
+        "slug": "computer-accessories",
+        "subcategories": [
+            { "id": 31, "name": "CD/DVD/Blu-ray Drives", "slug": "cd-dvd-bluray-drives" },
+            { "id": 32, "name": "Computer Speakers", "slug": "computer-speakers" },
+            { "id": 33, "name": "Flash Drives (USB)", "slug": "flash-drives-usb" },
+            { "id": 34, "name": "Keyboards & Keypads", "slug": "keyboards-keypads" },
+            { "id": 35, "name": "Laptop Batteries", "slug": "laptop-batteries" },
+            { "id": 36, "name": "Laptop Cases", "slug": "laptop-cases" },
+            { "id": 37, "name": "Laptop Docks & Port Replicators", "slug": "laptop-docks-port-replicators" },
+            { "id": 38, "name": "Mice & Trackballs", "slug": "mice-trackballs" },
+            { "id": 39, "name": "Power Adapters", "slug": "power-adapters" },
+            { "id": 40, "name": "Webcams", "slug": "webcams" }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Cameras & Camcorders",
+        "slug": "cameras-camcorders",
+        "subcategories": [
+            { "id": 41, "name": "Camera & Camcorder Accessories", "slug": "camera-camcorder-accessories" },
+            { "id": 42, "name": "Digital Cameras & Camcorders", "slug": "digital-cameras-camcorders" },
+            { "id": 43, "name": "Security Cameras", "slug": "security-cameras" },
+            { "id": 44, "name": "Video Conference Cameras", "slug": "video-conference-cameras" },
+            { "id": 45, "name": "Webcams", "slug": "webcams" }
         ]
     }
 ]
