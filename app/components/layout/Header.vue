@@ -57,13 +57,17 @@
                     <nav class="flex items-center">
                         <div v-for="item in navItems" :key="item.name" class="relative"
                             @mouseenter="openDropdown(item.name)" @mouseleave="closeDropdown">
-                            <NuxtLink :to="item.href" :class="[
-                                'px-6 py-3 text-brand-foreground font-medium transition-colors flex items-center gap-1',
-                                activeDropdown === item.name ? 'bg-white/20' : 'hover:bg-white/10'
-                            ]">
+                            <component
+                                :is="item.children ? 'button' : 'NuxtLink'"
+                                :to="item.children ? undefined : item.href"
+                                :class="[
+                                    'px-6 py-3 text-brand-foreground font-medium transition-colors flex items-center gap-1 cursor-pointer',
+                                    activeDropdown === item.name ? 'bg-white/20' : 'hover:bg-white/10'
+                                ]"
+                            >
                                 {{ item.name }}
                                 <ChevronDown v-if="item.children" class="w-4 h-4" />
-                            </NuxtLink>
+                            </component>
                         </div>
                     </nav>
 
@@ -90,7 +94,7 @@
                             <div v-for="subcat in activeNavItem.children" :key="subcat.name" class="relative"
                                 @mouseenter="setActiveSubcategory(subcat)" @mouseleave="clearActiveSubcategory">
                                 <NuxtLink :to="subcat.href" :class="[
-                                    'flex items-center justify-between px-4 py-2 text-brand hover:bg-brand hover:text-white transition-colors',
+                                    'flex items-center justify-between px-4 py-1 text-brand hover:bg-brand hover:text-white transition-colors',
                                     activeSubcategory?.name === subcat.name ? 'bg-brand text-white' : ''
                                 ]">
                                     {{ subcat.name }}
@@ -100,10 +104,10 @@
                         </div>
 
                         <!-- Right Column - Subcategory Children -->
-                        <div v-if="activeSubcategory?.children" class="flex-1 py-4 pl-6">
-                            <div class="grid grid-cols-3 gap-4">
+                        <div v-if="activeSubcategory?.children" class="flex-1 py-3 pl-6">
+                            <div class="grid grid-cols-3 gap-2">
                                 <NuxtLink v-for="child in activeSubcategory.children" :key="child.name" :to="child.href"
-                                    class="px-3 py-2 text-brand hover:text-white hover:bg-brand rounded transition-colors">
+                                    class="px-3 py-1 text-brand hover:text-white hover:bg-brand rounded transition-colors">
                                     {{ child.name }}
                                 </NuxtLink>
                             </div>
@@ -121,8 +125,10 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, computed } from 'vue'
+    import { ref, computed, watch } from 'vue'
     import { Search, ShoppingCart, CircleUser, ChevronDown, ChevronRight } from 'lucide-vue-next'
+
+    const route = useRoute()
 
     interface NavChild {
         name: string
@@ -262,6 +268,7 @@
     const activeDropdown = ref<string | null>(null)
     const activeSubcategory = ref<NavSubcategory | null>(null)
     let closeTimeout: ReturnType<typeof setTimeout> | null = null
+    let openTimeout: ReturnType<typeof setTimeout> | null = null
 
     const activeNavItem = computed(() => {
         return navItems.find(item => item.name === activeDropdown.value)
@@ -272,14 +279,24 @@
             clearTimeout(closeTimeout)
             closeTimeout = null
         }
+        if (openTimeout) {
+            clearTimeout(openTimeout)
+            openTimeout = null
+        }
         const item = navItems.find(i => i.name === name)
         if (item?.children) {
-            activeDropdown.value = name
-            activeSubcategory.value = null
+            openTimeout = setTimeout(() => {
+                activeDropdown.value = name
+                activeSubcategory.value = null
+            }, 300)
         }
     }
 
     function closeDropdown() {
+        if (openTimeout) {
+            clearTimeout(openTimeout)
+            openTimeout = null
+        }
         closeTimeout = setTimeout(() => {
             activeDropdown.value = null
             activeSubcategory.value = null
@@ -300,4 +317,10 @@
     function clearActiveSubcategory() {
         // Keep the subcategory visible for better UX
     }
+
+    // Close dropdown when route changes
+    watch(() => route.fullPath, () => {
+        activeDropdown.value = null
+        activeSubcategory.value = null
+    })
 </script>
