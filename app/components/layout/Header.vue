@@ -148,7 +148,7 @@
         children?: NavSubcategory[]
     }
 
-    interface SoftwareCategory {
+    interface Category {
         id: number
         name: string
         slug: string
@@ -161,8 +161,28 @@
         }[]
     }
 
-    // Fetch software categories from JSON
-    const { data: softwareCategories } = await useFetch<SoftwareCategory[]>('/data/Software/categories.json')
+    // Fetch categories from JSON
+    const { data: hardwareCategories } = await useFetch<Category[]>('/data/Hardware/categories.json')
+    const { data: softwareCategories } = await useFetch<Category[]>('/data/Software/categories.json')
+
+    // Transform hardware categories to navigation format
+    const hardwareNavChildren = computed<NavSubcategory[]>(() => {
+        if (!hardwareCategories.value) return []
+
+        return [
+            { name: 'All Hardware', href: '/hardware' },
+            ...hardwareCategories.value.map(category => ({
+                name: category.name,
+                href: `/hardware/${category.slug}`,
+                children: category.subcategories?.length
+                    ? category.subcategories.map(sub => ({
+                        name: sub.name,
+                        href: `/hardware/${category.slug}/${sub.slug}`
+                    }))
+                    : undefined
+            }))
+        ]
+    })
 
     // Transform software categories to navigation format
     const softwareNavChildren = computed<NavSubcategory[]>(() => {
@@ -187,71 +207,7 @@
         {
             name: 'Hardware',
             href: '/hardware',
-            children: [
-                {
-                    name: 'All Hardware', href: '/hardware'
-                },
-                {
-                    name: 'Cables', href: '/hardware/cables', children: [
-                        { name: 'USB Cables', href: '/hardware/cables/usb' },
-                        { name: 'HDMI Cables', href: '/hardware/cables/hdmi' },
-                        { name: 'Network Cables', href: '/hardware/cables/network' },
-                        { name: 'Power Cables', href: '/hardware/cables/power' },
-                    ]
-                },
-                {
-                    name: 'Cameras & Camcorders', href: '/hardware/cameras', children: [
-                        { name: 'Digital Cameras', href: '/hardware/cameras/digital' },
-                        { name: 'Webcams', href: '/hardware/cameras/webcams' },
-                        { name: 'Security Cameras', href: '/hardware/cameras/security' },
-                    ]
-                },
-                {
-                    name: 'Computer Accessories', href: '/hardware/accessories', children: [
-                        { name: 'Keyboards', href: '/hardware/accessories/keyboards' },
-                        { name: 'Mice', href: '/hardware/accessories/mice' },
-                        { name: 'Headsets', href: '/hardware/accessories/headsets' },
-                        { name: 'Docking Stations', href: '/hardware/accessories/docking-stations' },
-                    ]
-                },
-                {
-                    name: 'Computers & Tablets', href: '/hardware/computers', children: [
-                        { name: 'Laptops', href: '/hardware/computers/laptops' },
-                        { name: 'Desktops', href: '/hardware/computers/desktops' },
-                        { name: 'Tablets', href: '/hardware/computers/tablets' },
-                        { name: 'Workstations', href: '/hardware/computers/workstations' },
-                    ]
-                },
-                {
-                    name: 'Data Storage', href: '/hardware/storage', children: [
-                        { name: 'Hard Drives', href: '/hardware/storage/hard-drives' },
-                        { name: 'SSDs', href: '/hardware/storage/ssd' },
-                        { name: 'USB Flash Drives', href: '/hardware/storage/flash-drives' },
-                        { name: 'Memory Cards', href: '/hardware/storage/memory-cards' },
-                    ]
-                },
-                { name: 'Electronics & Devices', href: '/hardware/electronics' },
-                {
-                    name: 'Monitors & Projectors', href: '/hardware/monitors', children: [
-                        { name: 'Computer Monitors', href: '/hardware/monitors/computer' },
-                        { name: 'Projectors', href: '/hardware/monitors/projectors' },
-                        { name: 'Video Walls', href: '/hardware/monitors/video-walls' },
-                    ]
-                },
-                {
-                    name: 'Networking & Security', href: '/hardware/networking', children: [
-                        { name: 'Routers', href: '/hardware/networking/routers' },
-                        { name: 'Switches', href: '/hardware/networking/switches' },
-                        { name: 'Firewalls', href: '/hardware/networking/firewalls' },
-                        { name: 'Access Points', href: '/hardware/networking/access-points' },
-                    ]
-                },
-                { name: 'PC & Server Components', href: '/hardware/components' },
-                { name: 'Phones & Video Conferencing', href: '/hardware/phones' },
-                { name: 'Power Management', href: '/hardware/power' },
-                { name: 'Printer & Printer Supplies', href: '/hardware/printers' },
-                { name: 'Servers & Server Management', href: '/hardware/servers' },
-            ]
+            children: hardwareNavChildren.value
         },
         {
             name: 'Software',
