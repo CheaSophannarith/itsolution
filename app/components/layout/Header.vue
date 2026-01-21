@@ -127,6 +127,7 @@
 <script setup lang="ts">
     import { ref, computed, watch } from 'vue'
     import { Search, ShoppingCart, CircleUser, ChevronDown, ChevronRight } from 'lucide-vue-next'
+    import { useRoute } from 'vue-router'
 
     const route = useRoute()
 
