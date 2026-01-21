@@ -128,6 +128,9 @@
     import { ref, computed, watch } from 'vue'
     import { Search, ShoppingCart, CircleUser, ChevronDown, ChevronRight } from 'lucide-vue-next'
     import { useRoute } from 'vue-router'
+    // Import JSON directly - no fetch needed, data available immediately
+    import hardwareCategoriesData from '~/assets/data/Hardware/categories.json'
+    import softwareCategoriesData from '~/assets/data/Software/categories.json'
 
     const route = useRoute()
 
@@ -161,9 +164,9 @@
         }[]
     }
 
-    // Fetch categories from JSON
-    const { data: hardwareCategories } = await useFetch<Category[]>('/data/Hardware/categories.json')
-    const { data: softwareCategories } = await useFetch<Category[]>('/data/Software/categories.json')
+    // Use imported JSON data directly - always available, no fetch, no caching issues
+    const hardwareCategories = ref<Category[]>(hardwareCategoriesData)
+    const softwareCategories = ref<Category[]>(softwareCategoriesData)
 
     // Transform hardware categories to navigation format
     const hardwareNavChildren = computed<NavSubcategory[]>(() => {
