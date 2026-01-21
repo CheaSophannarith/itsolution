@@ -148,7 +148,42 @@
         children?: NavSubcategory[]
     }
 
-    const navItems: NavItem[] = [
+    interface SoftwareCategory {
+        id: number
+        name: string
+        slug: string
+        description?: string
+        subcategories?: {
+            id: number
+            name: string
+            slug: string
+            description?: string
+        }[]
+    }
+
+    // Fetch software categories from JSON
+    const { data: softwareCategories } = await useFetch<SoftwareCategory[]>('/data/Software/categories.json')
+
+    // Transform software categories to navigation format
+    const softwareNavChildren = computed<NavSubcategory[]>(() => {
+        if (!softwareCategories.value) return []
+
+        return [
+            { name: 'All Software', href: '/software' },
+            ...softwareCategories.value.map(category => ({
+                name: category.name,
+                href: `/software/${category.slug}`,
+                children: category.subcategories?.length
+                    ? category.subcategories.map(sub => ({
+                        name: sub.name,
+                        href: `/software/${category.slug}/${sub.slug}`
+                    }))
+                    : undefined
+            }))
+        ]
+    })
+
+    const navItems = computed<NavItem[]>(() => [
         {
             name: 'Hardware',
             href: '/hardware',
@@ -221,32 +256,7 @@
         {
             name: 'Software',
             href: '/software',
-            children: [
-                {
-                    name: 'Operating Systems', href: '/software/os', children: [
-                        { name: 'Windows', href: '/software/os/windows' },
-                        { name: 'Linux', href: '/software/os/linux' },
-                        { name: 'macOS', href: '/software/os/macos' },
-                    ]
-                },
-                {
-                    name: 'Security Software', href: '/software/security', children: [
-                        { name: 'Antivirus', href: '/software/security/antivirus' },
-                        { name: 'Endpoint Protection', href: '/software/security/endpoint' },
-                        { name: 'VPN', href: '/software/security/vpn' },
-                    ]
-                },
-                {
-                    name: 'Productivity', href: '/software/productivity', children: [
-                        { name: 'Microsoft 365', href: '/software/productivity/microsoft-365' },
-                        { name: 'Google Workspace', href: '/software/productivity/google-workspace' },
-                        { name: 'Adobe Creative Cloud', href: '/software/productivity/adobe' },
-                    ]
-                },
-                { name: 'Development Tools', href: '/software/development' },
-                { name: 'Database Software', href: '/software/database' },
-                { name: 'Virtualization', href: '/software/virtualization' },
-            ]
+            children: softwareNavChildren.value
         },
         {
             name: 'Partners',
@@ -264,7 +274,7 @@
         { name: 'Services', href: '/services' },
         { name: 'Explore SHI', href: '/explore' },
         { name: 'Tools', href: '/tools' },
-    ]
+    ])
 
     const activeDropdown = ref<string | null>(null)
     const activeSubcategory = ref<NavSubcategory | null>(null)
@@ -272,7 +282,7 @@
     let openTimeout: ReturnType<typeof setTimeout> | null = null
 
     const activeNavItem = computed(() => {
-        return navItems.find(item => item.name === activeDropdown.value)
+        return navItems.value.find(item => item.name === activeDropdown.value)
     })
 
     function openDropdown(name: string) {
@@ -284,7 +294,7 @@
             clearTimeout(openTimeout)
             openTimeout = null
         }
-        const item = navItems.find(i => i.name === name)
+        const item = navItems.value.find(i => i.name === name)
         if (item?.children) {
             openTimeout = setTimeout(() => {
                 activeDropdown.value = name

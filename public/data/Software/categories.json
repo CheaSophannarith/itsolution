@@ -1,0 +1,101 @@
+[
+    {
+        "id": 1,
+        "name": "Operating Systems",
+        "slug": "os",
+        "description": "Enterprise operating systems for workstations and servers",
+        "subcategories": [
+            {
+                "id": 11,
+                "name": "Windows",
+                "slug": "windows",
+                "description": "Microsoft Windows operating systems"
+            },
+            {
+                "id": 12,
+                "name": "Linux",
+                "slug": "linux",
+                "description": "Linux distributions for enterprise"
+            },
+            {
+                "id": 13,
+                "name": "macOS",
+                "slug": "macos",
+                "description": "Apple macOS operating systems"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Security Software",
+        "slug": "security",
+        "description": "Cybersecurity and protection solutions",
+        "subcategories": [
+            {
+                "id": 21,
+                "name": "Antivirus",
+                "slug": "antivirus",
+                "description": "Antivirus and malware protection"
+            },
+            {
+                "id": 22,
+                "name": "Endpoint Protection",
+                "slug": "endpoint",
+                "description": "Endpoint detection and response solutions"
+            },
+            {
+                "id": 23,
+                "name": "VPN",
+                "slug": "vpn",
+                "description": "Virtual private network solutions"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Productivity",
+        "slug": "productivity",
+        "description": "Business productivity and collaboration tools",
+        "subcategories": [
+            {
+                "id": 31,
+                "name": "Microsoft 365",
+                "slug": "microsoft-365",
+                "description": "Microsoft Office and cloud productivity suite"
+            },
+            {
+                "id": 32,
+                "name": "Google Workspace",
+                "slug": "google-workspace",
+                "description": "Google cloud productivity and collaboration tools"
+            },
+            {
+                "id": 33,
+                "name": "Adobe Creative Cloud",
+                "slug": "adobe",
+                "description": "Adobe creative and design software"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Development Tools",
+        "slug": "development",
+        "description": "Software development and DevOps tools",
+        "subcategories": []
+    },
+    {
+        "id": 5,
+        "name": "Database Software",
+        "slug": "database",
+        "description": "Database management systems and tools",
+        "subcategories": []
+    },
+    {
+        "id": 6,
+        "name": "Virtualization",
+        "slug": "virtualization",
+        "description": "Virtualization and container platforms",
+        "subcategories": []
+    }
+]
