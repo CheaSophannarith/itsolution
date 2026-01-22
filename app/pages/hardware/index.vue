@@ -22,9 +22,10 @@
                     <h2 class="text-xl font-bold text-gray-800 mb-2">Filters</h2>
                     <!-- Search Box -->
                     <div class="flex shadow-sm">
-                        <input type="text" placeholder="Search products..."
-                            class="flex-1 px-4 py-2.5 border border-r-0 border-gray-300 focus:outline-none focus:border-brand focus:ring-brand text-sm" />
-                        <button
+                        <input type="text" placeholder="Search products..." v-model="searchQuery"
+                            class="flex-1 px-4 py-2.5 border border-r-0 border-gray-300 focus:outline-none focus:border-brand focus:ring-brand text-sm"
+                            @keyup.enter="applyFilters" />
+                        <button @click="applyFilters"
                             class="bg-brand text-white px-4 py-2.5 hover:bg-brand/90 transition-colors flex items-center justify-center">
                             <Search class="w-4 h-4" />
                         </button>
@@ -240,6 +241,7 @@
 
 <script setup lang="ts">
     import { ref, computed } from 'vue';
+    import { useRouter } from 'vue-router';
     import { Search, ChevronDown, ChevronUp, ChevronRight, Monitor, Cable, Network, Headphones, Filter } from 'lucide-vue-next';
     import manufacturersData from '~/assets/data/Hardware/manufacturers.json';
     import msrpData from '~/assets/data/Hardware/msrp.json';
@@ -297,11 +299,13 @@
         isPopular: boolean;
     }
 
+    const router = useRouter();
     const manufacturers = manufacturersData as Manufacturer[];
     const products = productsData as Product[];
     const msrp = msrpData as MsrpRange[];
     const types = typesData as ProductType[];
     const brands = brandsData as Brand[];
+    const searchQuery = ref('');
 
     const popularBrands = computed(() => {
         return brands.filter(brand => brand.isPopular);
@@ -339,13 +343,27 @@
             selectedTypes.value.length;
     });
 
-    // Apply filters function
+    // Apply filters function - navigate to all-products page with query params
     const applyFilters = () => {
-        // Implement your filter logic here
-        alert('Applying filters:' +
-            ` Manufacturers: ${selectedManufacturers.value.join(', ')}` +
-            ` MSRP: ${selectedMsrp.value.join(', ')}` +
-            ` Types: ${selectedTypes.value.join(', ')}`);
+        const query: Record<string, string> = {};
+
+        if (searchQuery.value.trim()) {
+            query.search = searchQuery.value.trim();
+        }
+        if (selectedManufacturers.value.length > 0) {
+            query.manufacturers = selectedManufacturers.value.join(',');
+        }
+        if (selectedMsrp.value.length > 0) {
+            query.msrp = selectedMsrp.value.join(',');
+        }
+        if (selectedTypes.value.length > 0) {
+            query.types = selectedTypes.value.join(',');
+        }
+
+        router.push({
+            path: '/hardware/all-products',
+            query
+        });
     };
 
     // Clear all filters
