@@ -3,6 +3,8 @@
     "id": 1,
     "name": "Computers & Tablets",
     "slug": "computers-tablets",
+    "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800",
+    "description": "We offer a wide range of computers and tablets to suit every need. Whether you're seeking a powerful desktop for gaming, a versatile laptop for work, or a convenient tablet for on-the-go use, our selection promises quality and performance.",
     "subcategories": [
       { "id": 11, "name": "Desktops and Workstations", "slug": "desktops-workstations" },
       { "id": 12, "name": "Laptops", "slug": "laptops" },
@@ -15,6 +17,8 @@
     "id": 2,
     "name": "Cables",
     "slug": "cables",
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+    "description": "Connectivity is crucial in any digital setup. We offer a comprehensive range of cables from HDMI and USB to Ethernet and power cables. Our selection ensures seamless data transfer and connectivity in your digital landscape.",
     "subcategories": [
       { "id": 21, "name": "Audio & Video Cables", "slug": "audio-video-cables" },
       { "id": 22, "name": "Ethernet Cables", "slug": "ethernet-cables" },
@@ -27,6 +31,8 @@
     "id": 3,
     "name": "Computer Accessories",
     "slug": "computer-accessories",
+    "image": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800",
+    "description": "Enhance your computing experience with our array of computer accessories. From keyboards and mice to headsets and docking stations, we provide everything you need for an efficient and comfortable computing setup.",
     "subcategories": [
       { "id": 31, "name": "CD/DVD/Blu-ray Drives", "slug": "cd-dvd-bluray-drives" },
       { "id": 32, "name": "Computer Speakers", "slug": "computer-speakers" },
@@ -38,6 +44,34 @@
       { "id": 38, "name": "Mice & Trackballs", "slug": "mice-trackballs" },
       { "id": 39, "name": "Power Adapters", "slug": "power-adapters" },
       { "id": 40, "name": "Webcams", "slug": "webcams" }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Cameras & Camcorders",
+    "slug": "cameras-camcorders",
+    "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800",
+    "description": "Capture life's moments or facilitate remote work with our selection of digital cameras and camcorders. From compact digital cameras to professional-grade DSLRs and video cameras, our range caters to both casual and professional users.",
+    "subcategories": [
+      { "id": 41, "name": "Camera & Camcorder Accessories", "slug": "camera-camcorder-accessories" },
+      { "id": 42, "name": "Digital Cameras & Camcorders", "slug": "digital-cameras-camcorders" },
+      { "id": 43, "name": "Security Cameras", "slug": "security-cameras" },
+      { "id": 44, "name": "Video Conference Cameras", "slug": "video-conference-cameras" },
+      { "id": 45, "name": "Webcams", "slug": "webcams" }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "PC & Server Components",
+    "slug": "pc-server-components",
+    "image": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800",
+    "description": "Upgrade or repair your PC or server with our selection of components. From CPUs and memory to hard drives and graphics cards, we provide high-quality parts to keep your systems running smoothly.",
+    "subcategories": [
+      { "id": 51, "name": "Memory (RAM)", "slug": "memory-ram" },
+      { "id": 52, "name": "Motherboards", "slug": "motherboards" },
+      { "id": 53, "name": "Processors (CPUs)", "slug": "processors-cpus" },
+      { "id": 55, "name": "Sound Cards", "slug": "sound-cards" },
+      { "id": 56, "name": "Video Cards", "slug": "video-cards" }
     ]
   }
 ]
