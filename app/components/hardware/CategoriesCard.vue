@@ -58,7 +58,7 @@
 
     const showSubcategories = ref(false);
 
-    const categoryLink = computed(() => `/hardware/${props.category.slug}`);
+    const categoryLink = computed(() => `/hardware/categories/${props.category.slug}`);
 
     const toggleSubcategories = () => {
         showSubcategories.value = !showSubcategories.value;

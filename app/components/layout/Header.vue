@@ -57,14 +57,11 @@
                     <nav class="flex items-center">
                         <div v-for="item in navItems" :key="item.name" class="relative"
                             @mouseenter="openDropdown(item.name)" @mouseleave="closeDropdown">
-                            <component
-                                :is="item.children ? 'button' : 'NuxtLink'"
-                                :to="item.children ? undefined : item.href"
-                                :class="[
+                            <component :is="item.children ? 'button' : 'NuxtLink'"
+                                :to="item.children ? undefined : item.href" :class="[
                                     'px-6 py-3 text-brand-foreground font-medium transition-colors flex items-center gap-1 cursor-pointer',
                                     activeDropdown === item.name ? 'bg-white/20' : 'hover:bg-white/10'
-                                ]"
-                            >
+                                ]">
                                 {{ item.name }}
                                 <ChevronDown v-if="item.children" class="w-4 h-4" />
                             </component>
@@ -176,11 +173,11 @@
             { name: 'All Hardware', href: '/hardware' },
             ...hardwareCategories.value.map(category => ({
                 name: category.name,
-                href: `/hardware/${category.slug}`,
+                href: `/hardware/categories/${category.slug}`,
                 children: category.subcategories?.length
                     ? category.subcategories.map(sub => ({
                         name: sub.name,
-                        href: `/hardware/${category.slug}/${sub.slug}`
+                        href: `/hardware/categories/${category.slug}/${sub.slug}`
                     }))
                     : undefined
             }))
