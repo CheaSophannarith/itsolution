@@ -128,21 +128,30 @@
                 </div>
 
                 <!-- Pagination -->
-                <div v-if="totalPages > 1" class="flex items-center justify-center gap-2 mt-8">
-                    <button @click="currentPage = currentPage - 1" :disabled="currentPage === 1"
-                        class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <ChevronLeft class="w-4 h-4" />
-                    </button>
-                    <button v-for="page in visiblePages" :key="page" @click="currentPage = page"
-                        class="px-4 py-2 border rounded transition-colors"
-                        :class="currentPage === page ? 'bg-brand text-white border-brand' : 'border-gray-300 hover:bg-gray-50'">
-                        {{ page }}
-                    </button>
-                    <button @click="currentPage = currentPage + 1" :disabled="currentPage === totalPages"
-                        class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <ChevronRight class="w-4 h-4" />
-                    </button>
-                </div>
+                <Pagination
+                    v-if="totalPages > 1"
+                    v-model:page="currentPage"
+                    :total="filteredProducts.length"
+                    :items-per-page="itemsPerPage"
+                    :sibling-count="1"
+                    show-edges
+                    class="mt-8"
+                >
+                    <PaginationContent v-slot="{ items }">
+                        <PaginationPrevious />
+                        <template v-for="(item, index) in items" :key="index">
+                            <PaginationItem
+                                v-if="item.type === 'page'"
+                                :value="item.value"
+                                :is-active="item.value === currentPage"
+                            >
+                                {{ item.value }}
+                            </PaginationItem>
+                            <PaginationEllipsis v-else :index="index" />
+                        </template>
+                        <PaginationNext />
+                    </PaginationContent>
+                </Pagination>
             </main>
         </div>
     </div>
@@ -152,7 +161,15 @@
     import { ref, computed, watch } from 'vue';
     import { useRoute } from 'vue-router';
     import { useHead, createError } from '#imports';
-    import { ChevronRight, ChevronLeft, ChevronDown, Star, Package, Search } from 'lucide-vue-next';
+    import { ChevronRight, ChevronDown, Star, Package, Search } from 'lucide-vue-next';
+    import {
+        Pagination,
+        PaginationContent,
+        PaginationEllipsis,
+        PaginationItem,
+        PaginationNext,
+        PaginationPrevious,
+    } from '~/components/ui/pagination';
     import categoriesData from '~/assets/data/Hardware/categories.json';
     import productsData from '~/assets/data/Hardware/products.json';
     import brand from '~/assets/data/Hardware/brand.json';
@@ -315,16 +332,6 @@
     const paginatedProducts = computed(() => {
         const start = (currentPage.value - 1) * itemsPerPage;
         return filteredProducts.value.slice(start, start + itemsPerPage);
-    });
-
-    const visiblePages = computed(() => {
-        const pages: number[] = [];
-        const start = Math.max(1, currentPage.value - 2);
-        const end = Math.min(totalPages.value, start + 4);
-        for (let i = start; i <= end; i++) {
-            pages.push(i);
-        }
-        return pages;
     });
 
     const applyFilters = () => {
