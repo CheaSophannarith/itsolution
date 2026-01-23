@@ -325,10 +325,15 @@
         subcategories: { id: number; name: string; slug: string }[];
     }
 
+    interface DescriptionItem {
+        label: string;
+        value: string;
+    }
+
     interface Product {
         id: number;
         name: string;
-        description: string;
+        description: DescriptionItem[];
         price: number;
         manufacturer_id: number;
         brand_id: number;

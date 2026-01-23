@@ -282,10 +282,15 @@
         subcategories: Subcategory[];
     }
 
+    interface DescriptionItem {
+        label: string;
+        value: string;
+    }
+
     interface Product {
         id: number;
         name: string;
-        description: string;
+        description: DescriptionItem[];
         price: number;
         manufacturer_id: number;
         brand_id: number;
@@ -435,7 +440,7 @@
             const searchTerm = appliedSearch.value.toLowerCase().trim();
             result = result.filter(p =>
                 p.name.toLowerCase().includes(searchTerm) ||
-                p.description.toLowerCase().includes(searchTerm)
+                p.description.some(d => d.value.toLowerCase().includes(searchTerm))
             );
         }
 

@@ -26,7 +26,7 @@
             <!-- Subcategories Dropdown -->
             <div v-if="showSubcategories" class="mt-3 space-y-1">
                 <NuxtLink v-for="subcategory in category.subcategories" :key="subcategory.id"
-                    :to="`/hardware/${category.slug}/${subcategory.slug}`"
+                    :to="`/hardware/categories/${category.slug}/${subcategory.slug}`"
                     class="block text-sm text-gray-600 hover:text-brand hover:underline py-1">
                     {{ subcategory.name }}
                 </NuxtLink>

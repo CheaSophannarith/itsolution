@@ -2,7 +2,24 @@
   {
     "id": 1,
     "name": "Dell OptiPlex 7090 Desktop",
-    "description": "Intel Core i7-11700, 16GB RAM, 512GB SSD, Windows 11 Pro",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i7-11700"
+      },
+      {
+        "label": "Memory",
+        "value": "16GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "512GB SSD"
+      },
+      {
+        "label": "OS",
+        "value": "Windows 11 Pro"
+      }
+    ],
     "price": 1299.99,
     "manufacturer_id": 15,
     "category_id": 1,
@@ -21,7 +38,24 @@
   {
     "id": 2,
     "name": "HP Z4 G5 Workstation",
-    "description": "Intel Xeon W3-2423, 32GB ECC RAM, 1TB SSD, NVIDIA RTX A4000",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Xeon W3-2423"
+      },
+      {
+        "label": "Memory",
+        "value": "32GB ECC RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "1TB SSD"
+      },
+      {
+        "label": "Graphics",
+        "value": "NVIDIA RTX A4000"
+      }
+    ],
     "price": 3499.99,
     "manufacturer_id": 16,
     "category_id": 1,
@@ -40,7 +74,24 @@
   {
     "id": 3,
     "name": "Lenovo ThinkCentre M90q Gen 3",
-    "description": "Intel Core i5-12500T, 8GB RAM, 256GB SSD, Windows 11 Pro",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i5-12500T"
+      },
+      {
+        "label": "Memory",
+        "value": "8GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "256GB SSD"
+      },
+      {
+        "label": "OS",
+        "value": "Windows 11 Pro"
+      }
+    ],
     "price": 899.99,
     "manufacturer_id": 17,
     "category_id": 1,
@@ -59,7 +110,24 @@
   {
     "id": 4,
     "name": "ASUS ROG Strix G15DK Gaming Desktop",
-    "description": "AMD Ryzen 7 5800X, 16GB RAM, 1TB SSD, GeForce RTX 3070",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "AMD Ryzen 7 5800X"
+      },
+      {
+        "label": "Memory",
+        "value": "16GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "1TB SSD"
+      },
+      {
+        "label": "Graphics",
+        "value": "GeForce RTX 3070"
+      }
+    ],
     "price": 1899.99,
     "manufacturer_id": 4,
     "category_id": 1,
@@ -78,7 +146,28 @@
   {
     "id": 5,
     "name": "Apple Mac Studio M2 Max",
-    "description": "Apple M2 Max chip, 32GB unified memory, 512GB SSD",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Apple M2 Max chip"
+      },
+      {
+        "label": "Memory",
+        "value": "32GB unified memory"
+      },
+      {
+        "label": "Storage",
+        "value": "512GB SSD"
+      },
+      {
+        "label": "Graphics",
+        "value": "Integrated 38-core GPU"
+      },
+      {
+        "label": "Connectivity",
+        "value": "Thunderbolt 4 ports"
+      }
+    ],
     "price": 1999.99,
     "manufacturer_id": 19,
     "category_id": 1,
@@ -97,7 +186,24 @@
   {
     "id": 6,
     "name": "Acer Aspire TC-1770 Desktop",
-    "description": "Intel Core i3-13100, 8GB RAM, 512GB SSD, Windows 11 Home",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i3-13100"
+      },
+      {
+        "label": "Memory",
+        "value": "8GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "512GB SSD"
+      },
+      {
+        "label": "OS",
+        "value": "Windows 11 Home"
+      }
+    ],
     "price": 549.99,
     "manufacturer_id": 18,
     "category_id": 1,
@@ -116,7 +222,24 @@
   {
     "id": 7,
     "name": "Dell XPS 15 9530 Laptop",
-    "description": "Intel Core i7-13700H, 16GB RAM, 512GB SSD, 15.6\" OLED Display",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i7-13700H"
+      },
+      {
+        "label": "Memory",
+        "value": "16GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "512GB SSD"
+      },
+      {
+        "label": "Display",
+        "value": "15.6\" OLED Display"
+      }
+    ],
     "price": 1799.99,
     "manufacturer_id": 15,
     "category_id": 1,
@@ -135,7 +258,24 @@
   {
     "id": 8,
     "name": "Apple MacBook Pro 14-inch M3 Pro",
-    "description": "Apple M3 Pro chip, 18GB unified memory, 512GB SSD, 14.2\" Liquid Retina XDR",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Apple M3 Pro chip"
+      },
+      {
+        "label": "Memory",
+        "value": "18GB unified memory"
+      },
+      {
+        "label": "Storage",
+        "value": "512GB SSD"
+      },
+      {
+        "label": "Display",
+        "value": "14.2\" Liquid Retina XDR"
+      }
+    ],
     "price": 1999.99,
     "manufacturer_id": 19,
     "category_id": 1,
@@ -154,7 +294,24 @@
   {
     "id": 9,
     "name": "Lenovo ThinkPad X1 Carbon Gen 11",
-    "description": "Intel Core i7-1365U, 16GB RAM, 512GB SSD, 14\" 2.8K OLED",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i7-1365U"
+      },
+      {
+        "label": "Memory",
+        "value": "16GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "512GB SSD"
+      },
+      {
+        "label": "Display",
+        "value": "14\" 2.8K OLED"
+      }
+    ],
     "price": 1649.99,
     "manufacturer_id": 17,
     "category_id": 1,
@@ -173,7 +330,24 @@
   {
     "id": 10,
     "name": "HP Spectre x360 16",
-    "description": "Intel Core i7-13700H, 16GB RAM, 1TB SSD, 16\" 3K+ OLED Touch",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i7-13700H"
+      },
+      {
+        "label": "Memory",
+        "value": "16GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "1TB SSD"
+      },
+      {
+        "label": "Display",
+        "value": "16\" 3K+ OLED Touch"
+      }
+    ],
     "price": 1599.99,
     "manufacturer_id": 16,
     "category_id": 1,
@@ -192,7 +366,28 @@
   {
     "id": 11,
     "name": "ASUS ROG Zephyrus G14 Gaming Laptop",
-    "description": "AMD Ryzen 9 7940HS, 16GB RAM, 1TB SSD, RTX 4060, 14\" QHD+ 165Hz",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "AMD Ryzen 9 7940HS"
+      },
+      {
+        "label": "Memory",
+        "value": "16GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "1TB SSD"
+      },
+      {
+        "label": "Graphics",
+        "value": "RTX 4060"
+      },
+      {
+        "label": "Display",
+        "value": "14\" QHD+ 165Hz"
+      }
+    ],
     "price": 1599.99,
     "manufacturer_id": 4,
     "category_id": 1,
@@ -211,7 +406,24 @@
   {
     "id": 12,
     "name": "Acer Swift 5 SF514",
-    "description": "Intel Core i7-1260P, 16GB RAM, 512GB SSD, 14\" 2.5K IPS Touch",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i7-1260P"
+      },
+      {
+        "label": "Memory",
+        "value": "16GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "512GB SSD"
+      },
+      {
+        "label": "Display",
+        "value": "14\" 2.5K IPS Touch"
+      }
+    ],
     "price": 1099.99,
     "manufacturer_id": 18,
     "category_id": 1,
@@ -230,7 +442,24 @@
   {
     "id": 13,
     "name": "Dell PowerEdge R750 Server",
-    "description": "Dual Intel Xeon Gold 6338, 128GB RAM, 2x 960GB SSD, Redundant PSU",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Dual Intel Xeon Gold 6338"
+      },
+      {
+        "label": "Memory",
+        "value": "128GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "2x 960GB SSD"
+      },
+      {
+        "label": "Power",
+        "value": "Redundant PSU"
+      }
+    ],
     "price": 8999.99,
     "manufacturer_id": 15,
     "category_id": 1,
@@ -249,7 +478,24 @@
   {
     "id": 14,
     "name": "HP ProLiant DL380 Gen10 Plus",
-    "description": "Intel Xeon Silver 4314, 64GB RAM, 2x 480GB SSD, iLO Advanced",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Xeon Silver 4314"
+      },
+      {
+        "label": "Memory",
+        "value": "64GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "2x 480GB SSD"
+      },
+      {
+        "label": "Feature",
+        "value": "iLO Advanced"
+      }
+    ],
     "price": 5499.99,
     "manufacturer_id": 16,
     "category_id": 1,
@@ -268,7 +514,24 @@
   {
     "id": 15,
     "name": "Lenovo ThinkSystem SR650 V2",
-    "description": "Intel Xeon Silver 4310, 32GB RAM, 1.2TB SAS HDD, XClarity Controller",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Xeon Silver 4310"
+      },
+      {
+        "label": "Memory",
+        "value": "32GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "1.2TB SAS HDD"
+      },
+      {
+        "label": "Feature",
+        "value": "XClarity Controller"
+      }
+    ],
     "price": 4299.99,
     "manufacturer_id": 17,
     "category_id": 1,
@@ -287,7 +550,24 @@
   {
     "id": 16,
     "name": "Dell PowerEdge T550 Tower Server",
-    "description": "Intel Xeon Silver 4309Y, 16GB RAM, 480GB SSD, Windows Server Ready",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Xeon Silver 4309Y"
+      },
+      {
+        "label": "Memory",
+        "value": "16GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "480GB SSD"
+      },
+      {
+        "label": "OS",
+        "value": "Windows Server Ready"
+      }
+    ],
     "price": 2999.99,
     "manufacturer_id": 15,
     "category_id": 1,
@@ -306,7 +586,24 @@
   {
     "id": 17,
     "name": "HP ProLiant ML350 Gen10 Plus",
-    "description": "Intel Xeon Bronze 3206R, 16GB RAM, 4TB SATA HDD, Tower Server",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Xeon Bronze 3206R"
+      },
+      {
+        "label": "Memory",
+        "value": "16GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "4TB SATA HDD"
+      },
+      {
+        "label": "Feature",
+        "value": "Tower Server"
+      }
+    ],
     "price": 2499.99,
     "manufacturer_id": 16,
     "category_id": 1,
@@ -325,7 +622,24 @@
   {
     "id": 18,
     "name": "Lenovo ThinkSystem ST550 Tower",
-    "description": "Intel Xeon Bronze 3204, 8GB RAM, 2TB SATA HDD, Entry Level Server",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Xeon Bronze 3204"
+      },
+      {
+        "label": "Memory",
+        "value": "8GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "2TB SATA HDD"
+      },
+      {
+        "label": "Feature",
+        "value": "Entry Level Server"
+      }
+    ],
     "price": 1899.99,
     "manufacturer_id": 17,
     "category_id": 1,
@@ -344,7 +658,24 @@
   {
     "id": 19,
     "name": "Apple iPad Pro 12.9-inch M2",
-    "description": "Apple M2 chip, 12.9\" Liquid Retina XDR, 256GB, Wi-Fi + Cellular",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Apple M2 chip"
+      },
+      {
+        "label": "Display",
+        "value": "12.9\" Liquid Retina XDR"
+      },
+      {
+        "label": "Feature",
+        "value": "256GB"
+      },
+      {
+        "label": "Connectivity",
+        "value": "Wi-Fi + Cellular"
+      }
+    ],
     "price": 1299.99,
     "manufacturer_id": 19,
     "category_id": 1,
@@ -363,7 +694,24 @@
   {
     "id": 20,
     "name": "Samsung Galaxy Tab S9 Ultra",
-    "description": "Snapdragon 8 Gen 2, 14.6\" Dynamic AMOLED 2X, 256GB, S Pen included",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Snapdragon 8 Gen 2"
+      },
+      {
+        "label": "Display",
+        "value": "14.6\" Dynamic AMOLED 2X"
+      },
+      {
+        "label": "Feature",
+        "value": "256GB"
+      },
+      {
+        "label": "Included",
+        "value": "S Pen included"
+      }
+    ],
     "price": 1199.99,
     "manufacturer_id": 9,
     "category_id": 1,
@@ -382,7 +730,24 @@
   {
     "id": 21,
     "name": "Microsoft Surface Pro 9",
-    "description": "Intel Core i7-1255U, 16GB RAM, 256GB SSD, 13\" PixelSense Touch",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i7-1255U"
+      },
+      {
+        "label": "Memory",
+        "value": "16GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "256GB SSD"
+      },
+      {
+        "label": "Display",
+        "value": "13\" PixelSense Touch"
+      }
+    ],
     "price": 1599.99,
     "manufacturer_id": 50,
     "category_id": 1,
@@ -401,7 +766,24 @@
   {
     "id": 22,
     "name": "Lenovo Tab P12 Pro",
-    "description": "Snapdragon 870, 12.6\" AMOLED 2K, 256GB, Precision Pen 3 included",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Snapdragon 870"
+      },
+      {
+        "label": "Display",
+        "value": "12.6\" AMOLED 2K"
+      },
+      {
+        "label": "Feature",
+        "value": "256GB"
+      },
+      {
+        "label": "Included",
+        "value": "Precision Pen 3 included"
+      }
+    ],
     "price": 699.99,
     "manufacturer_id": 17,
     "category_id": 1,
@@ -420,7 +802,24 @@
   {
     "id": 23,
     "name": "Apple iPad Air 5th Gen",
-    "description": "Apple M1 chip, 10.9\" Liquid Retina, 64GB, Wi-Fi",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Apple M1 chip"
+      },
+      {
+        "label": "Display",
+        "value": "10.9\" Liquid Retina"
+      },
+      {
+        "label": "Feature",
+        "value": "64GB"
+      },
+      {
+        "label": "Connectivity",
+        "value": "Wi-Fi"
+      }
+    ],
     "price": 599.99,
     "manufacturer_id": 19,
     "category_id": 1,
@@ -439,7 +838,24 @@
   {
     "id": 24,
     "name": "Samsung Galaxy Tab S8",
-    "description": "Snapdragon 8 Gen 1, 11\" LTPS TFT, 128GB, S Pen included",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Snapdragon 8 Gen 1"
+      },
+      {
+        "label": "Display",
+        "value": "11\" LTPS TFT"
+      },
+      {
+        "label": "Feature",
+        "value": "128GB"
+      },
+      {
+        "label": "Included",
+        "value": "S Pen included"
+      }
+    ],
     "price": 699.99,
     "manufacturer_id": 9,
     "category_id": 1,
@@ -458,7 +874,24 @@
   {
     "id": 25,
     "name": "Dell Wyse 5070 Thin Client",
-    "description": "Intel Celeron J4105, 4GB RAM, 16GB eMMC, ThinOS",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Celeron J4105"
+      },
+      {
+        "label": "Memory",
+        "value": "4GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "16GB eMMC"
+      },
+      {
+        "label": "OS",
+        "value": "ThinOS"
+      }
+    ],
     "price": 349.99,
     "manufacturer_id": 15,
     "category_id": 1,
@@ -477,7 +910,24 @@
   {
     "id": 26,
     "name": "HP t640 Thin Client",
-    "description": "AMD Ryzen R1505G, 8GB RAM, 64GB Flash, HP ThinPro OS",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "AMD Ryzen R1505G"
+      },
+      {
+        "label": "Memory",
+        "value": "8GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "64GB Flash"
+      },
+      {
+        "label": "OS",
+        "value": "HP ThinPro OS"
+      }
+    ],
     "price": 549.99,
     "manufacturer_id": 16,
     "category_id": 1,
@@ -496,7 +946,24 @@
   {
     "id": 27,
     "name": "Lenovo ThinkCentre M75n IoT Thin Client",
-    "description": "AMD Athlon Silver 3050e, 4GB RAM, 128GB SSD, Windows 10 IoT",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "AMD Athlon Silver 3050e"
+      },
+      {
+        "label": "Memory",
+        "value": "4GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "128GB SSD"
+      },
+      {
+        "label": "OS",
+        "value": "Windows 10 IoT"
+      }
+    ],
     "price": 429.99,
     "manufacturer_id": 17,
     "category_id": 1,
@@ -515,7 +982,24 @@
   {
     "id": 28,
     "name": "Dell Wyse 5470 Mobile Thin Client",
-    "description": "Intel Celeron N4100, 4GB RAM, 16GB eMMC, 14\" HD Display",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Celeron N4100"
+      },
+      {
+        "label": "Memory",
+        "value": "4GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "16GB eMMC"
+      },
+      {
+        "label": "Display",
+        "value": "14\" HD Display"
+      }
+    ],
     "price": 449.99,
     "manufacturer_id": 15,
     "category_id": 1,
@@ -535,7 +1019,24 @@
   {
     "id": 29,
     "name": "HP t430 Thin Client",
-    "description": "Intel Celeron N4020, 4GB RAM, 32GB Flash, HP ThinPro",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Celeron N4020"
+      },
+      {
+        "label": "Memory",
+        "value": "4GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "32GB Flash"
+      },
+      {
+        "label": "OS",
+        "value": "HP ThinPro"
+      }
+    ],
     "price": 299.99,
     "manufacturer_id": 16,
     "category_id": 1,
@@ -554,7 +1055,24 @@
   {
     "id": 30,
     "name": "Lenovo ThinkCentre M90n-1 Nano IoT",
-    "description": "Intel Core i3-8145U, 8GB RAM, 256GB SSD, Windows 10 IoT Enterprise",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i3-8145U"
+      },
+      {
+        "label": "Memory",
+        "value": "8GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "256GB SSD"
+      },
+      {
+        "label": "OS",
+        "value": "Windows 10 IoT Enterprise"
+      }
+    ],
     "price": 599.99,
     "manufacturer_id": 17,
     "category_id": 1,
@@ -573,7 +1091,28 @@
   {
     "id": 31,
     "name": "HDMI 2.1 Ultra High Speed Cable 6ft",
-    "description": "8K@60Hz, 4K@120Hz, eARC, HDR, 48Gbps bandwidth",
+    "description": [
+      {
+        "label": "Resolution",
+        "value": "8K@60Hz"
+      },
+      {
+        "label": "Display",
+        "value": "4K@120Hz"
+      },
+      {
+        "label": "Feature",
+        "value": "eARC"
+      },
+      {
+        "label": "Feature",
+        "value": "HDR"
+      },
+      {
+        "label": "Speed",
+        "value": "48Gbps bandwidth"
+      }
+    ],
     "price": 24.99,
     "manufacturer_id": 7,
     "category_id": 2,
@@ -593,7 +1132,28 @@
   {
     "id": 32,
     "name": "DisplayPort 1.4 Cable 10ft",
-    "description": "8K@60Hz, 4K@144Hz, HBR3, DSC 1.2, VESA Certified",
+    "description": [
+      {
+        "label": "Resolution",
+        "value": "8K@60Hz"
+      },
+      {
+        "label": "Display",
+        "value": "4K@144Hz"
+      },
+      {
+        "label": "Feature",
+        "value": "HBR3"
+      },
+      {
+        "label": "Feature",
+        "value": "DSC 1.2"
+      },
+      {
+        "label": "Certification",
+        "value": "VESA Certified"
+      }
+    ],
     "price": 19.99,
     "manufacturer_id": 7,
     "category_id": 2,
@@ -613,7 +1173,20 @@
   {
     "id": 33,
     "name": "USB-C to HDMI Cable 6ft",
-    "description": "4K@60Hz, Thunderbolt 3/4 Compatible, Aluminum Shell",
+    "description": [
+      {
+        "label": "Display",
+        "value": "4K@60Hz"
+      },
+      {
+        "label": "Interface",
+        "value": "Thunderbolt 3/4 Compatible"
+      },
+      {
+        "label": "Feature",
+        "value": "Aluminum Shell"
+      }
+    ],
     "price": 17.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -634,7 +1207,20 @@
   {
     "id": 34,
     "name": "Optical Audio Cable (TOSLINK) 6ft",
-    "description": "Digital Optical Audio, S/PDIF, 24K Gold-Plated Connectors",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Digital Optical Audio"
+      },
+      {
+        "label": "Feature",
+        "value": "S/PDIF"
+      },
+      {
+        "label": "Display",
+        "value": "24K Gold-Plated Connectors"
+      }
+    ],
     "price": 12.99,
     "manufacturer_id": 40,
     "category_id": 2,
@@ -654,7 +1240,20 @@
   {
     "id": 35,
     "name": "RCA Audio Video Cable 6ft",
-    "description": "3-in-1 Composite AV Cable, Gold-Plated, Shielded",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "3-in-1 Composite AV Cable"
+      },
+      {
+        "label": "Feature",
+        "value": "Gold-Plated"
+      },
+      {
+        "label": "Type",
+        "value": "Shielded"
+      }
+    ],
     "price": 8.99,
     "manufacturer_id": 40,
     "category_id": 2,
@@ -674,7 +1273,20 @@
   {
     "id": 36,
     "name": "3.5mm Aux Audio Cable 10ft",
-    "description": "Nylon Braided, Gold-Plated, Hi-Fi Stereo Sound",
+    "description": [
+      {
+        "label": "Type",
+        "value": "Nylon Braided"
+      },
+      {
+        "label": "Feature",
+        "value": "Gold-Plated"
+      },
+      {
+        "label": "Feature",
+        "value": "Hi-Fi Stereo Sound"
+      }
+    ],
     "price": 9.99,
     "manufacturer_id": 40,
     "category_id": 2,
@@ -694,7 +1306,24 @@
   {
     "id": 37,
     "name": "Cat 8 Ethernet Cable 25ft",
-    "description": "40Gbps, 2000MHz, S/FTP Shielded, Heavy Duty",
+    "description": [
+      {
+        "label": "Speed",
+        "value": "40Gbps"
+      },
+      {
+        "label": "Speed",
+        "value": "2000MHz"
+      },
+      {
+        "label": "Type",
+        "value": "S/FTP Shielded"
+      },
+      {
+        "label": "Feature",
+        "value": "Heavy Duty"
+      }
+    ],
     "price": 29.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -715,7 +1344,24 @@
   {
     "id": 38,
     "name": "Cat 6a Ethernet Cable 50ft",
-    "description": "10Gbps, 500MHz, UTP, Snagless RJ45 Connectors",
+    "description": [
+      {
+        "label": "Speed",
+        "value": "10Gbps"
+      },
+      {
+        "label": "Speed",
+        "value": "500MHz"
+      },
+      {
+        "label": "Feature",
+        "value": "UTP"
+      },
+      {
+        "label": "Feature",
+        "value": "Snagless RJ45 Connectors"
+      }
+    ],
     "price": 24.99,
     "manufacturer_id": 45,
     "category_id": 2,
@@ -736,7 +1382,24 @@
   {
     "id": 39,
     "name": "Cat 6 Ethernet Cable 100ft",
-    "description": "1Gbps, 250MHz, UTP, Outdoor/Indoor Use",
+    "description": [
+      {
+        "label": "Speed",
+        "value": "1Gbps"
+      },
+      {
+        "label": "Speed",
+        "value": "250MHz"
+      },
+      {
+        "label": "Feature",
+        "value": "UTP"
+      },
+      {
+        "label": "Feature",
+        "value": "Outdoor/Indoor Use"
+      }
+    ],
     "price": 34.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -757,7 +1420,24 @@
   {
     "id": 40,
     "name": "Cat 7 Flat Ethernet Cable 15ft",
-    "description": "10Gbps, 600MHz, S/STP Shielded, Flat Design",
+    "description": [
+      {
+        "label": "Speed",
+        "value": "10Gbps"
+      },
+      {
+        "label": "Speed",
+        "value": "600MHz"
+      },
+      {
+        "label": "Type",
+        "value": "S/STP Shielded"
+      },
+      {
+        "label": "Feature",
+        "value": "Flat Design"
+      }
+    ],
     "price": 14.99,
     "manufacturer_id": 47,
     "category_id": 2,
@@ -778,7 +1458,24 @@
   {
     "id": 41,
     "name": "Cat 5e Ethernet Cable 10ft 5-Pack",
-    "description": "1Gbps, 350MHz, UTP, Multi-Color Pack",
+    "description": [
+      {
+        "label": "Speed",
+        "value": "1Gbps"
+      },
+      {
+        "label": "Speed",
+        "value": "350MHz"
+      },
+      {
+        "label": "Feature",
+        "value": "UTP"
+      },
+      {
+        "label": "Feature",
+        "value": "Multi-Color Pack"
+      }
+    ],
     "price": 12.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -799,7 +1496,28 @@
   {
     "id": 42,
     "name": "Cat 6 Patch Cable 3ft 10-Pack",
-    "description": "1Gbps, 250MHz, UTP, Snagless, Various Colors",
+    "description": [
+      {
+        "label": "Speed",
+        "value": "1Gbps"
+      },
+      {
+        "label": "Speed",
+        "value": "250MHz"
+      },
+      {
+        "label": "Feature",
+        "value": "UTP"
+      },
+      {
+        "label": "Feature",
+        "value": "Snagless"
+      },
+      {
+        "label": "Feature",
+        "value": "Various Colors"
+      }
+    ],
     "price": 19.99,
     "manufacturer_id": 45,
     "category_id": 2,
@@ -820,7 +1538,20 @@
   {
     "id": 43,
     "name": "Heavy Duty PC Power Cable 6ft",
-    "description": "18 AWG, NEMA 5-15P to IEC C13, UL Listed",
+    "description": [
+      {
+        "label": "Power",
+        "value": "18 AWG"
+      },
+      {
+        "label": "Feature",
+        "value": "NEMA 5-15P to IEC C13"
+      },
+      {
+        "label": "Feature",
+        "value": "UL Listed"
+      }
+    ],
     "price": 9.99,
     "manufacturer_id": 7,
     "category_id": 2,
@@ -840,7 +1571,20 @@
   {
     "id": 44,
     "name": "C14 to C13 Power Extension Cable 6ft",
-    "description": "14 AWG, Server/PDU Grade, Heavy Duty",
+    "description": [
+      {
+        "label": "Power",
+        "value": "14 AWG"
+      },
+      {
+        "label": "Feature",
+        "value": "Server/PDU Grade"
+      },
+      {
+        "label": "Feature",
+        "value": "Heavy Duty"
+      }
+    ],
     "price": 14.99,
     "manufacturer_id": 7,
     "category_id": 2,
@@ -860,7 +1604,20 @@
   {
     "id": 45,
     "name": "3-Prong Power Cord 10ft",
-    "description": "16 AWG, Universal PC/Monitor/Printer, UL Listed",
+    "description": [
+      {
+        "label": "Power",
+        "value": "16 AWG"
+      },
+      {
+        "label": "Feature",
+        "value": "Universal PC/Monitor/Printer"
+      },
+      {
+        "label": "Feature",
+        "value": "UL Listed"
+      }
+    ],
     "price": 7.99,
     "manufacturer_id": 7,
     "category_id": 2,
@@ -880,7 +1637,20 @@
   {
     "id": 46,
     "name": "Right Angle Power Cable 6ft",
-    "description": "18 AWG, Space-Saving Design, NEMA 5-15P to IEC C13",
+    "description": [
+      {
+        "label": "Power",
+        "value": "18 AWG"
+      },
+      {
+        "label": "Feature",
+        "value": "Space-Saving Design"
+      },
+      {
+        "label": "Feature",
+        "value": "NEMA 5-15P to IEC C13"
+      }
+    ],
     "price": 11.99,
     "manufacturer_id": 7,
     "category_id": 2,
@@ -900,7 +1670,16 @@
   {
     "id": 47,
     "name": "Figure 8 Power Cable 6ft",
-    "description": "For Laptops/Printers/Monitors, IEC C7 Connector",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "For Laptops/Printers/Monitors"
+      },
+      {
+        "label": "Feature",
+        "value": "IEC C7 Connector"
+      }
+    ],
     "price": 6.99,
     "manufacturer_id": 7,
     "category_id": 2,
@@ -920,7 +1699,24 @@
   {
     "id": 48,
     "name": "Heavy Duty Extension Power Cord 15ft",
-    "description": "14 AWG, Indoor/Outdoor, SJTW, 15A 125V",
+    "description": [
+      {
+        "label": "Power",
+        "value": "14 AWG"
+      },
+      {
+        "label": "Feature",
+        "value": "Indoor/Outdoor"
+      },
+      {
+        "label": "Feature",
+        "value": "SJTW"
+      },
+      {
+        "label": "Power",
+        "value": "15A 125V"
+      }
+    ],
     "price": 24.99,
     "manufacturer_id": 7,
     "category_id": 2,
@@ -940,7 +1736,24 @@
   {
     "id": 49,
     "name": "Fiber Optic Patch Cable LC to LC 10m",
-    "description": "Single Mode OS2, 9/125, Duplex, Yellow Jacket",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Single Mode OS2"
+      },
+      {
+        "label": "Feature",
+        "value": "9/125"
+      },
+      {
+        "label": "Type",
+        "value": "Duplex"
+      },
+      {
+        "label": "Type",
+        "value": "Yellow Jacket"
+      }
+    ],
     "price": 24.99,
     "manufacturer_id": 49,
     "category_id": 2,
@@ -960,7 +1773,24 @@
   {
     "id": 50,
     "name": "Fiber Optic Cable SC to SC 5m",
-    "description": "Multimode OM3, 50/125, Duplex, Aqua Jacket",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Multimode OM3"
+      },
+      {
+        "label": "Feature",
+        "value": "50/125"
+      },
+      {
+        "label": "Type",
+        "value": "Duplex"
+      },
+      {
+        "label": "Type",
+        "value": "Aqua Jacket"
+      }
+    ],
     "price": 18.99,
     "manufacturer_id": 49,
     "category_id": 2,
@@ -980,7 +1810,20 @@
   {
     "id": 51,
     "name": "SFP+ DAC Cable 3m",
-    "description": "10Gbps, Direct Attach Copper, Compatible with Cisco/HP/Dell",
+    "description": [
+      {
+        "label": "Speed",
+        "value": "10Gbps"
+      },
+      {
+        "label": "Feature",
+        "value": "Direct Attach Copper"
+      },
+      {
+        "label": "Certification",
+        "value": "Compatible with Cisco/HP/Dell"
+      }
+    ],
     "price": 34.99,
     "manufacturer_id": 49,
     "category_id": 2,
@@ -1000,7 +1843,20 @@
   {
     "id": 52,
     "name": "Console Cable RJ45 to USB",
-    "description": "6ft, Cisco/Juniper/HP Compatible, FTDI Chip",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "6ft"
+      },
+      {
+        "label": "Certification",
+        "value": "Cisco/Juniper/HP Compatible"
+      },
+      {
+        "label": "Feature",
+        "value": "FTDI Chip"
+      }
+    ],
     "price": 15.99,
     "manufacturer_id": 49,
     "category_id": 2,
@@ -1021,7 +1877,20 @@
   {
     "id": 53,
     "name": "Crossover Ethernet Cable 10ft",
-    "description": "Cat 6, 1Gbps, Direct PC to PC Connection",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Cat 6"
+      },
+      {
+        "label": "Speed",
+        "value": "1Gbps"
+      },
+      {
+        "label": "Feature",
+        "value": "Direct PC to PC Connection"
+      }
+    ],
     "price": 9.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -1042,7 +1911,24 @@
   {
     "id": 54,
     "name": "Bulk Cat 6 Cable 500ft",
-    "description": "Solid Copper, UTP, CMR Riser Rated, Blue",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Solid Copper"
+      },
+      {
+        "label": "Feature",
+        "value": "UTP"
+      },
+      {
+        "label": "Feature",
+        "value": "CMR Riser Rated"
+      },
+      {
+        "label": "Feature",
+        "value": "Blue"
+      }
+    ],
     "price": 89.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -1063,7 +1949,24 @@
   {
     "id": 55,
     "name": "USB-C Cable 6ft 2-Pack",
-    "description": "USB 3.2 Gen 2, 10Gbps, 100W PD, Braided Nylon",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB 3.2 Gen 2"
+      },
+      {
+        "label": "Speed",
+        "value": "10Gbps"
+      },
+      {
+        "label": "Feature",
+        "value": "100W PD"
+      },
+      {
+        "label": "Type",
+        "value": "Braided Nylon"
+      }
+    ],
     "price": 19.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -1083,7 +1986,20 @@
   {
     "id": 56,
     "name": "USB-A to USB-B Cable 10ft",
-    "description": "USB 2.0, Printer/Scanner Cable, Gold-Plated",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB 2.0"
+      },
+      {
+        "label": "Feature",
+        "value": "Printer/Scanner Cable"
+      },
+      {
+        "label": "Feature",
+        "value": "Gold-Plated"
+      }
+    ],
     "price": 8.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -1103,7 +2019,20 @@
   {
     "id": 57,
     "name": "USB 3.0 Extension Cable 6ft",
-    "description": "5Gbps, Male to Female, SuperSpeed",
+    "description": [
+      {
+        "label": "Speed",
+        "value": "5Gbps"
+      },
+      {
+        "label": "Feature",
+        "value": "Male to Female"
+      },
+      {
+        "label": "Feature",
+        "value": "SuperSpeed"
+      }
+    ],
     "price": 9.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -1123,7 +2052,24 @@
   {
     "id": 58,
     "name": "USB-C to USB-A Cable 3ft 3-Pack",
-    "description": "USB 3.1, 10Gbps, Fast Charging, Aluminum Housing",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB 3.1"
+      },
+      {
+        "label": "Speed",
+        "value": "10Gbps"
+      },
+      {
+        "label": "Feature",
+        "value": "Fast Charging"
+      },
+      {
+        "label": "Feature",
+        "value": "Aluminum Housing"
+      }
+    ],
     "price": 14.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -1143,7 +2089,20 @@
   {
     "id": 59,
     "name": "Micro USB Cable 6ft 5-Pack",
-    "description": "USB 2.0, Fast Charging, Braided Nylon",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB 2.0"
+      },
+      {
+        "label": "Feature",
+        "value": "Fast Charging"
+      },
+      {
+        "label": "Type",
+        "value": "Braided Nylon"
+      }
+    ],
     "price": 12.99,
     "manufacturer_id": 44,
     "category_id": 2,
@@ -1163,7 +2122,24 @@
   {
     "id": 60,
     "name": "USB4 Cable 3ft",
-    "description": "40Gbps, 100W PD, Thunderbolt 4 Compatible, 8K@60Hz",
+    "description": [
+      {
+        "label": "Speed",
+        "value": "40Gbps"
+      },
+      {
+        "label": "Feature",
+        "value": "100W PD"
+      },
+      {
+        "label": "Interface",
+        "value": "Thunderbolt 4 Compatible"
+      },
+      {
+        "label": "Resolution",
+        "value": "8K@60Hz"
+      }
+    ],
     "price": 34.99,
     "manufacturer_id": 7,
     "category_id": 2,
@@ -1183,7 +2159,24 @@
   {
     "id": 61,
     "name": "ASUS External Blu-ray Drive",
-    "description": "6x BD-R, USB 3.0, M-DISC Support, Windows/Mac",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "6x BD-R"
+      },
+      {
+        "label": "Interface",
+        "value": "USB 3.0"
+      },
+      {
+        "label": "Feature",
+        "value": "M-DISC Support"
+      },
+      {
+        "label": "OS",
+        "value": "Windows/Mac"
+      }
+    ],
     "price": 149.99,
     "manufacturer_id": 4,
     "category_id": 3,
@@ -1203,7 +2196,24 @@
   {
     "id": 62,
     "name": "LG Ultra Slim External DVD Writer",
-    "description": "8x DVD, USB 2.0, Silent Play, TV Connectivity",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "8x DVD"
+      },
+      {
+        "label": "Interface",
+        "value": "USB 2.0"
+      },
+      {
+        "label": "Feature",
+        "value": "Silent Play"
+      },
+      {
+        "label": "Feature",
+        "value": "TV Connectivity"
+      }
+    ],
     "price": 34.99,
     "manufacturer_id": 20,
     "category_id": 3,
@@ -1223,7 +2233,24 @@
   {
     "id": 63,
     "name": "Pioneer External Blu-ray Burner",
-    "description": "16x BD-R, USB 3.0, BDXL Support, PureRead 3+",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "16x BD-R"
+      },
+      {
+        "label": "Interface",
+        "value": "USB 3.0"
+      },
+      {
+        "label": "Feature",
+        "value": "BDXL Support"
+      },
+      {
+        "label": "Feature",
+        "value": "PureRead 3+"
+      }
+    ],
     "price": 179.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -1243,7 +2270,24 @@
   {
     "id": 64,
     "name": "Samsung External DVD Drive",
-    "description": "8x DVD, USB-C, Slim Design, Mac Compatible",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "8x DVD"
+      },
+      {
+        "label": "Interface",
+        "value": "USB-C"
+      },
+      {
+        "label": "Feature",
+        "value": "Slim Design"
+      },
+      {
+        "label": "Certification",
+        "value": "Mac Compatible"
+      }
+    ],
     "price": 29.99,
     "manufacturer_id": 9,
     "category_id": 3,
@@ -1263,7 +2307,24 @@
   {
     "id": 65,
     "name": "Dell External USB DVD Drive",
-    "description": "8x DVD, USB 2.0, Plug and Play, Portable",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "8x DVD"
+      },
+      {
+        "label": "Interface",
+        "value": "USB 2.0"
+      },
+      {
+        "label": "Feature",
+        "value": "Plug and Play"
+      },
+      {
+        "label": "Feature",
+        "value": "Portable"
+      }
+    ],
     "price": 39.99,
     "manufacturer_id": 15,
     "category_id": 3,
@@ -1283,7 +2344,20 @@
   {
     "id": 66,
     "name": "HP USB External DVD-RW Drive",
-    "description": "8x DVD, USB 3.0, Double Layer Support",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "8x DVD"
+      },
+      {
+        "label": "Interface",
+        "value": "USB 3.0"
+      },
+      {
+        "label": "Feature",
+        "value": "Double Layer Support"
+      }
+    ],
     "price": 44.99,
     "manufacturer_id": 16,
     "category_id": 3,
@@ -1303,7 +2377,20 @@
   {
     "id": 67,
     "name": "Logitech Z906 5.1 Surround Sound System",
-    "description": "500W Peak Power, THX Certified, Dolby Digital",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "500W Peak Power"
+      },
+      {
+        "label": "Certification",
+        "value": "THX Certified"
+      },
+      {
+        "label": "Feature",
+        "value": "Dolby Digital"
+      }
+    ],
     "price": 349.99,
     "manufacturer_id": 12,
     "category_id": 3,
@@ -1323,7 +2410,20 @@
   {
     "id": 68,
     "name": "Razer Nommo Pro Gaming Speakers",
-    "description": "2.1 THX Certified, Dolby Virtual Surround, RGB Lighting",
+    "description": [
+      {
+        "label": "Certification",
+        "value": "2.1 THX Certified"
+      },
+      {
+        "label": "Feature",
+        "value": "Dolby Virtual Surround"
+      },
+      {
+        "label": "Feature",
+        "value": "RGB Lighting"
+      }
+    ],
     "price": 499.99,
     "manufacturer_id": 13,
     "category_id": 3,
@@ -1343,7 +2443,20 @@
   {
     "id": 69,
     "name": "Logitech G560 RGB Gaming Speakers",
-    "description": "240W Peak, LIGHTSYNC RGB, DTS:X Ultra Surround",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "240W Peak"
+      },
+      {
+        "label": "Feature",
+        "value": "LIGHTSYNC RGB"
+      },
+      {
+        "label": "Feature",
+        "value": "DTS:X Ultra Surround"
+      }
+    ],
     "price": 199.99,
     "manufacturer_id": 12,
     "category_id": 3,
@@ -1363,7 +2476,20 @@
   {
     "id": 70,
     "name": "Creative Pebble V3 Desktop Speakers",
-    "description": "8W RMS, USB-C Power, Bluetooth 5.0",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "8W RMS"
+      },
+      {
+        "label": "Interface",
+        "value": "USB-C Power"
+      },
+      {
+        "label": "Connectivity",
+        "value": "Bluetooth 5.0"
+      }
+    ],
     "price": 39.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -1383,7 +2509,20 @@
   {
     "id": 71,
     "name": "Bose Companion 2 Series III",
-    "description": "Multimedia Speakers, TrueSpace Stereo, Auxiliary Input",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Multimedia Speakers"
+      },
+      {
+        "label": "Feature",
+        "value": "TrueSpace Stereo"
+      },
+      {
+        "label": "Feature",
+        "value": "Auxiliary Input"
+      }
+    ],
     "price": 99.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -1403,7 +2542,20 @@
   {
     "id": 72,
     "name": "Audioengine A2+ Desktop Speakers",
-    "description": "60W Peak, Built-in DAC, Bluetooth aptX",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "60W Peak"
+      },
+      {
+        "label": "Feature",
+        "value": "Built-in DAC"
+      },
+      {
+        "label": "Connectivity",
+        "value": "Bluetooth aptX"
+      }
+    ],
     "price": 269.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -1423,7 +2575,24 @@
   {
     "id": 73,
     "name": "Samsung Bar Plus 256GB USB Flash Drive",
-    "description": "USB 3.1, 400MB/s Read, Metal Body, Waterproof",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB 3.1"
+      },
+      {
+        "label": "Feature",
+        "value": "400MB/s Read"
+      },
+      {
+        "label": "Feature",
+        "value": "Metal Body"
+      },
+      {
+        "label": "Feature",
+        "value": "Waterproof"
+      }
+    ],
     "price": 39.99,
     "manufacturer_id": 9,
     "category_id": 3,
@@ -1443,7 +2612,24 @@
   {
     "id": 74,
     "name": "SanDisk Extreme Pro 512GB USB Drive",
-    "description": "USB 3.2, 420MB/s Read, 380MB/s Write, Aluminum",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB 3.2"
+      },
+      {
+        "label": "Feature",
+        "value": "420MB/s Read"
+      },
+      {
+        "label": "Feature",
+        "value": "380MB/s Write"
+      },
+      {
+        "label": "Feature",
+        "value": "Aluminum"
+      }
+    ],
     "price": 89.99,
     "manufacturer_id": 10,
     "category_id": 3,
@@ -1463,7 +2649,20 @@
   {
     "id": 75,
     "name": "Kingston DataTraveler Max 1TB",
-    "description": "USB 3.2 Gen 2, 1000MB/s Read, Type-C Connector",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB 3.2 Gen 2"
+      },
+      {
+        "label": "Feature",
+        "value": "1000MB/s Read"
+      },
+      {
+        "label": "Feature",
+        "value": "Type-C Connector"
+      }
+    ],
     "price": 129.99,
     "manufacturer_id": 8,
     "category_id": 3,
@@ -1483,7 +2682,20 @@
   {
     "id": 76,
     "name": "Corsair Flash Voyager GTX 256GB",
-    "description": "USB 3.1, 470MB/s Read, Zinc Alloy Housing",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB 3.1"
+      },
+      {
+        "label": "Feature",
+        "value": "470MB/s Read"
+      },
+      {
+        "label": "Feature",
+        "value": "Zinc Alloy Housing"
+      }
+    ],
     "price": 74.99,
     "manufacturer_id": 7,
     "category_id": 3,
@@ -1503,7 +2715,20 @@
   {
     "id": 77,
     "name": "PNY Pro Elite 512GB USB Drive",
-    "description": "USB 3.0, 400MB/s Read, Retractable Design",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB 3.0"
+      },
+      {
+        "label": "Feature",
+        "value": "400MB/s Read"
+      },
+      {
+        "label": "Feature",
+        "value": "Retractable Design"
+      }
+    ],
     "price": 59.99,
     "manufacturer_id": 35,
     "category_id": 3,
@@ -1523,7 +2748,20 @@
   {
     "id": 78,
     "name": "Samsung Fit Plus 128GB USB Drive",
-    "description": "USB 3.1, 400MB/s Read, Ultra Compact Design",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB 3.1"
+      },
+      {
+        "label": "Feature",
+        "value": "400MB/s Read"
+      },
+      {
+        "label": "Feature",
+        "value": "Ultra Compact Design"
+      }
+    ],
     "price": 24.99,
     "manufacturer_id": 9,
     "category_id": 3,
@@ -1543,7 +2781,24 @@
   {
     "id": 79,
     "name": "Logitech MX Keys S Wireless Keyboard",
-    "description": "Backlit Keys, Smart Illumination, Multi-Device, USB-C",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Backlit Keys"
+      },
+      {
+        "label": "Feature",
+        "value": "Smart Illumination"
+      },
+      {
+        "label": "Feature",
+        "value": "Multi-Device"
+      },
+      {
+        "label": "Interface",
+        "value": "USB-C"
+      }
+    ],
     "price": 109.99,
     "manufacturer_id": 12,
     "category_id": 3,
@@ -1563,7 +2818,20 @@
   {
     "id": 80,
     "name": "Razer BlackWidow V4 Pro Mechanical Keyboard",
-    "description": "Green Switches, RGB Chroma, Magnetic Wrist Rest",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Green Switches"
+      },
+      {
+        "label": "Feature",
+        "value": "RGB Chroma"
+      },
+      {
+        "label": "Feature",
+        "value": "Magnetic Wrist Rest"
+      }
+    ],
     "price": 229.99,
     "manufacturer_id": 13,
     "category_id": 3,
@@ -1583,7 +2851,20 @@
   {
     "id": 81,
     "name": "Corsair K100 RGB Mechanical Keyboard",
-    "description": "OPX Optical Switches, iCUE Control Wheel, PBT Keycaps",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "OPX Optical Switches"
+      },
+      {
+        "label": "Feature",
+        "value": "iCUE Control Wheel"
+      },
+      {
+        "label": "Feature",
+        "value": "PBT Keycaps"
+      }
+    ],
     "price": 229.99,
     "manufacturer_id": 7,
     "category_id": 3,
@@ -1603,7 +2884,20 @@
   {
     "id": 82,
     "name": "SteelSeries Apex Pro TKL Wireless",
-    "description": "OmniPoint 2.0 Switches, OLED Display, Dual Connectivity",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "OmniPoint 2.0 Switches"
+      },
+      {
+        "label": "Display",
+        "value": "OLED Display"
+      },
+      {
+        "label": "Feature",
+        "value": "Dual Connectivity"
+      }
+    ],
     "price": 249.99,
     "manufacturer_id": 14,
     "category_id": 3,
@@ -1623,7 +2917,20 @@
   {
     "id": 83,
     "name": "Microsoft Ergonomic Keyboard",
-    "description": "Split Keyset Design, Cushioned Palm Rest, Quiet Keys",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Split Keyset Design"
+      },
+      {
+        "label": "Feature",
+        "value": "Cushioned Palm Rest"
+      },
+      {
+        "label": "Feature",
+        "value": "Quiet Keys"
+      }
+    ],
     "price": 59.99,
     "manufacturer_id": 50,
     "category_id": 3,
@@ -1643,7 +2950,20 @@
   {
     "id": 84,
     "name": "Logitech G915 TKL Wireless Keyboard",
-    "description": "GL Tactile Switches, LIGHTSPEED Wireless, Low Profile",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "GL Tactile Switches"
+      },
+      {
+        "label": "Feature",
+        "value": "LIGHTSPEED Wireless"
+      },
+      {
+        "label": "Feature",
+        "value": "Low Profile"
+      }
+    ],
     "price": 229.99,
     "manufacturer_id": 12,
     "category_id": 3,
@@ -1663,7 +2983,16 @@
   {
     "id": 85,
     "name": "Dell 65Wh Laptop Battery for Latitude",
-    "description": "Compatible with Latitude 5000/7000 Series, 3-Cell",
+    "description": [
+      {
+        "label": "Certification",
+        "value": "Compatible with Latitude 5000/7000 Series"
+      },
+      {
+        "label": "Feature",
+        "value": "3-Cell"
+      }
+    ],
     "price": 89.99,
     "manufacturer_id": 15,
     "category_id": 3,
@@ -1683,7 +3012,16 @@
   {
     "id": 86,
     "name": "HP 3-Cell 45Wh Laptop Battery",
-    "description": "For HP Pavilion/ProBook Series, Long Life",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "For HP Pavilion/ProBook Series"
+      },
+      {
+        "label": "Feature",
+        "value": "Long Life"
+      }
+    ],
     "price": 69.99,
     "manufacturer_id": 16,
     "category_id": 3,
@@ -1703,7 +3041,20 @@
   {
     "id": 87,
     "name": "Lenovo 72Wh Battery for ThinkPad",
-    "description": "6-Cell, Compatible with T480/T580, Extended Life",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "6-Cell"
+      },
+      {
+        "label": "Certification",
+        "value": "Compatible with T480/T580"
+      },
+      {
+        "label": "Feature",
+        "value": "Extended Life"
+      }
+    ],
     "price": 119.99,
     "manufacturer_id": 17,
     "category_id": 3,
@@ -1723,7 +3074,16 @@
   {
     "id": 88,
     "name": "Apple MacBook Pro Battery Replacement",
-    "description": "For MacBook Pro 13\" 2020-2022, OEM Quality",
+    "description": [
+      {
+        "label": "Display",
+        "value": "For MacBook Pro 13\" 2020-2022"
+      },
+      {
+        "label": "Feature",
+        "value": "OEM Quality"
+      }
+    ],
     "price": 149.99,
     "manufacturer_id": 19,
     "category_id": 3,
@@ -1743,7 +3103,20 @@
   {
     "id": 89,
     "name": "ASUS 56Wh Battery for ROG/ZenBook",
-    "description": "4-Cell, High Capacity, ROG/ZenBook Compatible",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "4-Cell"
+      },
+      {
+        "label": "Feature",
+        "value": "High Capacity"
+      },
+      {
+        "label": "Certification",
+        "value": "ROG/ZenBook Compatible"
+      }
+    ],
     "price": 79.99,
     "manufacturer_id": 4,
     "category_id": 3,
@@ -1763,7 +3136,16 @@
   {
     "id": 90,
     "name": "Acer 48Wh Laptop Battery",
-    "description": "For Aspire/Swift Series, 3-Cell Li-ion",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "For Aspire/Swift Series"
+      },
+      {
+        "label": "Feature",
+        "value": "3-Cell Li-ion"
+      }
+    ],
     "price": 59.99,
     "manufacturer_id": 18,
     "category_id": 3,
@@ -1783,7 +3165,20 @@
   {
     "id": 91,
     "name": "TUMI Alpha 3 Laptop Brief",
-    "description": "15\" Laptop Compartment, Ballistic Nylon, TSA-Friendly",
+    "description": [
+      {
+        "label": "Display",
+        "value": "15\" Laptop Compartment"
+      },
+      {
+        "label": "Feature",
+        "value": "Ballistic Nylon"
+      },
+      {
+        "label": "Feature",
+        "value": "TSA-Friendly"
+      }
+    ],
     "price": 475,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -1803,7 +3198,20 @@
   {
     "id": 92,
     "name": "Targus CityGear Laptop Backpack",
-    "description": "17.3\" Laptop, Water-Resistant, Trolley Strap",
+    "description": [
+      {
+        "label": "Display",
+        "value": "17.3\" Laptop"
+      },
+      {
+        "label": "Feature",
+        "value": "Water-Resistant"
+      },
+      {
+        "label": "Feature",
+        "value": "Trolley Strap"
+      }
+    ],
     "price": 89.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -1823,7 +3231,20 @@
   {
     "id": 93,
     "name": "Thule Subterra Laptop Sleeve 15\"",
-    "description": "Padded Protection, Water-Resistant, Zippered Pocket",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Padded Protection"
+      },
+      {
+        "label": "Feature",
+        "value": "Water-Resistant"
+      },
+      {
+        "label": "Feature",
+        "value": "Zippered Pocket"
+      }
+    ],
     "price": 49.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -1843,7 +3264,20 @@
   {
     "id": 94,
     "name": "Incase ICON Laptop Backpack",
-    "description": "16\" MacBook Pro, Tensaerlite Protection, Faux-Fur Lined",
+    "description": [
+      {
+        "label": "Display",
+        "value": "16\" MacBook Pro"
+      },
+      {
+        "label": "Feature",
+        "value": "Tensaerlite Protection"
+      },
+      {
+        "label": "Feature",
+        "value": "Faux-Fur Lined"
+      }
+    ],
     "price": 199.99,
     "manufacturer_id": 19,
     "category_id": 3,
@@ -1863,7 +3297,20 @@
   {
     "id": 95,
     "name": "SwissGear ScanSmart Laptop Backpack",
-    "description": "17\" Laptop, TSA-Friendly, Padded Back Panel",
+    "description": [
+      {
+        "label": "Display",
+        "value": "17\" Laptop"
+      },
+      {
+        "label": "Feature",
+        "value": "TSA-Friendly"
+      },
+      {
+        "label": "Feature",
+        "value": "Padded Back Panel"
+      }
+    ],
     "price": 69.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -1883,7 +3330,20 @@
   {
     "id": 96,
     "name": "Dell Pro Slim Briefcase 15",
-    "description": "15.6\" Laptop, Eco-Friendly Materials, Checkpoint Friendly",
+    "description": [
+      {
+        "label": "Display",
+        "value": "15.6\" Laptop"
+      },
+      {
+        "label": "Feature",
+        "value": "Eco-Friendly Materials"
+      },
+      {
+        "label": "Feature",
+        "value": "Checkpoint Friendly"
+      }
+    ],
     "price": 59.99,
     "manufacturer_id": 15,
     "category_id": 3,
@@ -1903,7 +3363,20 @@
   {
     "id": 97,
     "name": "Dell WD19TBS Thunderbolt Dock",
-    "description": "180W Power Delivery, Dual 4K Display, USB-C/TB3/TB4",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "180W Power Delivery"
+      },
+      {
+        "label": "Display",
+        "value": "Dual 4K Display"
+      },
+      {
+        "label": "Interface",
+        "value": "USB-C/TB3/TB4"
+      }
+    ],
     "price": 349.99,
     "manufacturer_id": 15,
     "category_id": 3,
@@ -1923,7 +3396,20 @@
   {
     "id": 98,
     "name": "Lenovo ThinkPad USB-C Dock Gen 2",
-    "description": "100W Power Delivery, Triple Display, 10Gbps USB",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "100W Power Delivery"
+      },
+      {
+        "label": "Display",
+        "value": "Triple Display"
+      },
+      {
+        "label": "Speed",
+        "value": "10Gbps USB"
+      }
+    ],
     "price": 279.99,
     "manufacturer_id": 17,
     "category_id": 3,
@@ -1943,7 +3429,20 @@
   {
     "id": 99,
     "name": "HP Thunderbolt G4 Dock",
-    "description": "280W Power, Quad Display, Kensington Lock Slot",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "280W Power"
+      },
+      {
+        "label": "Display",
+        "value": "Quad Display"
+      },
+      {
+        "label": "Feature",
+        "value": "Kensington Lock Slot"
+      }
+    ],
     "price": 359.99,
     "manufacturer_id": 16,
     "category_id": 3,
@@ -1963,7 +3462,24 @@
   {
     "id": 100,
     "name": "CalDigit TS4 Thunderbolt 4 Dock",
-    "description": "18 Ports, 98W Charging, 2.5GbE, SD 4.0 Reader",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "18 Ports"
+      },
+      {
+        "label": "Feature",
+        "value": "98W Charging"
+      },
+      {
+        "label": "Feature",
+        "value": "2.5GbE"
+      },
+      {
+        "label": "Feature",
+        "value": "SD 4.0 Reader"
+      }
+    ],
     "price": 399.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -1983,7 +3499,24 @@
   {
     "id": 101,
     "name": "Anker 577 Thunderbolt Docking Station",
-    "description": "13-in-1, 85W Charging, Dual HDMI, USB-A 3.2",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "13-in-1"
+      },
+      {
+        "label": "Feature",
+        "value": "85W Charging"
+      },
+      {
+        "label": "Interface",
+        "value": "Dual HDMI"
+      },
+      {
+        "label": "Interface",
+        "value": "USB-A 3.2"
+      }
+    ],
     "price": 299.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -2003,7 +3536,20 @@
   {
     "id": 102,
     "name": "Plugable USB-C Triple Display Dock",
-    "description": "100W Charging, 3x 4K Displays, 7 USB Ports",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "100W Charging"
+      },
+      {
+        "label": "Display",
+        "value": "3x 4K Displays"
+      },
+      {
+        "label": "Interface",
+        "value": "7 USB Ports"
+      }
+    ],
     "price": 249.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -2023,7 +3569,24 @@
   {
     "id": 103,
     "name": "Logitech MX Master 3S Wireless Mouse",
-    "description": "8K DPI, Quiet Clicks, MagSpeed Scroll, Multi-Device",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "8K DPI"
+      },
+      {
+        "label": "Feature",
+        "value": "Quiet Clicks"
+      },
+      {
+        "label": "Feature",
+        "value": "MagSpeed Scroll"
+      },
+      {
+        "label": "Feature",
+        "value": "Multi-Device"
+      }
+    ],
     "price": 99.99,
     "manufacturer_id": 12,
     "category_id": 3,
@@ -2043,7 +3606,24 @@
   {
     "id": 104,
     "name": "Razer DeathAdder V3 Pro Gaming Mouse",
-    "description": "30K DPI, 90-Hour Battery, Focus Pro Sensor, 63g",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "30K DPI"
+      },
+      {
+        "label": "Feature",
+        "value": "90-Hour Battery"
+      },
+      {
+        "label": "Feature",
+        "value": "Focus Pro Sensor"
+      },
+      {
+        "label": "Feature",
+        "value": "63g"
+      }
+    ],
     "price": 149.99,
     "manufacturer_id": 13,
     "category_id": 3,
@@ -2063,7 +3643,20 @@
   {
     "id": 105,
     "name": "Logitech G Pro X Superlight 2",
-    "description": "32K HERO 2 Sensor, 60g Weight, LIGHTSPEED Wireless",
+    "description": [
+      {
+        "label": "Display",
+        "value": "32K HERO 2 Sensor"
+      },
+      {
+        "label": "Feature",
+        "value": "60g Weight"
+      },
+      {
+        "label": "Feature",
+        "value": "LIGHTSPEED Wireless"
+      }
+    ],
     "price": 159.99,
     "manufacturer_id": 12,
     "category_id": 3,
@@ -2083,7 +3676,20 @@
   {
     "id": 106,
     "name": "SteelSeries Prime Wireless Gaming Mouse",
-    "description": "18K CPI, Prestige OM Switches, 100H Battery Life",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "18K CPI"
+      },
+      {
+        "label": "Feature",
+        "value": "Prestige OM Switches"
+      },
+      {
+        "label": "Feature",
+        "value": "100H Battery Life"
+      }
+    ],
     "price": 129.99,
     "manufacturer_id": 14,
     "category_id": 3,
@@ -2103,7 +3709,20 @@
   {
     "id": 107,
     "name": "Microsoft Arc Mouse",
-    "description": "Bluetooth, Snap Flat Design, Touch Scroll",
+    "description": [
+      {
+        "label": "Connectivity",
+        "value": "Bluetooth"
+      },
+      {
+        "label": "Feature",
+        "value": "Snap Flat Design"
+      },
+      {
+        "label": "Feature",
+        "value": "Touch Scroll"
+      }
+    ],
     "price": 79.99,
     "manufacturer_id": 50,
     "category_id": 3,
@@ -2123,7 +3742,20 @@
   {
     "id": 108,
     "name": "Kensington Expert Wireless Trackball",
-    "description": "55mm Ball, Scroll Ring, Detachable Wrist Rest",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "55mm Ball"
+      },
+      {
+        "label": "Feature",
+        "value": "Scroll Ring"
+      },
+      {
+        "label": "Feature",
+        "value": "Detachable Wrist Rest"
+      }
+    ],
     "price": 69.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -2143,7 +3775,20 @@
   {
     "id": 109,
     "name": "Dell 130W USB-C Power Adapter",
-    "description": "GaN Technology, Compact Design, Universal Compatibility",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "GaN Technology"
+      },
+      {
+        "label": "Feature",
+        "value": "Compact Design"
+      },
+      {
+        "label": "Feature",
+        "value": "Universal Compatibility"
+      }
+    ],
     "price": 89.99,
     "manufacturer_id": 15,
     "category_id": 3,
@@ -2163,7 +3808,20 @@
   {
     "id": 110,
     "name": "Apple 140W USB-C Power Adapter",
-    "description": "MagSafe 3 Compatible, Fast Charging, Foldable Prongs",
+    "description": [
+      {
+        "label": "Certification",
+        "value": "MagSafe 3 Compatible"
+      },
+      {
+        "label": "Feature",
+        "value": "Fast Charging"
+      },
+      {
+        "label": "Feature",
+        "value": "Foldable Prongs"
+      }
+    ],
     "price": 99,
     "manufacturer_id": 19,
     "category_id": 3,
@@ -2183,7 +3841,20 @@
   {
     "id": 111,
     "name": "Anker 747 GaN Charger 150W",
-    "description": "4-Port, 100W USB-C, Compact GaN II Technology",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "4-Port"
+      },
+      {
+        "label": "Interface",
+        "value": "100W USB-C"
+      },
+      {
+        "label": "Feature",
+        "value": "Compact GaN II Technology"
+      }
+    ],
     "price": 109.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -2203,7 +3874,20 @@
   {
     "id": 112,
     "name": "Lenovo 65W USB-C AC Adapter",
-    "description": "Slim Design, Travel Friendly, ThinkPad Compatible",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Slim Design"
+      },
+      {
+        "label": "Feature",
+        "value": "Travel Friendly"
+      },
+      {
+        "label": "Certification",
+        "value": "ThinkPad Compatible"
+      }
+    ],
     "price": 49.99,
     "manufacturer_id": 17,
     "category_id": 3,
@@ -2223,7 +3907,16 @@
   {
     "id": 113,
     "name": "HP 65W USB-C Slim Power Adapter",
-    "description": "Universal USB-C Charging, LED Indicator",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "Universal USB-C Charging"
+      },
+      {
+        "label": "Feature",
+        "value": "LED Indicator"
+      }
+    ],
     "price": 54.99,
     "manufacturer_id": 16,
     "category_id": 3,
@@ -2243,7 +3936,20 @@
   {
     "id": 114,
     "name": "Baseus 100W GaN5 Pro Charger",
-    "description": "3-Port, Quick Charge 5.0, Smart Power Distribution",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "3-Port"
+      },
+      {
+        "label": "Feature",
+        "value": "Quick Charge 5.0"
+      },
+      {
+        "label": "Feature",
+        "value": "Smart Power Distribution"
+      }
+    ],
     "price": 69.99,
     "manufacturer_id": 40,
     "category_id": 3,
@@ -2263,7 +3969,20 @@
   {
     "id": 115,
     "name": "Logitech Brio 4K Pro Webcam",
-    "description": "4K HDR, RightLight 3, Noise-Canceling Mics",
+    "description": [
+      {
+        "label": "Display",
+        "value": "4K HDR"
+      },
+      {
+        "label": "Feature",
+        "value": "RightLight 3"
+      },
+      {
+        "label": "Feature",
+        "value": "Noise-Canceling Mics"
+      }
+    ],
     "price": 199.99,
     "manufacturer_id": 12,
     "category_id": 3,
@@ -2284,7 +4003,20 @@
   {
     "id": 116,
     "name": "Razer Kiyo Pro Ultra Webcam",
-    "description": "4K 30fps, Sony STARVIS 2 Sensor, AI-Powered Features",
+    "description": [
+      {
+        "label": "Display",
+        "value": "4K 30fps"
+      },
+      {
+        "label": "Feature",
+        "value": "Sony STARVIS 2 Sensor"
+      },
+      {
+        "label": "Feature",
+        "value": "AI-Powered Features"
+      }
+    ],
     "price": 299.99,
     "manufacturer_id": 13,
     "category_id": 3,
@@ -2305,7 +4037,20 @@
   {
     "id": 117,
     "name": "Logitech C922 Pro Stream Webcam",
-    "description": "1080p 30fps, Background Replacement, Dual Mics",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "1080p 30fps"
+      },
+      {
+        "label": "Feature",
+        "value": "Background Replacement"
+      },
+      {
+        "label": "Feature",
+        "value": "Dual Mics"
+      }
+    ],
     "price": 99.99,
     "manufacturer_id": 12,
     "category_id": 3,
@@ -2326,7 +4071,20 @@
   {
     "id": 118,
     "name": "Elgato Facecam Pro",
-    "description": "4K 60fps, Sony Sensor, Pro-Level Controls",
+    "description": [
+      {
+        "label": "Display",
+        "value": "4K 60fps"
+      },
+      {
+        "label": "Feature",
+        "value": "Sony Sensor"
+      },
+      {
+        "label": "Feature",
+        "value": "Pro-Level Controls"
+      }
+    ],
     "price": 349.99,
     "manufacturer_id": 7,
     "category_id": 3,
@@ -2347,7 +4105,20 @@
   {
     "id": 119,
     "name": "Microsoft Modern Webcam",
-    "description": "1080p HDR, Certified for Teams, Privacy Shutter",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "1080p HDR"
+      },
+      {
+        "label": "Certification",
+        "value": "Certified for Teams"
+      },
+      {
+        "label": "Feature",
+        "value": "Privacy Shutter"
+      }
+    ],
     "price": 69.99,
     "manufacturer_id": 50,
     "category_id": 3,
@@ -2368,7 +4139,20 @@
   {
     "id": 120,
     "name": "Dell UltraSharp Webcam WB7022",
-    "description": "4K Sony STARVIS, AI Auto-Framing, HDR",
+    "description": [
+      {
+        "label": "Display",
+        "value": "4K Sony STARVIS"
+      },
+      {
+        "label": "Feature",
+        "value": "AI Auto-Framing"
+      },
+      {
+        "label": "Feature",
+        "value": "HDR"
+      }
+    ],
     "price": 199.99,
     "manufacturer_id": 15,
     "category_id": 3,
@@ -2389,7 +4173,24 @@
   {
     "id": 121,
     "name": "Sony ZV-E10 Mirrorless Camera",
-    "description": "24.2MP APS-C, 4K Video, Vari-angle LCD, Vlogging Kit",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "24.2MP APS-C"
+      },
+      {
+        "label": "Display",
+        "value": "4K Video"
+      },
+      {
+        "label": "Feature",
+        "value": "Vari-angle LCD"
+      },
+      {
+        "label": "Feature",
+        "value": "Vlogging Kit"
+      }
+    ],
     "price": 798,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2408,7 +4209,20 @@
   {
     "id": 122,
     "name": "Canon EOS R6 Mark II",
-    "description": "24.2MP Full-Frame, 6K RAW Video, In-Body IS",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "24.2MP Full-Frame"
+      },
+      {
+        "label": "Feature",
+        "value": "6K RAW Video"
+      },
+      {
+        "label": "Feature",
+        "value": "In-Body IS"
+      }
+    ],
     "price": 2499,
     "manufacturer_id": 41,
     "category_id": 4,
@@ -2427,7 +4241,20 @@
   {
     "id": 123,
     "name": "Sony A7 IV Mirrorless Camera",
-    "description": "33MP Full-Frame, 4K 60p, Real-time Eye AF",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "33MP Full-Frame"
+      },
+      {
+        "label": "Display",
+        "value": "4K 60p"
+      },
+      {
+        "label": "Feature",
+        "value": "Real-time Eye AF"
+      }
+    ],
     "price": 2498,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2446,7 +4273,20 @@
   {
     "id": 124,
     "name": "Canon VIXIA HF G70 Camcorder",
-    "description": "4K UHD, 20x Optical Zoom, Dual SD Card Slots",
+    "description": [
+      {
+        "label": "Display",
+        "value": "4K UHD"
+      },
+      {
+        "label": "Feature",
+        "value": "20x Optical Zoom"
+      },
+      {
+        "label": "Feature",
+        "value": "Dual SD Card Slots"
+      }
+    ],
     "price": 1399,
     "manufacturer_id": 41,
     "category_id": 4,
@@ -2465,7 +4305,24 @@
   {
     "id": 125,
     "name": "Sony FX30 Cinema Camera",
-    "description": "APS-C, 4K 120p, S-Cinetone, Dual Base ISO",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "APS-C"
+      },
+      {
+        "label": "Display",
+        "value": "4K 120p"
+      },
+      {
+        "label": "Feature",
+        "value": "S-Cinetone"
+      },
+      {
+        "label": "Feature",
+        "value": "Dual Base ISO"
+      }
+    ],
     "price": 1798,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2484,7 +4341,20 @@
   {
     "id": 126,
     "name": "Canon EOS R50 Mirrorless",
-    "description": "24.2MP APS-C, 4K Video, Compact & Lightweight",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "24.2MP APS-C"
+      },
+      {
+        "label": "Display",
+        "value": "4K Video"
+      },
+      {
+        "label": "Feature",
+        "value": "Compact & Lightweight"
+      }
+    ],
     "price": 679,
     "manufacturer_id": 41,
     "category_id": 4,
@@ -2503,7 +4373,20 @@
   {
     "id": 127,
     "name": "Camera Tripod Professional 75\"",
-    "description": "Aluminum Alloy, 360 Panorama Ball Head, Quick Release",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Aluminum Alloy"
+      },
+      {
+        "label": "Feature",
+        "value": "360 Panorama Ball Head"
+      },
+      {
+        "label": "Feature",
+        "value": "Quick Release"
+      }
+    ],
     "price": 89.99,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2523,7 +4406,20 @@
   {
     "id": 128,
     "name": "Camera Bag Backpack Large",
-    "description": "Fits 2 DSLRs + 6 Lenses, Rain Cover, Tripod Holder",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Fits 2 DSLRs + 6 Lenses"
+      },
+      {
+        "label": "Feature",
+        "value": "Rain Cover"
+      },
+      {
+        "label": "Feature",
+        "value": "Tripod Holder"
+      }
+    ],
     "price": 79.99,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2543,7 +4439,20 @@
   {
     "id": 129,
     "name": "64GB SD Card V60 UHS-II",
-    "description": "280MB/s Read, 100MB/s Write, 4K Video Ready",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "280MB/s Read"
+      },
+      {
+        "label": "Feature",
+        "value": "100MB/s Write"
+      },
+      {
+        "label": "Display",
+        "value": "4K Video Ready"
+      }
+    ],
     "price": 49.99,
     "manufacturer_id": 9,
     "category_id": 4,
@@ -2563,7 +4472,24 @@
   {
     "id": 130,
     "name": "Camera Lens Filter Kit 77mm",
-    "description": "UV, CPL, ND8 Filters, Carrying Pouch",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "UV"
+      },
+      {
+        "label": "Feature",
+        "value": "CPL"
+      },
+      {
+        "label": "Feature",
+        "value": "ND8 Filters"
+      },
+      {
+        "label": "Feature",
+        "value": "Carrying Pouch"
+      }
+    ],
     "price": 39.99,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2583,7 +4509,20 @@
   {
     "id": 131,
     "name": "LED Video Light Panel",
-    "description": "Bi-Color 3200K-5600K, 2500 Lux, App Control",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Bi-Color 3200K-5600K"
+      },
+      {
+        "label": "Feature",
+        "value": "2500 Lux"
+      },
+      {
+        "label": "Feature",
+        "value": "App Control"
+      }
+    ],
     "price": 129.99,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2603,7 +4542,20 @@
   {
     "id": 132,
     "name": "Camera Gimbal Stabilizer 3-Axis",
-    "description": "For Mirrorless/DSLR, 9lb Payload, OLED Screen",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "For Mirrorless/DSLR"
+      },
+      {
+        "label": "Feature",
+        "value": "9lb Payload"
+      },
+      {
+        "label": "Display",
+        "value": "OLED Screen"
+      }
+    ],
     "price": 349.99,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2623,7 +4575,24 @@
   {
     "id": 133,
     "name": "Arlo Pro 5S 2K Security Camera",
-    "description": "2K HDR, Color Night Vision, 160 FOV, Wire-Free",
+    "description": [
+      {
+        "label": "Display",
+        "value": "2K HDR"
+      },
+      {
+        "label": "Feature",
+        "value": "Color Night Vision"
+      },
+      {
+        "label": "Feature",
+        "value": "160 FOV"
+      },
+      {
+        "label": "Feature",
+        "value": "Wire-Free"
+      }
+    ],
     "price": 249.99,
     "manufacturer_id": 45,
     "category_id": 4,
@@ -2642,7 +4611,20 @@
   {
     "id": 134,
     "name": "Ring Stick Up Cam Pro",
-    "description": "1080p HDR, 3D Motion Detection, Two-Way Talk",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "1080p HDR"
+      },
+      {
+        "label": "Feature",
+        "value": "3D Motion Detection"
+      },
+      {
+        "label": "Feature",
+        "value": "Two-Way Talk"
+      }
+    ],
     "price": 179.99,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2661,7 +4643,20 @@
   {
     "id": 135,
     "name": "Hikvision 4K PoE IP Camera",
-    "description": "8MP, 30m IR Night Vision, IP67 Weatherproof",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "8MP"
+      },
+      {
+        "label": "Feature",
+        "value": "30m IR Night Vision"
+      },
+      {
+        "label": "Feature",
+        "value": "IP67 Weatherproof"
+      }
+    ],
     "price": 149.99,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2680,7 +4675,24 @@
   {
     "id": 136,
     "name": "Ubiquiti UniFi G5 Flex Camera",
-    "description": "2K HD, PoE, IR Night Vision, IP65 Rated",
+    "description": [
+      {
+        "label": "Display",
+        "value": "2K HD"
+      },
+      {
+        "label": "Feature",
+        "value": "PoE"
+      },
+      {
+        "label": "Feature",
+        "value": "IR Night Vision"
+      },
+      {
+        "label": "Feature",
+        "value": "IP65 Rated"
+      }
+    ],
     "price": 99,
     "manufacturer_id": 48,
     "category_id": 4,
@@ -2699,7 +4711,24 @@
   {
     "id": 137,
     "name": "Reolink RLC-823A 4K PTZ Camera",
-    "description": "8MP, 5x Optical Zoom, Auto Tracking, Color Night Vision",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "8MP"
+      },
+      {
+        "label": "Feature",
+        "value": "5x Optical Zoom"
+      },
+      {
+        "label": "Feature",
+        "value": "Auto Tracking"
+      },
+      {
+        "label": "Feature",
+        "value": "Color Night Vision"
+      }
+    ],
     "price": 179.99,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2718,7 +4747,24 @@
   {
     "id": 138,
     "name": "Wyze Cam v3 Pro",
-    "description": "2K QHD, Color Night Vision, IP65, Two-Way Audio",
+    "description": [
+      {
+        "label": "Display",
+        "value": "2K QHD"
+      },
+      {
+        "label": "Feature",
+        "value": "Color Night Vision"
+      },
+      {
+        "label": "Feature",
+        "value": "IP65"
+      },
+      {
+        "label": "Feature",
+        "value": "Two-Way Audio"
+      }
+    ],
     "price": 49.99,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2737,7 +4783,24 @@
   {
     "id": 139,
     "name": "Poly Studio P15 Video Bar",
-    "description": "4K Video, NoiseBlockAI, Auto Framing, USB-C",
+    "description": [
+      {
+        "label": "Display",
+        "value": "4K Video"
+      },
+      {
+        "label": "Feature",
+        "value": "NoiseBlockAI"
+      },
+      {
+        "label": "Feature",
+        "value": "Auto Framing"
+      },
+      {
+        "label": "Interface",
+        "value": "USB-C"
+      }
+    ],
     "price": 599,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2756,7 +4819,24 @@
   {
     "id": 140,
     "name": "Logitech Rally Bar",
-    "description": "4K PTZ, AI-Powered, Dual Speakers, Room-Filling Sound",
+    "description": [
+      {
+        "label": "Display",
+        "value": "4K PTZ"
+      },
+      {
+        "label": "Feature",
+        "value": "AI-Powered"
+      },
+      {
+        "label": "Feature",
+        "value": "Dual Speakers"
+      },
+      {
+        "label": "Feature",
+        "value": "Room-Filling Sound"
+      }
+    ],
     "price": 2999,
     "manufacturer_id": 12,
     "category_id": 4,
@@ -2775,7 +4855,20 @@
   {
     "id": 141,
     "name": "Jabra PanaCast 50 Video Bar",
-    "description": "180 Panoramic 4K, Virtual Director, 8 Microphones",
+    "description": [
+      {
+        "label": "Display",
+        "value": "180 Panoramic 4K"
+      },
+      {
+        "label": "Feature",
+        "value": "Virtual Director"
+      },
+      {
+        "label": "Feature",
+        "value": "8 Microphones"
+      }
+    ],
     "price": 1199,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2794,7 +4887,20 @@
   {
     "id": 142,
     "name": "Owl Labs Meeting Owl 3",
-    "description": "360 1080p, Auto-Focus Speaker, Smart Zooming",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "360 1080p"
+      },
+      {
+        "label": "Feature",
+        "value": "Auto-Focus Speaker"
+      },
+      {
+        "label": "Feature",
+        "value": "Smart Zooming"
+      }
+    ],
     "price": 1049,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2813,7 +4919,20 @@
   {
     "id": 143,
     "name": "Microsoft Surface Hub 2 Camera",
-    "description": "4K, 136 Horizontal FOV, AI-Powered Framing",
+    "description": [
+      {
+        "label": "Display",
+        "value": "4K"
+      },
+      {
+        "label": "Feature",
+        "value": "136 Horizontal FOV"
+      },
+      {
+        "label": "Feature",
+        "value": "AI-Powered Framing"
+      }
+    ],
     "price": 799,
     "manufacturer_id": 50,
     "category_id": 4,
@@ -2832,7 +4951,24 @@
   {
     "id": 144,
     "name": "OBSBOT Tiny 2 AI PTZ Camera",
-    "description": "4K, Voice Control, Gesture Control, Auto Tracking",
+    "description": [
+      {
+        "label": "Display",
+        "value": "4K"
+      },
+      {
+        "label": "Feature",
+        "value": "Voice Control"
+      },
+      {
+        "label": "Feature",
+        "value": "Gesture Control"
+      },
+      {
+        "label": "Feature",
+        "value": "Auto Tracking"
+      }
+    ],
     "price": 329,
     "manufacturer_id": 40,
     "category_id": 4,
@@ -2852,7 +4988,24 @@
   {
     "id": 145,
     "name": "Corsair Vengeance DDR5 32GB Kit",
-    "description": "2x16GB, 6000MHz, CL36, Intel XMP 3.0",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "2x16GB"
+      },
+      {
+        "label": "Speed",
+        "value": "6000MHz"
+      },
+      {
+        "label": "Feature",
+        "value": "CL36"
+      },
+      {
+        "label": "Processor",
+        "value": "Intel XMP 3.0"
+      }
+    ],
     "price": 149.99,
     "manufacturer_id": 7,
     "category_id": 5,
@@ -2871,7 +5024,24 @@
   {
     "id": 146,
     "name": "G.Skill Trident Z5 RGB 64GB Kit",
-    "description": "2x32GB, 6400MHz, CL32, RGB Lighting",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "2x32GB"
+      },
+      {
+        "label": "Speed",
+        "value": "6400MHz"
+      },
+      {
+        "label": "Feature",
+        "value": "CL32"
+      },
+      {
+        "label": "Feature",
+        "value": "RGB Lighting"
+      }
+    ],
     "price": 269.99,
     "manufacturer_id": 32,
     "category_id": 5,
@@ -2890,7 +5060,24 @@
   {
     "id": 147,
     "name": "Kingston Fury Beast DDR5 32GB",
-    "description": "32GB Single, 5200MHz, CL40, Plug N Play",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "32GB Single"
+      },
+      {
+        "label": "Speed",
+        "value": "5200MHz"
+      },
+      {
+        "label": "Feature",
+        "value": "CL40"
+      },
+      {
+        "label": "Feature",
+        "value": "Plug N Play"
+      }
+    ],
     "price": 89.99,
     "manufacturer_id": 8,
     "category_id": 5,
@@ -2909,7 +5096,24 @@
   {
     "id": 148,
     "name": "Crucial DDR4 32GB Kit",
-    "description": "2x16GB, 3200MHz, CL22, Micron Quality",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "2x16GB"
+      },
+      {
+        "label": "Speed",
+        "value": "3200MHz"
+      },
+      {
+        "label": "Feature",
+        "value": "CL22"
+      },
+      {
+        "label": "Feature",
+        "value": "Micron Quality"
+      }
+    ],
     "price": 69.99,
     "manufacturer_id": 33,
     "category_id": 5,
@@ -2928,7 +5132,24 @@
   {
     "id": 149,
     "name": "TeamGroup T-Force Delta RGB 32GB Kit",
-    "description": "2x16GB, DDR5 6000MHz, CL38, Addressable RGB",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "2x16GB"
+      },
+      {
+        "label": "Speed",
+        "value": "DDR5 6000MHz"
+      },
+      {
+        "label": "Feature",
+        "value": "CL38"
+      },
+      {
+        "label": "Feature",
+        "value": "Addressable RGB"
+      }
+    ],
     "price": 119.99,
     "manufacturer_id": 34,
     "category_id": 5,
@@ -2947,7 +5168,20 @@
   {
     "id": 150,
     "name": "Samsung DDR5 Server RAM 64GB",
-    "description": "64GB ECC RDIMM, 4800MHz, For Workstations/Servers",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "64GB ECC RDIMM"
+      },
+      {
+        "label": "Speed",
+        "value": "4800MHz"
+      },
+      {
+        "label": "Feature",
+        "value": "For Workstations/Servers"
+      }
+    ],
     "price": 299.99,
     "manufacturer_id": 9,
     "category_id": 5,
@@ -2966,7 +5200,28 @@
   {
     "id": 151,
     "name": "ASUS ROG Maximus Z790 Hero",
-    "description": "Intel Z790, DDR5, PCIe 5.0, WiFi 6E, RGB",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Z790"
+      },
+      {
+        "label": "Feature",
+        "value": "DDR5"
+      },
+      {
+        "label": "Feature",
+        "value": "PCIe 5.0"
+      },
+      {
+        "label": "Connectivity",
+        "value": "WiFi 6E"
+      },
+      {
+        "label": "Feature",
+        "value": "RGB"
+      }
+    ],
     "price": 629.99,
     "manufacturer_id": 4,
     "category_id": 5,
@@ -2985,7 +5240,24 @@
   {
     "id": 152,
     "name": "MSI MEG Z790 ACE MAX",
-    "description": "Intel Z790, DDR5 7800+, PCIe 5.0 x16, Thunderbolt 4",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Z790"
+      },
+      {
+        "label": "Feature",
+        "value": "DDR5 7800+"
+      },
+      {
+        "label": "Feature",
+        "value": "PCIe 5.0 x16"
+      },
+      {
+        "label": "Interface",
+        "value": "Thunderbolt 4"
+      }
+    ],
     "price": 699.99,
     "manufacturer_id": 5,
     "category_id": 5,
@@ -3004,7 +5276,28 @@
   {
     "id": 153,
     "name": "Gigabyte X670E AORUS Master",
-    "description": "AMD X670E, DDR5, PCIe 5.0, WiFi 6E, USB4",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "AMD X670E"
+      },
+      {
+        "label": "Feature",
+        "value": "DDR5"
+      },
+      {
+        "label": "Feature",
+        "value": "PCIe 5.0"
+      },
+      {
+        "label": "Connectivity",
+        "value": "WiFi 6E"
+      },
+      {
+        "label": "Interface",
+        "value": "USB4"
+      }
+    ],
     "price": 499.99,
     "manufacturer_id": 6,
     "category_id": 5,
@@ -3023,7 +5316,28 @@
   {
     "id": 154,
     "name": "ASRock B650M PG Riptide",
-    "description": "AMD B650, DDR5, PCIe 4.0, Micro-ATX, 2.5GbE",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "AMD B650"
+      },
+      {
+        "label": "Feature",
+        "value": "DDR5"
+      },
+      {
+        "label": "Feature",
+        "value": "PCIe 4.0"
+      },
+      {
+        "label": "Feature",
+        "value": "Micro-ATX"
+      },
+      {
+        "label": "Feature",
+        "value": "2.5GbE"
+      }
+    ],
     "price": 169.99,
     "manufacturer_id": 26,
     "category_id": 5,
@@ -3042,7 +5356,28 @@
   {
     "id": 155,
     "name": "ASUS ProArt B660-Creator D4",
-    "description": "Intel B660, DDR4, Thunderbolt 4, 10GbE, Creator Focus",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel B660"
+      },
+      {
+        "label": "Feature",
+        "value": "DDR4"
+      },
+      {
+        "label": "Interface",
+        "value": "Thunderbolt 4"
+      },
+      {
+        "label": "Feature",
+        "value": "10GbE"
+      },
+      {
+        "label": "Feature",
+        "value": "Creator Focus"
+      }
+    ],
     "price": 279.99,
     "manufacturer_id": 4,
     "category_id": 5,
@@ -3061,7 +5396,28 @@
   {
     "id": 156,
     "name": "MSI PRO B760M-A WiFi",
-    "description": "Intel B760, DDR5, WiFi 6E, 2.5GbE, Micro-ATX",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel B760"
+      },
+      {
+        "label": "Feature",
+        "value": "DDR5"
+      },
+      {
+        "label": "Connectivity",
+        "value": "WiFi 6E"
+      },
+      {
+        "label": "Feature",
+        "value": "2.5GbE"
+      },
+      {
+        "label": "Feature",
+        "value": "Micro-ATX"
+      }
+    ],
     "price": 149.99,
     "manufacturer_id": 5,
     "category_id": 5,
@@ -3080,7 +5436,24 @@
   {
     "id": 157,
     "name": "Intel Core i9-14900K",
-    "description": "24 Cores, 32 Threads, 6.0GHz Turbo, Unlocked",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "24 Cores"
+      },
+      {
+        "label": "Feature",
+        "value": "32 Threads"
+      },
+      {
+        "label": "Feature",
+        "value": "6.0GHz Turbo"
+      },
+      {
+        "label": "Feature",
+        "value": "Unlocked"
+      }
+    ],
     "price": 589.99,
     "manufacturer_id": 1,
     "category_id": 5,
@@ -3099,7 +5472,24 @@
   {
     "id": 158,
     "name": "AMD Ryzen 9 7950X3D",
-    "description": "16 Cores, 32 Threads, 3D V-Cache, 5.7GHz Boost",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "16 Cores"
+      },
+      {
+        "label": "Feature",
+        "value": "32 Threads"
+      },
+      {
+        "label": "Feature",
+        "value": "3D V-Cache"
+      },
+      {
+        "label": "Feature",
+        "value": "5.7GHz Boost"
+      }
+    ],
     "price": 699.99,
     "manufacturer_id": 2,
     "category_id": 5,
@@ -3118,7 +5508,24 @@
   {
     "id": 159,
     "name": "Intel Core i7-14700K",
-    "description": "20 Cores, 28 Threads, 5.6GHz Turbo, Unlocked",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "20 Cores"
+      },
+      {
+        "label": "Feature",
+        "value": "28 Threads"
+      },
+      {
+        "label": "Feature",
+        "value": "5.6GHz Turbo"
+      },
+      {
+        "label": "Feature",
+        "value": "Unlocked"
+      }
+    ],
     "price": 409.99,
     "manufacturer_id": 1,
     "category_id": 5,
@@ -3137,7 +5544,24 @@
   {
     "id": 160,
     "name": "AMD Ryzen 7 7800X3D",
-    "description": "8 Cores, 16 Threads, 3D V-Cache, 5.0GHz Boost",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "8 Cores"
+      },
+      {
+        "label": "Feature",
+        "value": "16 Threads"
+      },
+      {
+        "label": "Feature",
+        "value": "3D V-Cache"
+      },
+      {
+        "label": "Feature",
+        "value": "5.0GHz Boost"
+      }
+    ],
     "price": 449.99,
     "manufacturer_id": 2,
     "category_id": 5,
@@ -3156,7 +5580,24 @@
   {
     "id": 161,
     "name": "Intel Core i5-14600K",
-    "description": "14 Cores, 20 Threads, 5.3GHz Turbo, Unlocked",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "14 Cores"
+      },
+      {
+        "label": "Feature",
+        "value": "20 Threads"
+      },
+      {
+        "label": "Feature",
+        "value": "5.3GHz Turbo"
+      },
+      {
+        "label": "Feature",
+        "value": "Unlocked"
+      }
+    ],
     "price": 319.99,
     "manufacturer_id": 1,
     "category_id": 5,
@@ -3175,7 +5616,24 @@
   {
     "id": 162,
     "name": "AMD Ryzen 5 7600X",
-    "description": "6 Cores, 12 Threads, 5.3GHz Boost, Zen 4 Architecture",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "6 Cores"
+      },
+      {
+        "label": "Feature",
+        "value": "12 Threads"
+      },
+      {
+        "label": "Feature",
+        "value": "5.3GHz Boost"
+      },
+      {
+        "label": "Feature",
+        "value": "Zen 4 Architecture"
+      }
+    ],
     "price": 249.99,
     "manufacturer_id": 2,
     "category_id": 5,
@@ -3194,7 +5652,20 @@
   {
     "id": 163,
     "name": "Creative Sound Blaster AE-9",
-    "description": "32-bit/384kHz, ESS SABRE DAC, Xamp Headphone Amp",
+    "description": [
+      {
+        "label": "Display",
+        "value": "32-bit/384kHz"
+      },
+      {
+        "label": "Feature",
+        "value": "ESS SABRE DAC"
+      },
+      {
+        "label": "Feature",
+        "value": "Xamp Headphone Amp"
+      }
+    ],
     "price": 349.99,
     "manufacturer_id": 40,
     "category_id": 5,
@@ -3213,7 +5684,24 @@
   {
     "id": 164,
     "name": "ASUS Xonar AE Sound Card",
-    "description": "7.1 PCIe, 192kHz/24-bit, EMI Shield, Headphone Amp",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "7.1 PCIe"
+      },
+      {
+        "label": "Display",
+        "value": "192kHz/24-bit"
+      },
+      {
+        "label": "Feature",
+        "value": "EMI Shield"
+      },
+      {
+        "label": "Feature",
+        "value": "Headphone Amp"
+      }
+    ],
     "price": 79.99,
     "manufacturer_id": 4,
     "category_id": 5,
@@ -3232,7 +5720,20 @@
   {
     "id": 165,
     "name": "Creative Sound BlasterX AE-5 Plus",
-    "description": "32-bit/384kHz, Xamp Discrete Headphone Amp, RGB Lighting",
+    "description": [
+      {
+        "label": "Display",
+        "value": "32-bit/384kHz"
+      },
+      {
+        "label": "Feature",
+        "value": "Xamp Discrete Headphone Amp"
+      },
+      {
+        "label": "Feature",
+        "value": "RGB Lighting"
+      }
+    ],
     "price": 149.99,
     "manufacturer_id": 40,
     "category_id": 5,
@@ -3251,7 +5752,16 @@
   {
     "id": 166,
     "name": "EVGA Nu Audio Pro 7.1",
-    "description": "Stereo + 7.1 Virtual Surround, Audio Note Capacitors",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Stereo + 7.1 Virtual Surround"
+      },
+      {
+        "label": "Feature",
+        "value": "Audio Note Capacitors"
+      }
+    ],
     "price": 249.99,
     "manufacturer_id": 23,
     "category_id": 5,
@@ -3270,7 +5780,20 @@
   {
     "id": 167,
     "name": "FiiO K5 Pro ESS USB DAC",
-    "description": "Desktop DAC/Amp, 768kHz/32-bit, 1500mW Output",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "Desktop DAC/Amp"
+      },
+      {
+        "label": "Feature",
+        "value": "768kHz/32-bit"
+      },
+      {
+        "label": "Feature",
+        "value": "1500mW Output"
+      }
+    ],
     "price": 179.99,
     "manufacturer_id": 40,
     "category_id": 5,
@@ -3290,7 +5813,20 @@
   {
     "id": 168,
     "name": "Schiit Modi 3E DAC",
-    "description": "USB DAC, 24-bit/192kHz, AKM AK4493 Chip",
+    "description": [
+      {
+        "label": "Interface",
+        "value": "USB DAC"
+      },
+      {
+        "label": "Display",
+        "value": "24-bit/192kHz"
+      },
+      {
+        "label": "Feature",
+        "value": "AKM AK4493 Chip"
+      }
+    ],
     "price": 129.99,
     "manufacturer_id": 40,
     "category_id": 5,
@@ -3310,7 +5846,24 @@
   {
     "id": 169,
     "name": "NVIDIA GeForce RTX 4090",
-    "description": "24GB GDDR6X, Ada Lovelace, DLSS 3, Ray Tracing",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "24GB GDDR6X"
+      },
+      {
+        "label": "Feature",
+        "value": "Ada Lovelace"
+      },
+      {
+        "label": "Feature",
+        "value": "DLSS 3"
+      },
+      {
+        "label": "Feature",
+        "value": "Ray Tracing"
+      }
+    ],
     "price": 1599.99,
     "manufacturer_id": 3,
     "category_id": 5,
@@ -3329,7 +5882,24 @@
   {
     "id": 170,
     "name": "AMD Radeon RX 7900 XTX",
-    "description": "24GB GDDR6, RDNA 3, DisplayPort 2.1, 4K Gaming",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "24GB GDDR6"
+      },
+      {
+        "label": "Feature",
+        "value": "RDNA 3"
+      },
+      {
+        "label": "Display",
+        "value": "DisplayPort 2.1"
+      },
+      {
+        "label": "Display",
+        "value": "4K Gaming"
+      }
+    ],
     "price": 999.99,
     "manufacturer_id": 2,
     "category_id": 5,
@@ -3348,7 +5918,20 @@
   {
     "id": 171,
     "name": "ASUS ROG Strix RTX 4080 SUPER",
-    "description": "16GB GDDR6X, Triple Fan, Aura Sync RGB",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "16GB GDDR6X"
+      },
+      {
+        "label": "Feature",
+        "value": "Triple Fan"
+      },
+      {
+        "label": "Feature",
+        "value": "Aura Sync RGB"
+      }
+    ],
     "price": 1099.99,
     "manufacturer_id": 4,
     "category_id": 5,
@@ -3367,7 +5950,20 @@
   {
     "id": 172,
     "name": "MSI Gaming X Trio RTX 4070 Ti SUPER",
-    "description": "16GB GDDR6X, Tri Frozr 3S Cooling, RGB Mystic Light",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "16GB GDDR6X"
+      },
+      {
+        "label": "Feature",
+        "value": "Tri Frozr 3S Cooling"
+      },
+      {
+        "label": "Feature",
+        "value": "RGB Mystic Light"
+      }
+    ],
     "price": 849.99,
     "manufacturer_id": 5,
     "category_id": 5,
@@ -3386,7 +5982,24 @@
   {
     "id": 173,
     "name": "Sapphire Nitro+ RX 7800 XT",
-    "description": "16GB GDDR6, RDNA 3, Tri-X Cooling, Dual BIOS",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "16GB GDDR6"
+      },
+      {
+        "label": "Feature",
+        "value": "RDNA 3"
+      },
+      {
+        "label": "Feature",
+        "value": "Tri-X Cooling"
+      },
+      {
+        "label": "OS",
+        "value": "Dual BIOS"
+      }
+    ],
     "price": 549.99,
     "manufacturer_id": 25,
     "category_id": 5,
@@ -3405,7 +6018,20 @@
   {
     "id": 174,
     "name": "Gigabyte Gaming OC RTX 4060 Ti",
-    "description": "8GB GDDR6, WINDFORCE Cooling, RGB Fusion 2.0",
+    "description": [
+      {
+        "label": "Feature",
+        "value": "8GB GDDR6"
+      },
+      {
+        "label": "Feature",
+        "value": "WINDFORCE Cooling"
+      },
+      {
+        "label": "Feature",
+        "value": "RGB Fusion 2.0"
+      }
+    ],
     "price": 449.99,
     "manufacturer_id": 6,
     "category_id": 5,
@@ -3424,7 +6050,24 @@
   {
     "id": 175,
     "name": "MSI Gaming Desktop with RTX 4070",
-    "description": "Intel Core i7-14700F, 32GB DDR5, 1TB SSD, RTX 4070 12GB",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i7-14700F"
+      },
+      {
+        "label": "Feature",
+        "value": "32GB DDR5"
+      },
+      {
+        "label": "Storage",
+        "value": "1TB SSD"
+      },
+      {
+        "label": "Graphics",
+        "value": "RTX 4070 12GB"
+      }
+    ],
     "price": 1799.99,
     "manufacturer_id": 5,
     "category_id": 1,
@@ -3443,7 +6086,24 @@
   {
     "id": 176,
     "name": "NZXT H7 Flow Gaming PC",
-    "description": "AMD Ryzen 7 7800X3D, 32GB DDR5, 2TB SSD, RX 7900 XT",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "AMD Ryzen 7 7800X3D"
+      },
+      {
+        "label": "Feature",
+        "value": "32GB DDR5"
+      },
+      {
+        "label": "Storage",
+        "value": "2TB SSD"
+      },
+      {
+        "label": "Feature",
+        "value": "RX 7900 XT"
+      }
+    ],
     "price": 2299.99,
     "manufacturer_id": 27,
     "category_id": 1,
@@ -3462,7 +6122,28 @@
   {
     "id": 177,
     "name": "MSI Creator Laptop M16",
-    "description": "Intel Core i9-13980HX, 64GB RAM, 2TB SSD, RTX 4080, 16\" 4K",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i9-13980HX"
+      },
+      {
+        "label": "Memory",
+        "value": "64GB RAM"
+      },
+      {
+        "label": "Storage",
+        "value": "2TB SSD"
+      },
+      {
+        "label": "Graphics",
+        "value": "RTX 4080"
+      },
+      {
+        "label": "Display",
+        "value": "16\" 4K"
+      }
+    ],
     "price": 3299.99,
     "manufacturer_id": 5,
     "category_id": 1,
@@ -3482,7 +6163,28 @@
   {
     "id": 178,
     "name": "Razer Blade 16 Gaming Laptop",
-    "description": "Intel Core i9-14900HX, 32GB DDR5, 1TB SSD, RTX 4090, 16\" QHD+ 240Hz",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i9-14900HX"
+      },
+      {
+        "label": "Feature",
+        "value": "32GB DDR5"
+      },
+      {
+        "label": "Storage",
+        "value": "1TB SSD"
+      },
+      {
+        "label": "Graphics",
+        "value": "RTX 4090"
+      },
+      {
+        "label": "Display",
+        "value": "16\" QHD+ 240Hz"
+      }
+    ],
     "price": 3999.99,
     "manufacturer_id": 13,
     "category_id": 1,
@@ -3501,7 +6203,24 @@
   {
     "id": 179,
     "name": "Corsair 5000D Airflow RGB Gaming PC",
-    "description": "Intel Core i9-14900K, 64GB DDR5, 2TB NVMe, RTX 4080 SUPER",
+    "description": [
+      {
+        "label": "Processor",
+        "value": "Intel Core i9-14900K"
+      },
+      {
+        "label": "Feature",
+        "value": "64GB DDR5"
+      },
+      {
+        "label": "Feature",
+        "value": "2TB NVMe"
+      },
+      {
+        "label": "Graphics",
+        "value": "RTX 4080 SUPER"
+      }
+    ],
     "price": 3499.99,
     "manufacturer_id": 7,
     "category_id": 1,
@@ -3520,7 +6239,24 @@
   {
     "id": 180,
     "name": "Thunderbolt 4 Active Cable 2m",
-    "description": "40Gbps, 100W PD, 8K Display, Intel Certified",
+    "description": [
+      {
+        "label": "Speed",
+        "value": "40Gbps"
+      },
+      {
+        "label": "Feature",
+        "value": "100W PD"
+      },
+      {
+        "label": "Display",
+        "value": "8K Display"
+      },
+      {
+        "label": "Processor",
+        "value": "Intel Certified"
+      }
+    ],
     "price": 49.99,
     "manufacturer_id": 7,
     "category_id": 2,
