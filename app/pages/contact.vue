@@ -94,7 +94,7 @@
                 <!-- Social/Quick Links -->
                 <div class="flex gap-3 mt-8">
                     <a href="https://wa.me/855998688883" target="_blank"
-                        class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                        class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
                         <MessageCircle class="w-5 h-5" />
                         WhatsApp
                     </a>
@@ -195,29 +195,29 @@
             title: 'Original Product',
             description: '100% Original product covered warranty by the vendor.',
             icon: Award,
-            bgColor: 'bg-blue-100',
-            iconColor: 'text-blue-600'
+            bgColor: 'bg-blue-500',
+            iconColor: 'text-white'
         },
         {
             title: '30 Days Warranty',
             description: 'You have the right to return your orders within 30 days.',
             icon: RotateCcw,
-            bgColor: 'bg-green-100',
-            iconColor: 'text-green-600'
+            bgColor: 'bg-blue-500',
+            iconColor: 'text-white'
         },
         {
             title: 'Global Shipping',
             description: 'Your orders are shipped seamlessly between countries.',
             icon: Globe,
-            bgColor: 'bg-purple-100',
-            iconColor: 'text-purple-600'
+            bgColor: 'bg-blue-500',
+            iconColor: 'text-white'
         },
         {
             title: '100% Secure',
             description: 'Your payments are secure with our private security network.',
             icon: ShieldCheck,
-            bgColor: 'bg-orange-100',
-            iconColor: 'text-orange-600'
+            bgColor: 'bg-blue-500',
+            iconColor: 'text-white'
         }
     ];
 
