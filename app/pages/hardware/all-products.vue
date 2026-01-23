@@ -246,48 +246,14 @@
         PaginationNext,
         PaginationPrevious,
     } from '~/components/ui/pagination';
+    import type { Manufacturer } from '~/types/models/manufacturer';
+    import type { MsrpRange } from '~/types/models/msrp-range';
+    import type { ProductType } from '~/types/models/product-type';
+    import type { Product } from '~/types/models/product';
     import manufacturersData from '~/assets/data/Hardware/manufacturers.json';
     import msrpData from '~/assets/data/Hardware/msrp.json';
     import typesData from '~/assets/data/Hardware/type.json';
     import productsData from '~/assets/data/Hardware/products.json';
-
-    interface Manufacturer {
-        id: number;
-        name: string;
-    }
-
-    interface MsrpRange {
-        id: number;
-        label: string;
-        min: number;
-        max: number | null;
-    }
-
-    interface ProductType {
-        id: number;
-        slug: string;
-    }
-
-    interface DescriptionItem {
-        label: string;
-        value: string;
-    }
-
-    interface Product {
-        id: number;
-        name: string;
-        description: DescriptionItem[];
-        price: number;
-        manufacturer_id: number;
-        brand_id: number;
-        category_id: number;
-        subcategory_ids: number[];
-        type_ids: number[];
-        image: string;
-        stock: number;
-        rating: number;
-        featured: boolean;
-    }
 
     const route = useRoute();
     const router = useRouter();

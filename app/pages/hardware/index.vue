@@ -292,66 +292,18 @@
     import { ref, computed, onMounted, onUnmounted } from 'vue';
     import { useRouter } from 'vue-router';
     import { Search, ChevronDown, ChevronUp, ChevronRight, Monitor, Cable, Network, Headphones, Filter, SlidersHorizontal } from 'lucide-vue-next';
+    import type { Manufacturer } from '~/types/models/manufacturer';
+    import type { MsrpRange } from '~/types/models/msrp-range';
+    import type { ProductType } from '~/types/models/product-type';
+    import type { Category } from '~/types/models/category';
+    import type { Product } from '~/types/models/product';
+    import type { Brand } from '~/types/models/brand';
     import manufacturersData from '~/assets/data/Hardware/manufacturers.json';
     import msrpData from '~/assets/data/Hardware/msrp.json';
     import typesData from '~/assets/data/Hardware/type.json';
-    import categories from '~/assets/data/Hardware/categories.json';
+    import categoriesData from '~/assets/data/Hardware/categories.json';
     import productsData from '~/assets/data/Hardware/products.json';
     import brandsData from '~/assets/data/Hardware/brand.json';
-
-    interface Manufacturer {
-        id: number;
-        name: string;
-    }
-
-    interface MsrpRange {
-        id: number;
-        label: string;
-        min: number;
-        max: number | null;
-    }
-
-    interface ProductType {
-        id: number;
-        slug: string;
-    }
-
-    interface Category {
-        id: number;
-        name: string;
-        slug: string;
-        image: string;
-        description: string;
-        subcategories: { id: number; name: string; slug: string }[];
-    }
-
-    interface DescriptionItem {
-        label: string;
-        value: string;
-    }
-
-    interface Product {
-        id: number;
-        name: string;
-        description: DescriptionItem[];
-        price: number;
-        manufacturer_id: number;
-        brand_id: number;
-        category_id: number;
-        subcategory_ids: number[];
-        type_ids: number[];
-        image: string;
-        stock: number;
-        rating: number;
-        featured: boolean;
-    }
-
-    interface Brand {
-        id: number;
-        name: string;
-        image: string;
-        isPopular: boolean;
-    }
 
     const router = useRouter();
     const manufacturers = manufacturersData as Manufacturer[];
@@ -359,6 +311,7 @@
     const msrp = msrpData as MsrpRange[];
     const types = typesData as ProductType[];
     const brands = brandsData as Brand[];
+    const categories = categoriesData as Category[];
     const searchQuery = ref('');
 
     // Mobile/responsive states
