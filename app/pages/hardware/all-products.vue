@@ -268,10 +268,15 @@
         slug: string;
     }
 
+    interface DescriptionItem {
+        label: string;
+        value: string;
+    }
+
     interface Product {
         id: number;
         name: string;
-        description: string;
+        description: DescriptionItem[];
         price: number;
         manufacturer_id: number;
         brand_id: number;
@@ -446,7 +451,7 @@
             const search = searchQuery.value.toLowerCase().trim();
             result = result.filter(p =>
                 p.name.toLowerCase().includes(search) ||
-                p.description.toLowerCase().includes(search)
+                p.description.some(d => d.value.toLowerCase().includes(search))
             );
         }
 
