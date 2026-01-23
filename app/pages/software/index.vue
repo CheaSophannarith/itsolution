@@ -48,38 +48,21 @@
                         </div>
 
                         <!-- Manufacturer Filter -->
-                        <FilterCategorySection
-                          label="Manufacturer"
-                          :items="manufacturers"
-                          v-model="selectedManufacturers"
-                          :expanded="expandedSections.manufacturer"
-                          @toggle="toggleFilterSection('manufacturer')"
-                        />
+                        <FilterCategorySection label="Manufacturer" :items="manufacturers"
+                            v-model="selectedManufacturers" :expanded="expandedSections.manufacturer"
+                            @toggle="toggleFilterSection('manufacturer')" />
 
                         <!-- MSRP Filter -->
-                        <div class="mt-4 sm:mt-6">
-                            <button @click="toggleFilterSection('msrp')"
-                                class="flex items-center justify-between w-full text-base sm:text-lg text-pink-500 font-bold mb-2 sm:mb-3 border-b border-pink-500 py-2">
-                                MSRP
-                                <ChevronDown
-                                    :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.msrp ? 'rotate-180' : '']" />
-                            </button>
-                            <div :class="['space-y-1 sm:space-y-2', { 'hidden lg:block': !expandedSections.msrp }]">
-                                <label v-for="range in msrp" :key="range.id"
-                                    class="flex items-center gap-1 cursor-pointer hover:bg-gray-50 rounded p-1">
-                                    <input type="checkbox" :value="range.id" v-model="selectedMsrp"
-                                        class="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-brand" />
-                                    <span class="text-sm text-gray-700">{{ range.label }}</span>
-                                </label>
-                            </div>
-                        </div>
+                        <FilterCategorySection label="MSRP"
+                            :items="msrp.map(range => ({ id: range.id, name: range.label }))" v-model="selectedMsrp"
+                            :expanded="expandedSections.msrp" @toggle="toggleFilterSection('msrp')" />
 
                         <!-- Type Filter -->
                         <FilterCategorySection label="Type"
                             :items="types.map(type => ({ id: type.id, name: type.slug ?? '' }))" v-model="selectedTypes"
                             :expanded="expandedSections.type" @toggle="toggleFilterSection('type')" />
 
-                        <!-- platform Filter -->
+                        <!-- Platform Filter -->
                         <FilterCategorySection label="Platform" :items="platforms" v-model="selectedPlatforms"
                             :expanded="expandedSections.platform" @toggle="toggleFilterSection('platform')" />
 
@@ -93,25 +76,8 @@
             </Transition>
 
             <!-- Apply Filter Button - Fixed at bottom of page -->
-            <Transition name="slide-up">
-                <div v-if="hasActiveFilters"
-                    class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg p-3 sm:p-4">
-                    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-                        <span class="text-sm text-gray-600">{{ activeFilterCount }} filter(s) selected</span>
-                        <div class="flex gap-2 sm:gap-3 w-full sm:w-auto">
-                            <button @click="clearFilters"
-                                class="flex-1 sm:flex-none px-4 sm:px-6 py-2 border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors text-sm sm:text-base">
-                                Clear All
-                            </button>
-                            <button @click="applyFilters"
-                                class="flex-1 sm:flex-none px-4 sm:px-6 py-2 bg-pink-500 text-white font-semibold hover:bg-pink-600 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base">
-                                <Filter class="w-4 h-4" />
-                                Apply Filters
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </Transition>
+            <FilterApplyBar :hasActiveFilters="hasActiveFilters" :activeFilterCount="activeFilterCount"
+                @clearFilters="clearFilters" @applyFilters="applyFilters" />
 
             <!-- Main Content Area -->
             <main class="flex-1 min-w-0">
@@ -147,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ChevronDown, ChevronUp, Filter, Search, SlidersHorizontal } from 'lucide-vue-next';
+    import { ChevronDown, ChevronUp, Search, SlidersHorizontal } from 'lucide-vue-next';
     import { computed, onMounted, onUnmounted, ref } from 'vue';
     import { useRouter } from 'vue-router';
     import categoriesData from '~/assets/data/Software/categories.json';
@@ -155,6 +121,7 @@
     import msrpData from '~/assets/data/Software/msrp.json';
     import platformData from '~/assets/data/Software/platform.json';
     import typesData from '~/assets/data/Software/type.json';
+    import FilterApplyBar from '~/components/ui/FilterApplyBar.vue';
     import FilterCategorySection from '~/components/ui/FilterCategorySection.vue';
     import type { Category, SubCategory } from '~/types';
 
@@ -220,7 +187,7 @@
     const selectedMsrp = ref<number[]>([]);
     const selectedTypes = ref<number[]>([]);
     const selectedPlatforms = ref<number[]>([]);
-    const showAllManufacturers = ref(false);
+    // Removed showAllManufacturers, now handled in FilterCategorySection
     const showAllCategories = ref(false);
     const expandedCategoryId = ref<number | null>(null);
 
