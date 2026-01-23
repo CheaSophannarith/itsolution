@@ -51,7 +51,10 @@
                     <span class="font-semibold">Total</span>
                     <span class="font-bold text-lg">${{ total }}</span>
                 </div>
-                <button class="w-full bg-brand text-white py-2 rounded hover:bg-brand-dark transition">Checkout</button>
+                <NuxtLink to="/checkout" @click="open = false"
+                    class="w-full bg-brand text-white py-2 rounded hover:bg-brand-dark transition text-center block">
+                    Checkout
+                </NuxtLink>
             </DrawerFooter>
         </DrawerContent>
     </Drawer>
