@@ -28,7 +28,8 @@
                     <!-- Right Section -->
                     <div class="flex items-center gap-2 sm:gap-4 text-sm">
                         <!-- Mobile Search Button -->
-                        <button @click="toggleMobileSearch" class="md:hidden p-2 text-brand hover:bg-gray-100 rounded-md">
+                        <button @click="toggleMobileSearch"
+                            class="md:hidden p-2 text-brand hover:bg-gray-100 rounded-md">
                             <Search class="w-5 h-5" />
                         </button>
 
@@ -56,17 +57,17 @@
                         </NuxtLink>
 
                         <!-- Mobile Sign In Icon Only -->
-                        <NuxtLink to="/signin"
-                            class="sm:hidden p-2 text-brand hover:bg-gray-100 rounded-md">
+                        <NuxtLink to="/signin" class="sm:hidden p-2 text-brand hover:bg-gray-100 rounded-md">
                             <CircleUser class="w-5 h-5" />
                         </NuxtLink>
                     </div>
                 </div>
 
                 <!-- Mobile Search Bar -->
-                <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 -translate-y-2"
-                    enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-150"
-                    leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 -translate-y-2">
+                <Transition enter-active-class="transition ease-out duration-200"
+                    enter-from-class="opacity-0 -translate-y-2" enter-to-class="opacity-100 translate-y-0"
+                    leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100 translate-y-0"
+                    leave-to-class="opacity-0 -translate-y-2">
                     <div v-if="mobileSearchOpen" class="md:hidden mt-3">
                         <div class="relative w-full">
                             <Input type="text" placeholder="Search..." autofocus
@@ -257,8 +258,8 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, computed, watch } from 'vue'
-    import { Search, ShoppingCart, CircleUser, ChevronDown, ChevronRight, Menu, X, Phone } from 'lucide-vue-next'
+    import { ChevronDown, ChevronRight, CircleUser, Menu, Phone, Search, ShoppingCart, X } from 'lucide-vue-next'
+    import { computed, ref, watch } from 'vue'
     import { useRoute } from 'vue-router'
     // Import JSON directly - no fetch needed, data available immediately
     import hardwareCategoriesData from '~/assets/data/Hardware/categories.json'
@@ -364,11 +365,11 @@
             { name: 'All Software', href: '/software' },
             ...softwareCategories.value.map(category => ({
                 name: category.name,
-                href: `/software/${category.slug}`,
+                href: `/software/categories/${category.slug}`,
                 children: category.subcategories?.length
                     ? category.subcategories.map(sub => ({
                         name: sub.name,
-                        href: `/software/${category.slug}/${sub.slug}`
+                        href: `/software/categories/${category.slug}/${sub.slug}`
                     }))
                     : undefined
             }))

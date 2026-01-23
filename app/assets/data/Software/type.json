@@ -1,0 +1,8 @@
+[
+  { "id": 1, "slug": "Subscription" },
+  { "id": 2, "slug": "Perpetual License" },
+  { "id": 3, "slug": "Volume License" },
+  { "id": 4, "slug": "OEM License" },
+  { "id": 5, "slug": "Trial/Demo" },
+  { "id": 6, "slug": "Enterprise" }
+]
