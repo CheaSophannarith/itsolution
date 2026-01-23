@@ -186,26 +186,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- CTA Section -->
-        <div class="bg-brand py-12 sm:py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-                <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
-                <p class="text-white/90 mb-6 max-w-2xl mx-auto">
-                    Contact our team of experts to discuss your IT needs and find the perfect solutions for your business.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <NuxtLink to="/contact"
-                        class="bg-white text-brand px-8 py-3 font-semibold hover:bg-gray-100 transition-colors">
-                        Contact Us
-                    </NuxtLink>
-                    <a href="tel:888-764-8888"
-                        class="bg-transparent border-2 border-white text-white px-8 py-3 font-semibold hover:bg-white/10 transition-colors">
-                        Call 888-764-8888
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 

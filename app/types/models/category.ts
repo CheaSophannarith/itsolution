@@ -1,8 +1,10 @@
 import type { SubCategory } from "./sub-category";
+
 export interface Category {
     id: number;
     name: string;
+    slug: string;
     image: string;
-    slug?: string;
-    subCategories?: SubCategory [];
+    description: string;
+    subcategories: SubCategory[];
 }

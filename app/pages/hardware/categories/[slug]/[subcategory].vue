@@ -251,60 +251,14 @@
         PaginationNext,
         PaginationPrevious,
     } from '~/components/ui/pagination';
+    import type { Category } from '~/types/models/category';
+    import type { Product } from '~/types/models/product';
+    import type { Brand } from '~/types/models/brand';
+    import type { MsrpRange } from '~/types/models/msrp-range';
     import categoriesData from '~/assets/data/Hardware/categories.json';
     import productsData from '~/assets/data/Hardware/products.json';
     import brand from '~/assets/data/Hardware/brand.json';
     import msrpData from '~/assets/data/Hardware/msrp.json';
-
-    interface Subcategory {
-        id: number;
-        name: string;
-        slug: string;
-    }
-
-    interface Category {
-        id: number;
-        name: string;
-        slug: string;
-        image: string;
-        description: string;
-        subcategories: Subcategory[];
-    }
-
-    interface DescriptionItem {
-        label: string;
-        value: string;
-    }
-
-    interface Product {
-        id: number;
-        name: string;
-        description: DescriptionItem[];
-        price: number;
-        manufacturer_id: number;
-        brand_id: number;
-        category_id: number;
-        subcategory_ids: number[];
-        type_ids: number[];
-        image: string;
-        stock: number;
-        rating: number;
-        featured: boolean;
-    }
-
-    interface Brand {
-        id: number;
-        name: string;
-        image: string;
-        isPopular: boolean;
-    }
-
-    interface MsrpRange {
-        id: number;
-        label: string;
-        min: number;
-        max: number | null;
-    }
 
     const route = useRoute();
     const categorySlug = computed(() => route.params.slug as string);
