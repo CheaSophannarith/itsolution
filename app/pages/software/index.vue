@@ -132,6 +132,10 @@
         min: number;
         max: number | null;
     }
+    useHead({
+        title: 'Software',
+
+    });
 
 
     const router = useRouter();
