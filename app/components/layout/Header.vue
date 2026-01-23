@@ -430,7 +430,7 @@
         },
         { name: 'Services', href: '/services', children: [
             { name: 'Services', href: '/services' },
-            { name: 'School Management System', href: '/services/school-management-system' },
+            { name: 'University Management System', href: '/services/university-management-system' },
             { name: 'Scholarship Management System', href: '/services/scholarship-management-system' },
         ] },
     ])
