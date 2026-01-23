@@ -428,7 +428,11 @@
             href: '/software',
             children: softwareNavChildren.value
         },
-        { name: 'Services', href: '/services' },
+        { name: 'Services', href: '/services', children: [
+            { name: 'Services', href: '/services' },
+            { name: 'School Management System', href: '/services/school-management-system' },
+            { name: 'Scholarship Management System', href: '/services/scholarship-management-system' },
+        ] },
     ])
 
     const activeDropdown = ref<string | null>(null)
