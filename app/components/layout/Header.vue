@@ -410,6 +410,14 @@
     })
 
     const navItems = computed<NavItem[]>(() => [
+        { name: 'Desktops', href: '/desktops' },
+        {
+            name: 'Laptops', href: '/laptops', children: [
+                { name: 'Business Laptops', href: '/laptops/business' },
+                { name: 'Gaming Laptops', href: '/laptops/gaming' },
+                { name: '2-in-1 Laptops', href: '/laptops/2-in-1' },
+            ]
+        },
         {
             name: 'Hardware',
             href: '/hardware',
@@ -420,22 +428,7 @@
             href: '/software',
             children: softwareNavChildren.value
         },
-        {
-            name: 'Partners',
-            href: '/partners',
-            children: [
-                { name: 'Microsoft', href: '/partners/microsoft' },
-                { name: 'Dell', href: '/partners/dell' },
-                { name: 'HP', href: '/partners/hp' },
-                { name: 'Cisco', href: '/partners/cisco' },
-                { name: 'Lenovo', href: '/partners/lenovo' },
-                { name: 'Apple', href: '/partners/apple' },
-            ]
-        },
-        { name: 'IT Solutions', href: '/it-solutions' },
         { name: 'Services', href: '/services' },
-        { name: 'Explore SHI', href: '/explore' },
-        { name: 'Tools', href: '/tools' },
     ])
 
     const activeDropdown = ref<string | null>(null)
