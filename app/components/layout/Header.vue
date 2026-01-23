@@ -1,8 +1,8 @@
 <template>
-    <header class="relative">
+    <header :class="['sticky top-0 z-50 transition-transform duration-300', { '-translate-y-full': hideHeader }]">
         <!-- Top Section - White Background -->
-        <div class="bg-white border-b border-gray-200 mx-auto max-w-7xl">
-            <div class="w-full px-4 sm:px-6 py-3 sm:py-4">
+        <div class="bg-white border-b border-gray-200 mx-auto max-w-full">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
                 <div class="flex items-center justify-between gap-2 sm:gap-4">
                     <!-- Mobile Menu Button -->
                     <button @click="toggleMobileMenu" class="lg:hidden p-2 text-brand hover:bg-gray-100 rounded-md">
@@ -33,13 +33,17 @@
                             <Search class="w-5 h-5" />
                         </button>
 
-                        <!-- Cart -->
-                        <button
-                            class="relative p-2 text-brand hover:text-white hover:bg-brand rounded-md transition-all">
-                            <ShoppingCart class="w-5 h-5" />
-                            <span
-                                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                        </button>
+                        <!-- Cart Drawer -->
+                        <CartDrawer>
+                            <template #trigger>
+                                <button
+                                    class="relative p-2 text-brand hover:text-white hover:bg-brand rounded-md transition-all">
+                                    <ShoppingCart class="w-5 h-5" />
+                                    <span
+                                        class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                                </button>
+                            </template>
+                        </CartDrawer>
 
                         <!-- Contact Us - Hidden on mobile -->
                         <span class="hidden sm:block text-gray-300">|</span>
@@ -259,8 +263,37 @@
 
 <script setup lang="ts">
     import { ChevronDown, ChevronRight, CircleUser, Menu, Phone, Search, ShoppingCart, X } from 'lucide-vue-next'
-    import { computed, ref, watch } from 'vue'
+    import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
     import { useRoute } from 'vue-router'
+    import CartDrawer from '~/components/ui/CartDrawer.vue'
+    // Hide header on scroll down, show on scroll up
+    const hideHeader = ref(false)
+    let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0
+    let ticking = false
+
+    function onScroll() {
+        if (typeof window === 'undefined') return;
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const currentY = window.scrollY
+                if (currentY > lastScrollY && currentY > 80) {
+                    hideHeader.value = true
+                } else {
+                    hideHeader.value = false
+                }
+                lastScrollY = currentY
+                ticking = false
+            })
+            ticking = true
+        }
+    }
+
+    onMounted(() => {
+        window.addEventListener('scroll', onScroll)
+    })
+    onBeforeUnmount(() => {
+        window.removeEventListener('scroll', onScroll)
+    })
     // Import JSON directly - no fetch needed, data available immediately
     import hardwareCategoriesData from '~/assets/data/Hardware/categories.json'
     import softwareCategoriesData from '~/assets/data/Software/categories.json'

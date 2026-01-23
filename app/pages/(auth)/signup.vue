@@ -12,7 +12,7 @@
         </div>
 
         <!-- Form Card -->
-        <div class="relative z-10 w-full max-w-xl my-8">
+        <div class="relative z-10 w-full max-w-xl my-2">
             <div class="backdrop-blur-md bg-white/10 p-8 sm:p-10 rounded-2xl shadow-2xl border border-white/20">
 
 
