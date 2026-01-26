@@ -1,0 +1,31 @@
+[
+  {
+    "id": 100,
+    "name": "Computers",
+    "slug": "computers",
+    "image": "",
+    "subcategories": []
+  },
+  {
+    "id": 101,
+    "name": "Clearance",
+    "slug": "clearance",
+    "image": "",
+    "subcategories": []
+  },
+  {
+    "id": 102,
+    "name": "Desktops",
+    "slug": "desktops",
+    "image": "",
+    "subcategories": []
+  },
+  {
+    "id": 103,
+    "name": "Mini PC",
+    "slug": "mini-pc",
+    "image": "",
+    "subcategories": []
+  }
+
+]

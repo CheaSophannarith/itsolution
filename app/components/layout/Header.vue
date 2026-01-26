@@ -93,14 +93,19 @@
                     <nav class="flex items-center">
                         <div v-for="item in navItems" :key="item.name" class="relative"
                             @mouseenter="openDropdown(item.name)" @mouseleave="closeDropdown">
-                            <component :is="item.children ? 'button' : 'NuxtLink'"
-                                :to="item.children ? undefined : item.href" :class="[
-                                    'px-4 xl:px-6 py-3 text-brand-foreground font-medium transition-colors flex items-center gap-1 cursor-pointer text-sm xl:text-base',
-                                    activeDropdown === item.name ? 'bg-white/20' : 'hover:bg-white/10'
-                                ]">
+                            <NuxtLink v-if="!item.children" :to="item.href" :class="[
+                                'px-4 xl:px-6 py-3 text-brand-foreground font-medium transition-colors flex items-center gap-1 cursor-pointer text-sm xl:text-base',
+                                activeDropdown === item.name ? 'bg-white/20' : 'hover:bg-white/10'
+                            ]">
                                 {{ item.name }}
-                                <ChevronDown v-if="item.children" class="w-4 h-4" />
-                            </component>
+                            </NuxtLink>
+                            <button v-else type="button" :class="[
+                                'px-4 xl:px-6 py-3 text-brand-foreground font-medium transition-colors flex items-center gap-1 cursor-pointer text-sm xl:text-base',
+                                activeDropdown === item.name ? 'bg-white/20' : 'hover:bg-white/10'
+                            ]">
+                                {{ item.name }}
+                                <ChevronDown class="w-4 h-4" />
+                            </button>
                         </div>
                     </nav>
 
@@ -409,8 +414,31 @@
         ]
     })
 
+    // Import Desktops categories
+    import desktopsCategoriesData from '~/assets/data/Desktops/categories.json'
+    const desktopsCategories = ref(desktopsCategoriesData)
+
+    // Build Desktops nav children
+    const desktopsNavChildren = computed<NavSubcategory[]>(() => [
+        { name: 'All Desktops', href: '/desktops' },
+        ...desktopsCategories.value.map((category: any) => ({
+            name: category.name,
+            href: `/desktops/categories/${category.slug}`,
+            children: category.subcategories?.length
+                ? category.subcategories.map((sub: any) => ({
+                    name: sub.name,
+                    href: `/desktops/categories/${category.slug}/${sub.slug}`
+                }))
+                : undefined
+        }))
+    ])
+
     const navItems = computed<NavItem[]>(() => [
-        { name: 'Desktops', href: '/desktops' },
+        {
+            name: 'Desktops',
+            href: '/desktops',
+            children: desktopsNavChildren.value
+        },
         {
             name: 'Laptops', href: '/laptops', children: [
                 { name: 'Business Laptops', href: '/laptops/business' },
@@ -428,11 +456,13 @@
             href: '/software',
             children: softwareNavChildren.value
         },
-        { name: 'Services', href: '/services', children: [
-            { name: 'Services', href: '/services' },
-            { name: 'School Management System', href: '/services/school-management-system' },
-            { name: 'Scholarship Management System', href: '/services/scholarship-management-system' },
-        ] },
+        {
+            name: 'Services', href: '/services', children: [
+                { name: 'Services', href: '/services' },
+                { name: 'School Management System', href: '/services/school-management-system' },
+                { name: 'Scholarship Management System', href: '/services/scholarship-management-system' },
+            ]
+        },
     ])
 
     const activeDropdown = ref<string | null>(null)
