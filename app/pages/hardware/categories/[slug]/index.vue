@@ -445,6 +445,10 @@
     // Pagination
     const totalPages = computed(() => Math.ceil(filteredProducts.value.length / itemsPerPage));
 
+    watch(currentPage, () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
     const paginatedProducts = computed(() => {
         const start = (currentPage.value - 1) * itemsPerPage;
         return filteredProducts.value.slice(start, start + itemsPerPage);

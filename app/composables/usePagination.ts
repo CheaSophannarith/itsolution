@@ -22,7 +22,11 @@ export function usePagination<T>(
 
     watch(currentPage, () => {
         nextTick(() => {
-            scrollTarget?.value?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (scrollTarget?.value) {
+                scrollTarget.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
     });
 
