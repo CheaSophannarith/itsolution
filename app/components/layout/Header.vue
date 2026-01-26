@@ -299,11 +299,10 @@
     onBeforeUnmount(() => {
         window.removeEventListener('scroll', onScroll)
     })
-    // Import JSON directly - no fetch needed, data available immediately
-    import hardwareCategoriesData from '~/assets/data/Hardware/categories.json'
-    import softwareCategoriesData from '~/assets/data/Software/categories.json'
+    import type { CategoryTree } from '~/types'
 
     const route = useRoute()
+    const { categories } = useCategories()
 
     interface NavChild {
         name: string
@@ -321,23 +320,6 @@
         href: string
         children?: NavSubcategory[]
     }
-
-    interface Category {
-        id: number
-        name: string
-        slug: string
-        description?: string
-        subcategories?: {
-            id: number
-            name: string
-            slug: string
-            description?: string
-        }[]
-    }
-
-    // Use imported JSON data directly - always available, no fetch, no caching issues
-    const hardwareCategories = ref<Category[]>(hardwareCategoriesData)
-    const softwareCategories = ref<Category[]>(softwareCategoriesData)
 
     // Mobile menu state
     const mobileMenuOpen = ref(false)
@@ -376,110 +358,48 @@
         mobileActiveNestedSubmenu.value = mobileActiveNestedSubmenu.value === name ? null : name
     }
 
-    // Transform hardware categories to navigation format
-    const hardwareNavChildren = computed<NavSubcategory[]>(() => {
-        if (!hardwareCategories.value) return []
-
-        return [
-            { name: 'All Hardware', href: '/hardware' },
-            ...hardwareCategories.value.map(category => ({
-                name: category.name,
-                href: `/hardware/categories/${category.slug}`,
-                children: category.subcategories?.length
-                    ? category.subcategories.map(sub => ({
-                        name: sub.name,
-                        href: `/hardware/categories/${category.slug}/${sub.slug}`
-                    }))
-                    : undefined
-            }))
-        ]
-    })
-
-    // Transform software categories to navigation format
-    const softwareNavChildren = computed<NavSubcategory[]>(() => {
-        if (!softwareCategories.value) return []
-
-        return [
-            { name: 'All Software', href: '/software' },
-            ...softwareCategories.value.map(category => ({
-                name: category.name,
-                href: `/software/categories/${category.slug}`,
-                children: category.subcategories?.length
-                    ? category.subcategories.map(sub => ({
-                        name: sub.name,
-                        href: `/software/categories/${category.slug}/${sub.slug}`
-                    }))
-                    : undefined
-            }))
-        ]
-    })
-
-    // Import Desktops categories
-    import desktopsCategoriesData from '~/assets/data/Desktops/categories.json'
-    const desktopsCategories = ref(desktopsCategoriesData)
-
-    // Build Desktops nav children
-    const desktopsNavChildren = computed<NavSubcategory[]>(() => [
-        { name: 'All Desktops', href: '/desktops' },
-        ...desktopsCategories.value.map((category: any) => ({
-            name: category.name,
-            href: `/desktops/categories/${category.slug}`,
-            children: category.subcategories?.length
-                ? category.subcategories.map((sub: any) => ({
-                    name: sub.name,
-                    href: `/desktops/categories/${category.slug}/${sub.slug}`
+    // Transform a CategoryTree node's children into NavSubcategory format
+    function buildNavChildren(node: CategoryTree): NavSubcategory[] {
+        return node.children.map(child => ({
+            name: child.name,
+            href: `/categories/${child.slug}`,
+            children: child.children.length
+                ? child.children.map(nested => ({
+                    name: nested.name,
+                    href: `/categories/${nested.slug}`,
                 }))
-                : undefined
+                : undefined,
         }))
-    ])
+    }
 
-    // Import Desktops categories
-    import laptopsCategoriesData from '~/assets/data/Desktops/categories.json'
-    const laptopsCategories = ref(laptopsCategoriesData)
+    // Build navigation items from API categories tree
+    const navItems = computed<NavItem[]>(() => {
+        const items: NavItem[] = []
 
-    // Build Desktops nav children
-    const lapNavChildren = computed<NavSubcategory[]>(() => [
-        { name: 'All Laptops', href: '/laptops' },
-        ...laptopsCategories.value.map((category: any) => ({
-            name: category.name,
-            href: `/laptops/categories/${category.slug}`,
-            children: category.subcategories?.length
-                ? category.subcategories.map((sub: any) => ({
-                    name: sub.name,
-                    href: `/laptops/categories/${category.slug}/${sub.slug}`
-                }))
-                : undefined
-        }))
-    ])
+        if (categories.value) {
+            for (const rootCategory of categories.value) {
+                items.push({
+                    name: rootCategory.name,
+                    href: `/categories/${rootCategory.slug}`,
+                    children: [
+                        { name: `All ${rootCategory.name}`, href: `/categories/${rootCategory.slug}` },
+                        ...buildNavChildren(rootCategory),
+                    ],
+                })
+            }
+        }
 
-    const navItems = computed<NavItem[]>(() => [
-        {
-            name: 'Desktops',
-            href: '/desktops',
-            children: desktopsNavChildren.value
-        },
-        {
-            name: 'Laptops', href: '/laptops', 
-            children: lapNavChildren.value
-        },
-        {
-            name: 'Hardware',
-            href: '/hardware',
-            children: hardwareNavChildren.value
-        },
-        {
-            name: 'Software',
-            href: '/software',
-            children: softwareNavChildren.value
-        },
-        {
+        // Static nav items
+        items.push({
             name: 'Services', href: '/services', children: [
                 { name: 'Services', href: '/services' },
                 { name: 'University Management System', href: '/services/university-management-system' },
                 { name: 'Scholarship Management System', href: '/services/scholarship-management-system' },
             ]
-        },
-    ])
+        })
+
+        return items
+    })
 
     const activeDropdown = ref<string | null>(null)
     const activeSubcategory = ref<NavSubcategory | null>(null)
