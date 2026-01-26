@@ -22,7 +22,8 @@
                             The National Platform for Higher Education Data Management and Ministry Oversight
                         </p>
                         <p class="text-white/70 mb-8">
-                            A project for the <strong class="text-white">Ministry of Education, Youth and Sport</strong>,
+                            A project for the <strong class="text-white">Ministry of Education, Youth and
+                                Sport</strong>,
                             implemented by <strong class="text-white">IT Solution Digital</strong>.
                         </p>
                         <div class="flex flex-wrap gap-4">
@@ -53,8 +54,10 @@
                     <div>
                         <h2 class="text-2xl sm:text-3xl font-bold text-blue-950 mb-4">What is HEMIS?</h2>
                         <p class="text-gray-600 mb-4">
-                            HEMIS is the official flagship platform of Cambodia's Ministry of Education, Youth and Sports.
-                            It centralizes and standardizes all higher education information into a single national database.
+                            HEMIS is the official flagship platform of Cambodia's Ministry of Education, Youth and
+                            Sports.
+                            It centralizes and standardizes all higher education information into a single national
+                            database.
                         </p>
                         <p class="text-gray-600 mb-6">
                             The system revolutionizes oversight by modernizing institutional management and enabling
@@ -63,11 +66,13 @@
                         <ul class="space-y-3">
                             <li class="flex items-start gap-3 hover:translate-x-1 transition-transform duration-200">
                                 <Check class="w-5 h-5 text-pink-500 mt-0.5" />
-                                <span class="text-gray-700">Complete visibility of all higher education institutions</span>
+                                <span class="text-gray-700">Complete visibility of all higher education
+                                    institutions</span>
                             </li>
                             <li class="flex items-start gap-3 hover:translate-x-1 transition-transform duration-200">
                                 <Check class="w-5 h-5 text-pink-500 mt-0.5" />
-                                <span class="text-gray-700">Systematic monitoring to improve educational standards</span>
+                                <span class="text-gray-700">Systematic monitoring to improve educational
+                                    standards</span>
                             </li>
                             <li class="flex items-start gap-3 hover:translate-x-1 transition-transform duration-200">
                                 <Check class="w-5 h-5 text-pink-500 mt-0.5" />
@@ -78,6 +83,47 @@
                     <div class="overflow-hidden rounded-lg">
                         <img src="/Images/Hemis/Hemis Admin/Graphic-Data.png" alt="HEMIS Analytics"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System User Roles Section -->
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-blue-950 mb-4">System User Roles</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">
+                        HEMIS is designed with two distinct user roles to ensure efficient data management
+                        and oversight across all higher education institutions.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    <!-- HEMIS Admin -->
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div class="w-12 h-12 bg-blue-950 rounded-lg flex items-center justify-center mb-4">
+                            <Settings class="w-6 h-6 text-white" />
+                        </div>
+                        <h3 class="text-lg font-bold text-blue-950 mb-2">HEMIS Admin</h3>
+                        <p class="text-gray-600 text-sm">
+                            Central administration for the Ministry of Education to manage all higher education
+                            institutions, monitor data submissions, generate national reports, and oversee
+                            the entire higher education sector.
+                        </p>
+                    </div>
+
+                    <!-- University Account -->
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div class="w-12 h-12 bg-blue-950 rounded-lg flex items-center justify-center mb-4">
+                            <GraduationCap class="w-6 h-6 text-white" />
+                        </div>
+                        <h3 class="text-lg font-bold text-blue-950 mb-2">University Account</h3>
+                        <p class="text-gray-600 text-sm">
+                            Each institution has access to their own portal for managing and submitting
+                            student data, staff information, academic programs, and institutional reports
+                            to the central HEMIS system.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -212,7 +258,7 @@
         </section>
 
         <!-- University Portal Section -->
-        <section class="py-16 bg-white">
+        <section class="py-16 bg-gray-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
@@ -275,21 +321,23 @@
 </template>
 
 <script setup lang="ts">
-import {
-    ChevronRight,
-    MessageCircle,
-    FileText,
-    Check,
-    ArrowLeft
-} from 'lucide-vue-next'
+    import {
+        ChevronRight,
+        MessageCircle,
+        FileText,
+        Check,
+        ArrowLeft,
+        Settings,
+        GraduationCap
+    } from 'lucide-vue-next'
 
-useHead({
-    title: 'HEMIS - University Management System',
-    meta: [
-        {
-            name: 'description',
-            content: 'HEMIS - Higher Education Management Information System. The national platform for higher education data management in Cambodia.'
-        }
-    ]
-})
+    useHead({
+        title: 'HEMIS - University Management System',
+        meta: [
+            {
+                name: 'description',
+                content: 'HEMIS - Higher Education Management Information System. The national platform for higher education data management in Cambodia.'
+            }
+        ]
+    })
 </script>

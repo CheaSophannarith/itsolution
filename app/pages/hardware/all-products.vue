@@ -1,7 +1,8 @@
 <template>
     <div class="min-h-screen">
         <!-- Hero Section -->
-        <div class="w-full px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16" style="background: linear-gradient(135deg, #459bcc 0%, #172554 100%)">
+        <div class="w-full px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16"
+            style="background: linear-gradient(135deg, #459bcc 0%, #172554 100%)">
             <div class="max-w-7xl mx-auto px-2 sm:px-6">
                 <!-- Breadcrumb -->
                 <nav class="flex items-center gap-1 sm:gap-2 text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
@@ -23,10 +24,8 @@
 
         <div class="flex flex-col lg:flex-row mx-auto max-w-7xl px-4 sm:px-6 py-6 sm:py-8 lg:py-12 gap-6 lg:gap-16">
             <!-- Mobile Filter Toggle Button -->
-            <button
-                @click="toggleFilters"
-                class="lg:hidden flex items-center justify-center gap-2 w-full py-3 bg-brand text-white rounded-lg font-medium"
-            >
+            <button @click="toggleFilters"
+                class="lg:hidden flex items-center justify-center gap-2 w-full py-3 bg-brand text-white rounded-lg font-medium">
                 <SlidersHorizontal class="w-5 h-5" />
                 {{ filtersOpen ? 'Hide Filters' : 'Show Filters' }}
                 <span v-if="activeFilterCount > 0" class="bg-white text-brand text-xs rounded-full px-2 py-0.5">
@@ -35,29 +34,22 @@
             </button>
 
             <!-- Sidebar Filters -->
-            <Transition
-                enter-active-class="transition ease-out duration-200"
+            <Transition enter-active-class="transition ease-out duration-200"
                 enter-from-class="opacity-0 -translate-y-2 max-h-0"
                 enter-to-class="opacity-100 translate-y-0 max-h-[2000px]"
                 leave-active-class="transition ease-in duration-150"
                 leave-from-class="opacity-100 translate-y-0 max-h-[2000px]"
-                leave-to-class="opacity-0 -translate-y-2 max-h-0"
-            >
-                <aside
-                    v-show="filtersOpen || isLargeScreen"
-                    class="w-full lg:w-64 shrink-0 overflow-hidden"
-                >
-                    <div class="bg-white lg:bg-transparent p-4 lg:p-0 rounded-lg lg:rounded-none border lg:border-0 border-gray-200">
+                leave-to-class="opacity-0 -translate-y-2 max-h-0">
+                <aside v-show="filtersOpen || isLargeScreen" class="w-full lg:w-64 shrink-0 overflow-hidden">
+                    <div
+                        class="bg-white lg:bg-transparent p-4 lg:p-0 rounded-lg lg:rounded-none border lg:border-0 border-gray-200">
                         <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-4">Filters</h2>
 
                         <div class="flex shadow-sm">
                             <input type="text" placeholder="Search products..."
                                 class="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 border border-r-0 border-gray-300 focus:outline-none focus:border-brand focus:ring-brand text-sm rounded-l"
-                                v-model="searchQuery"
-                                @keyup.enter="updateFilters"
-                            />
-                            <button
-                                @click="updateFilters"
+                                v-model="searchQuery" @keyup.enter="updateFilters" />
+                            <button @click="updateFilters"
                                 class="bg-brand text-white px-3 sm:px-4 py-2 sm:py-2.5 hover:bg-brand/90 transition-colors flex items-center justify-center rounded-r">
                                 <Search class="w-4 h-4" />
                             </button>
@@ -65,14 +57,14 @@
 
                         <!-- Manufacturer Filter -->
                         <div class="mb-4 sm:mb-6 mt-4 sm:mt-6">
-                            <button
-                                @click="toggleFilterSection('manufacturer')"
-                                class="flex items-center justify-between w-full text-base sm:text-lg text-pink-500 font-bold mb-2 sm:mb-3 border-b border-pink-500 py-2"
-                            >
+                            <button @click="toggleFilterSection('manufacturer')"
+                                class="flex items-center justify-between w-full text-base sm:text-lg text-pink-500 font-bold mb-2 sm:mb-3 border-b border-pink-500 py-2">
                                 Manufacturer
-                                <ChevronDown :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.manufacturer ? 'rotate-180' : '']" />
+                                <ChevronDown
+                                    :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.manufacturer ? 'rotate-180' : '']" />
                             </button>
-                            <div :class="['space-y-1 sm:space-y-2 max-h-48 overflow-y-auto pr-2', { 'hidden lg:block': !expandedSections.manufacturer }]">
+                            <div
+                                :class="['space-y-1 sm:space-y-2 max-h-48 overflow-y-auto pr-2', { 'hidden lg:block': !expandedSections.manufacturer }]">
                                 <label v-for="manufacturer in manufacturers" :key="manufacturer.id"
                                     class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
                                     <input type="checkbox" :value="manufacturer.id" v-model="selectedManufacturers"
@@ -84,12 +76,11 @@
 
                         <!-- MSRP Filter -->
                         <div class="mb-4 sm:mb-6">
-                            <button
-                                @click="toggleFilterSection('price')"
-                                class="flex items-center justify-between w-full text-base sm:text-lg text-pink-500 font-bold mb-2 sm:mb-3 border-b border-pink-500 py-2"
-                            >
+                            <button @click="toggleFilterSection('price')"
+                                class="flex items-center justify-between w-full text-base sm:text-lg text-pink-500 font-bold mb-2 sm:mb-3 border-b border-pink-500 py-2">
                                 Price Range
-                                <ChevronDown :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.price ? 'rotate-180' : '']" />
+                                <ChevronDown
+                                    :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.price ? 'rotate-180' : '']" />
                             </button>
                             <div :class="['space-y-1 sm:space-y-2', { 'hidden lg:block': !expandedSections.price }]">
                                 <label v-for="range in msrpRanges" :key="range.id"
@@ -103,12 +94,11 @@
 
                         <!-- Type Filter -->
                         <div class="mb-4 sm:mb-6">
-                            <button
-                                @click="toggleFilterSection('type')"
-                                class="flex items-center justify-between w-full text-base sm:text-lg text-pink-500 font-bold mb-2 sm:mb-3 border-b border-pink-500 py-2"
-                            >
+                            <button @click="toggleFilterSection('type')"
+                                class="flex items-center justify-between w-full text-base sm:text-lg text-pink-500 font-bold mb-2 sm:mb-3 border-b border-pink-500 py-2">
                                 Type
-                                <ChevronDown :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.type ? 'rotate-180' : '']" />
+                                <ChevronDown
+                                    :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.type ? 'rotate-180' : '']" />
                             </button>
                             <div :class="['space-y-1 sm:space-y-2', { 'hidden lg:block': !expandedSections.type }]">
                                 <label v-for="productType in types" :key="productType.id"
@@ -121,11 +111,8 @@
                         </div>
 
                         <!-- Clear All Filters Button (Mobile) -->
-                        <button
-                            v-if="hasActiveFilters"
-                            @click="clearAllFilters"
-                            class="lg:hidden w-full py-2 text-pink-500 border border-pink-500 rounded-lg font-medium mt-2 hover:bg-pink-50 transition-colors"
-                        >
+                        <button v-if="hasActiveFilters" @click="clearAllFilters"
+                            class="lg:hidden w-full py-2 text-pink-500 border border-pink-500 rounded-lg font-medium mt-2 hover:bg-pink-50 transition-colors">
                             Clear All Filters
                         </button>
                     </div>
@@ -144,24 +131,22 @@
                     </span>
                     <span v-for="id in selectedManufacturers" :key="'m-' + id"
                         class="px-2 sm:px-3 py-1 bg-pink-100 text-pink-700 text-xs sm:text-sm rounded-full flex items-center gap-1">
-                        {{ manufacturers.find(m => m.id === id)?.name }}
+                        {{manufacturers.find(m => m.id === id)?.name}}
                         <button @click="removeManufacturer(id)" class="hover:text-pink-900">&times;</button>
                     </span>
                     <span v-for="id in selectedMsrp" :key="'p-' + id"
                         class="px-2 sm:px-3 py-1 bg-pink-100 text-pink-700 text-xs sm:text-sm rounded-full flex items-center gap-1">
-                        {{ msrpRanges.find(r => r.id === id)?.label }}
+                        {{msrpRanges.find(r => r.id === id)?.label}}
                         <button @click="removeMsrp(id)" class="hover:text-pink-900">&times;</button>
                     </span>
                     <span v-for="id in selectedTypes" :key="'t-' + id"
                         class="px-2 sm:px-3 py-1 bg-pink-100 text-pink-700 text-xs sm:text-sm rounded-full flex items-center gap-1">
-                        {{ types.find(t => t.id === id)?.slug }}
+                        {{types.find(t => t.id === id)?.slug}}
                         <button @click="removeType(id)" class="hover:text-pink-900">&times;</button>
                     </span>
                     <!-- Clear All (Desktop) -->
-                    <button
-                        @click="clearAllFilters"
-                        class="hidden lg:inline-flex px-3 py-1 text-pink-500 text-sm hover:underline"
-                    >
+                    <button @click="clearAllFilters"
+                        class="hidden lg:inline-flex px-3 py-1 text-pink-500 text-sm hover:underline">
                         Clear all
                     </button>
                 </div>
@@ -169,7 +154,8 @@
                 <!-- Sort and View Options -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
                     <p class="text-gray-600 text-sm sm:text-base">
-                        Showing <span class="font-semibold">{{ paginatedProducts.length }}</span> of <span class="font-semibold">{{ filteredProducts.length }}</span> products
+                        Showing <span class="font-semibold">{{ paginatedProducts.length }}</span> of <span
+                            class="font-semibold">{{ filteredProducts.length }}</span> products
                     </p>
                     <div class="flex items-center gap-2 sm:gap-4">
                         <label class="text-sm text-gray-600 hidden sm:inline">Sort by:</label>
@@ -194,33 +180,20 @@
                     <Package class="w-12 h-12 sm:w-16 sm:h-16 text-gray-300 mx-auto mb-3 sm:mb-4" />
                     <h3 class="text-base sm:text-lg font-semibold text-gray-600">No products found</h3>
                     <p class="text-gray-500 mt-2 text-sm sm:text-base">Try adjusting your filters</p>
-                    <button
-                        v-if="hasActiveFilters"
-                        @click="clearAllFilters"
-                        class="mt-4 px-4 py-2 bg-brand text-white rounded-lg text-sm hover:bg-brand/90 transition-colors"
-                    >
+                    <button v-if="hasActiveFilters" @click="clearAllFilters"
+                        class="mt-4 px-4 py-2 bg-brand text-white rounded-lg text-sm hover:bg-brand/90 transition-colors">
                         Clear All Filters
                     </button>
                 </div>
 
                 <!-- Pagination -->
-                <Pagination
-                    v-if="totalPages > 1"
-                    v-model:page="currentPage"
-                    :total="filteredProducts.length"
-                    :items-per-page="itemsPerPage"
-                    :sibling-count="isMobile ? 0 : 1"
-                    show-edges
-                    class="mt-6 sm:mt-8"
-                >
+                <Pagination v-if="totalPages > 1" v-model:page="currentPage" :total="filteredProducts.length"
+                    :items-per-page="itemsPerPage" :sibling-count="isMobile ? 0 : 1" show-edges class="mt-6 sm:mt-8">
                     <PaginationContent v-slot="{ items }" class="flex-wrap justify-center gap-1">
                         <PaginationPrevious />
                         <template v-for="(item, index) in items" :key="index">
-                            <PaginationItem
-                                v-if="item.type === 'page'"
-                                :value="item.value"
-                                :is-active="item.value === currentPage"
-                            >
+                            <PaginationItem v-if="item.type === 'page'" :value="item.value"
+                                :is-active="item.value === currentPage">
                                 {{ item.value }}
                             </PaginationItem>
                             <PaginationEllipsis v-else :index="index" />
@@ -254,6 +227,13 @@
     import msrpData from '~/assets/data/Hardware/msrp.json';
     import typesData from '~/assets/data/Hardware/type.json';
     import productsData from '~/assets/data/Hardware/products.json';
+
+    useHead({
+        title: 'All Products - Hardware | Tan',
+        meta: [
+            { name: 'description', content: 'Browse all hardware products' }
+        ]
+    });
 
     const route = useRoute();
     const router = useRouter();

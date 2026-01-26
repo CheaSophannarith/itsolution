@@ -305,6 +305,16 @@
     import productsData from '~/assets/data/Hardware/products.json';
     import brandsData from '~/assets/data/Hardware/brand.json';
 
+    useHead({
+        title: 'Hardware Products - Tan',
+        meta: [
+            {
+                name: 'description',
+                content: 'Explore our wide range of computer hardware products for your business workplace.',
+            },
+        ],
+    });
+
     const router = useRouter();
     const manufacturers = manufacturersData as Manufacturer[];
     const products = productsData as Product[];
