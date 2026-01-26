@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "name": "University Management System",
+        "description": "A comprehensive system designed to manage various administrative and academic functions of a university, including student enrollment, course management, faculty administration, and reporting.",
+        "image": "/Hemis.png",
+        "powerpoint": "/documents/HEMIS.pptx",
+        "slug": "university-management-system"
+    },
+    {
+        "id": 2,
+        "name": "Scholarship Management System",
+        "description": "A system to manage scholarship applications, eligibility criteria, and award distributions for students.",
+        "image": "/Scholarship.png",
+        "powerpoint": "/documents/Scholarship-Management-System.pptx",
+        "slug": "scholarship-management-system"
+    }
+]
