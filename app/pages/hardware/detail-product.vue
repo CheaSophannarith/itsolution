@@ -39,6 +39,16 @@ interface Product {
     featured: boolean;
 }
 
+useHead({
+    title: 'Product Detail - Hardware',
+    meta: [
+        {
+            name: 'description',
+            content: 'Detailed information about the selected hardware product.',
+        },
+    ],
+});
+
 const route = useRoute();
 const products = productsData as Product[];
 
