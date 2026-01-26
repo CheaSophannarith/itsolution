@@ -7,16 +7,16 @@
                 <nav class="flex items-center gap-1 sm:gap-2 text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
                     <NuxtLink to="/" class="hover:text-white">Home</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <NuxtLink to="/desktops" class="hover:text-white">Desktops</NuxtLink>
+                    <NuxtLink to="/laptops" class="hover:text-white">Laptops</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
                     <span class="text-white">All Products</span>
                 </nav>
 
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4">
-                    All Desktop Products
+                    All Laptop Products
                 </h1>
                 <p class="text-white/90 max-w-2xl text-sm sm:text-base">
-                    Browse our complete collection of desktop products
+                    Browse our complete collection of laptop products
                 </p>
             </div>
         </div>
@@ -186,7 +186,7 @@
 
                 <!-- Products Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-                    <DesktopsProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
+                    <LaptopsProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
                 </div>
 
                 <!-- Empty State -->
@@ -246,10 +246,10 @@
         PaginationNext,
         PaginationPrevious,
     } from '~/components/ui/pagination';
-    import manufacturersData from '~/assets/data/Desktops/manufacturers.json';
-    import msrpData from '~/assets/data/Desktops/msrp.json';
-    import typesData from '~/assets/data/Desktops/type.json';
-    import productsData from '~/assets/data/Desktops/products.json';
+    import manufacturersData from '~/assets/data/Laptops/manufacturers.json';
+    import msrpData from '~/assets/data/Laptops/msrp.json';
+    import typesData from '~/assets/data/Laptops/type.json';
+    import productsData from '~/assets/data/Laptops/products.json';
 
     interface Manufacturer {
         id: number;
@@ -491,9 +491,9 @@
     });
 
     useHead({
-        title: 'All Products - Desktops | Tan',
+        title: 'All Products - Laptops | Tan',
         meta: [
-            { name: 'description', content: 'Browse all desktop products' }
+            { name: 'description', content: 'Browse all laptop products' }
         ]
     });
 </script>

@@ -433,6 +433,25 @@
         }))
     ])
 
+    // Import Desktops categories
+    import laptopsCategoriesData from '~/assets/data/Desktops/categories.json'
+    const laptopsCategories = ref(laptopsCategoriesData)
+
+    // Build Desktops nav children
+    const lapNavChildren = computed<NavSubcategory[]>(() => [
+        { name: 'All Laptops', href: '/laptops' },
+        ...laptopsCategories.value.map((category: any) => ({
+            name: category.name,
+            href: `/laptops/categories/${category.slug}`,
+            children: category.subcategories?.length
+                ? category.subcategories.map((sub: any) => ({
+                    name: sub.name,
+                    href: `/laptops/categories/${category.slug}/${sub.slug}`
+                }))
+                : undefined
+        }))
+    ])
+
     const navItems = computed<NavItem[]>(() => [
         {
             name: 'Desktops',
@@ -440,11 +459,8 @@
             children: desktopsNavChildren.value
         },
         {
-            name: 'Laptops', href: '/laptops', children: [
-                { name: 'Business Laptops', href: '/laptops/business' },
-                { name: 'Gaming Laptops', href: '/laptops/gaming' },
-                { name: '2-in-1 Laptops', href: '/laptops/2-in-1' },
-            ]
+            name: 'Laptops', href: '/laptops', 
+            children: lapNavChildren.value
         },
         {
             name: 'Hardware',
@@ -459,7 +475,7 @@
         {
             name: 'Services', href: '/services', children: [
                 { name: 'Services', href: '/services' },
-                { name: 'School Management System', href: '/services/school-management-system' },
+                { name: 'University Management System', href: '/services/university-management-system' },
                 { name: 'Scholarship Management System', href: '/services/scholarship-management-system' },
             ]
         },

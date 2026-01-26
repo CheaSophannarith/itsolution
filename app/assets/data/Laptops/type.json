@@ -1,0 +1,8 @@
+[
+  { "id": 1, "slug": "Ultrabook" },
+  { "id": 2, "slug": "Gaming" },
+  { "id": 3, "slug": "2-in-1" },
+  { "id": 4, "slug": "Workstation" },
+  { "id": 5, "slug": "Chromebook" },
+  { "id": 6, "slug": "Budget" }
+]

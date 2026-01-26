@@ -1,12 +1,12 @@
 <template>
     <div>
-        <DesktopsProductDetail v-if="product" :product="product" />
+        <LaptopsProductDetail v-if="product" :product="product" />
         <div v-else class="min-h-screen flex items-center justify-center">
             <div class="text-center">
                 <h1 class="text-2xl font-bold text-gray-800 mb-2">Product Not Found</h1>
                 <p class="text-gray-600 mb-4">The product you're looking for doesn't exist.</p>
-                <NuxtLink to="/desktops" class="text-brand hover:underline">
-                    Back to Desktops
+                <NuxtLink to="/laptops" class="text-brand hover:underline">
+                    Back to Laptops
                 </NuxtLink>
             </div>
         </div>
@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import productsData from '~/assets/data/Desktops/products.json';
+import productsData from '~/assets/data/Laptops/products.json';
 
 interface DescriptionItem {
     label: string;
