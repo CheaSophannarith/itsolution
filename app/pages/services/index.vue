@@ -36,7 +36,7 @@
                     <div class="flex flex-col sm:flex-row items-stretch">
                         <!-- Service Image -->
                         <div class="sm:w-48 md:w-56 lg:w-64 shrink-0">
-                            <NuxtLink :to="`/services/${service.slug}`" class="block h-full">
+                            <NuxtLink :to="getServiceLink(service)" class="block h-full">
                                 <img :src="service.image" :alt="service.name"
                                     class="w-full h-48 sm:h-full object-cover" />
                             </NuxtLink>
@@ -46,7 +46,7 @@
                         <div
                             class="flex-1 p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                             <div class="flex-1">
-                                <NuxtLink :to="`/services/${service.slug}`"
+                                <NuxtLink :to="getServiceLink(service)"
                                     class="text-lg sm:text-xl font-bold text-gray-800 hover:text-pink-500 transition-colors">
                                     {{ service.name }}
                                 </NuxtLink>
@@ -90,7 +90,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ChevronRight, MessageCircle, Eye } from 'lucide-vue-next'
+    import { MessageCircle, Eye } from 'lucide-vue-next'
     import servicesData from '~/assets/data/Service/system.json'
 
     interface Service {
@@ -103,6 +103,15 @@
     }
 
     const services = ref<Service[]>(servicesData)
+
+    // Static pages mapping - services with dedicated static pages
+    const staticPages: Record<string, string> = {
+        'university-management-system': '/services/university-management-system'
+    }
+
+    const getServiceLink = (service: Service): string => {
+        return staticPages[service.slug] || `/services/${service.slug}`
+    }
 
     useHead({
         title: 'Services - Software Solutions',
