@@ -7,16 +7,16 @@
                 <nav class="flex items-center gap-1 sm:gap-2 text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
                     <NuxtLink to="/" class="hover:text-white">Home</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <NuxtLink to="/hardware" class="hover:text-white">Hardware</NuxtLink>
+                    <NuxtLink to="/laptops" class="hover:text-white">Laptops</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span class="text-white">{{ category?.name }}</span>
+                    <span class="text-white">All Products</span>
                 </nav>
 
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4">
-                    {{ category?.name }}
+                    All Laptop Products
                 </h1>
                 <p class="text-white/90 max-w-2xl text-sm sm:text-base">
-                    {{ category?.description }}
+                    Browse our complete collection of laptop products
                 </p>
             </div>
         </div>
@@ -48,55 +48,41 @@
                     class="w-full lg:w-64 shrink-0 overflow-hidden"
                 >
                     <div class="bg-white lg:bg-transparent p-4 lg:p-0 rounded-lg lg:rounded-none border lg:border-0 border-gray-200">
-                        <!-- Current Category & Subcategories -->
-                        <div class="mb-4 sm:mb-6" v-if="category">
-                            <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">{{ category.name }}</h2>
-                            <div class="space-y-1">
-                                <NuxtLink
-                                    v-for="sub in category.subcategories"
-                                    :key="sub.id"
-                                    :to="`/hardware/categories/${category.slug}/${sub.slug}`"
-                                    class="block py-2 px-3 text-sm text-gray-600 hover:text-brand hover:bg-gray-50 rounded transition-colors border-b border-gray-100 last:border-b-0"
-                                >
-                                    {{ sub.name }}
-                                </NuxtLink>
-                            </div>
-                        </div>
-
-                        <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">Filters</h2>
+                        <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-4">Filters</h2>
 
                         <div class="flex shadow-sm">
                             <input type="text" placeholder="Search products..."
                                 class="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 border border-r-0 border-gray-300 focus:outline-none focus:border-brand focus:ring-brand text-sm rounded-l"
-                                v-model="nameSearch"
-                                @keyup.enter="applyFilters" />
+                                v-model="searchQuery"
+                                @keyup.enter="updateFilters"
+                            />
                             <button
-                                class="bg-brand text-white px-3 sm:px-4 py-2 sm:py-2.5 hover:bg-brand/90 transition-colors flex items-center justify-center rounded-r"
-                                @click="applyFilters">
+                                @click="updateFilters"
+                                class="bg-brand text-white px-3 sm:px-4 py-2 sm:py-2.5 hover:bg-brand/90 transition-colors flex items-center justify-center rounded-r">
                                 <Search class="w-4 h-4" />
                             </button>
                         </div>
 
-                        <!-- Brand Filter -->
+                        <!-- Manufacturer Filter -->
                         <div class="mb-4 sm:mb-6 mt-4 sm:mt-6">
                             <button
-                                @click="toggleFilterSection('brand')"
+                                @click="toggleFilterSection('manufacturer')"
                                 class="flex items-center justify-between w-full text-base sm:text-lg text-pink-500 font-bold mb-2 sm:mb-3 border-b border-pink-500 py-2"
                             >
-                                Brand
-                                <ChevronDown :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.brand ? 'rotate-180' : '']" />
+                                Manufacturer
+                                <ChevronDown :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.manufacturer ? 'rotate-180' : '']" />
                             </button>
-                            <div :class="['space-y-1 sm:space-y-2 max-h-48 overflow-y-auto pr-2', { 'hidden lg:block': !expandedSections.brand }]">
-                                <label v-for="brand in brands" :key="brand.id"
+                            <div :class="['space-y-1 sm:space-y-2 max-h-48 overflow-y-auto pr-2', { 'hidden lg:block': !expandedSections.manufacturer }]">
+                                <label v-for="manufacturer in manufacturers" :key="manufacturer.id"
                                     class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
-                                    <input type="checkbox" :value="brand.id" v-model="selectedBrands"
+                                    <input type="checkbox" :value="manufacturer.id" v-model="selectedManufacturers"
                                         class="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-brand" />
-                                    <span class="text-sm text-gray-700">{{ brand.name }}</span>
+                                    <span class="text-sm text-gray-700">{{ manufacturer.name }}</span>
                                 </label>
                             </div>
                         </div>
 
-                        <!-- Price Range Filter -->
+                        <!-- MSRP Filter -->
                         <div class="mb-4 sm:mb-6">
                             <button
                                 @click="toggleFilterSection('price')"
@@ -106,33 +92,30 @@
                                 <ChevronDown :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.price ? 'rotate-180' : '']" />
                             </button>
                             <div :class="['space-y-1 sm:space-y-2', { 'hidden lg:block': !expandedSections.price }]">
-                                <label v-for="range in priceRanges" :key="range.id"
+                                <label v-for="range in msrpRanges" :key="range.id"
                                     class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
-                                    <input type="checkbox" :value="range.id" v-model="selectedPriceRanges"
+                                    <input type="checkbox" :value="range.id" v-model="selectedMsrp"
                                         class="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-brand" />
                                     <span class="text-sm text-gray-700">{{ range.label }}</span>
                                 </label>
                             </div>
                         </div>
 
-                        <!-- Rating Filter -->
+                        <!-- Type Filter -->
                         <div class="mb-4 sm:mb-6">
                             <button
-                                @click="toggleFilterSection('rating')"
+                                @click="toggleFilterSection('type')"
                                 class="flex items-center justify-between w-full text-base sm:text-lg text-pink-500 font-bold mb-2 sm:mb-3 border-b border-pink-500 py-2"
                             >
-                                Rating
-                                <ChevronDown :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.rating ? 'rotate-180' : '']" />
+                                Type
+                                <ChevronDown :class="['w-5 h-5 transition-transform lg:hidden', expandedSections.type ? 'rotate-180' : '']" />
                             </button>
-                            <div :class="['space-y-1 sm:space-y-2', { 'hidden lg:block': !expandedSections.rating }]">
-                                <label v-for="rating in ratingOptions" :key="rating"
+                            <div :class="['space-y-1 sm:space-y-2', { 'hidden lg:block': !expandedSections.type }]">
+                                <label v-for="productType in types" :key="productType.id"
                                     class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
-                                    <input type="checkbox" :value="rating" v-model="selectedRatings"
+                                    <input type="checkbox" :value="productType.id" v-model="selectedTypes"
                                         class="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-brand" />
-                                    <span class="text-sm text-gray-700 flex items-center gap-1">
-                                        {{ rating }}+
-                                        <Star class="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                                    </span>
+                                    <span class="text-sm text-gray-700">{{ productType.slug }}</span>
                                 </label>
                             </div>
                         </div>
@@ -154,26 +137,27 @@
                 <!-- Active Filters Display -->
                 <div v-if="hasActiveFilters" class="mb-4 sm:mb-6 flex flex-wrap gap-2 items-center">
                     <span class="text-xs sm:text-sm text-gray-600">Active filters:</span>
-                    <span v-if="appliedSearch"
+                    <span v-if="searchQuery"
                         class="px-2 sm:px-3 py-1 bg-pink-100 text-pink-700 text-xs sm:text-sm rounded-full flex items-center gap-1">
-                        Search: "{{ appliedSearch }}"
-                        <button @click="nameSearch = ''; applyFilters()" class="hover:text-pink-900">&times;</button>
+                        Search: "{{ searchQuery }}"
+                        <button @click="searchQuery = ''; updateFilters()" class="hover:text-pink-900">&times;</button>
                     </span>
-                    <span v-for="id in selectedBrands" :key="'b-' + id"
+                    <span v-for="id in selectedManufacturers" :key="'m-' + id"
                         class="px-2 sm:px-3 py-1 bg-pink-100 text-pink-700 text-xs sm:text-sm rounded-full flex items-center gap-1">
-                        {{ brands.find(b => b.id === id)?.name }}
-                        <button @click="removeBrand(id)" class="hover:text-pink-900">&times;</button>
+                        {{ manufacturers.find(m => m.id === id)?.name }}
+                        <button @click="removeManufacturer(id)" class="hover:text-pink-900">&times;</button>
                     </span>
-                    <span v-for="id in selectedPriceRanges" :key="'p-' + id"
+                    <span v-for="id in selectedMsrp" :key="'p-' + id"
                         class="px-2 sm:px-3 py-1 bg-pink-100 text-pink-700 text-xs sm:text-sm rounded-full flex items-center gap-1">
-                        {{ priceRanges.find(r => r.id === id)?.label }}
-                        <button @click="removePriceRange(id)" class="hover:text-pink-900">&times;</button>
+                        {{ msrpRanges.find(r => r.id === id)?.label }}
+                        <button @click="removeMsrp(id)" class="hover:text-pink-900">&times;</button>
                     </span>
-                    <span v-for="rating in selectedRatings" :key="'r-' + rating"
+                    <span v-for="id in selectedTypes" :key="'t-' + id"
                         class="px-2 sm:px-3 py-1 bg-pink-100 text-pink-700 text-xs sm:text-sm rounded-full flex items-center gap-1">
-                        {{ rating }}+ stars
-                        <button @click="removeRating(rating)" class="hover:text-pink-900">&times;</button>
+                        {{ types.find(t => t.id === id)?.slug }}
+                        <button @click="removeType(id)" class="hover:text-pink-900">&times;</button>
                     </span>
+                    <!-- Clear All (Desktop) -->
                     <button
                         @click="clearAllFilters"
                         class="hidden lg:inline-flex px-3 py-1 text-pink-500 text-sm hover:underline"
@@ -202,7 +186,7 @@
 
                 <!-- Products Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-                    <HardwareProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
+                    <LaptopsProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
                 </div>
 
                 <!-- Empty State -->
@@ -251,9 +235,9 @@
 
 <script setup lang="ts">
     import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
-    import { useRoute } from 'vue-router';
-    import { useHead, createError } from '#imports';
-    import { ChevronRight, ChevronDown, Star, Package, Search, SlidersHorizontal } from 'lucide-vue-next';
+    import { useRoute, useRouter } from 'vue-router';
+    import { useHead } from '#imports';
+    import { ChevronRight, ChevronDown, Package, Search, SlidersHorizontal } from 'lucide-vue-next';
     import {
         Pagination,
         PaginationContent,
@@ -262,33 +246,74 @@
         PaginationNext,
         PaginationPrevious,
     } from '~/components/ui/pagination';
-    import type { Category } from '~/types/models/category';
-    import type { Product } from '~/types/models/product';
-    import type { Brand } from '~/types/models/brand';
-    import type { MsrpRange } from '~/types/models/msrp-range';
-    import categoriesData from '~/assets/data/Hardware/categories.json';
-    import productsData from '~/assets/data/Hardware/products.json';
-    import brand from '~/assets/data/Hardware/brand.json';
-    import msrpData from '~/assets/data/Hardware/msrp.json';
+    import manufacturersData from '~/assets/data/Laptops/manufacturers.json';
+    import msrpData from '~/assets/data/Laptops/msrp.json';
+    import typesData from '~/assets/data/Laptops/type.json';
+    import productsData from '~/assets/data/Laptops/products.json';
+
+    interface Manufacturer {
+        id: number;
+        name: string;
+    }
+
+    interface MsrpRange {
+        id: number;
+        label: string;
+        min: number;
+        max: number | null;
+    }
+
+    interface ProductType {
+        id: number;
+        slug: string;
+    }
+
+    interface DescriptionItem {
+        label: string;
+        value: string;
+    }
+
+    interface Product {
+        id: number;
+        name: string;
+        description: DescriptionItem[];
+        price: number;
+        manufacturer_id: number;
+        brand_id: number;
+        category_id: number;
+        subcategory_ids: number[];
+        type_ids: number[];
+        image: string;
+        stock: number;
+        rating: number;
+        featured: boolean;
+    }
 
     const route = useRoute();
-    const slug = computed(() => route.params.slug as string);
+    const router = useRouter();
 
-    const categories = categoriesData as Category[];
+    const manufacturers = manufacturersData as Manufacturer[];
     const products = productsData as Product[];
-    const brands = brand as Brand[];
+    const msrpRanges = msrpData as MsrpRange[];
+    const types = typesData as ProductType[];
 
-    const nameSearch = ref('');
-    const appliedSearch = ref('');
+    // Filter states
+    const searchQuery = ref('');
+    const selectedManufacturers = ref<number[]>([]);
+    const selectedMsrp = ref<number[]>([]);
+    const selectedTypes = ref<number[]>([]);
+    const sortBy = ref('featured');
+    const currentPage = ref(1);
+    const itemsPerPage = 12;
 
     // Mobile/responsive states
     const filtersOpen = ref(false);
     const isLargeScreen = ref(true);
     const isMobile = ref(false);
     const expandedSections = ref({
-        brand: true,
+        manufacturer: true,
         price: true,
-        rating: true
+        type: true
     });
 
     // Handle screen resize
@@ -303,6 +328,8 @@
     onMounted(() => {
         handleResize();
         window.addEventListener('resize', handleResize);
+        initFiltersFromQuery();
+        isInitialized.value = true;
     });
 
     onUnmounted(() => {
@@ -313,113 +340,123 @@
         filtersOpen.value = !filtersOpen.value;
     };
 
-    const toggleFilterSection = (section: 'brand' | 'price' | 'rating') => {
+    const toggleFilterSection = (section: 'manufacturer' | 'price' | 'type') => {
         if (!isLargeScreen.value) {
             expandedSections.value[section] = !expandedSections.value[section];
         }
     };
 
-    // Find the current category based on slug
-    const category = computed(() => {
-        return categories.find(c => c.slug === slug.value);
-    });
+    const isInitialized = ref(false);
 
-    // Get products for this category
-    const categoryProducts = computed(() => {
-        if (!category.value) return [];
-        return products.filter(p => p.category_id === category.value!.id);
-    });
-
-    // Filter states
-    const selectedBrands = ref<number[]>([]);
-    const selectedPriceRanges = ref<number[]>([]);
-    const selectedRatings = ref<number[]>([]);
-    const sortBy = ref('featured');
-    const currentPage = ref(1);
-    const itemsPerPage = 12;
-
-    // Price range options from msrp.json
-    const priceRanges = msrpData as MsrpRange[];
-
-    // Rating options
-    const ratingOptions = [4, 3, 2, 1];
-
-    // Check if any filters are active
-    const hasActiveFilters = computed(() => {
-        return appliedSearch.value.trim() !== '' ||
-            selectedBrands.value.length > 0 ||
-            selectedPriceRanges.value.length > 0 ||
-            selectedRatings.value.length > 0;
-    });
-
-    // Count active filters for badge
     const activeFilterCount = computed(() => {
         let count = 0;
-        if (appliedSearch.value.trim()) count++;
-        count += selectedBrands.value.length;
-        count += selectedPriceRanges.value.length;
-        count += selectedRatings.value.length;
+        if (searchQuery.value.trim()) count++;
+        count += selectedManufacturers.value.length;
+        count += selectedMsrp.value.length;
+        count += selectedTypes.value.length;
         return count;
     });
 
-    // Remove individual filters
-    const removeBrand = (id: number) => {
-        selectedBrands.value = selectedBrands.value.filter(b => b !== id);
+    const initFiltersFromQuery = () => {
+        const query = route.query;
+        searchQuery.value = (query.search as string) || '';
+        selectedManufacturers.value = query.manufacturers
+            ? (query.manufacturers as string).split(',').map(Number)
+            : [];
+        selectedMsrp.value = query.msrp
+            ? (query.msrp as string).split(',').map(Number)
+            : [];
+        selectedTypes.value = query.types
+            ? (query.types as string).split(',').map(Number)
+            : [];
     };
 
-    const removePriceRange = (id: number) => {
-        selectedPriceRanges.value = selectedPriceRanges.value.filter(p => p !== id);
-    };
+    const hasActiveFilters = computed(() => {
+        return searchQuery.value.trim() !== '' ||
+            selectedManufacturers.value.length > 0 ||
+            selectedMsrp.value.length > 0 ||
+            selectedTypes.value.length > 0;
+    });
 
-    const removeRating = (rating: number) => {
-        selectedRatings.value = selectedRatings.value.filter(r => r !== rating);
-    };
-
-    // Clear all filters
-    const clearAllFilters = () => {
-        nameSearch.value = '';
-        appliedSearch.value = '';
-        selectedBrands.value = [];
-        selectedPriceRanges.value = [];
-        selectedRatings.value = [];
+    const updateFilters = () => {
+        const query: Record<string, string> = {};
+        if (searchQuery.value.trim()) {
+            query.search = searchQuery.value.trim();
+        }
+        if (selectedManufacturers.value.length > 0) {
+            query.manufacturers = selectedManufacturers.value.join(',');
+        }
+        if (selectedMsrp.value.length > 0) {
+            query.msrp = selectedMsrp.value.join(',');
+        }
+        if (selectedTypes.value.length > 0) {
+            query.types = selectedTypes.value.join(',');
+        }
+        router.replace({ query });
         currentPage.value = 1;
     };
 
-    // Filtered products
+    const clearAllFilters = () => {
+        searchQuery.value = '';
+        selectedManufacturers.value = [];
+        selectedMsrp.value = [];
+        selectedTypes.value = [];
+        router.replace({ query: {} });
+        currentPage.value = 1;
+    };
+
+    watch([selectedManufacturers, selectedMsrp, selectedTypes], () => {
+        if (isInitialized.value) {
+            updateFilters();
+        }
+    });
+
+    watch(searchQuery, (newVal, oldVal) => {
+        if (isInitialized.value && newVal === '' && oldVal !== '') {
+            updateFilters();
+        }
+    });
+
+    const removeManufacturer = (id: number) => {
+        selectedManufacturers.value = selectedManufacturers.value.filter(m => m !== id);
+    };
+
+    const removeMsrp = (id: number) => {
+        selectedMsrp.value = selectedMsrp.value.filter(m => m !== id);
+    };
+
+    const removeType = (id: number) => {
+        selectedTypes.value = selectedTypes.value.filter(t => t !== id);
+    };
+
     const filteredProducts = computed(() => {
-        let result = [...categoryProducts.value];
+        let result = [...products];
 
-        // Filter by name search (partial match, case-insensitive)
-        if (appliedSearch.value.trim()) {
-            const searchTerm = appliedSearch.value.toLowerCase().trim();
+        if (searchQuery.value.trim()) {
+            const search = searchQuery.value.toLowerCase().trim();
             result = result.filter(p =>
-                p.name.toLowerCase().includes(searchTerm) ||
-                p.description.some(d => d.value.toLowerCase().includes(searchTerm))
+                p.name.toLowerCase().includes(search) ||
+                p.description.some(d => d.value.toLowerCase().includes(search))
             );
         }
 
-        // Filter by subcategories
-        if (selectedBrands.value.length > 0) {
-            result = result.filter(p =>
-                selectedBrands.value.includes(p.brand_id)
-            );
+        if (selectedManufacturers.value.length > 0) {
+            result = result.filter(p => selectedManufacturers.value.includes(p.manufacturer_id));
         }
 
-        // Filter by price range
-        if (selectedPriceRanges.value.length > 0) {
-            const selectedRanges = priceRanges.filter(r => selectedPriceRanges.value.includes(r.id));
+        if (selectedMsrp.value.length > 0) {
+            const selectedRanges = msrpRanges.filter(r => selectedMsrp.value.includes(r.id));
             result = result.filter(p =>
                 selectedRanges.some(range => p.price >= range.min && (range.max === null || p.price < range.max))
             );
         }
 
-        // Filter by rating
-        if (selectedRatings.value.length > 0) {
-            const minRating = Math.min(...selectedRatings.value);
-            result = result.filter(p => p.rating >= minRating);
+        if (selectedTypes.value.length > 0) {
+            result = result.filter(p =>
+                p.type_ids.some(tid => selectedTypes.value.includes(tid))
+            );
         }
 
-        // Sort products
         switch (sortBy.value) {
             case 'price-asc':
                 result.sort((a, b) => a.price - b.price);
@@ -442,7 +479,6 @@
         return result;
     });
 
-    // Pagination
     const totalPages = computed(() => Math.ceil(filteredProducts.value.length / itemsPerPage));
 
     watch(currentPage, () => {
@@ -454,50 +490,14 @@
         return filteredProducts.value.slice(start, start + itemsPerPage);
     });
 
-    const applyFilters = () => {
-        appliedSearch.value = nameSearch.value;
-        currentPage.value = 1;
-    };
-
-    // Reset page when filters change
-    watch([selectedBrands, selectedPriceRanges, selectedRatings], () => {
-        currentPage.value = 1;
+    watch(() => route.query, () => {
+        initFiltersFromQuery();
     });
 
-    watch(nameSearch, (newVal, oldVal) => {
-        if (newVal === '') {
-            appliedSearch.value = '';
-            currentPage.value = 1;
-        }
-    });
-
-    // Handle 404 if category not found
-    if (!category.value) {
-        throw createError({
-            statusCode: 404,
-            statusMessage: 'Category Not Found'
-        });
-    }
-
-    // SEO
     useHead({
-        title: `${category.value?.name} - Hardware | Tan`,
+        title: 'All Products - Laptops | Tan',
         meta: [
-            { name: 'description', content: category.value?.description }
+            { name: 'description', content: 'Browse all laptop products' }
         ]
     });
 </script>
-
-<style scoped>
-
-    .slide-up-enter-active,
-    .slide-up-leave-active {
-        transition: all 0.3s ease;
-    }
-
-    .slide-up-enter-from,
-    .slide-up-leave-to {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-</style>

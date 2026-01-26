@@ -7,10 +7,10 @@
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 sm:mb-6">
                     Desktops
                 </h1>
-                <button
-                    class="bg-white text-gray-800 px-4 sm:px-6 py-2 sm:py-3 rounded-none font-medium hover:bg-gray-100 transition-colors text-sm sm:text-base">
+                <NuxtLink to="/desktops/all-products"
+                    class="bg-white text-gray-800 px-4 sm:px-6 py-2 sm:py-3 rounded-none font-medium hover:bg-gray-100 transition-colors text-sm sm:text-base inline-block">
                     Shop all Desktops
-                </button>
+                </NuxtLink>
             </div>
         </div>
 
@@ -60,10 +60,6 @@
                             :items="types.map(type => ({ id: type.id, name: type.slug ?? '' }))" v-model="selectedTypes"
                             :expanded="expandedSections.type" @toggle="toggleFilterSection('type')" />
 
-                        <!-- Platform Filter -->
-                        <FilterCategorySection label="Platform" :items="platforms" v-model="selectedPlatforms"
-                            :expanded="expandedSections.platform" @toggle="toggleFilterSection('platform')" />
-
                         <!-- Clear All Filters Button (Mobile) -->
                         <button v-if="hasActiveFilters" @click="clearFilters"
                             class="lg:hidden w-full py-2 text-pink-500 border border-pink-500 rounded-lg font-medium mt-4 hover:bg-pink-50 transition-colors">
@@ -88,7 +84,7 @@
                     <!-- Categories Grid -->
                     <div
                         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 items-start">
-                        <SoftwareCategoriesCard v-for="category in displayedCategories" :key="category.id"
+                        <DesktopsCategoriesCard v-for="category in displayedCategories" :key="category.id"
                             :category="category" :is-expanded="expandedCategoryId === category.id"
                             @toggle="handleCategoryToggle" />
                     </div>
@@ -105,6 +101,41 @@
                         <div class="flex-1 border-t border-pink-500"></div>
                     </div>
                 </div>
+
+                <!-- All Products Section -->
+                <div ref="allProductsSection" class="mt-12 sm:mt-16">
+                    <h2 class="text-blue-950 text-xl sm:text-2xl font-bold mb-6 sm:mb-8">All Products</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+                        <DesktopsProductCard v-for="product in paginatedProducts" :key="product.id"
+                            :product="product" />
+                    </div>
+
+                    <!-- Pagination -->
+                    <Pagination
+                        v-if="totalPages > 1"
+                        v-model:page="currentPage"
+                        :total="products.length"
+                        :items-per-page="itemsPerPage"
+                        :sibling-count="1"
+                        show-edges
+                        class="mt-6 sm:mt-8"
+                    >
+                        <PaginationContent v-slot="{ items }" class="flex-wrap justify-center gap-1">
+                            <PaginationPrevious />
+                            <template v-for="(item, index) in items" :key="index">
+                                <PaginationItem
+                                    v-if="item.type === 'page'"
+                                    :value="item.value"
+                                    :is-active="item.value === currentPage"
+                                >
+                                    {{ item.value }}
+                                </PaginationItem>
+                                <PaginationEllipsis v-else :index="index" />
+                            </template>
+                            <PaginationNext />
+                        </PaginationContent>
+                    </Pagination>
+                </div>
             </main>
         </div>
     </div>
@@ -117,28 +148,43 @@
     import brandData from '~/assets/data/Desktops/brand.json';
     import categoriesData from '~/assets/data/Desktops/categories.json';
     import processorData from '~/assets/data/Desktops/processor.json';
-    import platformData from '~/assets/data/Software/platform.json';
-    import typesData from '~/assets/data/Software/type.json';
+    import productsData from '~/assets/data/Desktops/products.json';
+    import typesData from '~/assets/data/Desktops/type.json';
     import FilterApplyBar from '~/components/ui/FilterApplyBar.vue';
     import FilterCategorySection from '~/components/ui/FilterCategorySection.vue';
-    import type { Category, SubCategory } from '~/types';
+    import {
+        Pagination,
+        PaginationContent,
+        PaginationEllipsis,
+        PaginationItem,
+        PaginationNext,
+        PaginationPrevious,
+    } from '~/components/ui/pagination';
+
+    interface SubCategory {
+        id: number;
+        name: string;
+        slug: string;
+    }
+
+    interface Category {
+        id: number;
+        name: string;
+        slug: string;
+        image: string;
+        subcategories: SubCategory[];
+    }
 
     useHead({
-        title: 'Software',
-
+        title: 'Desktops | Tan',
     });
-
 
     const router = useRouter();
     const brands = brandData as SubCategory[];
     const processors = processorData as SubCategory[];
     const types = typesData as SubCategory[];
-    // Map 'subcategories' to 'subCategories' to match the Category interface, and type as Category[]
-    const categories: Category[] = (categoriesData as any[]).map((cat) => ({
-        ...cat,
-        subCategories: cat.subcategories || [],
-    }));
-    const platforms = platformData as SubCategory[];
+    const categories = categoriesData as Category[];
+    const products = productsData as any[];
     const searchQuery = ref('');
 
     // Mobile/responsive states
@@ -148,7 +194,6 @@
         brand: true,
         processor: true,
         type: true,
-        platform: true,
     });
 
     // Handle screen resize
@@ -172,7 +217,7 @@
         filtersOpen.value = !filtersOpen.value;
     };
 
-    const toggleFilterSection = (section: 'brand' | 'processor' | 'type' | 'platform') => {
+    const toggleFilterSection = (section: 'brand' | 'processor' | 'type') => {
         if (!isLargeScreen.value) {
             expandedSections.value[section] = !expandedSections.value[section];
         }
@@ -181,10 +226,14 @@
     const selectedBrands = ref<number[]>([]);
     const selectedProcessor = ref<number[]>([]);
     const selectedTypes = ref<number[]>([]);
-    const selectedPlatforms = ref<number[]>([]);
-    // Removed showAllManufacturers, now handled in FilterCategorySection
     const showAllCategories = ref(false);
+    const allProductsSection = ref<HTMLElement | null>(null);
     const expandedCategoryId = ref<number | null>(null);
+
+    const { currentPage, itemsPerPage, totalPages, paginatedItems: paginatedProducts } = usePagination(
+        products,
+        { itemsPerPage: 8, scrollTarget: allProductsSection }
+    );
 
     const handleCategoryToggle = (categoryId: number) => {
         if (expandedCategoryId.value === categoryId) {
@@ -194,24 +243,26 @@
         }
     };
 
-
     const displayedCategories = computed(() => {
         return showAllCategories.value ? categories : categories.slice(0, 8);
+    });
+
+    const featuredProducts = computed(() => {
+        return products.filter(p => p.featured);
     });
 
     // Check if any filters are active
     const hasActiveFilters = computed(() => {
         return selectedBrands.value.length > 0 ||
             selectedProcessor.value.length > 0 ||
-            selectedTypes.value.length > 0 ||
-            selectedPlatforms.value.length > 0;
+            selectedTypes.value.length > 0;
     });
 
     // Count total active filters
     const activeFilterCount = computed(() => {
         return selectedBrands.value.length +
             selectedProcessor.value.length +
-            selectedTypes.value.length + selectedPlatforms.value.length;
+            selectedTypes.value.length;
     });
 
     // Apply filters function - navigate to all-products page with query params
@@ -230,12 +281,9 @@
         if (selectedTypes.value.length > 0) {
             query.types = selectedTypes.value.join(',');
         }
-        if (selectedPlatforms.value.length > 0) {
-            query.platforms = selectedPlatforms.value.join(',');
-        }
 
         router.push({
-            path: '/software/all-products',
+            path: '/desktops/all-products',
             query
         });
     };
@@ -245,15 +293,10 @@
         selectedBrands.value = [];
         selectedProcessor.value = [];
         selectedTypes.value = [];
-        selectedPlatforms.value = [];
     };
-
-
-
 </script>
 
 <style scoped>
-
     .slide-up-enter-active,
     .slide-up-leave-active {
         transition: all 0.3s ease;

@@ -1,0 +1,45 @@
+[
+  {
+    "id": 200,
+    "name": "Business Laptops",
+    "slug": "business-laptops",
+    "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400",
+    "subcategories": [
+      { "id": 2001, "name": "Ultrabooks", "slug": "ultrabooks" },
+      { "id": 2002, "name": "Workstation Laptops", "slug": "workstation-laptops" },
+      { "id": 2003, "name": "Enterprise Laptops", "slug": "enterprise-laptops" }
+    ]
+  },
+  {
+    "id": 201,
+    "name": "Gaming Laptops",
+    "slug": "gaming-laptops",
+    "image": "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400",
+    "subcategories": [
+      { "id": 2011, "name": "Entry Gaming", "slug": "entry-gaming" },
+      { "id": 2012, "name": "High-End Gaming", "slug": "high-end-gaming" },
+      { "id": 2013, "name": "Esports Laptops", "slug": "esports-laptops" }
+    ]
+  },
+  {
+    "id": 202,
+    "name": "Student Laptops",
+    "slug": "student-laptops",
+    "image": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=400",
+    "subcategories": [
+      { "id": 2021, "name": "Budget Laptops", "slug": "budget-laptops" },
+      { "id": 2022, "name": "Mid-Range Laptops", "slug": "mid-range-laptops" },
+      { "id": 2023, "name": "Chromebooks", "slug": "chromebooks" }
+    ]
+  },
+  {
+    "id": 203,
+    "name": "2-in-1 Laptops",
+    "slug": "2-in-1-laptops",
+    "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
+    "subcategories": [
+      { "id": 2031, "name": "Convertible Laptops", "slug": "convertible-laptops" },
+      { "id": 2032, "name": "Detachable Laptops", "slug": "detachable-laptops" }
+    ]
+  }
+]

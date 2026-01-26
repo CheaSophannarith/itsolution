@@ -7,16 +7,16 @@
                 <nav class="flex items-center gap-1 sm:gap-2 text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
                     <NuxtLink to="/" class="hover:text-white">Home</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <NuxtLink to="/software" class="hover:text-white">Software</NuxtLink>
+                    <NuxtLink to="/desktops" class="hover:text-white">Desktops</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
                     <span class="text-white">All Products</span>
                 </nav>
 
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4">
-                    All Software Products
+                    All Desktop Products
                 </h1>
                 <p class="text-white/90 max-w-2xl text-sm sm:text-base">
-                    Browse our complete collection of software products
+                    Browse our complete collection of desktop products
                 </p>
             </div>
         </div>
@@ -186,7 +186,7 @@
 
                 <!-- Products Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-                    <SoftwareProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
+                    <DesktopsProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
                 </div>
 
                 <!-- Empty State -->
@@ -246,10 +246,10 @@
         PaginationNext,
         PaginationPrevious,
     } from '~/components/ui/pagination';
-    import manufacturersData from '~/assets/data/Software/manufacturers.json';
-    import msrpData from '~/assets/data/Software/msrp.json';
-    import typesData from '~/assets/data/Software/type.json';
-    import productsData from '~/assets/data/Software/products.json';
+    import manufacturersData from '~/assets/data/Desktops/manufacturers.json';
+    import msrpData from '~/assets/data/Desktops/msrp.json';
+    import typesData from '~/assets/data/Desktops/type.json';
+    import productsData from '~/assets/data/Desktops/products.json';
 
     interface Manufacturer {
         id: number;
@@ -268,10 +268,15 @@
         slug: string;
     }
 
+    interface DescriptionItem {
+        label: string;
+        value: string;
+    }
+
     interface Product {
         id: number;
         name: string;
-        description: string;
+        description: DescriptionItem[];
         price: number;
         manufacturer_id: number;
         brand_id: number;
@@ -315,7 +320,6 @@
     const handleResize = () => {
         isLargeScreen.value = window.innerWidth >= 1024;
         isMobile.value = window.innerWidth < 640;
-        // Auto-close filters on large screens
         if (isLargeScreen.value) {
             filtersOpen.value = false;
         }
@@ -342,10 +346,8 @@
         }
     };
 
-    // Flag to prevent watch from triggering during initialization
     const isInitialized = ref(false);
 
-    // Count active filters for badge
     const activeFilterCount = computed(() => {
         let count = 0;
         if (searchQuery.value.trim()) count++;
@@ -355,10 +357,8 @@
         return count;
     });
 
-    // Initialize filters from query params
     const initFiltersFromQuery = () => {
         const query = route.query;
-
         searchQuery.value = (query.search as string) || '';
         selectedManufacturers.value = query.manufacturers
             ? (query.manufacturers as string).split(',').map(Number)
@@ -371,7 +371,6 @@
             : [];
     };
 
-    // Check if any filters are active
     const hasActiveFilters = computed(() => {
         return searchQuery.value.trim() !== '' ||
             selectedManufacturers.value.length > 0 ||
@@ -379,10 +378,8 @@
             selectedTypes.value.length > 0;
     });
 
-    // Update URL with current filters
     const updateFilters = () => {
         const query: Record<string, string> = {};
-
         if (searchQuery.value.trim()) {
             query.search = searchQuery.value.trim();
         }
@@ -395,12 +392,10 @@
         if (selectedTypes.value.length > 0) {
             query.types = selectedTypes.value.join(',');
         }
-
         router.replace({ query });
         currentPage.value = 1;
     };
 
-    // Clear all filters
     const clearAllFilters = () => {
         searchQuery.value = '';
         selectedManufacturers.value = [];
@@ -410,21 +405,18 @@
         currentPage.value = 1;
     };
 
-    // Watch filters and auto-update URL when they change
     watch([selectedManufacturers, selectedMsrp, selectedTypes], () => {
         if (isInitialized.value) {
             updateFilters();
         }
     });
 
-    // Watch search query with debounce effect (update on clear)
     watch(searchQuery, (newVal, oldVal) => {
         if (isInitialized.value && newVal === '' && oldVal !== '') {
             updateFilters();
         }
     });
 
-    // Remove individual filters
     const removeManufacturer = (id: number) => {
         selectedManufacturers.value = selectedManufacturers.value.filter(m => m !== id);
     };
@@ -437,25 +429,21 @@
         selectedTypes.value = selectedTypes.value.filter(t => t !== id);
     };
 
-    // Filtered products
     const filteredProducts = computed(() => {
         let result = [...products];
 
-        // Filter by search query
         if (searchQuery.value.trim()) {
             const search = searchQuery.value.toLowerCase().trim();
             result = result.filter(p =>
                 p.name.toLowerCase().includes(search) ||
-                p.description.toLowerCase().includes(search)
+                p.description.some(d => d.value.toLowerCase().includes(search))
             );
         }
 
-        // Filter by manufacturer
         if (selectedManufacturers.value.length > 0) {
             result = result.filter(p => selectedManufacturers.value.includes(p.manufacturer_id));
         }
 
-        // Filter by MSRP
         if (selectedMsrp.value.length > 0) {
             const selectedRanges = msrpRanges.filter(r => selectedMsrp.value.includes(r.id));
             result = result.filter(p =>
@@ -463,14 +451,12 @@
             );
         }
 
-        // Filter by type
         if (selectedTypes.value.length > 0) {
             result = result.filter(p =>
                 p.type_ids.some(tid => selectedTypes.value.includes(tid))
             );
         }
 
-        // Sort products
         switch (sortBy.value) {
             case 'price-asc':
                 result.sort((a, b) => a.price - b.price);
@@ -493,24 +479,25 @@
         return result;
     });
 
-    // Pagination
     const totalPages = computed(() => Math.ceil(filteredProducts.value.length / itemsPerPage));
+
+    watch(currentPage, () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
     const paginatedProducts = computed(() => {
         const start = (currentPage.value - 1) * itemsPerPage;
         return filteredProducts.value.slice(start, start + itemsPerPage);
     });
 
-    // Watch for query changes (e.g., browser back/forward)
     watch(() => route.query, () => {
         initFiltersFromQuery();
     });
 
-    // SEO
     useHead({
-        title: 'All Products - Software | Tan',
+        title: 'All Products - Desktops | Tan',
         meta: [
-            { name: 'description', content: 'Browse all software products' }
+            { name: 'description', content: 'Browse all desktop products' }
         ]
     });
 </script>

@@ -7,7 +7,7 @@
                 <nav class="flex items-center gap-1 sm:gap-2 text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
                     <NuxtLink to="/" class="hover:text-white">Home</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <NuxtLink to="/hardware" class="hover:text-white">Hardware</NuxtLink>
+                    <NuxtLink to="/laptops" class="hover:text-white">Laptops</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
                     <span class="text-white">{{ category?.name }}</span>
                 </nav>
@@ -16,7 +16,7 @@
                     {{ category?.name }}
                 </h1>
                 <p class="text-white/90 max-w-2xl text-sm sm:text-base">
-                    {{ category?.description }}
+                    Browse our selection of {{ category?.name?.toLowerCase() }} products.
                 </p>
             </div>
         </div>
@@ -49,13 +49,13 @@
                 >
                     <div class="bg-white lg:bg-transparent p-4 lg:p-0 rounded-lg lg:rounded-none border lg:border-0 border-gray-200">
                         <!-- Current Category & Subcategories -->
-                        <div class="mb-4 sm:mb-6" v-if="category">
+                        <div class="mb-4 sm:mb-6" v-if="category && category.subcategories.length > 0">
                             <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">{{ category.name }}</h2>
                             <div class="space-y-1">
                                 <NuxtLink
                                     v-for="sub in category.subcategories"
                                     :key="sub.id"
-                                    :to="`/hardware/categories/${category.slug}/${sub.slug}`"
+                                    :to="`/laptops/categories/${category.slug}/${sub.slug}`"
                                     class="block py-2 px-3 text-sm text-gray-600 hover:text-brand hover:bg-gray-50 rounded transition-colors border-b border-gray-100 last:border-b-0"
                                 >
                                     {{ sub.name }}
@@ -202,7 +202,7 @@
 
                 <!-- Products Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-                    <HardwareProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
+                    <LaptopsProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
                 </div>
 
                 <!-- Empty State -->
@@ -262,21 +262,64 @@
         PaginationNext,
         PaginationPrevious,
     } from '~/components/ui/pagination';
-    import type { Category } from '~/types/models/category';
-    import type { Product } from '~/types/models/product';
-    import type { Brand } from '~/types/models/brand';
-    import type { MsrpRange } from '~/types/models/msrp-range';
-    import categoriesData from '~/assets/data/Hardware/categories.json';
-    import productsData from '~/assets/data/Hardware/products.json';
-    import brand from '~/assets/data/Hardware/brand.json';
-    import msrpData from '~/assets/data/Hardware/msrp.json';
+    import categoriesData from '~/assets/data/Laptops/categories.json';
+    import productsData from '~/assets/data/Laptops/products.json';
+    import brandData from '~/assets/data/Laptops/brand.json';
+    import msrpData from '~/assets/data/Laptops/msrp.json';
+
+    interface Subcategory {
+        id: number;
+        name: string;
+        slug: string;
+    }
+
+    interface Category {
+        id: number;
+        name: string;
+        slug: string;
+        image: string;
+        subcategories: Subcategory[];
+    }
+
+    interface DescriptionItem {
+        label: string;
+        value: string;
+    }
+
+    interface Product {
+        id: number;
+        name: string;
+        description: DescriptionItem[];
+        price: number;
+        manufacturer_id: number;
+        brand_id: number;
+        category_id: number;
+        subcategory_ids: number[];
+        type_ids: number[];
+        image: string;
+        stock: number;
+        rating: number;
+        featured: boolean;
+    }
+
+    interface Brand {
+        id: number;
+        name: string;
+    }
+
+    interface MsrpRange {
+        id: number;
+        label: string;
+        min: number;
+        max: number | null;
+    }
 
     const route = useRoute();
     const slug = computed(() => route.params.slug as string);
 
     const categories = categoriesData as Category[];
     const products = productsData as Product[];
-    const brands = brand as Brand[];
+    const brands = brandData as Brand[];
 
     const nameSearch = ref('');
     const appliedSearch = ref('');
@@ -398,7 +441,7 @@
             );
         }
 
-        // Filter by subcategories
+        // Filter by brands
         if (selectedBrands.value.length > 0) {
             result = result.filter(p =>
                 selectedBrands.value.includes(p.brand_id)
@@ -464,7 +507,7 @@
         currentPage.value = 1;
     });
 
-    watch(nameSearch, (newVal, oldVal) => {
+    watch(nameSearch, (newVal) => {
         if (newVal === '') {
             appliedSearch.value = '';
             currentPage.value = 1;
@@ -481,23 +524,9 @@
 
     // SEO
     useHead({
-        title: `${category.value?.name} - Hardware | Tan`,
+        title: `${category.value?.name} - Laptops | Tan`,
         meta: [
-            { name: 'description', content: category.value?.description }
+            { name: 'description', content: `Browse our selection of ${category.value?.name?.toLowerCase()} products.` }
         ]
     });
 </script>
-
-<style scoped>
-
-    .slide-up-enter-active,
-    .slide-up-leave-active {
-        transition: all 0.3s ease;
-    }
-
-    .slide-up-enter-from,
-    .slide-up-leave-to {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-</style>

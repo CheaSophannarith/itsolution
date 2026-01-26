@@ -1,0 +1,8 @@
+[
+  { "id": 1, "slug": "Tower" },
+  { "id": 2, "slug": "Mini PC" },
+  { "id": 3, "slug": "All-in-One" },
+  { "id": 4, "slug": "Workstation" },
+  { "id": 5, "slug": "Gaming" },
+  { "id": 6, "slug": "Compact" }
+]

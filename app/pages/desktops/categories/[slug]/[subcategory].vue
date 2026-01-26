@@ -7,9 +7,9 @@
                 <nav class="flex items-center gap-1 sm:gap-2 text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
                     <NuxtLink to="/" class="hover:text-white">Home</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <NuxtLink to="/software" class="hover:text-white">Software</NuxtLink>
+                    <NuxtLink to="/desktops" class="hover:text-white">Desktops</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <NuxtLink :to="`/software/categories/${category?.slug}`" class="hover:text-white">
+                    <NuxtLink :to="`/desktops/categories/${category?.slug}`" class="hover:text-white">
                         {{ category?.name }}
                     </NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
@@ -191,7 +191,7 @@
 
                 <!-- Products Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-                    <SoftwareProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
+                    <DesktopsProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
                 </div>
 
                 <!-- Empty State -->
@@ -251,10 +251,10 @@
         PaginationNext,
         PaginationPrevious,
     } from '~/components/ui/pagination';
-    import categoriesData from '~/assets/data/Software/categories.json';
-    import productsData from '~/assets/data/Software/products.json';
-    import brandData from '~/assets/data/Software/brand.json';
-    import msrpData from '~/assets/data/Software/msrp.json';
+    import categoriesData from '~/assets/data/Desktops/categories.json';
+    import productsData from '~/assets/data/Desktops/products.json';
+    import brandData from '~/assets/data/Desktops/brand.json';
+    import msrpData from '~/assets/data/Desktops/msrp.json';
 
     interface Subcategory {
         id: number;
@@ -270,10 +270,15 @@
         subcategories: Subcategory[];
     }
 
+    interface DescriptionItem {
+        label: string;
+        value: string;
+    }
+
     interface Product {
         id: number;
         name: string;
-        description: string;
+        description: DescriptionItem[];
         price: number;
         manufacturer_id: number;
         brand_id: number;
@@ -289,8 +294,6 @@
     interface Brand {
         id: number;
         name: string;
-        image: string;
-        isPopular: boolean;
     }
 
     interface MsrpRange {
@@ -321,7 +324,6 @@
         rating: true
     });
 
-    // Handle screen resize
     const handleResize = () => {
         isLargeScreen.value = window.innerWidth >= 1024;
         isMobile.value = window.innerWidth < 640;
@@ -349,18 +351,15 @@
         }
     };
 
-    // Find the current category based on slug
     const category = computed(() => {
         return categories.find(c => c.slug === categorySlug.value);
     });
 
-    // Find the current subcategory based on slug
     const subcategory = computed(() => {
         if (!category.value) return null;
         return category.value.subcategories.find(s => s.slug === subcategorySlug.value);
     });
 
-    // Get products for this subcategory
     const subcategoryProducts = computed(() => {
         if (!category.value || !subcategory.value) return [];
         return products.filter(p =>
@@ -369,7 +368,6 @@
         );
     });
 
-    // Filter states
     const selectedBrands = ref<number[]>([]);
     const selectedPriceRanges = ref<number[]>([]);
     const selectedRatings = ref<number[]>([]);
@@ -377,13 +375,9 @@
     const currentPage = ref(1);
     const itemsPerPage = 12;
 
-    // Price range options from msrp.json
     const priceRanges = msrpData as MsrpRange[];
-
-    // Rating options
     const ratingOptions = [4, 3, 2, 1];
 
-    // Check if any filters are active
     const hasActiveFilters = computed(() => {
         return appliedSearch.value.trim() !== '' ||
             selectedBrands.value.length > 0 ||
@@ -391,7 +385,6 @@
             selectedRatings.value.length > 0;
     });
 
-    // Count active filters for badge
     const activeFilterCount = computed(() => {
         let count = 0;
         if (appliedSearch.value.trim()) count++;
@@ -401,7 +394,6 @@
         return count;
     });
 
-    // Remove individual filters
     const removeBrand = (id: number) => {
         selectedBrands.value = selectedBrands.value.filter(b => b !== id);
     };
@@ -414,7 +406,6 @@
         selectedRatings.value = selectedRatings.value.filter(r => r !== rating);
     };
 
-    // Clear all filters
     const clearAllFilters = () => {
         nameSearch.value = '';
         appliedSearch.value = '';
@@ -424,27 +415,23 @@
         currentPage.value = 1;
     };
 
-    // Filtered products
     const filteredProducts = computed(() => {
         let result = [...subcategoryProducts.value];
 
-        // Filter by name search (partial match, case-insensitive)
         if (appliedSearch.value.trim()) {
             const searchTerm = appliedSearch.value.toLowerCase().trim();
             result = result.filter(p =>
                 p.name.toLowerCase().includes(searchTerm) ||
-                p.description.toLowerCase().includes(searchTerm)
+                p.description.some(d => d.value.toLowerCase().includes(searchTerm))
             );
         }
 
-        // Filter by brands
         if (selectedBrands.value.length > 0) {
             result = result.filter(p =>
                 selectedBrands.value.includes(p.brand_id)
             );
         }
 
-        // Filter by price range
         if (selectedPriceRanges.value.length > 0) {
             const selectedRanges = priceRanges.filter(r => selectedPriceRanges.value.includes(r.id));
             result = result.filter(p =>
@@ -452,13 +439,11 @@
             );
         }
 
-        // Filter by rating
         if (selectedRatings.value.length > 0) {
             const minRating = Math.min(...selectedRatings.value);
             result = result.filter(p => p.rating >= minRating);
         }
 
-        // Sort products
         switch (sortBy.value) {
             case 'price-asc':
                 result.sort((a, b) => a.price - b.price);
@@ -481,8 +466,11 @@
         return result;
     });
 
-    // Pagination
     const totalPages = computed(() => Math.ceil(filteredProducts.value.length / itemsPerPage));
+
+    watch(currentPage, () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
     const paginatedProducts = computed(() => {
         const start = (currentPage.value - 1) * itemsPerPage;
@@ -494,7 +482,6 @@
         currentPage.value = 1;
     };
 
-    // Reset page when filters change
     watch([selectedBrands, selectedPriceRanges, selectedRatings], () => {
         currentPage.value = 1;
     });
@@ -506,7 +493,6 @@
         }
     });
 
-    // Handle 404 if category or subcategory not found
     if (!category.value) {
         throw createError({
             statusCode: 404,
@@ -521,7 +507,6 @@
         });
     }
 
-    // SEO
     useHead({
         title: `${subcategory.value?.name} - ${category.value?.name} | Tan`,
         meta: [

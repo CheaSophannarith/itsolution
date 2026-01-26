@@ -7,16 +7,20 @@
                 <nav class="flex items-center gap-1 sm:gap-2 text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
                     <NuxtLink to="/" class="hover:text-white">Home</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <NuxtLink to="/hardware" class="hover:text-white">Hardware</NuxtLink>
+                    <NuxtLink to="/laptops" class="hover:text-white">Laptops</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span class="text-white">{{ category?.name }}</span>
+                    <NuxtLink :to="`/laptops/categories/${category?.slug}`" class="hover:text-white">
+                        {{ category?.name }}
+                    </NuxtLink>
+                    <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
+                    <span class="text-white">{{ subcategory?.name }}</span>
                 </nav>
 
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4">
-                    {{ category?.name }}
+                    {{ subcategory?.name }}
                 </h1>
                 <p class="text-white/90 max-w-2xl text-sm sm:text-base">
-                    {{ category?.description }}
+                    Browse our selection of {{ subcategory?.name?.toLowerCase() }} in {{ category?.name }}.
                 </p>
             </div>
         </div>
@@ -48,21 +52,6 @@
                     class="w-full lg:w-64 shrink-0 overflow-hidden"
                 >
                     <div class="bg-white lg:bg-transparent p-4 lg:p-0 rounded-lg lg:rounded-none border lg:border-0 border-gray-200">
-                        <!-- Current Category & Subcategories -->
-                        <div class="mb-4 sm:mb-6" v-if="category">
-                            <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">{{ category.name }}</h2>
-                            <div class="space-y-1">
-                                <NuxtLink
-                                    v-for="sub in category.subcategories"
-                                    :key="sub.id"
-                                    :to="`/hardware/categories/${category.slug}/${sub.slug}`"
-                                    class="block py-2 px-3 text-sm text-gray-600 hover:text-brand hover:bg-gray-50 rounded transition-colors border-b border-gray-100 last:border-b-0"
-                                >
-                                    {{ sub.name }}
-                                </NuxtLink>
-                            </div>
-                        </div>
-
                         <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">Filters</h2>
 
                         <div class="flex shadow-sm">
@@ -202,7 +191,7 @@
 
                 <!-- Products Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-                    <HardwareProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
+                    <LaptopsProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
                 </div>
 
                 <!-- Empty State -->
@@ -262,21 +251,65 @@
         PaginationNext,
         PaginationPrevious,
     } from '~/components/ui/pagination';
-    import type { Category } from '~/types/models/category';
-    import type { Product } from '~/types/models/product';
-    import type { Brand } from '~/types/models/brand';
-    import type { MsrpRange } from '~/types/models/msrp-range';
-    import categoriesData from '~/assets/data/Hardware/categories.json';
-    import productsData from '~/assets/data/Hardware/products.json';
-    import brand from '~/assets/data/Hardware/brand.json';
-    import msrpData from '~/assets/data/Hardware/msrp.json';
+    import categoriesData from '~/assets/data/Laptops/categories.json';
+    import productsData from '~/assets/data/Laptops/products.json';
+    import brandData from '~/assets/data/Laptops/brand.json';
+    import msrpData from '~/assets/data/Laptops/msrp.json';
+
+    interface Subcategory {
+        id: number;
+        name: string;
+        slug: string;
+    }
+
+    interface Category {
+        id: number;
+        name: string;
+        slug: string;
+        image: string;
+        subcategories: Subcategory[];
+    }
+
+    interface DescriptionItem {
+        label: string;
+        value: string;
+    }
+
+    interface Product {
+        id: number;
+        name: string;
+        description: DescriptionItem[];
+        price: number;
+        manufacturer_id: number;
+        brand_id: number;
+        category_id: number;
+        subcategory_ids: number[];
+        type_ids: number[];
+        image: string;
+        stock: number;
+        rating: number;
+        featured: boolean;
+    }
+
+    interface Brand {
+        id: number;
+        name: string;
+    }
+
+    interface MsrpRange {
+        id: number;
+        label: string;
+        min: number;
+        max: number | null;
+    }
 
     const route = useRoute();
-    const slug = computed(() => route.params.slug as string);
+    const categorySlug = computed(() => route.params.slug as string);
+    const subcategorySlug = computed(() => route.params.subcategory as string);
 
     const categories = categoriesData as Category[];
     const products = productsData as Product[];
-    const brands = brand as Brand[];
+    const brands = brandData as Brand[];
 
     const nameSearch = ref('');
     const appliedSearch = ref('');
@@ -291,7 +324,6 @@
         rating: true
     });
 
-    // Handle screen resize
     const handleResize = () => {
         isLargeScreen.value = window.innerWidth >= 1024;
         isMobile.value = window.innerWidth < 640;
@@ -319,18 +351,23 @@
         }
     };
 
-    // Find the current category based on slug
     const category = computed(() => {
-        return categories.find(c => c.slug === slug.value);
+        return categories.find(c => c.slug === categorySlug.value);
     });
 
-    // Get products for this category
-    const categoryProducts = computed(() => {
-        if (!category.value) return [];
-        return products.filter(p => p.category_id === category.value!.id);
+    const subcategory = computed(() => {
+        if (!category.value) return null;
+        return category.value.subcategories.find(s => s.slug === subcategorySlug.value);
     });
 
-    // Filter states
+    const subcategoryProducts = computed(() => {
+        if (!category.value || !subcategory.value) return [];
+        return products.filter(p =>
+            p.category_id === category.value!.id &&
+            p.subcategory_ids.includes(subcategory.value!.id)
+        );
+    });
+
     const selectedBrands = ref<number[]>([]);
     const selectedPriceRanges = ref<number[]>([]);
     const selectedRatings = ref<number[]>([]);
@@ -338,13 +375,9 @@
     const currentPage = ref(1);
     const itemsPerPage = 12;
 
-    // Price range options from msrp.json
     const priceRanges = msrpData as MsrpRange[];
-
-    // Rating options
     const ratingOptions = [4, 3, 2, 1];
 
-    // Check if any filters are active
     const hasActiveFilters = computed(() => {
         return appliedSearch.value.trim() !== '' ||
             selectedBrands.value.length > 0 ||
@@ -352,7 +385,6 @@
             selectedRatings.value.length > 0;
     });
 
-    // Count active filters for badge
     const activeFilterCount = computed(() => {
         let count = 0;
         if (appliedSearch.value.trim()) count++;
@@ -362,7 +394,6 @@
         return count;
     });
 
-    // Remove individual filters
     const removeBrand = (id: number) => {
         selectedBrands.value = selectedBrands.value.filter(b => b !== id);
     };
@@ -375,7 +406,6 @@
         selectedRatings.value = selectedRatings.value.filter(r => r !== rating);
     };
 
-    // Clear all filters
     const clearAllFilters = () => {
         nameSearch.value = '';
         appliedSearch.value = '';
@@ -385,11 +415,9 @@
         currentPage.value = 1;
     };
 
-    // Filtered products
     const filteredProducts = computed(() => {
-        let result = [...categoryProducts.value];
+        let result = [...subcategoryProducts.value];
 
-        // Filter by name search (partial match, case-insensitive)
         if (appliedSearch.value.trim()) {
             const searchTerm = appliedSearch.value.toLowerCase().trim();
             result = result.filter(p =>
@@ -398,14 +426,12 @@
             );
         }
 
-        // Filter by subcategories
         if (selectedBrands.value.length > 0) {
             result = result.filter(p =>
                 selectedBrands.value.includes(p.brand_id)
             );
         }
 
-        // Filter by price range
         if (selectedPriceRanges.value.length > 0) {
             const selectedRanges = priceRanges.filter(r => selectedPriceRanges.value.includes(r.id));
             result = result.filter(p =>
@@ -413,13 +439,11 @@
             );
         }
 
-        // Filter by rating
         if (selectedRatings.value.length > 0) {
             const minRating = Math.min(...selectedRatings.value);
             result = result.filter(p => p.rating >= minRating);
         }
 
-        // Sort products
         switch (sortBy.value) {
             case 'price-asc':
                 result.sort((a, b) => a.price - b.price);
@@ -442,7 +466,6 @@
         return result;
     });
 
-    // Pagination
     const totalPages = computed(() => Math.ceil(filteredProducts.value.length / itemsPerPage));
 
     watch(currentPage, () => {
@@ -459,19 +482,17 @@
         currentPage.value = 1;
     };
 
-    // Reset page when filters change
     watch([selectedBrands, selectedPriceRanges, selectedRatings], () => {
         currentPage.value = 1;
     });
 
-    watch(nameSearch, (newVal, oldVal) => {
+    watch(nameSearch, (newVal) => {
         if (newVal === '') {
             appliedSearch.value = '';
             currentPage.value = 1;
         }
     });
 
-    // Handle 404 if category not found
     if (!category.value) {
         throw createError({
             statusCode: 404,
@@ -479,25 +500,17 @@
         });
     }
 
-    // SEO
+    if (!subcategory.value) {
+        throw createError({
+            statusCode: 404,
+            statusMessage: 'Subcategory Not Found'
+        });
+    }
+
     useHead({
-        title: `${category.value?.name} - Hardware | Tan`,
+        title: `${subcategory.value?.name} - ${category.value?.name} | Tan`,
         meta: [
-            { name: 'description', content: category.value?.description }
+            { name: 'description', content: `Browse ${subcategory.value?.name} in ${category.value?.name}` }
         ]
     });
 </script>
-
-<style scoped>
-
-    .slide-up-enter-active,
-    .slide-up-leave-active {
-        transition: all 0.3s ease;
-    }
-
-    .slide-up-enter-from,
-    .slide-up-leave-to {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-</style>
