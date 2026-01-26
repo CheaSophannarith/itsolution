@@ -1,33 +1,33 @@
 <template>
-    <div class="bg-gray-100 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition-all duration-300 min-h-[300px] flex flex-col justify-between">
         <!-- Card Link -->
-        <NuxtLink :to="categoryLink" class="block p-6">
-            <!-- Square Image -->
+        <NuxtLink :to="categoryLink" class="block px-6 pt-6 pb-2 group">
+            <!-- Modern Image -->
             <div class="flex justify-center mb-4">
-                <div class="w-32 h-32 bg-gray-100 rounded-lg overflow-hidden">
-                    <img :src="category.image" :alt="category.name" class="w-full h-full object-cover" />
+                <div class="w-28 h-28 bg-gradient-to-tr from-blue-100 to-blue-200 rounded-xl overflow-hidden shadow group-hover:scale-105 group-hover:shadow-lg transition-transform duration-300">
+                    <img :src="category.image" :alt="category.name" class="w-full h-full object-cover object-center" />
                 </div>
             </div>
-
             <!-- Category Name -->
             <h3
-                class="text-center text-blue-950 hover:text-blue-700 font-semibold text-lg h-14 flex items-center justify-center">
+                class="text-center text-blue-900 group-hover:text-blue-600 font-bold text-xl h-14 flex items-center justify-center transition-colors duration-200">
                 {{ category.name }}
             </h3>
         </NuxtLink>
 
         <!-- View More Options -->
-        <div v-if="category.subcategories && category.subcategories.length > 0" class="px-6 pb-4">
+        <div v-if="category.subcategories && category.subcategories.length > 0" class="px-4 pb-5">
             <button @click.stop="toggleSubcategories"
-                class="text-brand text-sm hover:text-brand/80 flex items-center justify-center w-full gap-1">
-                <span class="text-lg">{{ isExpanded ? '-' : '+' }}</span> View more options
+                class="mt-2 text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg px-1 py-1.5 text-sm font-medium flex items-center justify-center w-full gap-2 transition-colors duration-200 shadow-sm">
+                <span class="inline-block flex items-center justify-center text-lg font-bold">{{ isExpanded ? '-' : '+' }}</span>
+                <span>View more options</span>
             </button>
 
             <!-- Subcategories Dropdown -->
-            <div v-if="isExpanded" class="mt-3 space-y-1">
+            <div v-if="isExpanded" class="mt-3 space-y-1 animate-fade-in">
                 <NuxtLink v-for="subcategory in category.subcategories" :key="subcategory.id"
                     :to="`/desktops/categories/${category.slug}/${subcategory.slug}`"
-                    class="block text-sm text-gray-600 hover:text-brand hover:underline py-1">
+                    class="block text-sm text-gray-700 hover:text-blue-700 hover:underline px-2 py-1 rounded transition-colors duration-150">
                     {{ subcategory.name }}
                 </NuxtLink>
             </div>
@@ -38,12 +38,13 @@
 <script setup lang="ts">
     import { computed } from 'vue';
 
+
+    // Types
     interface Subcategory {
         id: number;
         name: string;
         slug: string;
     }
-
     interface Category {
         id: number;
         name: string;
@@ -66,4 +67,13 @@
     const toggleSubcategories = () => {
         emit('toggle', props.category.id);
     };
-</script>
+ </script>
+<style scoped>
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fade-in 0.3s ease;
+}
+</style>

@@ -4,11 +4,7 @@
     "name": "Computers",
     "slug": "computers",
     "image": "https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=400",
-    "subcategories": [
-      { "id": 1001, "name": "Gaming Desktops", "slug": "gaming-desktops" },
-      { "id": 1002, "name": "Business Desktops", "slug": "business-desktops" },
-      { "id": 1003, "name": "All-in-One PCs", "slug": "all-in-one-pcs" }
-    ]
+    "subcategories":null
   },
   {
     "id": 101,
