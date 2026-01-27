@@ -24,18 +24,19 @@
             </div>
         </div>
 
+
         <!-- Quick Links Section -->
         <div class="bg-white py-8 sm:py-12 border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <NuxtLink v-for="link in quickLinks" :key="link.title" :to="link.href"
+                    <NuxtLink v-for="category in categories" :key="category.slug" 
                         class="flex items-center gap-3 sm:gap-4 p-4 sm:p-6 border border-gray-200 hover:border-brand hover:shadow-md transition-all group">
                         <div class="w-10 h-10 sm:w-12 sm:h-12 bg-brand/10 rounded-full flex items-center justify-center group-hover:bg-brand transition-colors">
-                            <component :is="link.icon" class="w-5 h-5 sm:w-6 sm:h-6 text-brand group-hover:text-white transition-colors" />
+                            <!-- <component :is="category." class="w-5 h-5 sm:w-6 sm:h-6 text-brand group-hover:text-white transition-colors" /> -->
                         </div>
                         <div>
-                            <h3 class="font-semibold text-gray-800 text-sm sm:text-base">{{ link.title }}</h3>
-                            <p class="text-xs sm:text-sm text-gray-500">{{ link.description }}</p>
+                            <h3 class="font-semibold text-gray-800 text-sm sm:text-base">{{ category.name }}</h3>
+                            <!-- <p class="text-xs sm:text-sm text-gray-500">{{ link.description }}</p> -->
                         </div>
                     </NuxtLink>
                 </div>
@@ -65,82 +66,8 @@
             </div>
         </div>
 
-        <!-- Featured Hardware Categories -->
-        <div class="bg-white py-12 sm:py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 class="text-xl sm:text-2xl font-bold text-blue-950">Popular Hardware Categories</h2>
-                        <p class="text-gray-600 mt-1">Computer hardware for your business workplace</p>
-                    </div>
-                    <NuxtLink to="/hardware" class="hidden sm:flex items-center gap-1 text-brand font-semibold hover:underline">
-                        View All
-                        <ChevronRight class="w-4 h-4" />
-                    </NuxtLink>
-                </div>
+     
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                </div>
-
-                <div class="mt-6 sm:hidden text-center">
-                    <NuxtLink to="/hardware" class="text-brand font-semibold hover:underline">
-                        View All Hardware →
-                    </NuxtLink>
-                </div>
-            </div>
-        </div>
-
-        <!-- Featured Products Section -->
-        <div class="bg-gray-50 py-12 sm:py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6">
-                <h2 class="text-xl sm:text-2xl font-bold text-blue-950 mb-2">Featured Products</h2>
-                <p class="text-gray-600 mb-8">Top picks from our experts</p>
-
-                <!-- Custom Tabs -->
-                <div class="bg-brand overflow-x-auto">
-                    <div class="grid grid-cols-4 min-w-[500px] sm:min-w-0">
-                        <button v-for="tab in tabs" :key="tab.value" @click="activeTab = tab.value"
-                            class="flex flex-col items-center gap-1 sm:gap-2 py-3 sm:py-4 px-2 sm:px-6 transition-colors border-2 text-xs sm:text-base"
-                            :class="activeTab === tab.value ? 'bg-gray-100 border-brand text-brand border-b-[5px]' : 'border-transparent text-white hover:bg-white/10'">
-                            <component :is="tab.icon" class="w-5 h-5 sm:w-8 sm:h-8"
-                                :class="activeTab === tab.value ? 'text-brand' : 'text-white'" />
-                            <span class="text-center leading-tight">{{ tab.label }}</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="bg-gray-100 p-4 sm:p-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                    </div>
-                    <div class="flex justify-end mt-4 sm:mt-6">
-                        <NuxtLink :to="`/hardware/${activeTab}`" class="text-brand font-semibold hover:underline text-sm sm:text-base">
-                            Shop all {{ tabs.find(t => t.value === activeTab)?.label }} →
-                        </NuxtLink>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Popular Brands Section -->
-        <div class="bg-white py-12 sm:py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8">Browse popular brands</h2>
-
-                <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-8 items-center">
-                    <!-- <div v-for="brand in popularBrands" :key="brand.id"
-                        class="flex items-center justify-center p-2 sm:p-4 hover:shadow-md transition-shadow cursor-pointer rounded-lg border border-transparent hover:border-gray-200">
-                        <img :src="brand.image" :alt="brand.name"
-                            class="h-8 sm:h-12 object-contain grayscale hover:grayscale-0 transition-all" />
-                    </div> -->
-                </div>
-
-                <div class="flex justify-end mt-4 sm:mt-6">
-                    <NuxtLink to="/hardware/brands" class="text-brand font-semibold hover:underline flex items-center gap-1 text-sm sm:text-base">
-                        Shop all brands
-                        <ChevronRight class="w-4 h-4" />
-                    </NuxtLink>
-                </div>
-            </div>
-        </div>
 
         <!-- Services Section -->
         <div class="bg-gray-900 py-12 sm:py-16">
@@ -244,48 +171,10 @@ import {
     Laptop,
     ShoppingCart
 } from 'lucide-vue-next';
-// import hardwareCategoriesData from '~/assets/data/Hardware/categories.json';
-// import productsData from '~/assets/data/Hardware/products.json';
-// import brandsData from '~/assets/data/Hardware/brand.json';
 import softwareServicesData from '~/assets/data/Service/system.json';
+const { categories,status,error} = useCategories();
 
-interface Category {
-    id: number;
-    name: string;
-    slug: string;
-    image: string;
-    description: string;
-    subcategories: { id: number; name: string; slug: string }[];
-}
 
-interface Product {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    manufacturer_id: number;
-    brand_id: number;
-    category_id: number;
-    subcategory_ids: number[];
-    type_ids: number[];
-    image: string;
-    stock: number;
-    rating: number;
-    featured: boolean;
-}
-
-interface Brand {
-    id: number;
-    name: string;
-    image: string;
-    isPopular: boolean;
-}
-
-// const hardwareCategories = hardwareCategoriesData as Category[];
-// const products = productsData as Product[];
-// const brands = brandsData as Brand[];
-
-const activeTab = ref('computers-tablets');
 
 const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
 
@@ -317,28 +206,6 @@ const mainCategories = [
     },
 ];
 
-const tabs = [
-    { value: 'computers-tablets', label: 'Computers & Tablets', icon: Monitor },
-    { value: 'cables', label: 'Cables', icon: Cable },
-    { value: 'computer-accessories', label: 'Computer Accessories', icon: Network },
-    { value: 'server-components', label: 'Server Components', icon: Headphones },
-];
-
-const tabToCategoryId: Record<string, number> = {
-    'computers-tablets': 1,
-    'cables': 2,
-    'computer-accessories': 3,
-    'server-components': 5,
-};
-
-// const filteredProducts = computed(() => {
-//     const categoryId = tabToCategoryId[activeTab.value];
-//     return products.filter(p => p.category_id === categoryId).slice(0, 6);
-// });
-
-// const popularBrands = computed(() => {
-//     return brands.filter(brand => brand.isPopular);
-// });
 
 const services = [
     {
