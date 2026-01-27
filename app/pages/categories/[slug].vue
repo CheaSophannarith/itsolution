@@ -106,7 +106,7 @@
                             </div>
 
                             <!-- Brand Filter -->
-                            <FilterCategorySection label="Brand" :items="brandItems" v-model="selectedBrands"
+                            <FilterCategorySection v-if="brandItems.length > 0" label="Brand" :items="brandItems" v-model="selectedBrands"
                                 :expanded="expandedSections.brand ?? true" @toggle="toggleFilterSection('brand')" />
 
                             <!-- Dynamic Attribute Filters -->
@@ -117,7 +117,7 @@
                                 @toggle="toggleFilterSection(attr.slug)" />
 
                             <!-- Price Range Filter -->
-                            <FilterPriceRange v-if="priceRange" :min="priceRange.min" :max="priceRange.max"
+                            <FilterPriceRange v-if="priceRange && priceRange.max > priceRange.min" :min="priceRange.min" :max="priceRange.max"
                                 v-model:min-value="priceMin" v-model:max-value="priceMax"
                                 :expanded="expandedSections.price ?? true" @toggle="toggleFilterSection('price')" />
 
@@ -158,8 +158,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-                            <ProductCard v-for="product in paginatedProducts" :key="product.uuid" :product="product" />
+                        <template v-if="products.length > 0">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+                                <ProductCard v-for="product in paginatedProducts" :key="product.uuid" :product="product" />
+                            </div>
+                        </template>
+                        <div v-else class="flex flex-col items-center justify-center py-16 text-center">
+                            <p class="text-gray-500 text-lg font-medium">No products available</p>
+                            <p class="text-gray-400 text-sm mt-2">Try adjusting your filters or search criteria.</p>
                         </div>
 
                         <!-- Pagination -->
