@@ -1,6 +1,6 @@
 <template>
     <div
-        class="group relative bg-white overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+        class="group relative bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full w-full max-w-55">
         <!-- Product Image -->
         <div class="relative aspect-square bg-white overflow-hidden cursor-pointer" @click="navigateToDetail">
             <img :src="product.image" :alt="product.name"
@@ -31,9 +31,12 @@
 
                 <!-- Action Buttons -->
                 <div class="flex gap-1 sm:gap-1.5">
-                    <button @click="handleAddToCart" :disabled="!product.in_stock"
-                        class="bg-brand text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded hover:bg-brand/90 active:scale-[0.98] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-[10px] sm:text-xs whitespace-nowrap">
-                        Add to cart
+                    <button @click="handleAddToCart" :disabled="!product.in_stock || adding"
+                        class="bg-brand text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded hover:bg-brand/90 active:scale-[0.98] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-[10px] sm:text-xs whitespace-nowrap"
+                        :class="{ 'bg-green-500!': added }">
+                        <span v-if="adding">Adding...</span>
+                        <span v-else-if="added">Added!</span>
+                        <span v-else>Add to cart</span>
                     </button>
                     <button @click="navigateToDetail"
                         class="bg-brand text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded hover:bg-brand/90 active:scale-[0.98] transition-all duration-200 font-semibold text-[10px] sm:text-xs whitespace-nowrap">
@@ -46,15 +49,21 @@
 </template>
 
 <script setup lang="ts">
-    import { computed } from 'vue';
+    import { computed, ref } from 'vue';
     import { useRouter } from 'vue-router';
     import type { Product } from '~/types';
+    import type { ProductDetailResponse } from '~/types/models/product-detail';
 
     const props = defineProps<{
         product: Product;
     }>();
 
     const router = useRouter();
+    const config = useRuntimeConfig();
+    const { addItem } = useCart();
+
+    const adding = ref(false);
+    const added = ref(false);
 
     const formattedPrice = computed(() => {
         return parseFloat(props.product.price).toFixed(2);
@@ -64,9 +73,35 @@
         router.push(`/products/${props.product.slug}`);
     };
 
-    const handleAddToCart = () => {
-        if (!props.product.in_stock) return;
-        // Navigate to product detail page to select variant/options and add to cart
-        router.push(`/products/${props.product.slug}?action=add-to-cart`);
+    const handleAddToCart = async () => {
+        if (!props.product.in_stock || adding.value) return;
+
+        adding.value = true;
+        try {
+            const res = await $fetch<ProductDetailResponse>(
+                `${config.public.apiBaseUrl}/api/v1/products/${props.product.slug}`
+            );
+            const detail = res.data;
+            const sku = detail.skus.find(s => s.is_in_stock);
+            if (!sku) return;
+
+            addItem({
+                skuUuid: sku.uuid,
+                productUuid: detail.uuid,
+                productName: detail.name,
+                productSlug: detail.slug,
+                variantLabel: sku.attribute_options.map(o => o.label).join(' / '),
+                image: detail.images.featured?.thumb ?? props.product.image,
+                price: parseFloat(sku.price),
+                maxQuantity: sku.stock_quantity,
+            });
+            added.value = true;
+            setTimeout(() => { added.value = false; }, 1500);
+        } catch {
+            // Fallback to detail page on error
+            router.push(`/products/${props.product.slug}?action=add-to-cart`);
+        } finally {
+            adding.value = false;
+        }
     };
 </script>
