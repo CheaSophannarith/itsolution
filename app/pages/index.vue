@@ -24,18 +24,13 @@
             </div>
         </div>
 
-        <!-- Categories and Products Section -->
-        <div v-if="categories && categories.length > 0" class="bg-gradient-to-b from-gray-50 to-white py-12 sm:py-16">
-            <div v-for="category in mainCategories" :key="category.uuid" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 last:mb-0">
-
-                <CategoryProductsList :category="category" />
-
-                <!-- Mobile View All Link -->
-                <NuxtLink :to="`/categories/${category.slug}`"
-                    class="sm:hidden mt-6 flex items-center justify-center gap-2 text-brand font-semibold py-3 border-2 border-brand rounded-xl hover:bg-brand hover:text-white transition-all">
-                    <span>View All {{ category.name }}</span>
-                    <ChevronRight class="w-5 h-5" />
-                </NuxtLink>
+        <!-- Featured Products Section -->
+        <div v-if="featuredProducts && featuredProducts.length > 0" class="bg-white py-12 sm:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Products Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6">
+                    <ProductCard v-for="product in featuredProducts" :key="product.uuid" :product="product" />
+                </div>
             </div>
         </div>
 
@@ -120,9 +115,8 @@ import {
     ShoppingCart
 } from 'lucide-vue-next';
 import softwareServicesData from '~/assets/data/Service/system.json';
-import type { CategoryTree } from '~/types';
 
-const { categories, status, error } = useCategories();
+const { featuredProducts } = useFeaturedProducts();
 
 const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
 
@@ -132,11 +126,4 @@ const whyChooseUs = [
     { title: 'Expert Support', description: '24/7 technical assistance', icon: Headset },
     { title: 'Quality Products', description: 'Top brands guaranteed', icon: Award },
 ];
-
-// Get first level categories to display products
-const mainCategories = computed(() => {
-    if (!categories.value) return [];
-    // Get all parent categories
-    return categories.value.slice(0, 3); // Show first 3 categories
-});
 </script>
