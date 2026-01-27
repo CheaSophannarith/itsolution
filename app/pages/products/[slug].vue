@@ -193,6 +193,18 @@
                                 <ShoppingCart class="w-5 h-5" />
                                 Add to Cart
                             </button>
+                            <button
+                                @click="handleBuyNow"
+                                :disabled="!selectedSku?.is_in_stock"
+                                :class="[
+                                    'flex-1 px-6 py-2.5 font-semibold transition-colors flex items-center justify-center gap-2 rounded',
+                                    selectedSku?.is_in_stock
+                                        ? 'bg-pink-500 text-white hover:bg-pink-600'
+                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                ]">
+                                <ShoppingBag class="w-5 h-5" />
+                                Buy Now
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -213,7 +225,7 @@
 </template>
 
 <script setup lang="ts">
-import { CheckCircle, ChevronLeft, ChevronRight, Info, Minus, Plus, ShoppingCart, X, XCircle } from 'lucide-vue-next';
+import { CheckCircle, ChevronLeft, ChevronRight, Info, Minus, Plus, ShoppingBag, ShoppingCart, X, XCircle } from 'lucide-vue-next';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -322,6 +334,11 @@ const handleAddToCart = () => {
         maxQuantity: selectedSku.value.stock_quantity,
     }, quantity.value);
     quantity.value = 1;
+};
+
+const handleBuyNow = () => {
+    handleAddToCart();
+    navigateTo('/checkout');
 };
 
 // Lightbox keyboard navigation

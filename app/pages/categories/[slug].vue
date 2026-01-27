@@ -239,11 +239,20 @@
     });
 
     const breadcrumbs = computed(() => {
+        let crumbs: { name: string; slug: string }[] = [];
+
         if (filterBreadcrumbs.value.length > 0) {
-            return filterBreadcrumbs.value;
+            crumbs = [...filterBreadcrumbs.value];
+        } else if (categories.value) {
+            crumbs = buildBreadcrumbs(categories.value, slug.value) || [];
         }
-        if (!categories.value) return [];
-        return buildBreadcrumbs(categories.value, slug.value) || [];
+
+        // Ensure the current category is included at the end
+        if (category.value && !crumbs.some(c => c.slug === slug.value)) {
+            crumbs.push({ name: category.value.name, slug: category.value.slug });
+        }
+
+        return crumbs;
     });
 
     // Search
