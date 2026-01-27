@@ -1,45 +1,48 @@
 <template>
     <div
-        class="group relative bg-white rounded-xl overflow-hidden border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full w-full">
+        class="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full w-full hover:-translate-y-1">
         <!-- Product Image -->
-        <div class="relative aspect-square bg-white overflow-hidden cursor-pointer" @click="navigateToDetail">
+        <div class="relative aspect-square bg-gray-50/50 overflow-hidden cursor-pointer" @click="navigateToDetail">
             <img :src="product.image" :alt="product.name"
-                class="w-full h-full object-contain p-3 sm:p-4 group-hover:scale-105 transition-transform duration-300" />
+                class="w-full h-full object-contain p-4 sm:p-5 group-hover:scale-110 transition-transform duration-700 ease-out" />
 
             <!-- Status Badge -->
             <div v-if="!product.in_stock"
-                class="absolute top-2 left-2 bg-red-500 text-white text-[9px] sm:text-[10px] font-semibold px-2 py-0.5 rounded-full">
+                class="absolute top-2.5 left-2.5 bg-red-500/90 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-semibold px-2.5 py-1 rounded-lg tracking-wide">
                 Out of Stock
             </div>
             <div v-else-if="product.is_featured"
-                class="absolute top-2 left-2 bg-orange-500 text-white text-[9px] sm:text-[10px] font-semibold px-2 py-0.5 rounded-full">
+                class="absolute top-2.5 left-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] sm:text-[10px] font-semibold px-2.5 py-1 rounded-lg tracking-wide">
                 Featured
             </div>
         </div>
 
+        <!-- Divider -->
+        <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+
         <!-- Product Info -->
-        <div class="px-2.5 pb-2.5 pt-2 sm:px-3 sm:pb-3 sm:pt-2 flex flex-col grow">
+        <div class="px-3 pb-3 pt-2.5 sm:px-4 sm:pb-4 sm:pt-3 flex flex-col grow">
             <!-- Product Name -->
-            <h3 class="text-[11px] sm:text-sm font-medium text-gray-800 mb-1.5 sm:mb-2 line-clamp-2 cursor-pointer group-hover:text-brand transition-colors leading-snug"
+            <h3 class="text-[11px] sm:text-sm font-medium text-gray-700 mb-2 sm:mb-2.5 line-clamp-2 cursor-pointer group-hover:text-brand transition-colors duration-300 leading-snug"
                 @click="navigateToDetail">
                 {{ product.name }}
             </h3>
 
             <!-- Price & Buttons -->
             <div class="mt-auto">
-                <p class="text-sm sm:text-base font-bold text-pink-600 mb-1.5 sm:mb-2">${{ formattedPrice }}</p>
+                <p class="text-sm sm:text-base font-bold text-pink-600 mb-2 sm:mb-3 tracking-tight">${{ formattedPrice }}</p>
 
                 <!-- Action Buttons -->
-                <div class="flex gap-1 sm:gap-1.5">
+                <div class="flex gap-1.5 sm:gap-2">
                     <button @click="handleAddToCart" :disabled="!product.in_stock || adding"
-                        class="flex-1 bg-brand text-white px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-md hover:bg-brand/90 active:scale-[0.98] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-[10px] sm:text-xs"
-                        :class="{ 'bg-green-500!': added }">
+                        class="flex-1 bg-brand text-white px-1.5 sm:px-2.5 py-1.5 sm:py-2 rounded-xl hover:bg-brand/90 hover:shadow-md hover:shadow-brand/20 active:scale-[0.97] disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 font-semibold text-[10px] sm:text-xs whitespace-nowrap"
+                        :class="{ 'bg-green-500! shadow-green-500/20!': added }">
                         <span v-if="adding">Adding...</span>
-                        <span v-else-if="added">✓ Added</span>
+                        <span v-else-if="added">&#10003; Added</span>
                         <span v-else>Add to cart</span>
                     </button>
                     <button @click="navigateToDetail"
-                        class="flex-1 bg-brand text-white px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-md hover:bg-brand/90 active:scale-[0.98] transition-all duration-200 font-semibold text-[10px] sm:text-xs">
+                        class="flex-1 bg-gray-900 text-white px-1.5 sm:px-2.5 py-1.5 sm:py-2 rounded-xl hover:bg-gray-800 hover:shadow-md active:scale-[0.97] transition-all duration-300 font-semibold text-[10px] sm:text-xs whitespace-nowrap">
                         Buy now
                     </button>
                 </div>

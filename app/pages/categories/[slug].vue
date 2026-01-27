@@ -344,7 +344,7 @@
 
     const { currentPage, itemsPerPage, totalPages, paginatedItems: paginatedProducts } = usePagination(
         products,
-        { itemsPerPage: 4, scrollTarget: allProductsSection }
+        { itemsPerPage: 14, scrollTarget: allProductsSection }
     );
 
     // Mobile/responsive states

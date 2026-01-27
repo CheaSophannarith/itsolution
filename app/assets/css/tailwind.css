@@ -124,3 +124,20 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+@keyframes pulse-slow {
+	0%, 100% { opacity: 0.08; transform: scale(1); }
+	50% { opacity: 0.15; transform: scale(1.1); }
+}
+
+@utility animate-pulse-slow {
+	animation: pulse-slow 6s ease-in-out infinite;
+}
+
+@utility animation-delay-2000 {
+	animation-delay: 2s;
+}
+
+@utility animation-delay-4000 {
+	animation-delay: 4s;
+}
