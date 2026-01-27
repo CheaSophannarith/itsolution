@@ -32,7 +32,7 @@
         </div>
 
         <!-- Products Grid -->
-        <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 lg:gap-5">
+        <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-5">
             <ProductCard v-for="product in products.slice(0, 12)" :key="product.uuid" :product="product" />
         </div>
     </div>

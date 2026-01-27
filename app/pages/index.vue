@@ -27,18 +27,6 @@
         <!-- Categories and Products Section -->
         <div v-if="categories && categories.length > 0" class="bg-gradient-to-b from-gray-50 to-white py-12 sm:py-16">
             <div v-for="category in mainCategories" :key="category.uuid" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 last:mb-0">
-                <!-- Category Header -->
-                <div class="flex items-center justify-between mb-6 sm:mb-8">
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{{ category.name }}</h2>
-                        <p class="text-sm sm:text-base text-gray-600">Discover our latest {{ category.name.toLowerCase() }} products</p>
-                    </div>
-                    <NuxtLink :to="`/categories/${category.slug}`"
-                        class="hidden sm:inline-flex items-center gap-2 text-brand font-semibold hover:gap-3 transition-all group">
-                        <span>View All</span>
-                        <ChevronRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </NuxtLink>
-                </div>
 
                 <CategoryProductsList :category="category" />
 
