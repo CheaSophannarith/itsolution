@@ -23,7 +23,7 @@
         </div>
 
         <!-- Loading State -->
-        <div v-if="status === 'pending'" class="flex items-center justify-center py-12">
+        <div v-if="status === 'pending' || filterStatus === 'pending'" class="flex items-center justify-center py-12">
             <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand"></div>
         </div>
 
@@ -110,8 +110,22 @@
                             </div>
 
                             <!-- Brand Filter -->
-                            <FilterCategorySection label="Brand" :items="brands" v-model="selectedBrands"
-                                :expanded="expandedSections.brand" @toggle="toggleFilterSection('brand')" />
+                            <FilterCategorySection label="Brand" :items="brandItems" v-model="selectedBrands"
+                                :expanded="expandedSections.brand ?? true" @toggle="toggleFilterSection('brand')" />
+
+                            <!-- Dynamic Attribute Filters -->
+                            <FilterCategorySection v-for="attr in attributeItems" :key="attr.slug"
+                                :label="attr.name" :items="attr.items"
+                                :model-value="getAttributeSelection(attr.slug)"
+                                @update:model-value="setAttributeSelection(attr.slug, $event ?? [])"
+                                :expanded="expandedSections[attr.slug] ?? true"
+                                @toggle="toggleFilterSection(attr.slug)" />
+
+                            <!-- Price Range Filter -->
+                            <FilterPriceRange v-if="priceRange" :min="priceRange.min" :max="priceRange.max"
+                                v-model:min-value="priceMin" v-model:max-value="priceMax"
+                                :expanded="expandedSections.price ?? true"
+                                @toggle="toggleFilterSection('price')" />
 
                             <!-- Clear All Filters Button (Mobile) -->
                             <button v-if="hasActiveFilters" @click="clearFilters"
@@ -158,19 +172,27 @@
 </template>
 
 <script setup lang="ts">
-    import { computed, onMounted, onUnmounted, ref } from 'vue';
-    import { useRoute, useRouter } from 'vue-router';
+    import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+    import { useRoute } from 'vue-router';
     import { createError } from '#imports';
     import { ChevronRight, ChevronDown, Search, SlidersHorizontal } from 'lucide-vue-next';
     import FilterApplyBar from '~/components/ui/FilterApplyBar.vue';
     import FilterCategorySection from '~/components/ui/FilterCategorySection.vue';
+    import FilterPriceRange from '~/components/ui/FilterPriceRange.vue';
     import type { CategoryTree } from '~/types';
 
     const route = useRoute();
-    const router = useRouter();
     const slug = computed(() => route.params.slug as string);
 
     const { categories, status } = useCategories();
+
+    const {
+        brands: apiBrands,
+        attributes,
+        priceRange,
+        breadcrumbs: filterBreadcrumbs,
+        status: filterStatus,
+    } = useCategoryFilters(slug);
 
     // Recursively find a category by slug in the tree
     function findBySlug(nodes: CategoryTree[], target: string): CategoryTree | null {
@@ -199,6 +221,9 @@
     });
 
     const breadcrumbs = computed(() => {
+        if (filterBreadcrumbs.value.length > 0) {
+            return filterBreadcrumbs.value;
+        }
         if (!categories.value) return [];
         return buildBreadcrumbs(categories.value, slug.value) || [];
     });
@@ -206,18 +231,30 @@
     // Search
     const searchQuery = ref('');
 
-    // Fetch products from API
-    const { products } = useCategoryProducts(slug);
+    // Applied filter params sent to the products API
+    const appliedFilters = ref<Record<string, string>>({});
 
-    // Derive brand filter items from fetched products
-    const brands = computed(() => {
-        const seen = new Map<string, { id: number; name: string; slug: string }>();
-        products.value.forEach((p, i) => {
-            if (!seen.has(p.brand.uuid)) {
-                seen.set(p.brand.uuid, { id: i, name: p.brand.name, slug: p.brand.slug });
-            }
-        });
-        return Array.from(seen.values());
+    // Fetch products from API with filters
+    const { products } = useCategoryProducts(slug, appliedFilters);
+
+    // Brand filter items from API
+    const brandItems = computed(() => {
+        return apiBrands.value.map(b => ({
+            id: b.slug,
+            name: `${b.name} (${b.count})`,
+        }));
+    });
+
+    // Dynamic attribute filter items from API
+    const attributeItems = computed(() => {
+        return attributes.value.map(attr => ({
+            slug: attr.slug,
+            name: attr.name,
+            items: attr.options.map(opt => ({
+                id: opt.value,
+                name: `${opt.label} (${opt.count})`,
+            })),
+        }));
     });
 
     // Pagination
@@ -231,7 +268,10 @@
     // Mobile/responsive states
     const filtersOpen = ref(false);
     const isLargeScreen = ref(true);
-    const selectedBrands = ref<number[]>([]);
+    const selectedBrands = ref<string[]>([]);
+    const selectedAttributes = ref<Record<string, string[]>>({});
+    const priceMin = ref<number | undefined>(undefined);
+    const priceMax = ref<number | undefined>(undefined);
     const showAllCategories = ref(false);
     const expandedDropdowns = ref<Record<string, boolean>>({});
 
@@ -245,8 +285,18 @@
             ? category.value.children
             : category.value.children.slice(0, 5);
     });
-    const expandedSections = ref({
+    const expandedSections = ref<Record<string, boolean>>({
         brand: true,
+        price: true,
+    });
+
+    // Initialize attribute sections as expanded when data loads
+    watch(attributes, (newAttrs) => {
+        newAttrs.forEach(attr => {
+            if (!(attr.slug in expandedSections.value)) {
+                expandedSections.value[attr.slug] = true;
+            }
+        });
     });
 
     const handleResize = () => {
@@ -269,23 +319,41 @@
         filtersOpen.value = !filtersOpen.value;
     };
 
-    const toggleFilterSection = (section: 'brand') => {
+    const toggleFilterSection = (section: string) => {
         if (!isLargeScreen.value) {
             expandedSections.value[section] = !expandedSections.value[section];
         }
     };
 
+    // Helpers for dynamic attribute filter selections
+    function getAttributeSelection(attrSlug: string): string[] {
+        return selectedAttributes.value[attrSlug] ?? [];
+    }
+
+    function setAttributeSelection(attrSlug: string, values: (string | number)[]) {
+        selectedAttributes.value[attrSlug] = values as string[];
+    }
+
     // Check if any filters are active
     const hasActiveFilters = computed(() => {
-        return selectedBrands.value.length > 0;
+        return selectedBrands.value.length > 0
+            || Object.values(selectedAttributes.value).some(arr => arr.length > 0)
+            || priceMin.value !== undefined
+            || priceMax.value !== undefined;
     });
 
     // Count total active filters
     const activeFilterCount = computed(() => {
-        return selectedBrands.value.length;
+        let count = selectedBrands.value.length;
+        Object.values(selectedAttributes.value).forEach(arr => {
+            count += arr.length;
+        });
+        if (priceMin.value !== undefined) count++;
+        if (priceMax.value !== undefined) count++;
+        return count;
     });
 
-    // Apply filters function
+    // Apply filters function — stays on current page, sends params to products API
     const applyFilters = () => {
         const query: Record<string, string> = {};
 
@@ -296,15 +364,33 @@
             query.brand = selectedBrands.value.join(',');
         }
 
-        router.push({
-            path: `/categories/${slug.value}/all-products`,
-            query
-        });
+        // Dynamic attributes: each attribute slug becomes a query param key
+        for (const [attrSlug, values] of Object.entries(selectedAttributes.value)) {
+            if (values.length > 0) {
+                query[attrSlug] = values.join(',');
+            }
+        }
+
+        // Price range
+        if (priceMin.value !== undefined) {
+            query.price_min = String(priceMin.value);
+        }
+        if (priceMax.value !== undefined) {
+            query.price_max = String(priceMax.value);
+        }
+
+        appliedFilters.value = query;
+        currentPage.value = 1;
     };
 
     // Clear all filters
     const clearFilters = () => {
         selectedBrands.value = [];
+        selectedAttributes.value = {};
+        priceMin.value = undefined;
+        priceMax.value = undefined;
+        appliedFilters.value = {};
+        currentPage.value = 1;
     };
 
     // 404 handling - only after data is loaded

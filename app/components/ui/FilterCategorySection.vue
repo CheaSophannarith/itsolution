@@ -51,7 +51,7 @@
     import { ref } from 'vue';
 
     interface Item {
-        id: number;
+        id: string | number;
         name: string;
     }
 
@@ -63,7 +63,7 @@
 
     const emit = defineEmits(['toggle']);
 
-    const localValue = defineModel<number[]>();
+    const localValue = defineModel<(string | number)[]>();
     const showAll = ref(false);
 
     const toggleSection = () => {
