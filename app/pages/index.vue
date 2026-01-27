@@ -80,8 +80,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <!-- <HardwareCategoriesCard v-for="category in hardwareCategories.slice(0, 4)" :key="category.id" -->
-                        :category="category" />
                 </div>
 
                 <div class="mt-6 sm:hidden text-center">
@@ -112,7 +110,6 @@
                 </div>
                 <div class="bg-gray-100 p-4 sm:p-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                        <!-- <HardwareProductCard v-for="product in filteredProducts" :key="product.id" :product="product" /> -->
                     </div>
                     <div class="flex justify-end mt-4 sm:mt-6">
                         <NuxtLink :to="`/hardware/${activeTab}`" class="text-brand font-semibold hover:underline text-sm sm:text-base">
