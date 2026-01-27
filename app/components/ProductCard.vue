@@ -25,10 +25,10 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { ShoppingCart } from 'lucide-vue-next';
-import type { ApiProduct } from '~/types';
+import type { Product } from '~/types';
 
 const props = defineProps<{
-    product: ApiProduct;
+    product: Product;
 }>();
 
 const router = useRouter();

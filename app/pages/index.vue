@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <HardwareCategoriesCard v-for="category in hardwareCategories.slice(0, 4)" :key="category.id"
+                    <!-- <HardwareCategoriesCard v-for="category in hardwareCategories.slice(0, 4)" :key="category.id" -->
                         :category="category" />
                 </div>
 
@@ -112,7 +112,7 @@
                 </div>
                 <div class="bg-gray-100 p-4 sm:p-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                        <HardwareProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
+                        <!-- <HardwareProductCard v-for="product in filteredProducts" :key="product.id" :product="product" /> -->
                     </div>
                     <div class="flex justify-end mt-4 sm:mt-6">
                         <NuxtLink :to="`/hardware/${activeTab}`" class="text-brand font-semibold hover:underline text-sm sm:text-base">
@@ -129,11 +129,11 @@
                 <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8">Browse popular brands</h2>
 
                 <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-8 items-center">
-                    <div v-for="brand in popularBrands" :key="brand.id"
+                    <!-- <div v-for="brand in popularBrands" :key="brand.id"
                         class="flex items-center justify-center p-2 sm:p-4 hover:shadow-md transition-shadow cursor-pointer rounded-lg border border-transparent hover:border-gray-200">
                         <img :src="brand.image" :alt="brand.name"
                             class="h-8 sm:h-12 object-contain grayscale hover:grayscale-0 transition-all" />
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="flex justify-end mt-4 sm:mt-6">
@@ -208,9 +208,9 @@ import {
     Laptop,
     ShoppingCart
 } from 'lucide-vue-next';
-import hardwareCategoriesData from '~/assets/data/Hardware/categories.json';
-import productsData from '~/assets/data/Hardware/products.json';
-import brandsData from '~/assets/data/Hardware/brand.json';
+// import hardwareCategoriesData from '~/assets/data/Hardware/categories.json';
+// import productsData from '~/assets/data/Hardware/products.json';
+// import brandsData from '~/assets/data/Hardware/brand.json';
 
 interface Category {
     id: number;
@@ -244,9 +244,9 @@ interface Brand {
     isPopular: boolean;
 }
 
-const hardwareCategories = hardwareCategoriesData as Category[];
-const products = productsData as Product[];
-const brands = brandsData as Brand[];
+// const hardwareCategories = hardwareCategoriesData as Category[];
+// const products = productsData as Product[];
+// const brands = brandsData as Brand[];
 
 const activeTab = ref('computers-tablets');
 
@@ -292,14 +292,14 @@ const tabToCategoryId: Record<string, number> = {
     'server-components': 5,
 };
 
-const filteredProducts = computed(() => {
-    const categoryId = tabToCategoryId[activeTab.value];
-    return products.filter(p => p.category_id === categoryId).slice(0, 6);
-});
+// const filteredProducts = computed(() => {
+//     const categoryId = tabToCategoryId[activeTab.value];
+//     return products.filter(p => p.category_id === categoryId).slice(0, 6);
+// });
 
-const popularBrands = computed(() => {
-    return brands.filter(brand => brand.isPopular);
-});
+// const popularBrands = computed(() => {
+//     return brands.filter(brand => brand.isPopular);
+// });
 
 const services = [
     {

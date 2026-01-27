@@ -1,17 +1,28 @@
-import type { DescriptionItem } from './description-item';
+export interface ProductBrand {
+    uuid: string;
+    name: string;
+    slug: string;
+}
 
 export interface Product {
-    id: number;
+    uuid: string;
     name: string;
-    description: DescriptionItem[];
-    price: number;
-    manufacturer_id: number;
-    brand_id: number;
-    category_id: number;
-    subcategory_ids: number[];
-    type_ids: number[];
+    slug: string;
+    short_description: string;
     image: string;
-    stock: number;
-    rating: number;
-    featured: boolean;
+    brand: ProductBrand;
+    price: string;
+    compare_at_price: string | null;
+    in_stock: boolean;
+    is_featured: boolean;
+}
+
+export interface ProductsResponse {
+    data: Product[];
+    meta: {
+        current_page: number;
+        per_page: number;
+        total: number;
+        last_page: number;
+    };
 }
