@@ -110,8 +110,8 @@
                     </nav>
 
                     <!-- Phone Number -->
-                    <a href="tel:888-764-8888" class="text-brand-foreground font-semibold py-3 text-sm xl:text-base">
-                        888-764-8888
+                    <a href="tel:+85517868883" class="text-brand-foreground font-semibold py-3 text-sm xl:text-base">
+                        +855 17 86 88 83
                     </a>
                 </div>
             </div>
