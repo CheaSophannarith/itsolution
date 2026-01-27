@@ -159,7 +159,7 @@
                             </div>
                         </div>
                         <template v-if="products.length > 0">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+                            <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4">
                                 <ProductCard v-for="product in paginatedProducts" :key="product.uuid" :product="product" />
                             </div>
                         </template>
