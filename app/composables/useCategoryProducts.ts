@@ -1,5 +1,4 @@
-import type { Ref } from 'vue';
-import type { ApiProduct, ApiProductsResponse } from '~/types';
+import type { Product, ProductsResponse } from '~/types';
 
 export function useCategoryProducts(
     slug: Ref<string> | string,
@@ -9,7 +8,7 @@ export function useCategoryProducts(
 
     const slugValue = computed(() => typeof slug === 'string' ? slug : slug.value);
 
-    const { data, status, error } = useFetch<ApiProductsResponse>(
+    const { data, status, error } = useFetch<ProductsResponse>(
         () => `${config.public.apiBaseUrl}/api/v1/categories/${slugValue.value}/products`,
         {
             query: filters,
@@ -17,7 +16,7 @@ export function useCategoryProducts(
         }
     );
 
-    const products = computed<ApiProduct[]>(() => {
+    const products = computed<Product[]>(() => {
         return data.value?.data ?? [];
     });
 
