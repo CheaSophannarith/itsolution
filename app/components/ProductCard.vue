@@ -9,9 +9,9 @@
             @click="navigateToDetail">
             {{ product.name }}
         </h3>
-        <p class="text-sm text-gray-400 text-center mb-3 h-10 line-clamp-2 grow leading-relaxed">{{ descriptionText }}</p>
+        <p class="text-sm text-gray-400 text-center mb-3 h-10 line-clamp-2 grow leading-relaxed">{{ product.short_description }}</p>
         <div class="mt-auto w-full flex flex-col items-center">
-            <p class="text-2xl font-bold bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent mb-4">${{ product.price.toFixed(2) }}</p>
+            <p class="text-2xl font-bold bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent mb-4">${{ formattedPrice }}</p>
             <button @click="navigateToDetail"
                 class="w-full bg-blue-950 text-white px-6 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-brand hover:shadow-lg hover:shadow-brand/25 transition-all duration-200 font-medium text-sm">
                 <ShoppingCart class="w-4 h-4" />
@@ -25,41 +25,19 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { ShoppingCart } from 'lucide-vue-next';
-
-interface DescriptionItem {
-    label: string;
-    value: string;
-}
-
-interface Product {
-    id: number;
-    name: string;
-    description: DescriptionItem[];
-    price: number;
-    manufacturer_id: number;
-    category_id: number;
-    subcategory_ids: number[];
-    type_ids: number[];
-    image: string;
-    stock: number;
-    rating: number;
-    featured: boolean;
-}
+import type { ApiProduct } from '~/types';
 
 const props = defineProps<{
-    product: Product;
+    product: ApiProduct;
 }>();
 
 const router = useRouter();
 
-const descriptionText = computed(() => {
-    return props.product.description.map(d => d.value).join(', ');
+const formattedPrice = computed(() => {
+    return parseFloat(props.product.price).toFixed(2);
 });
 
 const navigateToDetail = () => {
-    router.push({
-        path: '/desktops/detail-product',
-        query: { productId: props.product.id }
-    });
+    router.push(`/products/${props.product.slug}`);
 };
 </script>

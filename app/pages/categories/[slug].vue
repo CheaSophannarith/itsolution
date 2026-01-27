@@ -108,22 +108,10 @@
                                     </button>
                                 </div>
                             </div>
-                            <!-- No Categories Message -->
-                            <div v-else-if="category && category.children.length === 0" class="mt-4 sm:mt-6">
-                                <div
-                                    class="text-base sm:text-lg text-pink-500 font-bold mb-2 sm:mb-3 border-b border-pink-500 py-2">
-                                    Categories
-                                </div>
-                                <p class="text-sm text-gray-500">No subcategories available</p>
-                            </div>
 
                             <!-- Brand Filter -->
                             <FilterCategorySection label="Brand" :items="brands" v-model="selectedBrands"
                                 :expanded="expandedSections.brand" @toggle="toggleFilterSection('brand')" />
-
-                            <!-- Processor Filter -->
-                            <FilterCategorySection label="Processor" :items="processors" v-model="selectedProcessor"
-                                :expanded="expandedSections.processor" @toggle="toggleFilterSection('processor')" />
 
                             <!-- Clear All Filters Button (Mobile) -->
                             <button v-if="hasActiveFilters" @click="clearFilters"
@@ -144,7 +132,7 @@
                     <div ref="allProductsSection" class="mt-12 sm:mt-16">
                         <h2 class="text-blue-950 text-xl sm:text-2xl font-bold mb-6 sm:mb-8">All Products</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-                            <ProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
+                            <ProductCard v-for="product in paginatedProducts" :key="product.uuid" :product="product" />
                         </div>
 
                         <!-- Pagination -->
@@ -174,9 +162,6 @@
     import { useRoute, useRouter } from 'vue-router';
     import { createError } from '#imports';
     import { ChevronRight, ChevronDown, Search, SlidersHorizontal } from 'lucide-vue-next';
-    import brandData from '~/assets/data/Desktops/brand.json';
-    import processorData from '~/assets/data/Desktops/processor.json';
-    import productsData from '~/assets/data/Desktops/products.json';
     import FilterApplyBar from '~/components/ui/FilterApplyBar.vue';
     import FilterCategorySection from '~/components/ui/FilterCategorySection.vue';
     import type { CategoryTree } from '~/types';
@@ -221,10 +206,19 @@
     // Search
     const searchQuery = ref('');
 
-    // Product data
-    const brands = brandData as { id: number; name: string; slug: string }[];
-    const processors = processorData as { id: number; name: string; slug: string }[];
-    const products = productsData as any[];
+    // Fetch products from API
+    const { products } = useCategoryProducts(slug);
+
+    // Derive brand filter items from fetched products
+    const brands = computed(() => {
+        const seen = new Map<string, { id: number; name: string; slug: string }>();
+        products.value.forEach((p, i) => {
+            if (!seen.has(p.brand.uuid)) {
+                seen.set(p.brand.uuid, { id: i, name: p.brand.name, slug: p.brand.slug });
+            }
+        });
+        return Array.from(seen.values());
+    });
 
     // Pagination
     const allProductsSection = ref<HTMLElement | null>(null);
@@ -238,7 +232,6 @@
     const filtersOpen = ref(false);
     const isLargeScreen = ref(true);
     const selectedBrands = ref<number[]>([]);
-    const selectedProcessor = ref<number[]>([]);
     const showAllCategories = ref(false);
     const expandedDropdowns = ref<Record<string, boolean>>({});
 
@@ -254,7 +247,6 @@
     });
     const expandedSections = ref({
         brand: true,
-        processor: true,
     });
 
     const handleResize = () => {
@@ -277,7 +269,7 @@
         filtersOpen.value = !filtersOpen.value;
     };
 
-    const toggleFilterSection = (section: 'brand' | 'processor') => {
+    const toggleFilterSection = (section: 'brand') => {
         if (!isLargeScreen.value) {
             expandedSections.value[section] = !expandedSections.value[section];
         }
@@ -285,14 +277,12 @@
 
     // Check if any filters are active
     const hasActiveFilters = computed(() => {
-        return selectedBrands.value.length > 0 ||
-            selectedProcessor.value.length > 0;
+        return selectedBrands.value.length > 0;
     });
 
     // Count total active filters
     const activeFilterCount = computed(() => {
-        return selectedBrands.value.length +
-            selectedProcessor.value.length;
+        return selectedBrands.value.length;
     });
 
     // Apply filters function
@@ -305,9 +295,6 @@
         if (selectedBrands.value.length > 0) {
             query.brand = selectedBrands.value.join(',');
         }
-        if (selectedProcessor.value.length > 0) {
-            query.processor = selectedProcessor.value.join(',');
-        }
 
         router.push({
             path: `/categories/${slug.value}/all-products`,
@@ -318,7 +305,6 @@
     // Clear all filters
     const clearFilters = () => {
         selectedBrands.value = [];
-        selectedProcessor.value = [];
     };
 
     // 404 handling - only after data is loaded
