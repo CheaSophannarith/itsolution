@@ -9,7 +9,7 @@ export default defineNuxtConfig({
 	},
 	compatibilityDate: '2025-07-15',
 	devtools: { enabled: true },
-	modules: ['shadcn-nuxt'],
+	modules: ['shadcn-nuxt', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
 
 	css: ['~/assets/css/tailwind.css'],
 

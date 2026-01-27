@@ -182,6 +182,7 @@
                                 </button>
                             </div>
                             <button
+                                @click="handleAddToCart"
                                 :disabled="!selectedSku?.is_in_stock"
                                 :class="[
                                     'flex-1 px-6 py-2.5 font-semibold transition-colors flex items-center justify-center gap-2 rounded',
@@ -237,6 +238,8 @@ useHead({
         },
     ],
 });
+
+const { addItem: addToCart } = useCart();
 
 const quantity = ref(1);
 const selectedSkuUuid = ref('');
@@ -304,6 +307,21 @@ const decrementQuantity = () => {
     if (quantity.value > 1) {
         quantity.value--;
     }
+};
+
+const handleAddToCart = () => {
+    if (!product.value || !selectedSku.value) return;
+    addToCart({
+        skuUuid: selectedSku.value.uuid,
+        productUuid: product.value.uuid,
+        productName: product.value.name,
+        productSlug: product.value.slug,
+        variantLabel: skuLabel(selectedSku.value),
+        image: allImages.value[0]?.thumb ?? '',
+        price: parseFloat(selectedSku.value.price),
+        maxQuantity: selectedSku.value.stock_quantity,
+    }, quantity.value);
+    quantity.value = 1;
 };
 
 // Lightbox keyboard navigation

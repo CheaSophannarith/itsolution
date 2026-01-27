@@ -39,8 +39,8 @@
                                 <button
                                     class="relative p-2 text-brand hover:text-white hover:bg-brand rounded-md transition-all">
                                     <ShoppingCart class="w-5 h-5" />
-                                    <span
-                                        class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                                    <span v-if="cartTotalItems > 0"
+                                        class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{ cartTotalItems }}</span>
                                 </button>
                             </template>
                         </CartDrawer>
@@ -271,6 +271,9 @@
     import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
     import { useRoute } from 'vue-router'
     import CartDrawer from '~/components/ui/CartDrawer.vue'
+
+    const { totalItems: cartTotalItems } = useCart()
+
     // Hide header on scroll down, show on scroll up
     const hideHeader = ref(false)
     let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0

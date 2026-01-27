@@ -1,104 +1,178 @@
+<script setup lang="ts">
+import { Minus, Plus, ShoppingCart, Trash2, X } from 'lucide-vue-next'
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/components/ui/drawer'
+import { Button } from '@/components/ui/button'
+
+const open = ref(false)
+const { items, totalItems, totalPrice, removeItem, updateQuantity, clearCart } = useCart()
+</script>
+
 <template>
     <Drawer v-model:open="open" direction="right">
         <DrawerTrigger as-child>
             <slot name="trigger">
-                <button class="relative p-2 text-brand hover:text-white hover:bg-brand rounded-md transition-all"
-                    @click="open = true">
+                <Button variant="ghost" size="icon" class="relative text-brand hover:text-white hover:bg-brand">
                     <ShoppingCart class="w-5 h-5" />
-                    <span
-                        class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                </button>
+                    <span v-if="totalItems > 0"
+                        class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-in zoom-in">
+                        {{ totalItems }}
+                    </span>
+                </Button>
             </slot>
         </DrawerTrigger>
+
         <DrawerContent class="max-w-md w-full">
-            <DrawerHeader class="relative">
-                <DrawerTitle>Your Cart</DrawerTitle>
-                <DrawerDescription>Review your selected items</DrawerDescription>
-                <DrawerClose class="absolute right-4 top-4 text-gray-400 hover:text-gray-700 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+            <DrawerHeader class="relative border-b">
+                <DrawerTitle class="text-lg">Shopping Cart</DrawerTitle>
+                <DrawerDescription>
+                    {{ totalItems > 0 ? `${totalItems} item${totalItems > 1 ? 's' : ''} in your cart` : 'Your cart is empty' }}
+                </DrawerDescription>
+                <DrawerClose as-child>
+                    <Button variant="ghost" size="icon-sm" class="absolute right-4 top-4 text-gray-400 hover:text-gray-700">
+                        <X class="w-5 h-5" />
+                    </Button>
                 </DrawerClose>
             </DrawerHeader>
+
+            <!-- Cart Items -->
             <div class="flex-1 overflow-y-auto px-4 py-2">
-                <!-- Cart items go here -->
-                <div v-if="cartItems.length === 0" class="text-center text-gray-500 py-8">
-                    Your cart is empty.
+                <!-- Empty State -->
+                <div v-if="items.length === 0" class="flex flex-col items-center justify-center py-16 text-gray-400">
+                    <ShoppingCart class="w-16 h-16 mb-4 stroke-1" />
+                    <p class="text-base font-medium text-gray-500">Your cart is empty</p>
+                    <p class="text-sm mt-1">Browse products and add items to get started.</p>
                 </div>
-                <div v-else>
-                    <div v-for="item in cartItems" :key="item.id"
-                        class="flex items-center gap-4 py-4 border-b last:border-0 group hover:bg-gray-50 transition">
-                        <div
-                            class="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
-                            <img :src="item.image" :alt="item.name" class="w-full h-full object-cover" loading="lazy"
-                                @error="e => e.target.src = 'https://via.placeholder.com/64x64?text=No+Image'" />
+
+                <!-- Items List -->
+                <TransitionGroup v-else name="cart-item" tag="div">
+                    <div
+                        v-for="item in items"
+                        :key="item.skuUuid"
+                        class="flex gap-4 py-4 border-b border-gray-100 last:border-0"
+                    >
+                        <!-- Thumbnail -->
+                        <NuxtLink
+                            :to="`/products/${item.productSlug}`"
+                            class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-50 border border-gray-200 hover:border-brand transition-colors"
+                            @click="open = false"
+                        >
+                            <img
+                                :src="item.image"
+                                :alt="item.productName"
+                                class="w-full h-full object-contain"
+                                loading="lazy"
+                            />
+                        </NuxtLink>
+
+                        <!-- Details -->
+                        <div class="flex-1 min-w-0 flex flex-col justify-between">
+                            <div>
+                                <NuxtLink
+                                    :to="`/products/${item.productSlug}`"
+                                    class="font-semibold text-sm text-gray-800 line-clamp-2 hover:text-brand transition-colors"
+                                    @click="open = false"
+                                >
+                                    {{ item.productName }}
+                                </NuxtLink>
+                                <p v-if="item.variantLabel" class="text-xs text-gray-500 mt-0.5 truncate">
+                                    {{ item.variantLabel }}
+                                </p>
+                            </div>
+
+                            <!-- Quantity + Price Row -->
+                            <div class="flex items-center justify-between mt-2">
+                                <!-- Quantity Controls -->
+                                <div class="flex items-center gap-1">
+                                    <Button
+                                        variant="outline"
+                                        size="icon-sm"
+                                        class="h-7 w-7"
+                                        :disabled="item.quantity <= 1"
+                                        @click="updateQuantity(item.skuUuid, item.quantity - 1)"
+                                    >
+                                        <Minus class="w-3 h-3" />
+                                    </Button>
+                                    <span class="text-sm font-medium w-8 text-center tabular-nums">
+                                        {{ item.quantity }}
+                                    </span>
+                                    <Button
+                                        variant="outline"
+                                        size="icon-sm"
+                                        class="h-7 w-7"
+                                        :disabled="item.quantity >= item.maxQuantity"
+                                        @click="updateQuantity(item.skuUuid, item.quantity + 1)"
+                                    >
+                                        <Plus class="w-3 h-3" />
+                                    </Button>
+                                </div>
+
+                                <!-- Price -->
+                                <span class="font-bold text-brand tabular-nums">
+                                    ${{ (item.price * item.quantity).toFixed(2) }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="font-semibold text-base truncate">{{ item.name }}</div>
-                            <div class="text-xs text-gray-500 truncate">{{ item.description }}</div>
-                            <div class="text-xs text-gray-400 mt-1">Qty: <span class="font-medium text-gray-700">{{
-                                item.quantity }}</span></div>
-                        </div>
-                        <div class="font-bold text-right text-brand text-lg min-w-[70px]">${{ item.price.toFixed(2) }}
-                        </div>
+
+                        <!-- Remove Button -->
+                        <Button
+                            variant="ghost"
+                            size="icon-sm"
+                            class="self-start text-gray-400 hover:text-red-500 shrink-0"
+                            @click="removeItem(item.skuUuid)"
+                        >
+                            <Trash2 class="w-4 h-4" />
+                        </Button>
                     </div>
-                </div>
+                </TransitionGroup>
             </div>
-            <DrawerFooter>
-                <div class="flex justify-between items-center mb-2">
-                    <span class="font-semibold">Total</span>
-                    <span class="font-bold text-lg">${{ total }}</span>
+
+            <!-- Footer -->
+            <DrawerFooter v-if="items.length > 0" class="border-t">
+                <div class="flex justify-between items-center text-sm text-gray-500 mb-1">
+                    <span>Subtotal ({{ totalItems }} item{{ totalItems > 1 ? 's' : '' }})</span>
+                    <button class="text-xs text-red-400 hover:text-red-600 transition-colors" @click="clearCart">
+                        Clear cart
+                    </button>
                 </div>
-                <NuxtLink to="/checkout" @click="open = false"
-                    class="w-full bg-brand text-white py-2 rounded hover:bg-brand-dark transition text-center block">
-                    Checkout
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-lg font-bold text-gray-800">Total</span>
+                    <span class="text-lg font-bold text-gray-800 tabular-nums">${{ totalPrice.toFixed(2) }}</span>
+                </div>
+                <NuxtLink
+                    to="/checkout"
+                    class="w-full bg-brand text-white py-2.5 rounded-md hover:bg-brand/90 transition-colors text-center block font-semibold"
+                    @click="open = false"
+                >
+                    Proceed to Checkout
                 </NuxtLink>
             </DrawerFooter>
         </DrawerContent>
     </Drawer>
 </template>
 
-<script setup lang="ts">
-    import { ShoppingCart } from 'lucide-vue-next'
-    import { computed, ref } from 'vue'
-    import Drawer from './drawer/Drawer.vue'
-    import DrawerClose from './drawer/DrawerClose.vue'
-    import DrawerContent from './drawer/DrawerContent.vue'
-    import DrawerDescription from './drawer/DrawerDescription.vue'
-    import DrawerFooter from './drawer/DrawerFooter.vue'
-    import DrawerHeader from './drawer/DrawerHeader.vue'
-    import DrawerTitle from './drawer/DrawerTitle.vue'
-    import DrawerTrigger from './drawer/DrawerTrigger.vue'
-
-    const open = ref(false)
-    // Example cart items, replace with your store logic
-    const cartItems = ref([
-        {
-            id: 1,
-            name: 'Wireless Mouse',
-            description: 'Ergonomic, 2.4GHz, Black',
-            image: 'https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=800',
-            quantity: 2,
-            price: 25.99
-        },
-        {
-            id: 2,
-            name: 'Mechanical Keyboard',
-            description: 'RGB, Blue Switches',
-            image: 'https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=800',
-            quantity: 1,
-            price: 89.99
-        },
-        {
-            id: 3,
-            name: 'USB-C Hub',
-            description: '6-in-1, Aluminum',
-            image: 'https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=800',
-            quantity: 1,
-            price: 39.99
-        }
-    ])
-    const total = computed(() => cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0))
-</script>
+<style scoped>
+.cart-item-enter-active,
+.cart-item-leave-active {
+    transition: all 0.3s ease;
+}
+.cart-item-enter-from {
+    opacity: 0;
+    transform: translateX(20px);
+}
+.cart-item-leave-to {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+.cart-item-move {
+    transition: transform 0.3s ease;
+}
+</style>

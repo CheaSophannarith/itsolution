@@ -164,6 +164,45 @@
             </div>
         </div>
 
+        <!-- About Our Services Section -->
+        <div class="bg-gray-50 py-12 sm:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-10">
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-950 mb-2">Our Software Solutions</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">
+                        We provide comprehensive software solutions and custom development services to help your business
+                        thrive in the digital era.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div v-for="item in softwareServices" :key="item.id"
+                        class="bg-white border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow group">
+                        <NuxtLink :to="`/services/${item.slug}`" class="block">
+                            <div class="aspect-video overflow-hidden">
+                                <img :src="item.image" :alt="item.name"
+                                    class="w-full h-full object-fit group-hover:scale-105 transition-transform duration-300" />
+                            </div>
+                            <div class="p-4 sm:p-6">
+                                <h3 class="text-lg font-bold text-gray-800 group-hover:text-brand transition-colors mb-2">
+                                    {{ item.name }}
+                                </h3>
+                                <p class="text-sm text-gray-600 line-clamp-2">{{ item.description }}</p>
+                            </div>
+                        </NuxtLink>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <NuxtLink to="/services"
+                        class="inline-flex items-center gap-2 bg-brand text-white px-6 py-3 rounded-none font-medium hover:bg-brand/90 transition-colors">
+                        View All Services
+                        <ChevronRight class="w-4 h-4" />
+                    </NuxtLink>
+                </div>
+            </div>
+        </div>
+
         <!-- Why Choose Us Section -->
         <div class="bg-white py-12 sm:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
@@ -208,6 +247,7 @@ import {
 // import hardwareCategoriesData from '~/assets/data/Hardware/categories.json';
 // import productsData from '~/assets/data/Hardware/products.json';
 // import brandsData from '~/assets/data/Hardware/brand.json';
+import softwareServicesData from '~/assets/data/Service/system.json';
 
 interface Category {
     id: number;
@@ -246,6 +286,8 @@ interface Brand {
 // const brands = brandsData as Brand[];
 
 const activeTab = ref('computers-tablets');
+
+const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
 
 const quickLinks = [
     { title: 'Hardware', description: 'Computers & devices', href: '/hardware', icon: Laptop },
