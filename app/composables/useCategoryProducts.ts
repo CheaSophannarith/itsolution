@@ -2,7 +2,7 @@ import type { Product, ProductsResponse } from '~/types';
 
 export function useCategoryProducts(
     slug: Ref<string> | string,
-    filters?: Ref<Record<string, string>>
+    filters?: Ref<Record<string, string | number | boolean | string[]>>
 ) {
     const config = useRuntimeConfig();
 

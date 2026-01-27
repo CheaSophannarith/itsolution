@@ -7,9 +7,9 @@
         </button>
         <div :class="['space-y-1 sm:space-y-2', { 'hidden lg:block': !expanded }]">
             <div v-if="!showAll && items.length > 10">
-                <label v-for="item in items.slice(0, 10)" :key="item.id"
+                <label v-for="item in items.slice(0, 10)" :key="item.uuid"
                     class="flex items-center gap-1 cursor-pointer hover:bg-gray-50 rounded p-1">
-                    <input type="checkbox" :value="item.id" v-model="localValue"
+                    <input type="checkbox" :value="item.uuid" v-model="localValue"
                         class="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-brand" />
                     <span class="text-sm text-gray-700">{{ item.name }}</span>
                 </label>
@@ -21,9 +21,9 @@
             </div>
             <div v-else-if="showAll && items.length > 10" class="border border-gray-300 rounded-lg p-3 bg-white">
                 <div class="max-h-64 overflow-y-auto space-y-2 pr-2">
-                    <label v-for="item in items" :key="item.id"
+                    <label v-for="item in items" :key="item.uuid"
                         class="flex items-center gap-1 cursor-pointer hover:bg-gray-50 rounded p-1">
-                        <input type="checkbox" :value="item.id" v-model="localValue"
+                        <input type="checkbox" :value="item.uuid" v-model="localValue"
                             class="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-brand" />
                         <span class="text-sm text-gray-700">{{ item.name }}</span>
                     </label>
@@ -35,9 +35,9 @@
                 </button>
             </div>
             <div v-else>
-                <label v-for="item in items" :key="item.id"
+                <label v-for="item in items" :key="item.uuid"
                     class="flex items-center gap-1 cursor-pointer hover:bg-gray-50 rounded p-1">
-                    <input type="checkbox" :value="item.id" v-model="localValue"
+                    <input type="checkbox" :value="item.uuid" v-model="localValue"
                         class="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-brand" />
                     <span class="text-sm text-gray-700">{{ item.name }}</span>
                 </label>
@@ -51,6 +51,7 @@
     import { ref } from 'vue';
 
     interface Item {
+        uuid: string;
         id: string | number;
         name: string;
     }

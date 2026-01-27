@@ -55,12 +55,8 @@
                             <!-- Search Box -->
                             <div class="flex shadow-sm">
                                 <input type="text" placeholder="Search products..." v-model="searchQuery"
-                                    class="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 border border-r-0 border-gray-300 focus:outline-none focus:border-brand focus:ring-brand text-sm rounded-l"
-                                    @keyup.enter="applyFilters" />
-                                <button @click="applyFilters"
-                                    class="bg-brand text-white px-3 sm:px-4 py-2 sm:py-2.5 hover:bg-brand/90 transition-colors flex items-center justify-center rounded-r">
-                                    <Search class="w-4 h-4" />
-                                </button>
+                                    class="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 focus:outline-none focus:border-brand focus:ring-brand text-sm rounded"
+                                />
                             </div>
 
                             <!-- Categories Navigation with Dropdown -->
@@ -114,9 +110,8 @@
                                 :expanded="expandedSections.brand ?? true" @toggle="toggleFilterSection('brand')" />
 
                             <!-- Dynamic Attribute Filters -->
-                            <FilterCategorySection v-for="attr in attributeItems" :key="attr.slug"
-                                :label="attr.name" :items="attr.items"
-                                :model-value="getAttributeSelection(attr.slug)"
+                            <FilterCategorySection v-for="attr in attributeItems" :key="attr.slug" :label="attr.name"
+                                :items="attr.items" :model-value="getAttributeSelection(attr.slug)"
                                 @update:model-value="setAttributeSelection(attr.slug, $event ?? [])"
                                 :expanded="expandedSections[attr.slug] ?? true"
                                 @toggle="toggleFilterSection(attr.slug)" />
@@ -124,8 +119,16 @@
                             <!-- Price Range Filter -->
                             <FilterPriceRange v-if="priceRange" :min="priceRange.min" :max="priceRange.max"
                                 v-model:min-value="priceMin" v-model:max-value="priceMax"
-                                :expanded="expandedSections.price ?? true"
-                                @toggle="toggleFilterSection('price')" />
+                                :expanded="expandedSections.price ?? true" @toggle="toggleFilterSection('price')" />
+
+                            <!-- In Stock Filter -->
+                            <div class="mt-4 sm:mt-6">
+                                <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 rounded p-1">
+                                    <input type="checkbox" v-model="inStock"
+                                        class="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-brand" />
+                                    <span class="text-sm font-medium text-gray-700">In Stock Only</span>
+                                </label>
+                            </div>
 
                             <!-- Clear All Filters Button (Mobile) -->
                             <button v-if="hasActiveFilters" @click="clearFilters"
@@ -136,15 +139,25 @@
                     </aside>
                 </Transition>
 
-                <!-- Apply Filter Button - Fixed at bottom of page -->
-                <FilterApplyBar :hasActiveFilters="hasActiveFilters" :activeFilterCount="activeFilterCount"
-                    @clearFilters="clearFilters" @applyFilters="applyFilters" />
-
                 <!-- Main Content Area -->
                 <main class="flex-1 min-w-0">
                     <!-- All Products Section -->
                     <div ref="allProductsSection" class="mt-12 sm:mt-16">
-                        <h2 class="text-blue-950 text-xl sm:text-2xl font-bold mb-6 sm:mb-8">All Products</h2>
+                        <div class="flex items-center justify-between mb-6 sm:mb-8">
+                            <h2 class="text-blue-950 text-xl sm:text-2xl font-bold">All Products</h2>
+                            <div class="flex items-center gap-2">
+                                <ArrowUpDown class="w-4 h-4 text-gray-500" />
+                                <select v-model="sortBy"
+                                    class="text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:border-brand focus:ring-brand bg-white">
+                                    <option value="-created_at">Newest</option>
+                                    <option value="created_at">Oldest</option>
+                                    <option value="price">Price: Low to High</option>
+                                    <option value="-price">Price: High to Low</option>
+                                    <option value="name">Name: A–Z</option>
+                                    <option value="-name">Name: Z–A</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                             <ProductCard v-for="product in paginatedProducts" :key="product.uuid" :product="product" />
                         </div>
@@ -175,8 +188,7 @@
     import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
     import { useRoute } from 'vue-router';
     import { createError } from '#imports';
-    import { ChevronRight, ChevronDown, Search, SlidersHorizontal } from 'lucide-vue-next';
-    import FilterApplyBar from '~/components/ui/FilterApplyBar.vue';
+    import { ChevronRight, ChevronDown, SlidersHorizontal, ArrowUpDown } from 'lucide-vue-next';
     import FilterCategorySection from '~/components/ui/FilterCategorySection.vue';
     import FilterPriceRange from '~/components/ui/FilterPriceRange.vue';
     import type { CategoryTree } from '~/types';
@@ -231,8 +243,61 @@
     // Search
     const searchQuery = ref('');
 
-    // Applied filter params sent to the products API
-    const appliedFilters = ref<Record<string, string>>({});
+    // Sort & in-stock filter state
+    const sortBy = ref('-created_at');
+    const inStock = ref(false);
+
+    // Filter selections
+    const selectedBrands = ref<string[]>([]);
+    const selectedAttributes = ref<Record<string, string[]>>({});
+    const priceMin = ref<number | undefined>(undefined);
+    const priceMax = ref<number | undefined>(undefined);
+
+    // Applied filter params computed from reactive state
+    const appliedFilters = computed<Record<string, string | number | boolean | string[]>>(() => {
+        const query: Record<string, string | number | boolean | string[]> = {};
+
+        // Search
+        if (searchQuery.value.trim()) {
+            query['filter[search]'] = searchQuery.value.trim();
+        }
+
+        // Brands (UUIDs)
+        if (selectedBrands.value.length > 0) {
+            query['filter[brands][]'] = selectedBrands.value;
+        }
+
+        // Attributes — collect all selected option UUIDs
+        const attributeUuids: string[] = [];
+        for (const values of Object.values(selectedAttributes.value)) {
+            if (values && values.length > 0) {
+                attributeUuids.push(...values);
+            }
+        }
+        if (attributeUuids.length > 0) {
+            query['filter[attributes][uuid][]'] = attributeUuids;
+        }
+
+        // Price range
+        if (priceMin.value !== undefined) {
+            query['filter[price_min]'] = priceMin.value;
+        }
+        if (priceMax.value !== undefined) {
+            query['filter[price_max]'] = priceMax.value;
+        }
+
+        // In-stock
+        if (inStock.value) {
+            query['filter[in_stock]'] = true;
+        }
+
+        // Sort
+        if (sortBy.value) {
+            query['sort'] = sortBy.value;
+        }
+
+        return query;
+    });
 
     // Fetch products from API with filters
     const { products } = useCategoryProducts(slug, appliedFilters);
@@ -240,6 +305,7 @@
     // Brand filter items from API
     const brandItems = computed(() => {
         return apiBrands.value.map(b => ({
+            uuid: b.uuid,
             id: b.slug,
             name: `${b.name} (${b.count})`,
         }));
@@ -251,6 +317,7 @@
             slug: attr.slug,
             name: attr.name,
             items: attr.options.map(opt => ({
+                uuid: opt.uuid,
                 id: opt.value,
                 name: `${opt.label} (${opt.count})`,
             })),
@@ -268,10 +335,6 @@
     // Mobile/responsive states
     const filtersOpen = ref(false);
     const isLargeScreen = ref(true);
-    const selectedBrands = ref<string[]>([]);
-    const selectedAttributes = ref<Record<string, string[]>>({});
-    const priceMin = ref<number | undefined>(undefined);
-    const priceMax = ref<number | undefined>(undefined);
     const showAllCategories = ref(false);
     const expandedDropdowns = ref<Record<string, boolean>>({});
 
@@ -336,10 +399,12 @@
 
     // Check if any filters are active
     const hasActiveFilters = computed(() => {
-        return selectedBrands.value.length > 0
+        return searchQuery.value.trim().length > 0
+            || selectedBrands.value.length > 0
             || Object.values(selectedAttributes.value).some(arr => arr.length > 0)
             || priceMin.value !== undefined
-            || priceMax.value !== undefined;
+            || priceMax.value !== undefined
+            || inStock.value;
     });
 
     // Count total active filters
@@ -348,49 +413,27 @@
         Object.values(selectedAttributes.value).forEach(arr => {
             count += arr.length;
         });
+        if (searchQuery.value.trim()) count++;
         if (priceMin.value !== undefined) count++;
         if (priceMax.value !== undefined) count++;
+        if (inStock.value) count++;
         return count;
     });
 
-    // Apply filters function — stays on current page, sends params to products API
-    const applyFilters = () => {
-        const query: Record<string, string> = {};
-
-        if (searchQuery.value.trim()) {
-            query.search = searchQuery.value.trim();
-        }
-        if (selectedBrands.value.length > 0) {
-            query.brand = selectedBrands.value.join(',');
-        }
-
-        // Dynamic attributes: each attribute slug becomes a query param key
-        for (const [attrSlug, values] of Object.entries(selectedAttributes.value)) {
-            if (values.length > 0) {
-                query[attrSlug] = values.join(',');
-            }
-        }
-
-        // Price range
-        if (priceMin.value !== undefined) {
-            query.price_min = String(priceMin.value);
-        }
-        if (priceMax.value !== undefined) {
-            query.price_max = String(priceMax.value);
-        }
-
-        appliedFilters.value = query;
+    // Reset pagination when any filter changes
+    watch(appliedFilters, () => {
         currentPage.value = 1;
-    };
+    }, { deep: true });
 
     // Clear all filters
     const clearFilters = () => {
+        searchQuery.value = '';
         selectedBrands.value = [];
         selectedAttributes.value = {};
         priceMin.value = undefined;
         priceMax.value = undefined;
-        appliedFilters.value = {};
-        currentPage.value = 1;
+        inStock.value = false;
+        sortBy.value = '-created_at';
     };
 
     // 404 handling - only after data is loaded
