@@ -24,70 +24,30 @@
             </div>
         </div>
 
-
-        <!-- Quick Links Section -->
-        <div class="bg-white py-8 sm:py-12 border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6">
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <NuxtLink v-for="category in categories" :key="category.slug" 
-                        class="flex items-center gap-3 sm:gap-4 p-4 sm:p-6 border border-gray-200 hover:border-brand hover:shadow-md transition-all group">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-brand/10 rounded-full flex items-center justify-center group-hover:bg-brand transition-colors">
-                            <!-- <component :is="category." class="w-5 h-5 sm:w-6 sm:h-6 text-brand group-hover:text-white transition-colors" /> -->
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-gray-800 text-sm sm:text-base">{{ category.name }}</h3>
-                            <!-- <p class="text-xs sm:text-sm text-gray-500">{{ link.description }}</p> -->
-                        </div>
-                    </NuxtLink>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Categories Section -->
-        <div class="bg-gray-50 py-12 sm:py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6">
-                <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-950 mb-2">Shop by Category</h2>
-                <p class="text-gray-600 mb-8">Browse our extensive catalog of IT products and solutions</p>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <NuxtLink v-for="category in mainCategories" :key="category.title" :to="category.href"
-                        class="relative overflow-hidden rounded-lg group">
-                        <div class="aspect-[4/3] bg-gradient-to-br from-brand to-blue-950 p-6 sm:p-8 flex flex-col justify-end">
-                            <component :is="category.icon" class="w-12 h-12 sm:w-16 sm:h-16 text-white/80 mb-4" />
-                            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">{{ category.title }}</h3>
-                            <p class="text-sm text-white/80">{{ category.description }}</p>
-                            <div class="mt-4 flex items-center gap-2 text-white font-medium group-hover:gap-3 transition-all">
-                                Shop Now
-                                <ChevronRight class="w-5 h-5" />
-                            </div>
-                        </div>
-                    </NuxtLink>
-                </div>
-            </div>
-        </div>
-
-     
-
-
-        <!-- Services Section -->
-        <div class="bg-gray-900 py-12 sm:py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6">
-                <div class="text-center mb-10">
-                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">IT Services & Solutions</h2>
-                    <p class="text-gray-400">Comprehensive technology services to power your business</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div v-for="service in services" :key="service.title"
-                        class="bg-gray-800 p-6 rounded-lg hover:bg-gray-750 transition-colors">
-                        <component :is="service.icon" class="w-10 h-10 text-brand mb-4" />
-                        <h3 class="text-lg font-semibold text-white mb-2">{{ service.title }}</h3>
-                        <p class="text-sm text-gray-400 mb-4">{{ service.description }}</p>
-                        <NuxtLink :to="service.href" class="text-brand font-medium hover:underline text-sm">
-                            Learn More →
-                        </NuxtLink>
+        <!-- Categories and Products Section -->
+        <div v-if="categories && categories.length > 0" class="bg-gradient-to-b from-gray-50 to-white py-12 sm:py-16">
+            <div v-for="category in mainCategories" :key="category.uuid" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 last:mb-0">
+                <!-- Category Header -->
+                <div class="flex items-center justify-between mb-6 sm:mb-8">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{{ category.name }}</h2>
+                        <p class="text-sm sm:text-base text-gray-600">Discover our latest {{ category.name.toLowerCase() }} products</p>
                     </div>
+                    <NuxtLink :to="`/categories/${category.slug}`"
+                        class="hidden sm:inline-flex items-center gap-2 text-brand font-semibold hover:gap-3 transition-all group">
+                        <span>View All</span>
+                        <ChevronRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </NuxtLink>
                 </div>
+
+                <CategoryProductsList :category="category" />
+
+                <!-- Mobile View All Link -->
+                <NuxtLink :to="`/categories/${category.slug}`"
+                    class="sm:hidden mt-6 flex items-center justify-center gap-2 text-brand font-semibold py-3 border-2 border-brand rounded-xl hover:bg-brand hover:text-white transition-all">
+                    <span>View All {{ category.name }}</span>
+                    <ChevronRight class="w-5 h-5" />
+                </NuxtLink>
             </div>
         </div>
 
@@ -172,61 +132,11 @@ import {
     ShoppingCart
 } from 'lucide-vue-next';
 import softwareServicesData from '~/assets/data/Service/system.json';
-const { categories,status,error} = useCategories();
+import type { CategoryTree } from '~/types';
 
-
+const { categories, status, error } = useCategories();
 
 const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
-
-const quickLinks = [
-    { title: 'Hardware', description: 'Computers & devices', href: '/hardware', icon: Laptop },
-    { title: 'Software', description: 'Applications & licenses', href: '/software', icon: HardDrive },
-    { title: 'IT Solutions', description: 'Enterprise services', href: '/it-solutions', icon: Server },
-    { title: 'Support', description: 'Help & resources', href: '/contact', icon: Headset },
-];
-
-const mainCategories = [
-    {
-        title: 'Hardware',
-        description: 'Computers, servers, networking equipment, and peripherals',
-        href: '/hardware',
-        icon: Monitor
-    },
-    {
-        title: 'Software',
-        description: 'Operating systems, productivity tools, and security solutions',
-        href: '/software',
-        icon: HardDrive
-    },
-    {
-        title: 'IT Services',
-        description: 'Cloud solutions, managed services, and technical support',
-        href: '/services',
-        icon: Cloud
-    },
-];
-
-
-const services = [
-    {
-        title: 'Cloud Solutions',
-        description: 'Migrate, manage, and optimize your cloud infrastructure with our expert team.',
-        href: '/services/cloud',
-        icon: Cloud
-    },
-    {
-        title: 'Managed Services',
-        description: 'Let us handle your IT operations while you focus on growing your business.',
-        href: '/services/managed',
-        icon: Settings
-    },
-    {
-        title: 'Technical Support',
-        description: '24/7 support from certified professionals to keep your systems running.',
-        href: '/services/support',
-        icon: Headset
-    },
-];
 
 const whyChooseUs = [
     { title: 'Fast Shipping', description: 'Quick delivery on all orders', icon: Truck },
@@ -234,4 +144,11 @@ const whyChooseUs = [
     { title: 'Expert Support', description: '24/7 technical assistance', icon: Headset },
     { title: 'Quality Products', description: 'Top brands guaranteed', icon: Award },
 ];
+
+// Get first level categories to display products
+const mainCategories = computed(() => {
+    if (!categories.value) return [];
+    // Get all parent categories
+    return categories.value.slice(0, 3); // Show first 3 categories
+});
 </script>
