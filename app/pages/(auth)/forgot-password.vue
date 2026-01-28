@@ -74,7 +74,7 @@ import { Mail, ArrowLeft, Loader2, CheckCircle } from 'lucide-vue-next'
 
 definePageMeta({
     layout: false,
-    middleware: 'guest'
+    // middleware: 'guest'
 })
 
 const form = ref({

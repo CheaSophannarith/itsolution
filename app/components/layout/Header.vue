@@ -54,12 +54,17 @@
 
                         <!-- User Menu or Sign In - Hidden on mobile -->
                         <span class="hidden sm:block text-gray-300">|</span>
-                        <div v-if="authStore.isAuthenticated" class="hidden sm:block relative" ref="userMenuRef">
+                        <div v-if="authStore.isAuthenticated" class="hidden sm:block relative" ref="userMenuRef"
+                            @mouseenter="openUserMenu" @mouseleave="closeUserMenuDelayed">
                             <button @click="toggleUserMenu"
-                                class="flex items-center gap-2 text-brand hover:text-white hover:bg-brand px-2 py-2 rounded-md transition-all font-bold">
-                                <CircleUser class="w-5 h-5" />
-                                <span class="hidden lg:inline">{{ authStore.user?.name }}</span>
-                                <ChevronDown class="w-4 h-4" />
+                                class="flex items-center gap-2 p-2 text-brand hover:bg-gray-100 rounded-full transition-all">
+                                <!-- Profile Image or Initials -->
+                                <div v-if="authStore.user?.profile_image" class="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-transparent hover:ring-brand transition-all">
+                                    <img :src="authStore.user.profile_image" :alt="authStore.user.name" class="w-full h-full object-cover" />
+                                </div>
+                                <div v-else class="w-9 h-9 bg-brand text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 ring-2 ring-transparent hover:ring-brand/50 transition-all">
+                                    {{ userInitials }}
+                                </div>
                             </button>
                             <Transition enter-active-class="transition ease-out duration-100"
                                 enter-from-class="transform opacity-0 scale-95"
@@ -68,18 +73,47 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <div v-if="userMenuOpen"
-                                    class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
-                                    <NuxtLink to="/profile" @click="closeUserMenu"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        My Profile
-                                    </NuxtLink>
-                                    <NuxtLink to="/orders" @click="closeUserMenu" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        My Orders
-                                    </NuxtLink>
-                                    <button @click="handleLogout"
-                                        class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                        Logout
-                                    </button>
+                                    @mouseenter="keepUserMenuOpen" @mouseleave="closeUserMenuDelayed"
+                                    class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-200">
+                                    <!-- User Info Header -->
+                                    <div class="px-4 py-3 border-b border-gray-200">
+                                        <div class="flex items-center gap-3">
+                                            <!-- Profile Image or Initials -->
+                                            <div v-if="authStore.user?.profile_image" class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                                                <img :src="authStore.user.profile_image" :alt="authStore.user.name" class="w-full h-full object-cover" />
+                                            </div>
+                                            <div v-else class="w-12 h-12 bg-brand text-white rounded-full flex items-center justify-center text-base font-bold flex-shrink-0">
+                                                {{ userInitials }}
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-semibold text-gray-900 truncate">{{ authStore.user?.name }}</p>
+                                                <p class="text-xs text-gray-600 truncate">{{ authStore.user?.email }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Menu Items -->
+                                    <div class="py-1">
+                                        <NuxtLink to="/profile" @click="closeUserMenu"
+                                            class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                            <CircleUser class="w-5 h-5 text-gray-500" />
+                                            <span>My Profile</span>
+                                        </NuxtLink>
+                                        <NuxtLink to="/orders" @click="closeUserMenu"
+                                            class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                            <ShoppingCart class="w-5 h-5 text-gray-500" />
+                                            <span>My Orders</span>
+                                        </NuxtLink>
+                                    </div>
+
+                                    <!-- Logout -->
+                                    <div class="border-t border-gray-200 py-1">
+                                        <button @click="handleLogout"
+                                            class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                            <LogOut class="w-5 h-5" />
+                                            <span>Logout</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </Transition>
                         </div>
@@ -91,10 +125,16 @@
 
                         <!-- Mobile Profile Icon - Always visible -->
                         <div v-if="authStore.isAuthenticated" class="sm:hidden relative" ref="mobileProfileMenuRef">
-                            <button @click="toggleProfileMenu" class="p-2 text-brand hover:bg-gray-100 rounded-md relative">
-                                <CircleUser class="w-5 h-5" />
+                            <button @click="toggleProfileMenu" class="p-2 hover:bg-gray-100 rounded-md relative">
+                                <!-- Profile Image or Initials -->
+                                <div v-if="authStore.user?.profile_image" class="w-8 h-8 rounded-full overflow-hidden">
+                                    <img :src="authStore.user.profile_image" :alt="authStore.user.name" class="w-full h-full object-cover" />
+                                </div>
+                                <div v-else class="w-8 h-8 bg-brand text-white rounded-full flex items-center justify-center text-xs font-semibold">
+                                    {{ userInitials }}
+                                </div>
                                 <!-- Green dot indicator for logged in -->
-                                <span class="absolute top-1 right-1 w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-green-500 rounded-full border border-white"></span>
                             </button>
 
                             <!-- Profile Dropdown Menu -->
@@ -107,18 +147,22 @@
                                 <div v-if="profileMenuOpen"
                                     class="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
                                     <!-- User Info Header -->
-                                    <div class="p-4 bg-gradient-to-r from-brand to-brand/90 border-b border-brand relative">
+                                    <div class="p-4 bg-white border-b border-brand relative">
                                         <button @click="closeProfileMenu"
                                             class="absolute top-2 right-2 p-1.5 text-white/80 hover:text-white hover:bg-white/20 rounded-md transition-colors">
                                             <X class="w-4 h-4" />
                                         </button>
                                         <div class="flex items-center gap-3 pr-8">
-                                            <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                                                <CircleUser class="w-7 h-7 text-white" />
+                                            <!-- Profile Image or Initials -->
+                                            <div v-if="authStore.user?.profile_image" class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                                                <img :src="authStore.user.profile_image" :alt="authStore.user.name" class="w-full h-full object-cover" />
                                             </div>
+                                           <div v-else class="w-8 h-8 bg-brand text-white rounded-full flex items-center justify-center text-xs font-semibold">
+                                    {{ userInitials }}
+                                </div>
                                             <div class="flex-1 min-w-0">
-                                                <p class="text-sm font-semibold text-white truncate">{{ authStore.user?.name }}</p>
-                                                <p class="text-xs text-white/80 truncate">{{ authStore.user?.email }}</p>
+                                                <p class="text-sm font-semibold text-black truncate">{{ authStore.user?.name }}</p>
+                                                <p class="text-xs text-black/80 truncate">{{ authStore.user?.email }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +174,6 @@
                                             <CircleUser class="w-5 h-5 text-brand" />
                                             <div>
                                                 <p class="text-sm font-medium">My Profile</p>
-                                                <p class="text-xs text-gray-500">View and edit profile</p>
                                             </div>
                                         </NuxtLink>
 
@@ -139,7 +182,6 @@
                                             <ShoppingCart class="w-5 h-5 text-brand" />
                                             <div>
                                                 <p class="text-sm font-medium">My Orders</p>
-                                                <p class="text-xs text-gray-500">Track your orders</p>
                                             </div>
                                         </NuxtLink>
 
@@ -365,9 +407,22 @@
     const authStore = useAuthStore()
     const { addToast } = useToast()
 
+    // Get user initials (first 1-2 characters)
+    const userInitials = computed(() => {
+        const name = authStore.user?.name || ''
+        const words = name.trim().split(' ').filter(word => word.length > 0)
+        if (words.length >= 2 && words[0] && words[words.length - 1]) {
+            // Get first letter of first and last name
+            return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+        }
+        // Get first 2 letters of single name
+        return name.trim().substring(0, 2).toUpperCase() || 'U'
+    })
+
     // User menu state (desktop)
     const userMenuOpen = ref(false)
     const userMenuRef = ref<HTMLElement | null>(null)
+    let userMenuTimeout: ReturnType<typeof setTimeout> | null = null
 
     // Mobile profile menu ref
     const mobileProfileMenuRef = ref<HTMLElement | null>(null)
@@ -376,7 +431,32 @@
         userMenuOpen.value = !userMenuOpen.value
     }
 
+    function openUserMenu() {
+        if (userMenuTimeout) {
+            clearTimeout(userMenuTimeout)
+            userMenuTimeout = null
+        }
+        userMenuOpen.value = true
+    }
+
+    function closeUserMenuDelayed() {
+        userMenuTimeout = setTimeout(() => {
+            userMenuOpen.value = false
+        }, 200)
+    }
+
+    function keepUserMenuOpen() {
+        if (userMenuTimeout) {
+            clearTimeout(userMenuTimeout)
+            userMenuTimeout = null
+        }
+    }
+
     function closeUserMenu() {
+        if (userMenuTimeout) {
+            clearTimeout(userMenuTimeout)
+            userMenuTimeout = null
+        }
         userMenuOpen.value = false
     }
 
@@ -436,6 +516,9 @@
         window.removeEventListener('scroll', onScroll)
         document.removeEventListener('click', handleClickOutside)
         document.body.style.overflow = '' // Ensure body scroll is restored
+        if (userMenuTimeout) {
+            clearTimeout(userMenuTimeout)
+        }
     })
     import type { CategoryTree } from '~/types'
 

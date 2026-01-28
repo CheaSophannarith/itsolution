@@ -9,8 +9,12 @@
 
             <!-- Account Information Card -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-                <div class="px-6 py-4 bg-gradient-to-r from-brand to-brand/90 border-b border-brand">
+                <div class="px-6 py-4 bg-gradient-to-r from-brand to-brand/90 border-b border-brand flex items-center justify-between">
                     <h2 class="text-lg font-semibold text-white">Account Information</h2>
+                    <button v-if="!showProfileForm" @click="showProfileForm = true" type="button"
+                        class="px-4 py-2 bg-white text-brand rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
+                        Edit Profile
+                    </button>
                 </div>
                 <div class="p-6">
                     <div class="flex items-center gap-4 mb-6">
@@ -28,7 +32,7 @@
                         </div>
                     </div>
 
-                    <form @submit.prevent="updateProfile" class="space-y-4">
+                    <form v-if="showProfileForm" @submit.prevent="updateProfile" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
@@ -44,7 +48,7 @@
                         </div>
 
                         <div class="flex justify-end gap-3 pt-4">
-                            <button type="button" @click="resetForm"
+                            <button type="button" @click="cancelProfileEdit"
                                 class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                 Cancel
                             </button>
@@ -59,11 +63,15 @@
             </div>
 
             <!-- Change Password Card -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
                     <h2 class="text-lg font-semibold text-gray-900">Change Password</h2>
+                    <button v-if="!showPasswordForm" @click="showPasswordForm = true" type="button"
+                        class="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors text-sm font-medium">
+                        Change Password
+                    </button>
                 </div>
-                <div class="p-6">
+                <div v-if="showPasswordForm" class="p-6">
                     <form @submit.prevent="updatePassword" class="space-y-4">
                         <div>
                             <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">Current
@@ -109,7 +117,7 @@
                         </div>
 
                         <div class="flex justify-end gap-3 pt-4">
-                            <button type="button" @click="resetPasswordForm"
+                            <button type="button" @click="cancelPasswordEdit"
                                 class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                 Cancel
                             </button>
@@ -120,26 +128,6 @@
                             </button>
                         </div>
                     </form>
-                </div>
-            </div>
-
-            <!-- Account Actions -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
-                    <h2 class="text-lg font-semibold text-gray-900">Account Actions</h2>
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center justify-between py-3">
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-900">Account Status</h3>
-                            <p class="text-sm text-gray-600">Your account is active</p>
-                        </div>
-                        <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">Active</span>
-                    </div>
-                    <div class="border-t border-gray-200 mt-4 pt-4">
-                        <h3 class="text-sm font-medium text-gray-900 mb-2">Member Since</h3>
-                        <p class="text-sm text-gray-600">{{ formatDate(authStore.user?.created_at) }}</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -156,6 +144,10 @@ definePageMeta({
 
 const authStore = useAuthStore()
 const { addToast } = useToast()
+
+// Form visibility
+const showProfileForm = ref(false)
+const showPasswordForm = ref(false)
 
 // Profile form
 const profileForm = ref({
@@ -191,6 +183,11 @@ function resetForm() {
     }
 }
 
+function cancelProfileEdit() {
+    resetForm()
+    showProfileForm.value = false
+}
+
 function resetPasswordForm() {
     passwordForm.value = {
         current_password: '',
@@ -199,12 +196,18 @@ function resetPasswordForm() {
     }
 }
 
+function cancelPasswordEdit() {
+    resetPasswordForm()
+    showPasswordForm.value = false
+}
+
 async function updateProfile() {
     isUpdating.value = true
     try {
         // TODO: Implement profile update API call
         await new Promise(resolve => setTimeout(resolve, 1000))
         addToast('Profile updated successfully!', 'success')
+        showProfileForm.value = false
     } catch (error) {
         console.error('Update failed:', error)
         addToast('Failed to update profile. Please try again.', 'error')
@@ -230,6 +233,7 @@ async function updatePassword() {
         await new Promise(resolve => setTimeout(resolve, 1000))
         addToast('Password updated successfully!', 'success')
         resetPasswordForm()
+        showPasswordForm.value = false
     } catch (error) {
         console.error('Password update failed:', error)
         addToast('Failed to update password. Please try again.', 'error')
@@ -238,9 +242,4 @@ async function updatePassword() {
     }
 }
 
-function formatDate(dateString: string | undefined) {
-    if (!dateString) return 'N/A'
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-}
 </script>
