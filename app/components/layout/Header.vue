@@ -11,7 +11,7 @@
 
                     <!-- Logo -->
                     <NuxtLink to="/" class="shrink-0">
-                        <img src="/SHI_LOGO.png" alt="SHI" class="h-6 sm:h-8" />
+                        <img src="/logo.png" alt="TanXLM" class="h-8 sm:h-12" />
                     </NuxtLink>
 
                     <!-- Search Bar - Hidden on mobile, shown on md+ -->
@@ -134,7 +134,7 @@
                 <!-- Mobile Menu Header -->
                 <div class="flex items-center justify-between p-4 border-b border-gray-200 bg-brand">
                     <NuxtLink to="/" @click="closeMobileMenu">
-                        <img src="/SHI_LOGO.png" alt="SHI" class="h-6 brightness-0 invert" />
+                        <img src="/logo.png" alt="TanXLM" class="h-8" />
                     </NuxtLink>
                     <button @click="closeMobileMenu" class="p-2 text-white hover:bg-white/10 rounded-md">
                         <X class="w-6 h-6" />

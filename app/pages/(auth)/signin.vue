@@ -15,9 +15,9 @@
         <div class="relative z-10 w-full max-w-md">
             <div class="bg-white p-8 sm:p-10 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
                 <!-- Form Header -->
-                <div class="mb-8 text-center">
-                    <NuxtLink to="/" class="inline-block mb-6">
-                        <img src="/SHI_LOGO.png" alt="SHI" class="h-10 mx-auto" />
+                <div class="mb-2 text-center">
+                    <NuxtLink to="/" class="inline-block mb-1">
+                        <img src="/logo.png" alt="TanXLM" class="h-18 mx-auto" />
                     </NuxtLink>
                     <h1 class="text-4xl font-bold text-gray-900 mb-3">Welcome back</h1>
                     <p class="text-gray-500 text-lg">Sign in to your account to continue</p>
