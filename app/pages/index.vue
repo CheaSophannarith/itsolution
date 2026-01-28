@@ -37,11 +37,119 @@
         </div>
 
         <!-- Featured Products Section -->
-        <div v-if="featuredProducts && featuredProducts.length > 0" class="bg-white py-8 sm:py-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div v-if="featuredProducts && featuredProducts.length > 0" class="relative pt-8 pb-12 sm:pt-12 sm:pb-16 overflow-hidden">
+            <!-- Background with diagonal split -->
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-blue-50/30"></div>
+
+            <!-- Decorative geometric shapes -->
+            <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-brand/5 to-transparent rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-blue-500/5 to-transparent rounded-full blur-3xl"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <!-- Header Section with asymmetric layout -->
+                <div class="mb-12 sm:mb-16">
+                    <div class="flex flex-col gap-6">
+                        <!-- Left side - Title and description -->
+                        <div class="flex-1">
+                            <div class="mb-4">
+                                <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
+                                    Handpicked for you
+                                </span>
+                            </div>
+                            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                                Featured Products
+                            </h2>
+                            <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
+                                Discover our carefully selected collection of premium IT products.
+                                Each item is chosen for its exceptional quality, performance, and value.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Products Grid -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
                     <ProductCard v-for="product in featuredProducts" :key="product.uuid" :product="product" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Popular Categories Section -->
+        <div v-if="popularCategories && popularCategories.length > 0" class="bg-gradient-to-b from-gray-50 to-white py-8 sm:py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header -->
+                <div class="mb-6 sm:mb-8">
+                    <div class="mb-2">
+                        <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
+                            Shop by category
+                        </span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 leading-tight">
+                        Popular Categories
+                    </h2>
+                    <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
+                        Browse our most popular product categories to find exactly what you need.
+                    </p>
+                </div>
+
+                <!-- Categories Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
+                    <CategoryCard v-for="category in popularCategories" :key="category.uuid" :category="category" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Products Sections -->
+        <div v-if="categoriesWithProducts && categoriesWithProducts.length > 0" class="bg-white py-10 sm:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Header -->
+                <div class="mb-10 sm:mb-12">
+                    <div class="mb-2">
+                        <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
+                            Explore our collection
+                        </span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 leading-tight">
+                        Shop by Category
+                    </h2>
+                    <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
+                        Discover top products from each category, handpicked just for you.
+                    </p>
+                </div>
+
+                <!-- Categories with Products -->
+                <div class="space-y-12 sm:space-y-16">
+                    <div v-for="category in categoriesWithProducts" :key="category.uuid">
+                    <!-- Layout -->
+                    <div class="flex flex-col lg:flex-row items-stretch gap-4">
+                        <!-- Category Image - Always Left -->
+                        <div class="w-full lg:w-auto lg:shrink-0">
+                            <NuxtLink :to="`/categories/${category.slug}`"
+                                class="group relative block rounded-lg overflow-hidden border-2 border-gray-200 hover:border-brand transition-all duration-300 h-full lg:h-auto">
+                                <div class="relative aspect-4/3 lg:aspect-3/4 lg:h-full lg:w-70 bg-gray-900 overflow-hidden">
+                                    <img :src="category.image" :alt="category.name"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
+
+                                    <div class="absolute inset-0 bg-black/50"></div>
+
+                                    <div class="absolute inset-x-0 bottom-0 p-5 z-10">
+                                        <h3 class="text-xl font-bold text-white mb-2">
+                                            {{ category.name }}
+                                        </h3>
+                                        <div class="inline-flex items-center justify-center w-9 h-9 bg-white/20 backdrop-blur-sm rounded-full group-hover:bg-brand transition-all duration-300">
+                                            <ChevronRight class="w-5 h-5 text-white" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </NuxtLink>
+                        </div>
+
+                        <!-- Products Row -->
+                        <div class="flex-1">
+                            <CategoryProductsSection :products="category.products" />
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -133,8 +241,58 @@ import {
     ShoppingCart
 } from 'lucide-vue-next';
 import softwareServicesData from '~/assets/data/Service/system.json';
+import type { Product } from '~/types';
 
+interface Category {
+    uuid: string;
+    name: string;
+    slug: string;
+    description: string | null;
+    image: string;
+    is_popular: boolean;
+}
+
+interface CategoryWithProducts extends Category {
+    products: Product[];
+}
+
+const config = useRuntimeConfig();
 const { featuredProducts } = useFeaturedProducts();
+
+// Fetch popular categories
+const popularCategories = ref<Category[]>([]);
+const { data: categoriesData } = await useFetch<{ data: Category[] }>(
+    `${config.public.apiBaseUrl}/api/v1/categories/popular`
+);
+
+if (categoriesData.value?.data) {
+    popularCategories.value = categoriesData.value.data;
+}
+
+// Fetch products for each category
+const categoriesWithProducts = ref<CategoryWithProducts[]>([]);
+
+if (popularCategories.value.length > 0) {
+    const productPromises = popularCategories.value.map(async (category) => {
+        const { data } = await useFetch<{ data: Product[] }>(
+            `${config.public.apiBaseUrl}/api/v1/categories/${category.slug}/products`
+        );
+
+        const products = data.value?.data ?? [];
+
+        // Only return category if it has products
+        if (products.length > 0) {
+            return {
+                ...category,
+                products: products.slice(0, 4) // Limit to 4 products
+            };
+        }
+        return null;
+    });
+
+    const results = await Promise.all(productPromises);
+    categoriesWithProducts.value = results.filter((cat): cat is CategoryWithProducts => cat !== null);
+}
 
 const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
 

@@ -1,55 +1,56 @@
 <template>
     <div
-        class="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full w-full hover:-translate-y-1">
+        class="group relative bg-white rounded-lg overflow-hidden border border-gray-200 hover:border-gray-300 transition-all duration-300 flex flex-col h-full w-full">
         <!-- Product Image -->
-        <div class="relative aspect-square bg-gray-50/50 overflow-hidden cursor-pointer" @click="navigateToDetail">
+        <div class="relative aspect-square bg-gray-50 overflow-hidden cursor-pointer" @click="navigateToDetail">
             <img :src="product.image" :alt="product.name"
-                class="w-full h-full object-contain p-4 sm:p-5 group-hover:scale-110 transition-transform duration-700 ease-out" />
+                class="w-full h-full object-contain p-4 sm:p-5 group-hover:scale-105 transition-transform duration-300" />
 
             <!-- Status Badge -->
             <div v-if="!product.in_stock"
-                class="absolute top-2.5 left-2.5 bg-red-500/90 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-semibold px-2.5 py-1 rounded-lg tracking-wide">
+                class="absolute top-3 left-3 bg-red-500 text-white text-[10px] sm:text-xs font-medium px-2.5 py-1 rounded-md">
                 Out of Stock
             </div>
             <div v-else-if="product.is_featured"
-                class="absolute top-2.5 left-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] sm:text-[10px] font-semibold px-2.5 py-1 rounded-lg tracking-wide">
+                class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] sm:text-xs font-medium px-2.5 py-1 rounded-md">
                 Featured
             </div>
         </div>
 
-        <!-- Divider -->
-        <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-
         <!-- Product Info -->
-        <div class="px-3 pb-3 pt-2.5 sm:px-4 sm:pb-4 sm:pt-3 flex flex-col grow">
+        <div class="px-4 pb-4 pt-4 sm:px-5 sm:pb-5 sm:pt-5 flex flex-col grow border-t border-gray-100">
             <!-- Product Name -->
-            <h3 class="text-[11px] sm:text-sm font-medium text-gray-700 mb-2 sm:mb-2.5 line-clamp-2 cursor-pointer group-hover:text-brand transition-colors duration-300 leading-snug"
+            <h3 class="text-xs sm:text-sm font-medium text-gray-900 mb-1.5 sm:mb-2 line-clamp-2 cursor-pointer group-hover:text-brand transition-colors duration-200 leading-relaxed"
                 @click="navigateToDetail">
                 {{ product.name }}
             </h3>
 
             <!-- Price & Buttons -->
             <div class="mt-auto">
-                <p class="text-sm sm:text-base font-bold text-pink-600 mb-2 sm:mb-3 tracking-tight">${{ formattedPrice }}</p>
+                <p class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-3.5">${{ formattedPrice }}</p>
 
                 <!-- Action Buttons -->
-                <div class="flex gap-1.5 sm:gap-2">
+                <div class="flex gap-2">
                     <button @click="handleAddToCart" :disabled="!product.in_stock || adding"
-                        class="flex-1 bg-brand text-white px-1.5 sm:px-2.5 py-1.5 sm:py-2 rounded-md hover:bg-brand/90 hover:shadow-md hover:shadow-brand/20 active:scale-[0.97] disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 font-semibold text-[10px] sm:text-xs whitespace-nowrap relative overflow-hidden text-center"
-                        :class="{ 'bg-green-500! shadow-green-500/20! animate-bounce-once': added }">
+                        class="flex-1 bg-brand text-white px-2.5 py-1.5 rounded hover:bg-brand/90 active:scale-[0.98] disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium text-[11px] sm:text-xs text-center whitespace-nowrap"
+                        :class="{ 'bg-green-500!': added }">
                         <span v-if="adding" class="flex items-center justify-center gap-1">
-                            <span class="inline-block w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                            Adding...
+                            <span class="inline-block w-2.5 h-2.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                            <span class="hidden lg:inline">Adding...</span>
                         </span>
                         <span v-else-if="added" class="flex items-center justify-center gap-1">
-                            <span class="inline-block animate-scale-in">&#10003;</span>
-                            Added
+                            <span class="inline-block animate-scale-in text-sm">✓</span>
+                            <span class="hidden lg:inline">Added</span>
                         </span>
-                        <span v-else>Add to cart</span>
+                        <span v-else>
+                            <span class="hidden lg:inline">Add to cart</span>
+                            <span class="lg:hidden">Add</span>
+                        </span>
                     </button>
                     <button @click="navigateToDetail"
-                        class="flex-1 bg-gray-900 text-white px-1.5 sm:px-2.5 py-1.5 sm:py-2 rounded-md hover:bg-gray-800 hover:shadow-md active:scale-[0.97] transition-all duration-300 font-semibold text-[10px] sm:text-xs whitespace-nowrap">
-                        Buy now
+                        class="flex-1 bg-gray-900 text-white px-2.5 py-1.5 rounded hover:bg-gray-800 active:scale-[0.98] transition-all duration-200 font-medium text-[11px] sm:text-xs whitespace-nowrap">
+                        <span class="hidden lg:inline">Buy now</span>
+                        <span class="lg:hidden">Buy</span>
                     </button>
                 </div>
             </div>
