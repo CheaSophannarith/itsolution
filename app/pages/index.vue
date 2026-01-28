@@ -75,10 +75,10 @@
         </div>
 
         <!-- Popular Categories Section -->
-        <div v-if="popularCategories && popularCategories.length > 0" class="bg-white py-4 sm:py-6">
+        <div v-if="popularCategories && popularCategories.length > 0" class="bg-gradient-to-b from-gray-50 to-white py-8 sm:py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Header -->
-                <div class="mb-3 sm:mb-4">
+                <div class="mb-6 sm:mb-8">
                     <div class="mb-2">
                         <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
                             Shop by category
@@ -95,6 +95,55 @@
                 <!-- Categories Grid -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
                     <CategoryCard v-for="category in popularCategories" :key="category.uuid" :category="category" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Products Sections -->
+        <div v-if="popularCategories && popularCategories.length > 0" class="relative bg-gradient-to-b from-white via-gray-50/50 to-white">
+            <div v-for="(category, index) in popularCategories" :key="category.uuid"
+                class="py-10 sm:py-16 relative">
+                <!-- Background decoration for odd items -->
+                <div v-if="index % 2 !== 0" class="absolute inset-0 bg-gradient-to-r from-blue-50/30 to-transparent pointer-events-none"></div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <!-- Alternating Layout -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+
+                        <!-- Category Image - Left for even, Right for odd -->
+                        <div :class="index % 2 === 0 ? 'lg:col-span-4' : 'lg:col-span-4 lg:col-start-9'">
+                            <div class="lg:sticky lg:top-8">
+                                <NuxtLink :to="`/categories/${category.slug}`"
+                                    class="group relative block rounded-xl overflow-hidden border-2 border-gray-200 hover:border-brand transition-all duration-300 shadow-md hover:shadow-xl">
+                                    <div class="relative aspect-[3/4] bg-gradient-to-br from-gray-900 to-gray-700 overflow-hidden">
+                                        <img :src="category.image" :alt="category.name"
+                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out opacity-80 group-hover:opacity-90" />
+
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+
+                                        <div class="absolute inset-x-0 bottom-0 p-5 sm:p-6 z-10">
+                                            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">
+                                                {{ category.name }}
+                                            </h3>
+                                            <p class="text-sm text-white/70 font-medium mb-3">
+                                                View all products
+                                            </p>
+                                            <div class="inline-flex items-center justify-center w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full group-hover:bg-brand group-hover:scale-110 transition-all duration-300">
+                                                <ChevronRight class="w-5 h-5 text-white" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </NuxtLink>
+                            </div>
+                        </div>
+
+                        <!-- Products Grid - Right for even, Left for odd -->
+                        <div :class="index % 2 === 0 ? 'lg:col-span-8' : 'lg:col-span-8 lg:col-start-1 lg:row-start-1'">
+                            <ClientOnly>
+                                <CategoryProductsSection :category-slug="category.slug" :category-name="category.name" />
+                            </ClientOnly>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
