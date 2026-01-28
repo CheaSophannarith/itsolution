@@ -66,6 +66,36 @@ export const useAuthStore = defineStore('auth', {
                 this.clearAuth();
             }
         },
+
+        async resendVerificationEmail() {
+            const api = useApi();
+            await api.post('/api/v1/auth/email/resend');
+        },
+
+        async verifyEmail(id: string, hash: string) {
+            const api = useApi();
+            const response = await api.get(`/api/v1/auth/email/verify/${id}/${hash}`);
+
+            // Refresh user data to get updated email_verified_at
+            await this.fetchUser();
+
+            return response;
+        },
+
+        async forgotPassword(email: string) {
+            const api = useApi();
+            await api.post('/api/v1/auth/forgot-password', { email });
+        },
+
+        async resetPassword(data: { token: string; email: string; password: string; password_confirmation: string }) {
+            const api = useApi();
+            await api.post('/api/v1/auth/reset-password', data);
+        },
+
+        async changePassword(data: { current_password: string; password: string; password_confirmation: string }) {
+            const api = useApi();
+            await api.post('/api/v1/auth/change-password', data);
+        },
     },
 
     persist: true,

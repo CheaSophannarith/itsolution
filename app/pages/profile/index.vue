@@ -227,16 +227,50 @@ async function updatePassword() {
         return
     }
 
+    // Check password requirements
+    const hasUppercase = /[A-Z]/.test(passwordForm.value.new_password)
+    const hasNumber = /[0-9]/.test(passwordForm.value.new_password)
+
+    if (!hasUppercase) {
+        addToast('Password must contain at least one uppercase letter.', 'error')
+        return
+    }
+
+    if (!hasNumber) {
+        addToast('Password must contain at least one number.', 'error')
+        return
+    }
+
     isUpdatingPassword.value = true
     try {
-        // TODO: Implement password update API call
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        await authStore.changePassword({
+            current_password: passwordForm.value.current_password,
+            password: passwordForm.value.new_password,
+            password_confirmation: passwordForm.value.confirm_password
+        })
+
         addToast('Password updated successfully!', 'success')
         resetPasswordForm()
         showPasswordForm.value = false
-    } catch (error) {
+    } catch (error: any) {
         console.error('Password update failed:', error)
-        addToast('Failed to update password. Please try again.', 'error')
+
+        let errorMessage = 'Failed to update password. Please try again.'
+
+        if (error.errors && typeof error.errors === 'object') {
+            const errors = Object.values(error.errors).flat()
+            errorMessage = errors[0] as string || errorMessage
+        } else if (error.message) {
+            if (error.message.toLowerCase().includes('current password')) {
+                errorMessage = 'The current password is incorrect.'
+            } else if (error.message.includes('401') || error.message.toLowerCase().includes('unauthorized')) {
+                errorMessage = 'The current password is incorrect.'
+            } else {
+                errorMessage = error.message
+            }
+        }
+
+        addToast(errorMessage, 'error')
     } finally {
         isUpdatingPassword.value = false
     }
