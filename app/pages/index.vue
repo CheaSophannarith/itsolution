@@ -37,11 +37,64 @@
         </div>
 
         <!-- Featured Products Section -->
-        <div v-if="featuredProducts && featuredProducts.length > 0" class="bg-white py-8 sm:py-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div v-if="featuredProducts && featuredProducts.length > 0" class="relative pt-8 pb-12 sm:pt-12 sm:pb-16 overflow-hidden">
+            <!-- Background with diagonal split -->
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-blue-50/30"></div>
+
+            <!-- Decorative geometric shapes -->
+            <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-brand/5 to-transparent rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-blue-500/5 to-transparent rounded-full blur-3xl"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <!-- Header Section with asymmetric layout -->
+                <div class="mb-12 sm:mb-16">
+                    <div class="flex flex-col gap-6">
+                        <!-- Left side - Title and description -->
+                        <div class="flex-1">
+                            <div class="mb-4">
+                                <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
+                                    Handpicked for you
+                                </span>
+                            </div>
+                            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                                Featured Products
+                            </h2>
+                            <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
+                                Discover our carefully selected collection of premium IT products.
+                                Each item is chosen for its exceptional quality, performance, and value.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Products Grid -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
                     <ProductCard v-for="product in featuredProducts" :key="product.uuid" :product="product" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Popular Categories Section -->
+        <div v-if="popularCategories && popularCategories.length > 0" class="bg-white py-4 sm:py-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header -->
+                <div class="mb-3 sm:mb-4">
+                    <div class="mb-2">
+                        <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
+                            Shop by category
+                        </span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 leading-tight">
+                        Popular Categories
+                    </h2>
+                    <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
+                        Browse our most popular product categories to find exactly what you need.
+                    </p>
+                </div>
+
+                <!-- Categories Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
+                    <CategoryCard v-for="category in popularCategories" :key="category.uuid" :category="category" />
                 </div>
             </div>
         </div>
@@ -134,7 +187,27 @@ import {
 } from 'lucide-vue-next';
 import softwareServicesData from '~/assets/data/Service/system.json';
 
+interface Category {
+    uuid: string;
+    name: string;
+    slug: string;
+    description: string | null;
+    image: string;
+    is_popular: boolean;
+}
+
+const config = useRuntimeConfig();
 const { featuredProducts } = useFeaturedProducts();
+
+// Fetch popular categories
+const popularCategories = ref<Category[]>([]);
+const { data: categoriesData } = await useFetch<{ data: Category[] }>(
+    `${config.public.apiBaseUrl}/api/v1/categories/popular`
+);
+
+if (categoriesData.value?.data) {
+    popularCategories.value = categoriesData.value.data;
+}
 
 const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
 
