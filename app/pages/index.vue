@@ -100,49 +100,55 @@
         </div>
 
         <!-- Category Products Sections -->
-        <div v-if="popularCategories && popularCategories.length > 0" class="relative bg-gradient-to-b from-white via-gray-50/50 to-white">
-            <div v-for="(category, index) in popularCategories" :key="category.uuid"
-                class="py-10 sm:py-16 relative">
-                <!-- Background decoration for odd items -->
-                <div v-if="index % 2 !== 0" class="absolute inset-0 bg-gradient-to-r from-blue-50/30 to-transparent pointer-events-none"></div>
+        <div v-if="categoriesWithProducts && categoriesWithProducts.length > 0" class="bg-white py-10 sm:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Header -->
+                <div class="mb-10 sm:mb-12">
+                    <div class="mb-2">
+                        <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
+                            Explore our collection
+                        </span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 leading-tight">
+                        Shop by Category
+                    </h2>
+                    <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
+                        Discover top products from each category, handpicked just for you.
+                    </p>
+                </div>
 
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <!-- Alternating Layout -->
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+                <!-- Categories with Products -->
+                <div class="space-y-12 sm:space-y-16">
+                    <div v-for="category in categoriesWithProducts" :key="category.uuid">
+                    <!-- Layout -->
+                    <div class="flex flex-col lg:flex-row items-stretch gap-4">
+                        <!-- Category Image - Always Left -->
+                        <div class="w-full lg:w-auto lg:shrink-0">
+                            <NuxtLink :to="`/categories/${category.slug}`"
+                                class="group relative block rounded-lg overflow-hidden border-2 border-gray-200 hover:border-brand transition-all duration-300 h-full lg:h-auto">
+                                <div class="relative aspect-4/3 lg:aspect-3/4 lg:h-full lg:w-70 bg-gray-900 overflow-hidden">
+                                    <img :src="category.image" :alt="category.name"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
 
-                        <!-- Category Image - Left for even, Right for odd -->
-                        <div :class="index % 2 === 0 ? 'lg:col-span-4' : 'lg:col-span-4 lg:col-start-9'">
-                            <div class="lg:sticky lg:top-8">
-                                <NuxtLink :to="`/categories/${category.slug}`"
-                                    class="group relative block rounded-xl overflow-hidden border-2 border-gray-200 hover:border-brand transition-all duration-300 shadow-md hover:shadow-xl">
-                                    <div class="relative aspect-[3/4] bg-gradient-to-br from-gray-900 to-gray-700 overflow-hidden">
-                                        <img :src="category.image" :alt="category.name"
-                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out opacity-80 group-hover:opacity-90" />
+                                    <div class="absolute inset-0 bg-black/50"></div>
 
-                                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-
-                                        <div class="absolute inset-x-0 bottom-0 p-5 sm:p-6 z-10">
-                                            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">
-                                                {{ category.name }}
-                                            </h3>
-                                            <p class="text-sm text-white/70 font-medium mb-3">
-                                                View all products
-                                            </p>
-                                            <div class="inline-flex items-center justify-center w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full group-hover:bg-brand group-hover:scale-110 transition-all duration-300">
-                                                <ChevronRight class="w-5 h-5 text-white" />
-                                            </div>
+                                    <div class="absolute inset-x-0 bottom-0 p-5 z-10">
+                                        <h3 class="text-xl font-bold text-white mb-2">
+                                            {{ category.name }}
+                                        </h3>
+                                        <div class="inline-flex items-center justify-center w-9 h-9 bg-white/20 backdrop-blur-sm rounded-full group-hover:bg-brand transition-all duration-300">
+                                            <ChevronRight class="w-5 h-5 text-white" />
                                         </div>
                                     </div>
-                                </NuxtLink>
-                            </div>
+                                </div>
+                            </NuxtLink>
                         </div>
 
-                        <!-- Products Grid - Right for even, Left for odd -->
-                        <div :class="index % 2 === 0 ? 'lg:col-span-8' : 'lg:col-span-8 lg:col-start-1 lg:row-start-1'">
-                            <ClientOnly>
-                                <CategoryProductsSection :category-slug="category.slug" :category-name="category.name" />
-                            </ClientOnly>
+                        <!-- Products Row -->
+                        <div class="flex-1">
+                            <CategoryProductsSection :products="category.products" />
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -235,6 +241,7 @@ import {
     ShoppingCart
 } from 'lucide-vue-next';
 import softwareServicesData from '~/assets/data/Service/system.json';
+import type { Product } from '~/types';
 
 interface Category {
     uuid: string;
@@ -243,6 +250,10 @@ interface Category {
     description: string | null;
     image: string;
     is_popular: boolean;
+}
+
+interface CategoryWithProducts extends Category {
+    products: Product[];
 }
 
 const config = useRuntimeConfig();
@@ -256,6 +267,31 @@ const { data: categoriesData } = await useFetch<{ data: Category[] }>(
 
 if (categoriesData.value?.data) {
     popularCategories.value = categoriesData.value.data;
+}
+
+// Fetch products for each category
+const categoriesWithProducts = ref<CategoryWithProducts[]>([]);
+
+if (popularCategories.value.length > 0) {
+    const productPromises = popularCategories.value.map(async (category) => {
+        const { data } = await useFetch<{ data: Product[] }>(
+            `${config.public.apiBaseUrl}/api/v1/categories/${category.slug}/products`
+        );
+
+        const products = data.value?.data ?? [];
+
+        // Only return category if it has products
+        if (products.length > 0) {
+            return {
+                ...category,
+                products: products.slice(0, 4) // Limit to 4 products
+            };
+        }
+        return null;
+    });
+
+    const results = await Promise.all(productPromises);
+    categoriesWithProducts.value = results.filter((cat): cat is CategoryWithProducts => cat !== null);
 }
 
 const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
