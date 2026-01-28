@@ -120,32 +120,32 @@
                 <!-- Categories with Products -->
                 <div class="space-y-12 sm:space-y-16">
                     <div v-for="category in categoriesWithProducts" :key="category.uuid">
-                    <!-- Layout -->
-                    <div class="flex flex-col lg:flex-row items-stretch gap-4">
-                        <!-- Category Image - Always Left -->
-                        <div class="w-full lg:w-auto lg:shrink-0">
+                    <!-- Layout - Flex row on all screens -->
+                    <div class="flex items-stretch gap-3 sm:gap-4">
+                        <!-- Category Image - Left side -->
+                        <div class="w-40 sm:w-52 lg:w-80 shrink-0">
                             <NuxtLink :to="`/categories/${category.slug}`"
-                                class="group relative block rounded-lg overflow-hidden border-2 border-gray-200 hover:border-brand transition-all duration-300 h-full lg:h-auto">
-                                <div class="relative aspect-4/3 lg:aspect-3/4 lg:h-full lg:w-70 bg-gray-900 overflow-hidden">
+                                class="group relative block rounded-lg overflow-hidden border-2 border-gray-200 hover:border-brand transition-all duration-300 h-full">
+                                <div class="relative h-full bg-gray-900 overflow-hidden">
                                     <img :src="category.image" :alt="category.name"
                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
 
                                     <div class="absolute inset-0 bg-black/50"></div>
 
-                                    <div class="absolute inset-x-0 bottom-0 p-5 z-10">
-                                        <h3 class="text-xl font-bold text-white mb-2">
+                                    <div class="absolute inset-x-0 bottom-0 p-3 sm:p-4 lg:p-5 z-10">
+                                        <h3 class="text-sm sm:text-base lg:text-xl font-bold text-white mb-1 sm:mb-2">
                                             {{ category.name }}
                                         </h3>
-                                        <div class="inline-flex items-center justify-center w-9 h-9 bg-white/20 backdrop-blur-sm rounded-full group-hover:bg-brand transition-all duration-300">
-                                            <ChevronRight class="w-5 h-5 text-white" />
+                                        <div class="inline-flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 bg-white/20 backdrop-blur-sm rounded-full group-hover:bg-brand transition-all duration-300">
+                                            <ChevronRight class="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                                         </div>
                                     </div>
                                 </div>
                             </NuxtLink>
                         </div>
 
-                        <!-- Products Row -->
-                        <div class="flex-1">
+                        <!-- Products Row - Right side -->
+                        <div class="flex-1 min-w-0">
                             <CategoryProductsSection :products="category.products" />
                         </div>
                     </div>
