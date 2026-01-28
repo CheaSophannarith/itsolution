@@ -6,10 +6,10 @@
                 <NuxtLink to="/">
                     <img src="/SHI_LOGO.png" alt="SHI" class="h-6 brightness-0 invert" />
                 </NuxtLink>
-                <NuxtLink to="/hardware" class="flex items-center gap-2 text-sm hover:underline">
+                <!-- <NuxtLink to="/hardware" class="flex items-center gap-2 text-sm hover:underline">
                     <ShoppingCart class="w-4 h-4" />
                     View cart
-                </NuxtLink>
+                </NuxtLink> -->
             </div>
         </header>
 

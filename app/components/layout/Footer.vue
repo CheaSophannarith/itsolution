@@ -97,9 +97,8 @@ import { Phone, Mail, MapPin, Facebook, Instagram, Twitter } from 'lucide-vue-ne
 const currentYear = computed(() => new Date().getFullYear());
 
 const accountLinks = [
-    { name: 'Profile', path: '/account/profile' },
-    { name: 'View Cart', path: '/cart' },
-    { name: 'Wishlist', path: '/wishlist' }
+    { name: 'Profile', path: '/profile' },
+    { name: 'My order', path: '/orders' }
 ];
 
 const aboutLinks = [
@@ -109,9 +108,8 @@ const aboutLinks = [
 ];
 
 const supportLinks = [
-    { name: 'Help Center', path: '/help' },
-    { name: 'My Account', path: '/account' },
-    { name: 'Order History', path: '/account/orders' }
+    { name: 'My Profile', path: '/profile' },
+    
 ];
 
 const phoneNumbers = [

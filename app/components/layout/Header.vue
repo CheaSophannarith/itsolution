@@ -52,16 +52,109 @@
                             Contact Us
                         </NuxtLink>
 
-                        <!-- Sign In - Hidden on mobile -->
+                        <!-- User Menu or Sign In - Hidden on mobile -->
                         <span class="hidden sm:block text-gray-300">|</span>
-                        <NuxtLink to="/signin"
+                        <div v-if="authStore.isAuthenticated" class="hidden sm:block relative" ref="userMenuRef">
+                            <button @click="toggleUserMenu"
+                                class="flex items-center gap-2 text-brand hover:text-white hover:bg-brand px-2 py-2 rounded-md transition-all font-bold">
+                                <CircleUser class="w-5 h-5" />
+                                <span class="hidden lg:inline">{{ authStore.user?.name }}</span>
+                                <ChevronDown class="w-4 h-4" />
+                            </button>
+                            <Transition enter-active-class="transition ease-out duration-100"
+                                enter-from-class="transform opacity-0 scale-95"
+                                enter-to-class="transform opacity-100 scale-100"
+                                leave-active-class="transition ease-in duration-75"
+                                leave-from-class="transform opacity-100 scale-100"
+                                leave-to-class="transform opacity-0 scale-95">
+                                <div v-if="userMenuOpen"
+                                    class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                                    <NuxtLink to="/profile" @click="closeUserMenu"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        My Profile
+                                    </NuxtLink>
+                                    <NuxtLink to="/orders" @click="closeUserMenu" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        My Orders
+                                    </NuxtLink>
+                                    <button @click="handleLogout"
+                                        class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                        Logout
+                                    </button>
+                                </div>
+                            </Transition>
+                        </div>
+                        <NuxtLink v-else to="/signin"
                             class="hidden sm:flex items-center gap-2 text-brand hover:text-white hover:bg-brand hover:px-2 hover:py-2 rounded-md transition-all font-bold">
                             <CircleUser class="w-5 h-5" />
                             <span class="hidden lg:inline">Sign In</span>
                         </NuxtLink>
 
-                        <!-- Mobile Sign In Icon Only -->
-                        <NuxtLink to="/signin" class="sm:hidden p-2 text-brand hover:bg-gray-100 rounded-md">
+                        <!-- Mobile Profile Icon - Always visible -->
+                        <div v-if="authStore.isAuthenticated" class="sm:hidden relative" ref="mobileProfileMenuRef">
+                            <button @click="toggleProfileMenu" class="p-2 text-brand hover:bg-gray-100 rounded-md relative">
+                                <CircleUser class="w-5 h-5" />
+                                <!-- Green dot indicator for logged in -->
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-green-500 rounded-full"></span>
+                            </button>
+
+                            <!-- Profile Dropdown Menu -->
+                            <Transition enter-active-class="transition ease-out duration-100"
+                                enter-from-class="transform opacity-0 scale-95"
+                                enter-to-class="transform opacity-100 scale-100"
+                                leave-active-class="transition ease-in duration-75"
+                                leave-from-class="transform opacity-100 scale-100"
+                                leave-to-class="transform opacity-0 scale-95">
+                                <div v-if="profileMenuOpen"
+                                    class="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                                    <!-- User Info Header -->
+                                    <div class="p-4 bg-gradient-to-r from-brand to-brand/90 border-b border-brand relative">
+                                        <button @click="closeProfileMenu"
+                                            class="absolute top-2 right-2 p-1.5 text-white/80 hover:text-white hover:bg-white/20 rounded-md transition-colors">
+                                            <X class="w-4 h-4" />
+                                        </button>
+                                        <div class="flex items-center gap-3 pr-8">
+                                            <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <CircleUser class="w-7 h-7 text-white" />
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-semibold text-white truncate">{{ authStore.user?.name }}</p>
+                                                <p class="text-xs text-white/80 truncate">{{ authStore.user?.email }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Menu Items -->
+                                    <div class="py-2">
+                                        <NuxtLink to="/profile" @click="closeProfileMenu"
+                                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors">
+                                            <CircleUser class="w-5 h-5 text-brand" />
+                                            <div>
+                                                <p class="text-sm font-medium">My Profile</p>
+                                                <p class="text-xs text-gray-500">View and edit profile</p>
+                                            </div>
+                                        </NuxtLink>
+
+                                        <NuxtLink to="/orders" @click="closeProfileMenu"
+                                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors">
+                                            <ShoppingCart class="w-5 h-5 text-brand" />
+                                            <div>
+                                                <p class="text-sm font-medium">My Orders</p>
+                                                <p class="text-xs text-gray-500">Track your orders</p>
+                                            </div>
+                                        </NuxtLink>
+
+                                        <hr class="my-2 border-gray-200">
+
+                                        <button @click="handleLogout"
+                                            class="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors">
+                                            <LogOut class="w-5 h-5" />
+                                            <span class="text-sm font-medium">Logout</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
+                        <NuxtLink v-else to="/signin" class="sm:hidden p-2 text-brand hover:bg-gray-100 rounded-md">
                             <CircleUser class="w-5 h-5" />
                         </NuxtLink>
                     </div>
@@ -201,22 +294,18 @@
                     </div>
                 </nav>
 
-                <!-- Mobile Menu Footer Links -->
-                <div class="p-4 border-t border-gray-200 bg-gray-50">
+                <!-- Mobile Menu Footer - Contact Info -->
+                <div class="border-t border-gray-200 bg-gray-50 p-4">
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Need Help?</p>
                     <NuxtLink to="/contact" @click="closeMobileMenu"
-                        class="flex items-center gap-3 py-2 text-brand font-medium">
+                        class="flex items-center gap-3 py-2 text-brand font-medium hover:text-brand/80 transition-colors">
                         <Phone class="w-5 h-5" />
                         Contact Us
                     </NuxtLink>
-                    <a href="tel:888-764-8888" class="flex items-center gap-3 py-2 text-brand">
+                    <a href="tel:+85517868883" class="flex items-center gap-3 py-2 text-gray-700 hover:text-brand transition-colors">
                         <Phone class="w-5 h-5" />
-                        888-764-8888
+                        +855 17 86 88 83
                     </a>
-                    <NuxtLink to="/signin" @click="closeMobileMenu"
-                        class="flex items-center gap-3 py-2 text-brand font-medium">
-                        <CircleUser class="w-5 h-5" />
-                        Sign In
-                    </NuxtLink>
                 </div>
             </div>
         </Transition>
@@ -267,12 +356,55 @@
 </template>
 
 <script setup lang="ts">
-    import { ChevronDown, ChevronRight, CircleUser, Menu, Phone, Search, ShoppingCart, X } from 'lucide-vue-next'
+    import { ChevronDown, ChevronRight, CircleUser, LogOut, Menu, Phone, Search, ShoppingCart, X } from 'lucide-vue-next'
     import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
     import { useRoute } from 'vue-router'
     import CartDrawer from '~/components/custom/CartDrawer.vue'
 
     const { totalItems: cartTotalItems } = useCart()
+    const authStore = useAuthStore()
+    const { addToast } = useToast()
+
+    // User menu state (desktop)
+    const userMenuOpen = ref(false)
+    const userMenuRef = ref<HTMLElement | null>(null)
+
+    // Mobile profile menu ref
+    const mobileProfileMenuRef = ref<HTMLElement | null>(null)
+
+    function toggleUserMenu() {
+        userMenuOpen.value = !userMenuOpen.value
+    }
+
+    function closeUserMenu() {
+        userMenuOpen.value = false
+    }
+
+    async function handleLogout() {
+        try {
+            await authStore.logout()
+            addToast('You have been logged out successfully.', 'success')
+            closeMobileMenu()
+            closeProfileMenu()
+            closeUserMenu()
+            navigateTo('/')
+        } catch (error) {
+            console.error('Logout error:', error)
+            addToast('An error occurred during logout.', 'error')
+        }
+    }
+
+    // Click outside handler for user menus (desktop and mobile)
+    function handleClickOutside(event: MouseEvent) {
+        // Close desktop user menu
+        if (userMenuRef.value && !userMenuRef.value.contains(event.target as Node)) {
+            closeUserMenu()
+        }
+        // Close mobile profile menu
+        if (mobileProfileMenuRef.value && !mobileProfileMenuRef.value.contains(event.target as Node)) {
+            closeProfileMenu()
+        }
+    }
 
     // Hide header on scroll down, show on scroll up
     const hideHeader = ref(false)
@@ -298,9 +430,12 @@
 
     onMounted(() => {
         window.addEventListener('scroll', onScroll)
+        document.addEventListener('click', handleClickOutside)
     })
     onBeforeUnmount(() => {
         window.removeEventListener('scroll', onScroll)
+        document.removeEventListener('click', handleClickOutside)
+        document.body.style.overflow = '' // Ensure body scroll is restored
     })
     import type { CategoryTree } from '~/types'
 
@@ -330,9 +465,13 @@
     const mobileActiveSubmenu = ref<string | null>(null)
     const mobileActiveNestedSubmenu = ref<string | null>(null)
 
+    // Profile menu state
+    const profileMenuOpen = ref(false)
+
     function toggleMobileMenu() {
         mobileMenuOpen.value = !mobileMenuOpen.value
         if (mobileMenuOpen.value) {
+            profileMenuOpen.value = false // Close profile menu if open
             document.body.style.overflow = 'hidden'
         } else {
             document.body.style.overflow = ''
@@ -346,6 +485,14 @@
         document.body.style.overflow = ''
         mobileActiveSubmenu.value = null
         mobileActiveNestedSubmenu.value = null
+    }
+
+    function toggleProfileMenu() {
+        profileMenuOpen.value = !profileMenuOpen.value
+    }
+
+    function closeProfileMenu() {
+        profileMenuOpen.value = false
     }
 
     function toggleMobileSearch() {
@@ -457,10 +604,12 @@
         // Keep the subcategory visible for better UX
     }
 
-    // Close dropdown when route changes
+    // Close dropdown and menus when route changes
     watch(() => route.fullPath, () => {
         activeDropdown.value = null
         activeSubcategory.value = null
         closeMobileMenu()
+        closeProfileMenu()
+        closeUserMenu()
     })
 </script>
