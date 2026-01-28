@@ -270,7 +270,7 @@
     import { ChevronDown, ChevronRight, CircleUser, Menu, Phone, Search, ShoppingCart, X } from 'lucide-vue-next'
     import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
     import { useRoute } from 'vue-router'
-    import CartDrawer from '~/components/ui/CartDrawer.vue'
+    import CartDrawer from '~/components/custom/CartDrawer.vue'
 
     const { totalItems: cartTotalItems } = useCart()
 

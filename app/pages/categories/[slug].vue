@@ -195,8 +195,8 @@
     import { useRoute } from 'vue-router';
     import { createError } from '#imports';
     import { ChevronRight, ChevronDown, SlidersHorizontal, ArrowUpDown } from 'lucide-vue-next';
-    import FilterCategorySection from '~/components/ui/FilterCategorySection.vue';
-    import FilterPriceRange from '~/components/ui/FilterPriceRange.vue';
+    import FilterCategorySection from '~/components/custom/FilterCategorySection.vue';
+    import FilterPriceRange from '~/components/custom/FilterPriceRange.vue';
     import type { CategoryTree } from '~/types';
 
     const route = useRoute();
