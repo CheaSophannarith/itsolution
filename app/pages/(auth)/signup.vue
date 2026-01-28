@@ -27,6 +27,27 @@
 
                 <!-- Register Form -->
                 <form @submit.prevent="handleRegister" class="space-y-5">
+                    <!-- Error Alert Banner -->
+                    <Transition enter-active-class="transition ease-out duration-200"
+                        enter-from-class="opacity-0 -translate-y-2" enter-to-class="opacity-100 translate-y-0"
+                        leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100 translate-y-0"
+                        leave-to-class="opacity-0 -translate-y-2">
+                        <div v-if="errorMessage"
+                            class="bg-red-50 border-l-4 border-red-500 rounded-lg p-4 flex items-start gap-3">
+                            <AlertCircle class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-red-800">{{ errorMessage }}</p>
+                            </div>
+                            <button @click="errorMessage = ''" type="button"
+                                class="text-red-400 hover:text-red-600 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </Transition>
+
                     <!-- Name Fields -->
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -71,6 +92,18 @@
                                 :class="passwordStrength >= 3 ? 'bg-yellow-500' : 'bg-gray-200'"></div>
                             <div class="h-1.5 flex-1 rounded-full transition-all duration-300"
                                 :class="passwordStrength >= 4 ? 'bg-green-500' : 'bg-gray-200'"></div>
+                        </div>
+                        <!-- Password Requirements -->
+                        <div v-if="form.password" class="mt-2 space-y-1 text-xs">
+                            <p :class="passwordRequirements.minLength ? 'text-green-600' : 'text-gray-500'">
+                                {{ passwordRequirements.minLength ? '✓' : '○' }} At least 8 characters
+                            </p>
+                            <p :class="passwordRequirements.hasUppercase ? 'text-green-600' : 'text-gray-500'">
+                                {{ passwordRequirements.hasUppercase ? '✓' : '○' }} One uppercase letter
+                            </p>
+                            <p :class="passwordRequirements.hasNumber ? 'text-green-600' : 'text-gray-500'">
+                                {{ passwordRequirements.hasNumber ? '✓' : '○' }} One number
+                            </p>
                         </div>
                     </div>
 
@@ -133,6 +166,8 @@
                 </NuxtLink>
             </div>
         </div>
+
+        <ToastContainer />
     </div>
 </template>
 
@@ -143,6 +178,9 @@
     definePageMeta({
         layout: false
     })
+
+    const authStore = useAuthStore()
+    const { addToast } = useToast()
 
     const form = ref({
         firstName: '',
@@ -156,6 +194,7 @@
     const showPassword = ref(false)
     const showConfirmPassword = ref(false)
     const isLoading = ref(false)
+    const errorMessage = ref('')
 
     const passwordRequirements = computed(() => ({
         minLength: form.value.password.length >= 8,
@@ -187,21 +226,96 @@
     })
 
     async function handleRegister() {
-        if (!isFormValid.value) return
+        // Validate form before submission
+        if (!isFormValid.value) {
+            // Check what's missing and show appropriate error
+            if (!form.value.firstName || !form.value.lastName) {
+                errorMessage.value = 'Please enter your first and last name.'
+                return
+            }
+            if (!form.value.email) {
+                errorMessage.value = 'Please enter your email address.'
+                return
+            }
+            if (!form.value.password) {
+                errorMessage.value = 'Please enter a password.'
+                return
+            }
+            if (!passwordRequirements.value.minLength) {
+                errorMessage.value = 'Password must be at least 8 characters long.'
+                return
+            }
+            if (!passwordRequirements.value.hasUppercase) {
+                errorMessage.value = 'Password must contain at least one uppercase letter.'
+                return
+            }
+            if (!passwordRequirements.value.hasNumber) {
+                errorMessage.value = 'Password must contain at least one number.'
+                return
+            }
+            if (form.value.password !== form.value.confirmPassword) {
+                errorMessage.value = 'Passwords do not match.'
+                return
+            }
+            if (!form.value.acceptTerms) {
+                errorMessage.value = 'Please accept the terms and conditions.'
+                return
+            }
+            return
+        }
 
         isLoading.value = true
+        errorMessage.value = ''
 
         try {
-            // TODO: Implement actual registration logic
-            console.log('Registration attempt:', form.value)
+            await authStore.register({
+                name: `${form.value.firstName} ${form.value.lastName}`,
+                email: form.value.email,
+                password: form.value.password,
+                password_confirmation: form.value.confirmPassword
+            })
 
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000))
+            addToast('Account created! Welcome to TanXLM!', 'success')
 
-            // Redirect to signin or dashboard after successful registration
-            navigateTo('/signin')
-        } catch (error) {
+            // Redirect to home after successful registration (user is already logged in)
+            navigateTo('/')
+        } catch (error: any) {
             console.error('Registration failed:', error)
+
+            // Handle validation errors from Laravel
+            if (error.errors && typeof error.errors === 'object') {
+                // Get all error messages
+                const errors = Object.values(error.errors).flat()
+                const firstError = errors[0]
+
+                // Map common Laravel errors to friendly messages
+                if (typeof firstError === 'string') {
+                    if (firstError.toLowerCase().includes('email') && firstError.toLowerCase().includes('taken')) {
+                        errorMessage.value = 'This email is already registered. Please sign in or use a different email.'
+                    } else if (firstError.toLowerCase().includes('password')) {
+                        errorMessage.value = firstError
+                    } else {
+                        errorMessage.value = firstError
+                    }
+                } else {
+                    errorMessage.value = 'Please check your information and try again.'
+                }
+            } else if (error.message) {
+                // Handle network and other errors with friendly messages
+                if (error.message.includes('fetch') || error.message.includes('Network')) {
+                    errorMessage.value = 'Cannot connect to server. Please check your internet connection and try again.'
+                } else if (error.message.includes('429') || error.message.includes('Too Many')) {
+                    errorMessage.value = 'Too many registration attempts. Please wait a few minutes and try again.'
+                } else if (error.message.includes('500') || error.message.includes('Server Error')) {
+                    errorMessage.value = 'Server error. Please try again later or contact support if the problem persists.'
+                } else {
+                    errorMessage.value = error.message
+                }
+            } else {
+                errorMessage.value = 'Unable to create account. Please try again later.'
+            }
+
+            addToast(errorMessage.value, 'error')
         } finally {
             isLoading.value = false
         }

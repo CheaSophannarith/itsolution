@@ -92,6 +92,8 @@
                 </NuxtLink>
             </div>
         </div>
+
+        <ToastContainer />
     </div>
 </template>
 
@@ -103,6 +105,9 @@
         layout: false
     })
 
+    const authStore = useAuthStore()
+    const { addToast } = useToast()
+
     const form = ref({
         email: '',
         password: '',
@@ -111,21 +116,37 @@
 
     const showPassword = ref(false)
     const isLoading = ref(false)
+    const errorMessage = ref('')
 
     async function handleLogin() {
         isLoading.value = true
+        errorMessage.value = ''
 
         try {
-            // TODO: Implement actual login logic
-            console.log('Login attempt:', form.value)
+            await authStore.login({
+                email: form.value.email,
+                password: form.value.password,
+                device_name: 'web'
+            })
 
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000))
+            addToast('Welcome back! You have successfully signed in.', 'success')
 
             // Redirect to home or dashboard after successful login
             navigateTo('/')
-        } catch (error) {
+        } catch (error: any) {
             console.error('Login failed:', error)
+
+            // Handle validation errors from Laravel
+            if (error.errors) {
+                const firstError = Object.values(error.errors)[0]
+                errorMessage.value = Array.isArray(firstError) ? firstError[0] : firstError
+            } else if (error.message) {
+                errorMessage.value = error.message
+            } else {
+                errorMessage.value = 'An error occurred. Please try again.'
+            }
+
+            addToast(errorMessage.value, 'error')
         } finally {
             isLoading.value = false
         }
