@@ -69,9 +69,9 @@
                                 leave-to-class="transform opacity-0 scale-95">
                                 <div v-if="userMenuOpen"
                                     class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
-                                    <NuxtLink to="/account" @click="closeUserMenu"
+                                    <NuxtLink to="/profile" @click="closeUserMenu"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        My Account
+                                        My Profile
                                     </NuxtLink>
                                     <NuxtLink to="/orders" @click="closeUserMenu" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         My Orders
@@ -125,11 +125,11 @@
 
                                     <!-- Menu Items -->
                                     <div class="py-2">
-                                        <NuxtLink to="/account" @click="closeProfileMenu"
+                                        <NuxtLink to="/profile" @click="closeProfileMenu"
                                             class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors">
                                             <CircleUser class="w-5 h-5 text-brand" />
                                             <div>
-                                                <p class="text-sm font-medium">My Account</p>
+                                                <p class="text-sm font-medium">My Profile</p>
                                                 <p class="text-xs text-gray-500">View and edit profile</p>
                                             </div>
                                         </NuxtLink>

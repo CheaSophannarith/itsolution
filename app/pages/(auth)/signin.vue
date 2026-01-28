@@ -107,6 +107,7 @@
 
     const authStore = useAuthStore()
     const { addToast } = useToast()
+    const route = useRoute()
 
     const form = ref({
         email: '',
@@ -131,8 +132,9 @@
 
             addToast('Welcome back! You have successfully signed in.', 'success')
 
-            // Redirect to home or dashboard after successful login
-            navigateTo('/')
+            // Redirect to the page user was trying to access, or home
+            const redirect = route.query.redirect as string
+            navigateTo(redirect || '/')
         } catch (error: any) {
             console.error('Login failed:', error)
 
