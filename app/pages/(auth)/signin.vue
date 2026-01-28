@@ -1,87 +1,83 @@
 <template>
     <div
-        class="min-h-screen flex items-center justify-center p-4 sm:p-8 bg-gradient-to-br from-brand via-brand/90 to-brand/80 relative overflow-hidden">
+        class="min-h-screen flex items-center justify-center p-4 sm:p-8 bg-white relative overflow-hidden">
         <!-- Animated Background Shapes -->
         <div class="absolute inset-0">
-            <div class="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute top-20 -left-20 w-96 h-96 bg-gray-100 rounded-full blur-3xl animate-pulse"></div>
             <div
-                class="absolute bottom-20 right-20 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse delay-1000">
+                class="absolute bottom-20 -right-20 w-[500px] h-[500px] bg-gray-50 rounded-full blur-3xl animate-pulse delay-1000">
             </div>
-            <div class="absolute top-1/2 left-1/3 w-64 h-64 bg-white/10 rounded-full blur-2xl animate-bounce-slow">
+            <div class="absolute top-1/2 left-1/2 w-80 h-80 bg-gray-100 rounded-full blur-3xl animate-bounce-slow">
             </div>
         </div>
 
         <!-- Form Card -->
         <div class="relative z-10 w-full max-w-md">
-            <div class="backdrop-blur-md bg-white/10 p-8 sm:p-10 rounded-2xl shadow-2xl border border-white/20">
+            <div class="bg-white p-8 sm:p-10 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
                 <!-- Form Header -->
                 <div class="mb-8 text-center">
-                    <h1 class="text-3xl font-bold text-white mb-2">Welcome back</h1>
-                    <p class="text-white/70">Sign in to your account to continue</p>
+                    <NuxtLink to="/" class="inline-block mb-6">
+                        <img src="/SHI_LOGO.png" alt="SHI" class="h-10 mx-auto" />
+                    </NuxtLink>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-3">Welcome back</h1>
+                    <p class="text-gray-500 text-lg">Sign in to your account to continue</p>
                 </div>
 
                 <!-- Login Form -->
                 <form @submit.prevent="handleLogin" class="space-y-5">
                     <!-- Email Field -->
-                    <div class="space-y-2">
-                        <label for="email" class="block text-sm font-medium text-white/90">
-                            Email address
-                        </label>
+                    <div>
                         <div class="relative">
-                            <Mail class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
-                            <input id="email" v-model="form.email" type="email" placeholder="name@example.com" required
-                                class="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-200" />
+                            <Mail class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <input id="email" v-model="form.email" type="email" placeholder="Email" required
+                                class="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all duration-200 hover:border-gray-300" />
                         </div>
                     </div>
 
                     <!-- Password Field -->
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between">
-                            <label for="password" class="block text-sm font-medium text-white/90">
-                                Password
-                            </label>
-                            <NuxtLink to="/forgot-password"
-                                class="text-sm text-white/70 hover:text-white transition-colors font-medium">
-                                Forgot password?
-                            </NuxtLink>
-                        </div>
+                    <div>
                         <div class="relative">
-                            <Lock class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+                            <Lock class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                             <input id="password" v-model="form.password" :type="showPassword ? 'text' : 'password'"
-                                placeholder="Enter your password" required
-                                class="w-full pl-12 pr-12 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-200" />
+                                placeholder="Password" required
+                                class="w-full pl-12 pr-12 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all duration-200 hover:border-gray-300" />
                             <button type="button" @click="showPassword = !showPassword"
-                                class="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors">
-                                <Eye v-if="!showPassword" class="w-5 h-5" />
+                                class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-900 transition-colors">
+                                <Eye v-if="showPassword" class="w-5 h-5" />
                                 <EyeOff v-else class="w-5 h-5" />
                             </button>
+                        </div>
+                        <div class="text-right mt-2">
+                            <NuxtLink to="/forgot-password"
+                                class="text-sm text-gray-900 hover:text-gray-700 transition-colors font-semibold">
+                                Forgot password?
+                            </NuxtLink>
                         </div>
                     </div>
 
                     <!-- Remember Me -->
                     <div class="flex items-center gap-3">
                         <input id="remember" v-model="form.rememberMe" type="checkbox"
-                            class="w-4 h-4 bg-white/10 border-white/30 rounded focus:ring-white/20 cursor-pointer" />
-                        <label for="remember" class="text-sm text-white/70 cursor-pointer">
-                            Remember me for 30 days
+                            class="w-5 h-5 text-gray-900 bg-white border-gray-300 rounded focus:ring-gray-900 cursor-pointer" />
+                        <label for="remember" class="text-sm text-gray-600 cursor-pointer font-medium">
+                            Remember me
                         </label>
                     </div>
 
                     <!-- Submit Button -->
                     <button type="submit" :disabled="isLoading"
-                        class="w-full flex items-center justify-center gap-2 bg-brand text-white py-3.5 rounded-xl font-semibold hover:bg-brand transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                        class="w-full flex items-center justify-center gap-2 bg-black text-white py-3.5 rounded-xl font-semibold hover:bg-gray-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:-translate-y-0.5">
                         <Loader2 v-if="isLoading" class="w-5 h-5 animate-spin" />
                         <template v-else>
                             <span>Sign in</span>
-                            <ArrowRight class="w-5 h-5" />
                         </template>
                     </button>
                 </form>
 
                 <!-- Register Link -->
-                <p class="mt-6 text-center text-white/70">
+                <p class="mt-6 text-center text-gray-600">
                     Don't have an account?
-                    <NuxtLink to="/signup" class="text-white font-semibold hover:text-white/80 transition-colors">
+                    <NuxtLink to="/signup" class="text-gray-900 font-bold hover:text-gray-700 transition-colors ml-1">
                         Create an account
                     </NuxtLink>
                 </p>
@@ -90,7 +86,7 @@
             <!-- Back to Home -->
             <div class="mt-6 text-center">
                 <NuxtLink to="/"
-                    class="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors">
+                    class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium">
                     <ArrowLeft class="w-4 h-4" />
                     Back to Home
                 </NuxtLink>
