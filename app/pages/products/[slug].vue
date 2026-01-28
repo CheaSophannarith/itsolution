@@ -185,12 +185,12 @@
                                 @click="handleAddToCart"
                                 :disabled="!selectedSku?.is_in_stock"
                                 :class="[
-                                    'flex-1 px-6 py-2.5 font-semibold transition-colors flex items-center justify-center gap-2 rounded',
+                                    'flex-1 px-6 py-2.5 font-semibold transition-all duration-300 flex items-center justify-center gap-2 rounded hover:scale-[1.02] active:scale-[0.98]',
                                     selectedSku?.is_in_stock
-                                        ? 'bg-blue-950 text-white hover:bg-blue-800'
+                                        ? 'bg-blue-950 text-white hover:bg-blue-800 hover:shadow-lg'
                                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                 ]">
-                                <ShoppingCart class="w-5 h-5" />
+                                <ShoppingCart :class="['w-5 h-5 transition-transform', buttonClicked && 'animate-cart-shake']" />
                                 Add to Cart
                             </button>
                             <button
@@ -206,6 +206,28 @@
                                 Buy Now
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Products Section -->
+            <div v-if="primaryCategory && relatedProducts.length > 0" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-8">
+                <div class="border-t border-gray-200 pt-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">Related Products</h2>
+                        <NuxtLink
+                            :to="`/categories/${primaryCategory.slug}`"
+                            class="text-sm text-brand hover:text-brand/80 font-medium flex items-center gap-1">
+                            View all in {{ primaryCategory.name }}
+                            <ChevronRight class="w-4 h-4" />
+                        </NuxtLink>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        <ProductCard
+                            v-for="relatedProduct in relatedProducts"
+                            :key="relatedProduct.slug"
+                            :product="relatedProduct"
+                        />
                     </div>
                 </div>
             </div>
@@ -226,6 +248,7 @@
 
 <script setup lang="ts">
 import { CheckCircle, ChevronLeft, ChevronRight, Info, Minus, Plus, ShoppingBag, ShoppingCart, X, XCircle } from 'lucide-vue-next';
+import ProductCard from '~/components/ProductCard.vue';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -241,6 +264,18 @@ const slug = computed(() => route.params.slug as string);
 
 const { product, status } = useProductDetail(slug);
 
+// Fetch related products from the primary category
+const categorySlug = computed(() => product.value?.categories[0]?.slug ?? '');
+const { products: categoryProducts } = useCategoryProducts(categorySlug, ref({ per_page: 6 }));
+
+// Filter out current product and limit to 5 related products
+const relatedProducts = computed(() => {
+    if (!product.value || !categoryProducts.value) return [];
+    return categoryProducts.value
+        .filter(p => p.slug !== product.value?.slug)
+        .slice(0, 5);
+});
+
 useHead({
     title: computed(() => product.value?.meta_title || product.value?.name || 'Product Detail'),
     meta: [
@@ -252,9 +287,11 @@ useHead({
 });
 
 const { addItem: addToCart } = useCart();
+const { addToast } = useToast();
 
 const quantity = ref(1);
 const selectedSkuUuid = ref('');
+const buttonClicked = ref(false);
 
 watch(product, (val) => {
     if (val && val.skus?.length > 0) {
@@ -332,7 +369,11 @@ const handleAddToCart = () => {
         image: allImages.value[0]?.thumb ?? '',
         price: parseFloat(selectedSku.value.price),
         maxQuantity: selectedSku.value.stock_quantity,
+        category: product.value.categories[0]?.name,
     }, quantity.value);
+    addToast(`${quantity.value} x ${product.value.name} added to cart!`, 'success');
+    buttonClicked.value = true;
+    setTimeout(() => { buttonClicked.value = false; }, 600);
     quantity.value = 1;
 };
 
@@ -361,5 +402,15 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown));
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+}
+
+@keyframes cart-shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+    20%, 40%, 60%, 80% { transform: translateX(3px); }
+}
+
+.animate-cart-shake {
+    animation: cart-shake 0.6s ease-in-out;
 }
 </style>

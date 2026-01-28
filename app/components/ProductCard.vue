@@ -35,14 +35,20 @@
                 <!-- Action Buttons -->
                 <div class="flex gap-1.5 sm:gap-2">
                     <button @click="handleAddToCart" :disabled="!product.in_stock || adding"
-                        class="flex-1 bg-brand text-white px-1.5 sm:px-2.5 py-1.5 sm:py-2 rounded-xl hover:bg-brand/90 hover:shadow-md hover:shadow-brand/20 active:scale-[0.97] disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 font-semibold text-[10px] sm:text-xs whitespace-nowrap"
-                        :class="{ 'bg-green-500! shadow-green-500/20!': added }">
-                        <span v-if="adding">Adding...</span>
-                        <span v-else-if="added">&#10003; Added</span>
+                        class="flex-1 bg-brand text-white px-1.5 sm:px-2.5 py-1.5 sm:py-2 rounded-md hover:bg-brand/90 hover:shadow-md hover:shadow-brand/20 active:scale-[0.97] disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 font-semibold text-[10px] sm:text-xs whitespace-nowrap relative overflow-hidden text-center"
+                        :class="{ 'bg-green-500! shadow-green-500/20! animate-bounce-once': added }">
+                        <span v-if="adding" class="flex items-center justify-center gap-1">
+                            <span class="inline-block w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                            Adding...
+                        </span>
+                        <span v-else-if="added" class="flex items-center justify-center gap-1">
+                            <span class="inline-block animate-scale-in">&#10003;</span>
+                            Added
+                        </span>
                         <span v-else>Add to cart</span>
                     </button>
                     <button @click="navigateToDetail"
-                        class="flex-1 bg-gray-900 text-white px-1.5 sm:px-2.5 py-1.5 sm:py-2 rounded-xl hover:bg-gray-800 hover:shadow-md active:scale-[0.97] transition-all duration-300 font-semibold text-[10px] sm:text-xs whitespace-nowrap">
+                        class="flex-1 bg-gray-900 text-white px-1.5 sm:px-2.5 py-1.5 sm:py-2 rounded-md hover:bg-gray-800 hover:shadow-md active:scale-[0.97] transition-all duration-300 font-semibold text-[10px] sm:text-xs whitespace-nowrap">
                         Buy now
                     </button>
                 </div>
@@ -64,6 +70,7 @@
     const router = useRouter();
     const config = useRuntimeConfig();
     const { addItem } = useCart();
+    const { addToast } = useToast();
 
     const adding = ref(false);
     const added = ref(false);
@@ -97,8 +104,10 @@
                 image: detail.images.featured?.thumb ?? props.product.image,
                 price: parseFloat(sku.price),
                 maxQuantity: sku.stock_quantity,
+                category: detail.categories[0]?.name,
             });
             added.value = true;
+            addToast(`${detail.name} added to cart!`, 'success');
             setTimeout(() => { added.value = false; }, 1500);
         } catch {
             // Fallback to detail page on error
@@ -108,3 +117,40 @@
         }
     };
 </script>
+
+<style scoped>
+@keyframes bounce-once {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-8px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    75% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes scale-in {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.animate-bounce-once {
+    animation: bounce-once 0.6s ease-in-out;
+}
+
+.animate-scale-in {
+    animation: scale-in 0.4s ease-out;
+}
+</style>

@@ -49,14 +49,14 @@
                                             class="block text-xs font-medium text-gray-700 mb-1 uppercase">First Name
                                             *</label>
                                         <input id="firstName" v-model="form.firstName" type="text"
-                                            class="w-full px-3 py-2 border border-gray-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                     <div>
                                         <label for="lastName"
                                             class="block text-xs font-medium text-gray-700 mb-1 uppercase">Last Name
                                             *</label>
                                         <input id="lastName" v-model="form.lastName" type="text"
-                                            class="w-full px-3 py-2 border border-gray-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -65,7 +65,7 @@
                                             class="block text-xs font-medium text-gray-700 mb-1 uppercase">Address 1 -
                                             Street or P.O. Box *</label>
                                         <input id="address" v-model="form.address" type="text"
-                                            class="w-full px-3 py-2 border border-gray-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                     <div>
                                         <label for="address2"
@@ -73,7 +73,7 @@
                                             Apt, Suite, Floor</label>
                                         <input id="address2" v-model="form.address2" type="text"
                                             placeholder="Leave blank if P.O. Box in Address 1"
-                                            class="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -82,14 +82,14 @@
                                             class="block text-xs font-medium text-gray-700 mb-1 uppercase">Zip Code
                                             *</label>
                                         <input id="zip" v-model="form.zip" type="text"
-                                            class="w-full px-3 py-2 border border-gray-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                     <div>
                                         <label for="city"
                                             class="block text-xs font-medium text-gray-700 mb-1 uppercase">City
                                             *</label>
                                         <input id="city" v-model="form.city" type="text"
-                                            class="w-full px-3 py-2 border border-gray-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                     <div>
                                         <label for="state"
@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                                 <button @click="nextStep"
-                                    class="mt-4 bg-brand text-white px-6 py-3 font-semibold hover:bg-brand/90 transition-colors">
+                                    class="mt-4 bg-brand text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/20 transition-all duration-300 active:scale-[0.98]">
                                     Continue to shipping method
                                 </button>
                             </div>
@@ -140,20 +140,20 @@
                         <div v-show="currentStep === 2" class="pb-6 pl-12">
                             <div class="space-y-3">
                                 <label v-for="option in shippingOptions" :key="option.id"
-                                    class="flex items-center gap-3 p-4 border cursor-pointer hover:border-brand transition-colors"
-                                    :class="selectedShipping === option.id ? 'border-brand bg-blue-50' : 'border-gray-200'">
+                                    class="flex items-center gap-3 p-4 border rounded-xl cursor-pointer hover:border-brand hover:shadow-md transition-all duration-300"
+                                    :class="selectedShipping === option.id ? 'border-brand bg-blue-50 shadow-md' : 'border-gray-200'">
                                     <input type="radio" v-model="selectedShipping" :value="option.id"
                                         class="w-4 h-4 text-brand" />
                                     <div class="flex-1">
-                                        <div class="font-medium">{{ option.name }}</div>
+                                        <div class="font-semibold text-gray-900">{{ option.name }}</div>
                                         <div class="text-sm text-gray-500">{{ option.description }}</div>
                                     </div>
-                                    <div class="font-semibold">{{ option.price === 0 ? 'FREE' :
+                                    <div class="font-bold" :class="option.price === 0 ? 'text-green-600' : 'text-gray-900'">{{ option.price === 0 ? 'FREE' :
                                         `$${option.price.toFixed(2)}` }}</div>
                                 </label>
                             </div>
                             <button @click="nextStep"
-                                class="mt-4 bg-brand text-white px-6 py-3 font-semibold hover:bg-brand/90 transition-colors">
+                                class="mt-4 bg-brand text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/20 transition-all duration-300 active:scale-[0.98]">
                                 Continue to payment
                             </button>
                         </div>
@@ -184,7 +184,7 @@
                                         class="block text-xs font-medium text-gray-700 mb-1 uppercase">Name on Card
                                         *</label>
                                     <input id="cardName" v-model="form.cardName" type="text"
-                                        class="w-full px-3 py-2 border border-gray-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                 </div>
                                 <div>
                                     <label for="cardNumber"
@@ -192,7 +192,7 @@
                                         *</label>
                                     <input id="cardNumber" v-model="form.cardNumber" type="text"
                                         placeholder="1234 5678 9012 3456"
-                                        class="w-full px-3 py-2 border border-gray-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
@@ -200,17 +200,17 @@
                                             class="block text-xs font-medium text-gray-700 mb-1 uppercase">Expiry Date
                                             *</label>
                                         <input id="expiry" v-model="form.expiry" type="text" placeholder="MM/YY"
-                                            class="w-full px-3 py-2 border border-gray-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                     <div>
                                         <label for="cvv"
                                             class="block text-xs font-medium text-gray-700 mb-1 uppercase">CVV *</label>
                                         <input id="cvv" v-model="form.cvv" type="text" placeholder="123"
-                                            class="w-full px-3 py-2 border border-gray-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                 </div>
                                 <button @click="nextStep"
-                                    class="mt-4 bg-brand text-white px-6 py-3 font-semibold hover:bg-brand/90 transition-colors">
+                                    class="mt-4 bg-brand text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/20 transition-all duration-300 active:scale-[0.98]">
                                     Continue to review
                                 </button>
                             </div>
@@ -234,20 +234,20 @@
                         <!-- Step 4 Content -->
                         <div v-show="currentStep === 4" class="pb-6 pl-12">
                             <div class="space-y-4">
-                                <div class="bg-gray-50 p-4 rounded">
-                                    <h3 class="font-semibold mb-2">Order Summary</h3>
-                                    <div class="text-sm space-y-1">
-                                        <p><span class="text-gray-600">Ship to:</span> {{ form.firstName }} {{
+                                <div class="bg-gradient-to-br from-gray-50 to-gray-100/50 p-5 rounded-xl border border-gray-200">
+                                    <h3 class="font-bold text-gray-900 mb-3">Order Summary</h3>
+                                    <div class="text-sm space-y-2">
+                                        <p class="flex flex-col sm:flex-row gap-1"><span class="font-semibold text-gray-700">Ship to:</span> <span class="text-gray-600">{{ form.firstName }} {{
                                             form.lastName }}, {{ form.address }}, {{ form.city }}, {{ form.state }} {{
-                                                form.zip }}</p>
-                                        <p><span class="text-gray-600">Shipping:</span> {{
-                                            shippingOptions.find(o => o.id === selectedShipping)?.name}}</p>
-                                        <p><span class="text-gray-600">Payment:</span> Card ending in {{
-                                            form.cardNumber.slice(-4) }}</p>
+                                                form.zip }}</span></p>
+                                        <p><span class="font-semibold text-gray-700">Shipping:</span> <span class="text-gray-600">{{
+                                            shippingOptions.find(o => o.id === selectedShipping)?.name}}</span></p>
+                                        <p><span class="font-semibold text-gray-700">Payment:</span> <span class="text-gray-600">Card ending in {{
+                                            form.cardNumber.slice(-4) }}</span></p>
                                     </div>
                                 </div>
                                 <button @click="placeOrder"
-                                    class="w-full bg-brand text-white px-6 py-3 font-semibold hover:bg-brand/90 transition-colors">
+                                    class="w-full bg-brand text-white px-6 py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 active:scale-[0.98]">
                                     Place Order - ${{ total.toFixed(2) }}
                                 </button>
                             </div>
@@ -257,17 +257,17 @@
 
                 <!-- Right Column - Summary -->
                 <div class="lg:col-span-5 mt-8 lg:mt-0">
-                    <div class="bg-gray-50 p-6 sticky top-4">
-                        <h2 class="text-xl font-bold text-gray-900 mb-4">Summary</h2>
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-4">
+                        <h2 class="text-xl font-bold text-gray-900 mb-5">Order Summary</h2>
 
                         <!-- Promo Code -->
-                        <div class="mb-4">
-                            <label class="block text-xs text-gray-600 mb-1">Promo code <span class="text-gray-400">3 per
+                        <div class="mb-5">
+                            <label class="block text-xs font-medium text-gray-600 mb-2">Promo code <span class="text-gray-400">3 per
                                     order maximum</span></label>
-                            <div class="flex">
+                            <div class="flex gap-2">
                                 <input v-model="promoCode" type="text" placeholder="Enter code"
-                                    class="flex-1 px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
-                                <button class="bg-brand text-white px-4 py-2 hover:bg-brand/90 transition-colors">
+                                    class="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
+                                <button class="bg-brand text-white px-4 py-2.5 rounded-xl hover:bg-brand/90 hover:shadow-md transition-all duration-300">
                                     <ChevronRight class="w-5 h-5" />
                                 </button>
                             </div>
@@ -301,22 +301,24 @@
                                 <ShoppingCart class="w-4 h-4" />
                                 Cart ({{ totalItems }} Items)
                             </h3>
-                            <div class="space-y-4">
-                                <div v-for="item in cartItems" :key="item.id" class="flex gap-3">
+                            <div class="space-y-3">
+                                <div v-for="item in cartItems" :key="item.skuUuid"
+                                    class="flex gap-3 p-3 rounded-xl border border-gray-100 bg-white hover:shadow-md hover:border-gray-200 transition-all duration-300">
                                     <div
-                                        class="w-16 h-16 flex-shrink-0 bg-white border border-gray-200 rounded overflow-hidden">
-                                        <img :src="item.image" :alt="item.name" class="w-full h-full object-cover"
+                                        class="w-16 h-16 flex-shrink-0 bg-gray-50/50 border border-gray-100 rounded-lg overflow-hidden">
+                                        <img :src="item.image" :alt="item.productName" class="w-full h-full object-contain p-1"
                                             loading="lazy"
                                             @error="(e: Event) => (e.target as HTMLImageElement).src = 'https://via.placeholder.com/64x64?text=No+Image'" />
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <div class="flex justify-between">
-                                            <div class="font-semibold text-sm">{{ item.name }}</div>
-                                            <div class="font-semibold text-sm">${{ item.price.toFixed(2) }}</div>
+                                        <div class="flex justify-between items-start mb-1">
+                                            <div class="font-semibold text-sm text-gray-900 line-clamp-1">{{ item.productName }}</div>
+                                            <div class="font-bold text-sm text-pink-600 ml-2">${{ (item.price * item.quantity).toFixed(2) }}</div>
                                         </div>
-                                        <div class="text-xs text-gray-500 mt-1">
-                                            <p>{{ item.description }}</p>
-                                            <p>Quantity: {{ item.quantity }}</p>
+                                        <div class="text-xs text-gray-500 space-y-0.5">
+                                            <p v-if="item.category" class="text-brand font-medium">{{ item.category }}</p>
+                                            <p v-if="item.variantLabel" class="text-gray-600">{{ item.variantLabel }}</p>
+                                            <p class="text-gray-400">Qty: {{ item.quantity }} × ${{ item.price.toFixed(2) }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -324,21 +326,21 @@
                         </div>
 
                         <!-- Need Help -->
-                        <div class="border-t border-gray-200 pt-4 mt-4">
+                        <div class="border-t border-gray-100 pt-5 mt-5">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <h4 class="font-bold mb-2">Need help?</h4>
-                                    <a href="#" class="text-brand underline text-sm block mb-1">Visit our Help
+                                    <h4 class="font-bold mb-3 text-gray-900">Need help?</h4>
+                                    <a href="#" class="text-brand hover:text-brand/80 font-medium text-sm block mb-2 transition-colors">Visit our Help
                                         Center</a>
-                                    <p class="text-sm text-gray-600">Call us</p>
-                                    <p class="text-sm font-semibold">888-764-8888</p>
-                                    <p class="text-xs text-gray-500">Mon-Fri 6am-5pm PST</p>
+                                    <p class="text-sm text-gray-600 mb-0.5">Call us</p>
+                                    <p class="text-sm font-semibold text-gray-900">888-764-8888</p>
+                                    <p class="text-xs text-gray-500 mt-1">Mon-Fri 6am-5pm PST</p>
                                 </div>
                                 <div class="text-right">
                                     <div
-                                        class="border border-gray-300 rounded px-2 py-1 text-xs text-gray-600 inline-block">
-                                        <div class="font-semibold text-green-700">✓ Secure</div>
-                                        <div>& Trusted</div>
+                                        class="border-2 border-green-200 bg-green-50 rounded-lg px-3 py-2 text-xs inline-block">
+                                        <div class="font-bold text-green-700">✓ Secure</div>
+                                        <div class="text-green-600">& Trusted</div>
                                     </div>
                                 </div>
                             </div>
@@ -354,6 +356,7 @@
     import { ChevronRight, ShoppingCart } from 'lucide-vue-next'
     import { computed, ref } from 'vue'
     import { useRouter } from 'vue-router'
+    import { useCartStore } from '~/stores/cart'
 
     // Disable default layout
     definePageMeta({
@@ -361,6 +364,7 @@
     })
 
     const router = useRouter()
+    const cartStore = useCartStore()
 
     // Current step in the checkout process
     const currentStep = ref(1)
@@ -391,28 +395,10 @@
     ])
     const selectedShipping = ref('standard')
 
-    // Example cart items - replace with your store logic
-    const cartItems = ref([
-        {
-            id: 1,
-            name: 'Wireless Mouse',
-            description: 'Ergonomic, 2.4GHz, Black',
-            image: 'https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=800',
-            quantity: 2,
-            price: 25.99
-        },
-        {
-            id: 2,
-            name: 'Mechanical Keyboard',
-            description: 'RGB, Blue Switches',
-            image: 'https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=800',
-            quantity: 1,
-            price: 89.99
-        }
-    ])
-
-    const totalItems = computed(() => cartItems.value.reduce((sum, item) => sum + item.quantity, 0))
-    const subtotal = computed(() => cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0))
+    // Use cart store items
+    const cartItems = computed(() => cartStore.items)
+    const totalItems = computed(() => cartStore.totalItems)
+    const subtotal = computed(() => cartStore.totalPrice)
     const shippingCost = computed(() => shippingOptions.value.find(o => o.id === selectedShipping.value)?.price || 0)
     const total = computed(() => subtotal.value + shippingCost.value)
 
@@ -431,6 +417,7 @@
     function placeOrder() {
         // TODO: Implement order placement logic
         alert('Order placed successfully!')
+        cartStore.clearCart()
         router.push('/')
     }
 </script>
