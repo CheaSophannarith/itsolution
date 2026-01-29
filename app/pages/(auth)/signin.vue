@@ -102,7 +102,8 @@
     import { Eye, EyeOff, Loader2, ArrowLeft, ArrowRight, Mail, Lock } from 'lucide-vue-next'
 
     definePageMeta({
-        layout: false
+        layout: false,
+        middleware: 'guest'
     })
 
     const authStore = useAuthStore()
@@ -127,14 +128,27 @@
             await authStore.login({
                 email: form.value.email,
                 password: form.value.password,
-                device_name: 'web'
             })
 
             addToast('Welcome back! You have successfully signed in.', 'success')
 
-            // Redirect to the page user was trying to access, or home
+            // Get redirect URL if present (e.g., from verification link)
             const redirect = route.query.redirect as string
-            navigateTo(redirect || '/')
+
+            // Check if email verification is required
+            if (!authStore.user?.email_verified_at) {
+                // If there's a redirect URL (like verification link), go there
+                if (redirect) {
+                    navigateTo(redirect)
+                } else {
+                    // Otherwise redirect to verify email page
+                    addToast('Please verify your email address to continue.', 'info')
+                    navigateTo('/verify-email')
+                }
+            } else {
+                // Email is verified, redirect to the page user was trying to access, or home
+                navigateTo(redirect || '/')
+            }
         } catch (error: any) {
             console.error('Login failed:', error)
 

@@ -176,7 +176,8 @@
     import { Eye, EyeOff, Loader2, ArrowLeft, ArrowRight, Mail, Lock, AlertCircle } from 'lucide-vue-next'
 
     definePageMeta({
-        layout: false
+        layout: false,
+        middleware: 'guest'
     })
 
     const authStore = useAuthStore()
@@ -275,10 +276,17 @@
                 password_confirmation: form.value.confirmPassword
             })
 
-            addToast('Account created! Welcome to TanXLM!', 'success')
+            addToast('Account created successfully!', 'success')
 
-            // Redirect to home after successful registration (user is already logged in)
-            navigateTo('/')
+            // Check if email verification is required
+            if (!authStore.user?.email_verified_at) {
+                // Redirect to verify email page
+                addToast('Please verify your email address to continue.', 'info')
+                navigateTo('/verify-email')
+            } else {
+                // Email already verified, redirect to home
+                navigateTo('/')
+            }
         } catch (error: any) {
             console.error('Registration failed:', error)
 

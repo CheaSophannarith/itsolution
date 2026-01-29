@@ -74,7 +74,7 @@ import { Mail, ArrowLeft, Loader2, CheckCircle } from 'lucide-vue-next'
 
 definePageMeta({
     layout: false,
-    // middleware: 'guest'
+    middleware: 'guest'
 })
 
 const form = ref({
@@ -84,14 +84,31 @@ const form = ref({
 const loading = ref(false)
 const emailSent = ref(false)
 
+const authStore = useAuthStore()
+const { addToast } = useToast()
+
 async function handleSubmit() {
     loading.value = true
     try {
-        // TODO: Implement forgot password API call
-        await new Promise(resolve => setTimeout(resolve, 1500))
+        await authStore.forgotPassword(form.value.email)
         emailSent.value = true
-    } catch (error) {
+        addToast('Password reset link sent to your email!', 'success')
+    } catch (error: any) {
         console.error('Failed to send reset email:', error)
+
+        let errorMessage = 'Failed to send reset email. Please try again.'
+
+        if (error.message) {
+            if (error.message.includes('429') || error.message.toLowerCase().includes('too many')) {
+                errorMessage = 'Too many requests. Please wait a moment before trying again.'
+            } else if (error.message.includes('404') || error.message.toLowerCase().includes('not found')) {
+                errorMessage = 'No account found with this email address.'
+            } else {
+                errorMessage = error.message
+            }
+        }
+
+        addToast(errorMessage, 'error')
     } finally {
         loading.value = false
     }

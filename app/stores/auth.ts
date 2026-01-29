@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { User, AuthState, LoginRequest, RegisterRequest, AuthResponse } from '~/types';
+import type { User, AuthState, LoginRequest, RegisterRequest, AuthResponse, ProfileFormData } from '~/types';
 
 export const useAuthStore = defineStore('auth', {
     state: (): AuthState => ({
@@ -36,7 +36,6 @@ export const useAuthStore = defineStore('auth', {
             const response = await api.post<AuthResponse>('/api/v1/auth/login', {
                 email: data.email,
                 password: data.password,
-                device_name: data.device_name || 'web',
             });
 
             this.setAuth(response.data.user, response.data.token);
@@ -65,6 +64,61 @@ export const useAuthStore = defineStore('auth', {
                 console.error('Fetch user error:', error);
                 this.clearAuth();
             }
+        },
+
+        async resendVerificationEmail() {
+            const api = useApi();
+            await api.post('/api/v1/auth/email/resend');
+        },
+
+        async verifyEmail(id: string, hash: string) {
+            const api = useApi();
+            const response = await api.get(`/api/v1/auth/email/verify/${id}/${hash}`);
+
+            // Refresh user data to get updated email_verified_at
+            await this.fetchUser();
+
+            return response;
+        },
+
+        async forgotPassword(email: string) {
+            const api = useApi();
+            await api.post('/api/v1/auth/forgot-password', { email });
+        },
+
+        async resetPassword(data: { token: string; email: string; password: string; password_confirmation: string }) {
+            const api = useApi();
+            await api.post('/api/v1/auth/reset-password', data);
+        },
+
+        async changePassword(data: { current_password: string; password: string; password_confirmation: string }) {
+            const api = useApi();
+            await api.post('/api/v1/auth/change-password', data);
+        },
+
+        async updateAvatar(file: File) {
+            const api = useApi();
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            const response = await api.post<{ data: User }>('/api/v1/auth/avatar', formData);
+            this.user = response.data;
+
+            // Refresh user data to ensure we have the latest state
+            await this.fetchUser();
+
+            return response;
+        },
+
+        async deleteAvatar() {
+            const api = useApi();
+            const response = await api.delete<{ data: User }>('/api/v1/auth/avatar');
+            this.user = response.data;
+
+            // Refresh user data to ensure we have the latest state
+            await this.fetchUser();
+
+            return response;
         },
     },
 
