@@ -10,10 +10,13 @@ interface Props extends /* @vue-ignore */ PrimitiveProps {
   variant?: ButtonVariants["variant"]
   size?: ButtonVariants["size"]
   class?: HTMLAttributes["class"]
+  as?: any
+  asChild?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   as: "button",
+  asChild: false,
 })
 </script>
 
