@@ -18,8 +18,26 @@
                 </div>
                 <div class="p-6">
                     <div class="flex items-center gap-4 mb-6">
-                        <div class="w-20 h-20 bg-brand rounded-full flex items-center justify-center">
-                            <User class="w-10 h-10 text-white" />
+                        <div class="relative">
+                            <div class="w-20 h-20 rounded-full overflow-hidden bg-brand flex items-center justify-center">
+                                <img v-if="avatarPreview || authStore.user?.avatar"
+                                    :src="avatarPreview || authStore.user?.avatar"
+                                    alt="Profile avatar"
+                                    class="w-full h-full object-cover">
+                                <User v-else class="w-10 h-10 text-white" />
+                            </div>
+                            <div v-if="showProfileForm" class="absolute -bottom-1 -right-1 flex gap-1">
+                                <label class="cursor-pointer bg-brand hover:bg-brand/90 text-white p-1.5 rounded-full shadow-lg transition-colors">
+                                    <Upload class="w-4 h-4" />
+                                    <input type="file" accept="image/*" @change="handleAvatarChange" class="hidden">
+                                </label>
+                                <button v-if="authStore.user?.avatar || avatarPreview"
+                                    @click="deleteAvatar"
+                                    type="button"
+                                    class="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full shadow-lg transition-colors">
+                                    <Trash2 class="w-4 h-4" />
+                                </button>
+                            </div>
                         </div>
                         <div>
                             <h3 class="text-xl font-semibold text-gray-900">{{ authStore.user?.name }}</h3>
@@ -136,7 +154,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { User, CheckCircle, Eye, EyeOff, Loader2 } from 'lucide-vue-next'
+import { User, CheckCircle, Eye, EyeOff, Loader2, Upload, Trash2 } from 'lucide-vue-next'
 
 definePageMeta({
     middleware: 'auth'
@@ -156,6 +174,9 @@ const profileForm = ref({
 })
 
 const isUpdating = ref(false)
+const avatarFile = ref<File | null>(null)
+const avatarPreview = ref<string | null>(null)
+const shouldDeleteAvatar = ref(false)
 
 // Password form
 const passwordForm = ref({
@@ -185,7 +206,43 @@ function resetForm() {
 
 function cancelProfileEdit() {
     resetForm()
+    avatarFile.value = null
+    avatarPreview.value = null
+    shouldDeleteAvatar.value = false
     showProfileForm.value = false
+}
+
+function handleAvatarChange(event: Event) {
+    const target = event.target as HTMLInputElement
+    const file = target.files?.[0]
+
+    if (file) {
+        if (!file.type.startsWith('image/')) {
+            addToast('Please select an image file.', 'error')
+            return
+        }
+
+        if (file.size > 5 * 1024 * 1024) { // 5MB limit
+            addToast('Image size must be less than 5MB.', 'error')
+            return
+        }
+
+        avatarFile.value = file
+        shouldDeleteAvatar.value = false
+
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            avatarPreview.value = e.target?.result as string
+        }
+        reader.readAsDataURL(file)
+    }
+}
+
+function deleteAvatar() {
+    avatarFile.value = null
+    avatarPreview.value = null
+    shouldDeleteAvatar.value = true
+    addToast('Avatar will be removed when you save changes.', 'info')
 }
 
 function resetPasswordForm() {
@@ -204,8 +261,26 @@ function cancelPasswordEdit() {
 async function updateProfile() {
     isUpdating.value = true
     try {
-        // TODO: Implement profile update API call
+        const formData = new FormData()
+        formData.append('name', profileForm.value.name)
+        formData.append('email', profileForm.value.email)
+
+        if (avatarFile.value) {
+            formData.append('avatar', avatarFile.value)
+        }
+
+        if (shouldDeleteAvatar.value) {
+            formData.append('remove_avatar', '1')
+        }
+
+        // TODO: Implement profile update API call with formData
         await new Promise(resolve => setTimeout(resolve, 1000))
+
+        // Reset avatar state after successful update
+        avatarFile.value = null
+        avatarPreview.value = null
+        shouldDeleteAvatar.value = false
+
         addToast('Profile updated successfully!', 'success')
         showProfileForm.value = false
     } catch (error) {

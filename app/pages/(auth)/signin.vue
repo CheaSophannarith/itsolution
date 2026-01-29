@@ -128,7 +128,6 @@
             await authStore.login({
                 email: form.value.email,
                 password: form.value.password,
-                device_name: 'web'
             })
 
             addToast('Welcome back! You have successfully signed in.', 'success')
