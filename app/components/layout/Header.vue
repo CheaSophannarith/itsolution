@@ -16,12 +16,80 @@
 
                     <!-- Search Bar - Hidden on mobile, shown on md+ -->
                     <div class="hidden md:flex flex-1 max-w-md mx-4 lg:mx-12">
-                        <div class="relative w-full">
-                            <Input type="text" placeholder="Search..."
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                        <div class="relative w-full" ref="searchRef">
+                            <Input
+                                v-model="searchQuery"
+                                type="text"
+                                placeholder="Search products..."
+                                @focus="showSearchDropdown = true"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
+                            />
                             <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
                                 <Search class="w-5 h-5" />
                             </button>
+
+                            <!-- Search Dropdown -->
+                            <Transition
+                                enter-active-class="transition ease-out duration-200"
+                                enter-from-class="opacity-0 translate-y-1"
+                                enter-to-class="opacity-100 translate-y-0"
+                                leave-active-class="transition ease-in duration-150"
+                                leave-from-class="opacity-100 translate-y-0"
+                                leave-to-class="opacity-0 translate-y-1"
+                            >
+                                <div
+                                    v-if="showSearchDropdown && searchQuery.length > 0"
+                                    class="absolute top-full mt-2 w-full bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-[500px] overflow-y-auto"
+                                >
+                                    <!-- Loading State -->
+                                    <div v-if="searchStatus === 'pending'" class="p-4 text-center text-gray-500">
+                                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand mx-auto"></div>
+                                        <p class="mt-2 text-sm">Searching...</p>
+                                    </div>
+
+                                    <!-- Results -->
+                                    <div v-else-if="searchResults.length > 0">
+                                        <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+                                            <p class="text-sm font-semibold text-gray-700">
+                                                Products for "{{ searchQuery }}"
+                                            </p>
+                                        </div>
+                                        <div class="p-2 space-y-2">
+                                            <NuxtLink
+                                                v-for="product in searchResults"
+                                                :key="product.uuid"
+                                                :to="`/products/${product.slug}`"
+                                                @click="closeSearch"
+                                                class="flex items-center gap-3 px-3 py-2 bg-white border border-gray-200 rounded-lg hover:border-brand hover:bg-gray-50 transition-all cursor-pointer"
+                                            >
+                                                <div class="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden">
+                                                    <img
+                                                        v-if="product.image"
+                                                        :src="product.image"
+                                                        :alt="product.name"
+                                                        class="w-full h-full object-cover"
+                                                    />
+                                                    <div v-else class="w-full h-full flex items-center justify-center">
+                                                        <Search class="w-6 h-6 text-gray-400" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <h4 class="text-sm font-semibold text-gray-900 truncate">{{ product.name }}</h4>
+                                                    <p class="text-xs text-gray-600 line-clamp-1 mt-0.5">{{ product.short_description }}</p>
+                                                    <p class="text-sm font-bold text-brand mt-1">${{ product.price }}</p>
+                                                </div>
+                                            </NuxtLink>
+                                        </div>
+                                    </div>
+
+                                    <!-- No Results -->
+                                    <div v-else class="p-8 text-center">
+                                        <Search class="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                                        <p class="text-gray-600 font-medium">No items found with your keyword</p>
+                                        <p class="text-sm text-gray-500 mt-1">Try searching with different terms</p>
+                                    </div>
+                                </div>
+                            </Transition>
                         </div>
                     </div>
 
@@ -208,12 +276,81 @@
                     leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100 translate-y-0"
                     leave-to-class="opacity-0 -translate-y-2">
                     <div v-if="mobileSearchOpen" class="md:hidden mt-3">
-                        <div class="relative w-full">
-                            <Input type="text" placeholder="Search..." autofocus
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent" />
+                        <div class="relative w-full" ref="mobileSearchRef">
+                            <Input
+                                v-model="mobileSearchQuery"
+                                type="text"
+                                placeholder="Search products..."
+                                autofocus
+                                @focus="showMobileSearchDropdown = true"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
+                            />
                             <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
                                 <Search class="w-5 h-5" />
                             </button>
+
+                            <!-- Mobile Search Dropdown -->
+                            <Transition
+                                enter-active-class="transition ease-out duration-200"
+                                enter-from-class="opacity-0 translate-y-1"
+                                enter-to-class="opacity-100 translate-y-0"
+                                leave-active-class="transition ease-in duration-150"
+                                leave-from-class="opacity-100 translate-y-0"
+                                leave-to-class="opacity-0 translate-y-1"
+                            >
+                                <div
+                                    v-if="showMobileSearchDropdown && mobileSearchQuery.length > 0"
+                                    class="absolute top-full mt-2 w-full bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-[400px] overflow-y-auto"
+                                >
+                                    <!-- Loading State -->
+                                    <div v-if="mobileSearchStatus === 'pending'" class="p-4 text-center text-gray-500">
+                                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand mx-auto"></div>
+                                        <p class="mt-2 text-sm">Searching...</p>
+                                    </div>
+
+                                    <!-- Results -->
+                                    <div v-else-if="mobileSearchResults.length > 0">
+                                        <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+                                            <p class="text-sm font-semibold text-gray-700">
+                                                Products for "{{ mobileSearchQuery }}"
+                                            </p>
+                                        </div>
+                                        <div class="p-2 space-y-2">
+                                            <NuxtLink
+                                                v-for="product in mobileSearchResults"
+                                                :key="product.uuid"
+                                                :to="`/products/${product.slug}`"
+                                                @click="closeMobileSearch"
+                                                class="flex items-center gap-3 px-3 py-2 bg-white border border-gray-200 rounded-lg hover:border-brand hover:bg-gray-50 transition-all"
+                                            >
+                                                <div class="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden">
+                                                    <img
+                                                        v-if="product.image"
+                                                        :src="product.image"
+                                                        :alt="product.name"
+                                                        class="w-full h-full object-cover"
+                                                    />
+                                                    <div v-else class="w-full h-full flex items-center justify-center">
+                                                        <Search class="w-6 h-6 text-gray-400" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <h4 class="text-sm font-semibold text-gray-900 truncate">{{ product.name }}</h4>
+                                                    <p class="text-xs text-gray-600 line-clamp-1 mt-0.5">{{ product.short_description }}</p>
+                                                    <p class="text-sm font-bold text-brand mt-1">${{ product.price }}</p>
+                                                </div>
+                                            </NuxtLink>
+                                        </div>
+                                    </div>
+
+                                    <!-- No Results -->
+                                    <div v-else class="p-8 text-center">
+                                        <Search class="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                                        <p class="text-gray-600 font-medium">No items found with your keyword</p>
+                                        <p class="text-sm text-gray-500 mt-1">Try searching with different terms</p>
+                                    </div>
+                                </div>
+                            </Transition>
                         </div>
                     </div>
                 </Transition>
@@ -407,6 +544,45 @@
     const authStore = useAuthStore()
     const { addToast } = useToast()
 
+    // Desktop Search
+    const searchQuery = ref('')
+    const showSearchDropdown = ref(false)
+    const searchRef = ref<HTMLElement | null>(null)
+    const { searchResults, status: searchStatus, refresh: refreshSearch } = useProductSearch(searchQuery)
+
+    // Mobile Search
+    const mobileSearchQuery = ref('')
+    const showMobileSearchDropdown = ref(false)
+    const mobileSearchRef = ref<HTMLElement | null>(null)
+    const { searchResults: mobileSearchResults, status: mobileSearchStatus, refresh: refreshMobileSearch } = useProductSearch(mobileSearchQuery)
+
+    // Watch desktop search query
+    watch(searchQuery, async (newValue) => {
+        if (newValue.length > 0) {
+            await refreshSearch()
+        }
+    })
+
+    // Watch mobile search query
+    watch(mobileSearchQuery, async (newValue) => {
+        if (newValue.length > 0) {
+            await refreshMobileSearch()
+        }
+    })
+
+    // Close search dropdown
+    function closeSearch() {
+        showSearchDropdown.value = false
+        searchQuery.value = ''
+    }
+
+    // Close mobile search dropdown
+    function closeMobileSearch() {
+        showMobileSearchDropdown.value = false
+        mobileSearchQuery.value = ''
+        mobileSearchOpen.value = false
+    }
+
     // Get user initials (first 1-2 characters)
     const userInitials = computed(() => {
         const name = authStore.user?.name || ''
@@ -483,6 +659,14 @@
         // Close mobile profile menu
         if (mobileProfileMenuRef.value && !mobileProfileMenuRef.value.contains(event.target as Node)) {
             closeProfileMenu()
+        }
+        // Close desktop search dropdown
+        if (searchRef.value && !searchRef.value.contains(event.target as Node)) {
+            showSearchDropdown.value = false
+        }
+        // Close mobile search dropdown
+        if (mobileSearchRef.value && !mobileSearchRef.value.contains(event.target as Node)) {
+            showMobileSearchDropdown.value = false
         }
     }
 
