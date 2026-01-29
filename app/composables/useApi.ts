@@ -6,11 +6,15 @@ export const useApi = () => {
         endpoint: string,
         options: RequestInit = {}
     ): Promise<T> {
-        const headers: HeadersInit = {
-            'Content-Type': 'application/json',
+        const headers: Record<string, string> = {
             Accept: 'application/json',
-            ...options.headers,
+            ...(options.headers as Record<string, string>),
         };
+
+        // Only add Content-Type for non-FormData requests
+        if (!(options.body instanceof FormData)) {
+            headers['Content-Type'] = 'application/json';
+        }
 
         // Get token from auth store if it exists
         const authStore = useAuthStore();
@@ -35,19 +39,23 @@ export const useApi = () => {
         get: <T>(endpoint: string, options?: RequestInit) =>
             request<T>(endpoint, { ...options, method: 'GET' }),
 
-        post: <T>(endpoint: string, body?: any, options?: RequestInit) =>
-            request<T>(endpoint, {
+        post: <T>(endpoint: string, body?: any, options?: RequestInit) => {
+            const isFormData = body instanceof FormData;
+            return request<T>(endpoint, {
                 ...options,
                 method: 'POST',
-                body: JSON.stringify(body),
-            }),
+                body: isFormData ? body : JSON.stringify(body),
+            });
+        },
 
-        put: <T>(endpoint: string, body?: any, options?: RequestInit) =>
-            request<T>(endpoint, {
+        put: <T>(endpoint: string, body?: any, options?: RequestInit) => {
+            const isFormData = body instanceof FormData;
+            return request<T>(endpoint, {
                 ...options,
                 method: 'PUT',
-                body: JSON.stringify(body),
-            }),
+                body: isFormData ? body : JSON.stringify(body),
+            });
+        },
 
         delete: <T>(endpoint: string, options?: RequestInit) =>
             request<T>(endpoint, { ...options, method: 'DELETE' }),

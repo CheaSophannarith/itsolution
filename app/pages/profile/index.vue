@@ -1,17 +1,11 @@
 <template>
     <div class="min-h-screen bg-gray-50 py-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
-            <!-- Page Header -->
-            <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">My Account</h1>
-                <p class="text-gray-600 mt-2">Manage your account information and preferences</p>
-            </div>
-
             <!-- Account Information Card -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
                 <div class="px-6 py-4 bg-gradient-to-r from-brand to-brand/90 border-b border-brand flex items-center justify-between">
                     <h2 class="text-lg font-semibold text-white">Account Information</h2>
-                    <button v-if="!showProfileForm" @click="showProfileForm = true" type="button"
+                    <button v-if="!showProfileForm" @click="startProfileEdit" type="button"
                         class="px-4 py-2 bg-white text-brand rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
                         Edit Profile
                     </button>
@@ -20,8 +14,8 @@
                     <div class="flex items-center gap-4 mb-6">
                         <div class="relative">
                             <div class="w-20 h-20 rounded-full overflow-hidden bg-brand flex items-center justify-center">
-                                <img v-if="avatarPreview || authStore.user?.avatar"
-                                    :src="avatarPreview || authStore.user?.avatar"
+                                <img v-if="avatarUrl"
+                                    :src="avatarUrl"
                                     alt="Profile avatar"
                                     class="w-full h-full object-cover">
                                 <User v-else class="w-10 h-10 text-white" />
@@ -31,7 +25,7 @@
                                     <Upload class="w-4 h-4" />
                                     <input type="file" accept="image/*" @change="handleAvatarChange" class="hidden">
                                 </label>
-                                <button v-if="authStore.user?.avatar || avatarPreview"
+                                <button v-if="avatarUrl"
                                     @click="deleteAvatar"
                                     type="button"
                                     class="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full shadow-lg transition-colors">
@@ -42,11 +36,6 @@
                         <div>
                             <h3 class="text-xl font-semibold text-gray-900">{{ authStore.user?.name }}</h3>
                             <p class="text-gray-600">{{ authStore.user?.email }}</p>
-                            <span v-if="authStore.user?.email_verified_at"
-                                class="inline-flex items-center gap-1 mt-1 text-xs font-medium text-green-700 bg-green-50 px-2 py-1 rounded-full">
-                                <CheckCircle class="w-3 h-3" />
-                                Verified
-                            </span>
                         </div>
                     </div>
 
@@ -66,7 +55,7 @@
                         </div>
 
                         <div class="flex justify-end gap-3 pt-4">
-                            <button type="button" @click="cancelProfileEdit"
+                            <button type="button" @click="handleCancelProfileEdit"
                                 class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                 Cancel
                             </button>
@@ -84,7 +73,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
                     <h2 class="text-lg font-semibold text-gray-900">Change Password</h2>
-                    <button v-if="!showPasswordForm" @click="showPasswordForm = true" type="button"
+                    <button v-if="!showPasswordForm" @click="startPasswordEdit" type="button"
                         class="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors text-sm font-medium">
                         Change Password
                     </button>
@@ -95,10 +84,10 @@
                             <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">Current
                                 Password</label>
                             <div class="relative">
-                                <input v-model="passwordForm.current_password"
+                                <input v-model="currentPassword"
                                     :type="showCurrentPassword ? 'text' : 'password'" id="current_password"
                                     class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
-                                <button type="button" @click="showCurrentPassword = !showCurrentPassword"
+                                <button type="button" @click="toggleCurrentPasswordVisibility"
                                     class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                                     <Eye v-if="showCurrentPassword" class="w-5 h-5" />
                                     <EyeOff v-else class="w-5 h-5" />
@@ -109,29 +98,48 @@
                             <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1">New
                                 Password</label>
                             <div class="relative">
-                                <input v-model="passwordForm.new_password" :type="showNewPassword ? 'text' : 'password'"
+                                <input v-model="newPassword" :type="showNewPassword ? 'text' : 'password'"
                                     id="new_password"
                                     class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
-                                <button type="button" @click="showNewPassword = !showNewPassword"
+                                <button type="button" @click="toggleNewPasswordVisibility"
                                     class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                                     <Eye v-if="showNewPassword" class="w-5 h-5" />
                                     <EyeOff v-else class="w-5 h-5" />
                                 </button>
+                            </div>
+                            <!-- Password Requirements -->
+                            <div v-if="newPassword" class="mt-2 space-y-1 text-xs">
+                                <p :class="passwordRequirements.minLength ? 'text-green-600' : 'text-gray-500'">
+                                    {{ passwordRequirements.minLength ? '✓' : '○' }} At least 8 characters
+                                </p>
+                                <p :class="passwordRequirements.hasUppercase ? 'text-green-600' : 'text-gray-500'">
+                                    {{ passwordRequirements.hasUppercase ? '✓' : '○' }} One uppercase letter
+                                </p>
+                                <p :class="passwordRequirements.hasNumber ? 'text-green-600' : 'text-gray-500'">
+                                    {{ passwordRequirements.hasNumber ? '✓' : '○' }} One number
+                                </p>
                             </div>
                         </div>
                         <div>
                             <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-1">Confirm
                                 New Password</label>
                             <div class="relative">
-                                <input v-model="passwordForm.confirm_password"
+                                <input v-model="confirmPassword"
                                     :type="showConfirmPassword ? 'text' : 'password'" id="confirm_password"
-                                    class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
-                                <button type="button" @click="showConfirmPassword = !showConfirmPassword"
+                                    :class="confirmPassword && newPassword !== confirmPassword ? 'border-red-400 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-brand focus:border-brand'"
+                                    class="w-full px-4 py-2 pr-10 border rounded-lg focus:ring-2 transition-colors">
+                                <button type="button" @click="toggleConfirmPasswordVisibility"
                                     class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                                     <Eye v-if="showConfirmPassword" class="w-5 h-5" />
                                     <EyeOff v-else class="w-5 h-5" />
                                 </button>
                             </div>
+                            <!-- Password Match Indicator -->
+                            <p v-if="confirmPassword && newPassword !== confirmPassword"
+                                class="flex items-center gap-1.5 mt-2 text-sm text-red-500 font-medium">
+                                <CheckCircle class="w-4 h-4" />
+                                Passwords do not match
+                            </p>
                         </div>
 
                         <div class="flex justify-end gap-3 pt-4">
@@ -153,7 +161,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { computed } from 'vue'
 import { User, CheckCircle, Eye, EyeOff, Loader2, Upload, Trash2 } from 'lucide-vue-next'
 
 definePageMeta({
@@ -161,194 +169,74 @@ definePageMeta({
 })
 
 const authStore = useAuthStore()
-const { addToast } = useToast()
 
-// Form visibility
-const showProfileForm = ref(false)
-const showPasswordForm = ref(false)
+// Profile form composable
+const {
+    formData: profileForm,
+    isEditing: showProfileForm,
+    isSubmitting: isUpdating,
+    startEdit: startProfileEdit,
+    cancelEdit: cancelProfileEdit,
+    updateProfileWithFormData,
+} = useProfileForm()
 
-// Profile form
-const profileForm = ref({
-    name: '',
-    email: ''
-})
+// Avatar upload composable
+const {
+    avatarFile,
+    shouldDeleteAvatar,
+    handleFileChange: handleAvatarChange,
+    markForDeletion: markAvatarForDeletion,
+    getPreviewUrl,
+    reset: resetAvatar,
+} = useAvatarUpload()
 
-const isUpdating = ref(false)
-const avatarFile = ref<File | null>(null)
-const avatarPreview = ref<string | null>(null)
-const shouldDeleteAvatar = ref(false)
+// Computed property for avatar URL (ensures reactivity)
+const avatarUrl = computed(() => getPreviewUrl(authStore.user?.avatar))
 
-// Password form
-const passwordForm = ref({
-    current_password: '',
-    new_password: '',
-    confirm_password: ''
-})
+// Password form composable
+const {
+    currentPassword,
+    newPassword,
+    confirmPassword,
+    isEditing: showPasswordForm,
+    isSubmitting: isUpdatingPassword,
+    showCurrentPassword,
+    showNewPassword,
+    showConfirmPassword,
+    startEdit: startPasswordEdit,
+    cancelEdit: cancelPasswordEdit,
+    submitPasswordChange,
+    toggleCurrentPasswordVisibility,
+    toggleNewPasswordVisibility,
+    toggleConfirmPasswordVisibility,
+} = usePasswordForm()
 
-const isUpdatingPassword = ref(false)
-const showCurrentPassword = ref(false)
-const showNewPassword = ref(false)
-const showConfirmPassword = ref(false)
-
-onMounted(() => {
-    if (authStore.user) {
-        profileForm.value.name = authStore.user.name
-        profileForm.value.email = authStore.user.email
-    }
-})
-
-function resetForm() {
-    if (authStore.user) {
-        profileForm.value.name = authStore.user.name
-        profileForm.value.email = authStore.user.email
-    }
-}
-
-function cancelProfileEdit() {
-    resetForm()
-    avatarFile.value = null
-    avatarPreview.value = null
-    shouldDeleteAvatar.value = false
-    showProfileForm.value = false
-}
-
-function handleAvatarChange(event: Event) {
-    const target = event.target as HTMLInputElement
-    const file = target.files?.[0]
-
-    if (file) {
-        if (!file.type.startsWith('image/')) {
-            addToast('Please select an image file.', 'error')
-            return
-        }
-
-        if (file.size > 5 * 1024 * 1024) { // 5MB limit
-            addToast('Image size must be less than 5MB.', 'error')
-            return
-        }
-
-        avatarFile.value = file
-        shouldDeleteAvatar.value = false
-
-        const reader = new FileReader()
-        reader.onload = (e) => {
-            avatarPreview.value = e.target?.result as string
-        }
-        reader.readAsDataURL(file)
-    }
-}
-
-function deleteAvatar() {
-    avatarFile.value = null
-    avatarPreview.value = null
-    shouldDeleteAvatar.value = true
-    addToast('Avatar will be removed when you save changes.', 'info')
-}
-
-function resetPasswordForm() {
-    passwordForm.value = {
-        current_password: '',
-        new_password: '',
-        confirm_password: ''
-    }
-}
-
-function cancelPasswordEdit() {
-    resetPasswordForm()
-    showPasswordForm.value = false
-}
+// Password requirements for display
+const passwordRequirements = computed(() => ({
+    minLength: newPassword.value.length >= 8,
+    hasUppercase: /[A-Z]/.test(newPassword.value),
+    hasNumber: /[0-9]/.test(newPassword.value)
+}))
 
 async function updateProfile() {
-    isUpdating.value = true
     try {
-        const formData = new FormData()
-        formData.append('name', profileForm.value.name)
-        formData.append('email', profileForm.value.email)
-
-        if (avatarFile.value) {
-            formData.append('avatar', avatarFile.value)
-        }
-
-        if (shouldDeleteAvatar.value) {
-            formData.append('remove_avatar', '1')
-        }
-
-        // TODO: Implement profile update API call with formData
-        await new Promise(resolve => setTimeout(resolve, 1000))
-
-        // Reset avatar state after successful update
-        avatarFile.value = null
-        avatarPreview.value = null
-        shouldDeleteAvatar.value = false
-
-        addToast('Profile updated successfully!', 'success')
-        showProfileForm.value = false
+        await updateProfileWithFormData(avatarFile.value, shouldDeleteAvatar.value)
+        resetAvatar()
     } catch (error) {
-        console.error('Update failed:', error)
-        addToast('Failed to update profile. Please try again.', 'error')
-    } finally {
-        isUpdating.value = false
+        // Error already handled by composable
     }
 }
 
 async function updatePassword() {
-    if (passwordForm.value.new_password !== passwordForm.value.confirm_password) {
-        addToast('New passwords do not match.', 'error')
-        return
-    }
-
-    if (passwordForm.value.new_password.length < 8) {
-        addToast('Password must be at least 8 characters long.', 'error')
-        return
-    }
-
-    // Check password requirements
-    const hasUppercase = /[A-Z]/.test(passwordForm.value.new_password)
-    const hasNumber = /[0-9]/.test(passwordForm.value.new_password)
-
-    if (!hasUppercase) {
-        addToast('Password must contain at least one uppercase letter.', 'error')
-        return
-    }
-
-    if (!hasNumber) {
-        addToast('Password must contain at least one number.', 'error')
-        return
-    }
-
-    isUpdatingPassword.value = true
-    try {
-        await authStore.changePassword({
-            current_password: passwordForm.value.current_password,
-            password: passwordForm.value.new_password,
-            password_confirmation: passwordForm.value.confirm_password
-        })
-
-        addToast('Password updated successfully!', 'success')
-        resetPasswordForm()
-        showPasswordForm.value = false
-    } catch (error: any) {
-        console.error('Password update failed:', error)
-
-        let errorMessage = 'Failed to update password. Please try again.'
-
-        if (error.errors && typeof error.errors === 'object') {
-            const errors = Object.values(error.errors).flat()
-            errorMessage = errors[0] as string || errorMessage
-        } else if (error.message) {
-            if (error.message.toLowerCase().includes('current password')) {
-                errorMessage = 'The current password is incorrect.'
-            } else if (error.message.includes('401') || error.message.toLowerCase().includes('unauthorized')) {
-                errorMessage = 'The current password is incorrect.'
-            } else {
-                errorMessage = error.message
-            }
-        }
-
-        addToast(errorMessage, 'error')
-    } finally {
-        isUpdatingPassword.value = false
-    }
+    await submitPasswordChange()
 }
 
+function deleteAvatar() {
+    markAvatarForDeletion()
+}
+
+function handleCancelProfileEdit() {
+    cancelProfileEdit()
+    resetAvatar()
+}
 </script>

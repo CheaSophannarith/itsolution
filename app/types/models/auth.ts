@@ -2,6 +2,7 @@ export interface User {
     uuid: string;
     name: string;
     email: string;
+    avatar?: string | null;
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
@@ -29,4 +30,9 @@ export interface AuthResponse {
         user: User;
         token: string;
     };
+}
+
+export interface ProfileFormData {
+    name: string;
+    email: string;
 }

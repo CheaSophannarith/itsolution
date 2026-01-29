@@ -59,8 +59,8 @@
                             <button @click="toggleUserMenu"
                                 class="flex items-center gap-2 p-2 text-brand hover:bg-gray-100 rounded-full transition-all">
                                 <!-- Profile Image or Initials -->
-                                <div v-if="authStore.user?.profile_image" class="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-transparent hover:ring-brand transition-all">
-                                    <img :src="authStore.user.profile_image" :alt="authStore.user.name" class="w-full h-full object-cover" />
+                                <div v-if="authStore.user?.avatar" class="w-9 h-9 border border-brand rounded-full overflow-hidden flex-shrink-0 ring-2 ring-transparent hover:ring-brand transition-all">
+                                    <img :src="authStore.user.avatar" :alt="authStore.user.name" class="w-full h-full object-cover" />
                                 </div>
                                 <div v-else class="w-9 h-9 bg-brand text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 ring-2 ring-transparent hover:ring-brand/50 transition-all">
                                     {{ userInitials }}
@@ -79,8 +79,8 @@
                                     <div class="px-4 py-3 border-b border-gray-200">
                                         <div class="flex items-center gap-3">
                                             <!-- Profile Image or Initials -->
-                                            <div v-if="authStore.user?.profile_image" class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-                                                <img :src="authStore.user.profile_image" :alt="authStore.user.name" class="w-full h-full object-cover" />
+                                            <div v-if="authStore.user?.avatar" class="w-12 h-12 border border-brand rounded-full overflow-hidden flex-shrink-0">
+                                                <img :src="authStore.user.avatar" :alt="authStore.user.name" class="w-full h-full object-cover" />
                                             </div>
                                             <div v-else class="w-12 h-12 bg-brand text-white rounded-full flex items-center justify-center text-base font-bold flex-shrink-0">
                                                 {{ userInitials }}
@@ -127,8 +127,8 @@
                         <div v-if="authStore.isAuthenticated" class="sm:hidden relative" ref="mobileProfileMenuRef">
                             <button @click="toggleProfileMenu" class="p-2 hover:bg-gray-100 rounded-md relative">
                                 <!-- Profile Image or Initials -->
-                                <div v-if="authStore.user?.profile_image" class="w-8 h-8 rounded-full overflow-hidden">
-                                    <img :src="authStore.user.profile_image" :alt="authStore.user.name" class="w-full h-full object-cover" />
+                                <div v-if="authStore.user?.avatar" class="w-8 h-8 border border-brand  rounded-full overflow-hidden">
+                                    <img :src="authStore.user.avatar" :alt="authStore.user.name" class="w-full h-full object-cover" />
                                 </div>
                                 <div v-else class="w-8 h-8 bg-brand text-white rounded-full flex items-center justify-center text-xs font-semibold">
                                     {{ userInitials }}
@@ -154,8 +154,8 @@
                                         </button>
                                         <div class="flex items-center gap-3 pr-8">
                                             <!-- Profile Image or Initials -->
-                                            <div v-if="authStore.user?.profile_image" class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-                                                <img :src="authStore.user.profile_image" :alt="authStore.user.name" class="w-full h-full object-cover" />
+                                            <div v-if="authStore.user?.avatar" class="w-12 h-12 border border-brand  rounded-full overflow-hidden flex-shrink-0">
+                                                <img :src="authStore.user.avatar" :alt="authStore.user.name" class="w-full h-full object-cover" />
                                             </div>
                                            <div v-else class="w-8 h-8 bg-brand text-white rounded-full flex items-center justify-center text-xs font-semibold">
                                     {{ userInitials }}
