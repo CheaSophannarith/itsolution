@@ -11,11 +11,11 @@
                 @init-api="onCarouselInit"
             >
                 <CarouselContent>
-                    <CarouselItem v-for="slide in heroSlides" :key="slide.id">
+                    <CarouselItem v-for="slide in carouselSlides" :key="slide.uuid">
                         <div class="relative w-full h-[300px] sm:h-[400px] lg:h-[450px] overflow-hidden">
                             <img
-                                :src="slide.image"
-                                :alt="`Slide ${slide.id}`"
+                                :src="slide.desktop"
+                                :alt="slide.title || 'Carousel slide'"
                                 class="w-full h-full object-cover"
                             />
                         </div>
@@ -33,8 +33,8 @@
                 <!-- Pagination Dots -->
                 <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
                     <button
-                        v-for="(slide, index) in heroSlides"
-                        :key="slide.id"
+                        v-for="(slide, index) in carouselSlides"
+                        :key="slide.uuid"
                         @click="() => carouselApi?.scrollTo(index)"
                         :class="[
                             'w-2.5 h-2.5 rounded-full transition-all duration-300',
@@ -237,6 +237,7 @@ import softwareServicesData from '~/assets/data/Service/system.json';
 import type { Product } from '~/types';
 import type { CarouselApi } from '~/components/ui/carousel';
 
+const { carouselSlides } = useCarousel();
 const { featuredProducts } = useFeaturedProducts();
 const { popularCategories } = await usePopularCategories();
 const { categoriesWithProducts } = await useCategoriesWithProducts(popularCategories);
@@ -254,26 +255,6 @@ const whyChooseUs = [
 const carouselApi = ref<CarouselApi>();
 const currentSlide = ref(0);
 let autoplayInterval: NodeJS.Timeout | null = null;
-
-// Hero slides data - IT themed images
-const heroSlides = [
-    {
-        id: 1,
-        image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop'
-    },
-    {
-        id: 2,
-        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop'
-    },
-    {
-        id: 3,
-        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop'
-    },
-    {
-        id: 4,
-        image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop'
-    }
-];
 
 // Initialize carousel API and setup autoplay
 function onCarouselInit(api: CarouselApi) {
