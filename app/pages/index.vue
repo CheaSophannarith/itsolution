@@ -243,56 +243,9 @@ import {
 import softwareServicesData from '~/assets/data/Service/system.json';
 import type { Product } from '~/types';
 
-interface Category {
-    uuid: string;
-    name: string;
-    slug: string;
-    description: string | null;
-    image: string;
-    is_popular: boolean;
-}
-
-interface CategoryWithProducts extends Category {
-    products: Product[];
-}
-
-const config = useRuntimeConfig();
 const { featuredProducts } = useFeaturedProducts();
-
-// Fetch popular categories
-const popularCategories = ref<Category[]>([]);
-const { data: categoriesData } = await useFetch<{ data: Category[] }>(
-    `${config.public.apiBaseUrl}/api/v1/categories/popular`
-);
-
-if (categoriesData.value?.data) {
-    popularCategories.value = categoriesData.value.data;
-}
-
-// Fetch products for each category
-const categoriesWithProducts = ref<CategoryWithProducts[]>([]);
-
-if (popularCategories.value.length > 0) {
-    const productPromises = popularCategories.value.map(async (category) => {
-        const { data } = await useFetch<{ data: Product[] }>(
-            `${config.public.apiBaseUrl}/api/v1/categories/${category.slug}/products`
-        );
-
-        const products = data.value?.data ?? [];
-
-        // Only return category if it has products
-        if (products.length > 0) {
-            return {
-                ...category,
-                products: products.slice(0, 4) // Limit to 4 products
-            };
-        }
-        return null;
-    });
-
-    const results = await Promise.all(productPromises);
-    categoriesWithProducts.value = results.filter((cat): cat is CategoryWithProducts => cat !== null);
-}
+const { popularCategories } = await usePopularCategories();
+const { categoriesWithProducts } = await useCategoriesWithProducts(popularCategories);
 
 const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
 
