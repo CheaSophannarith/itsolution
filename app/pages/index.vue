@@ -1,39 +1,51 @@
 <template>
     <div class="min-h-screen">
-        <!-- Hero Section -->
-        <div class="w-full px-4 sm:px-8 lg:px-12 py-20 sm:py-28 lg:py-36 relative overflow-hidden" style="background: linear-gradient(135deg, #459bcc 0%, #172554 100%)">
-            <!-- Decorative Elements -->
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-10 right-10 w-80 h-80 bg-white rounded-full blur-3xl animate-pulse-slow"></div>
-                <div class="absolute bottom-10 left-10 w-[28rem] h-[28rem] bg-white rounded-full blur-3xl animate-pulse-slow animation-delay-2000"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white rounded-full blur-3xl animate-pulse-slow animation-delay-4000"></div>
-            </div>
+        <!-- Hero Carousel Section -->
+        <div class="relative w-full overflow-hidden">
+            <Carousel
+                class="w-full"
+                :opts="{
+                    align: 'start',
+                    loop: true,
+                }"
+                @init-api="onCarouselInit"
+            >
+                <CarouselContent>
+                    <CarouselItem v-for="slide in heroSlides" :key="slide.id">
+                        <div class="relative w-full h-[300px] sm:h-[400px] lg:h-[450px] overflow-hidden">
+                            <img
+                                :src="slide.image"
+                                :alt="`Slide ${slide.id}`"
+                                class="w-full h-full object-cover"
+                            />
+                        </div>
+                    </CarouselItem>
+                </CarouselContent>
 
-            <div class="max-w-7xl mx-auto px-2 sm:px-6 relative z-10">
-                <div class="max-w-3xl">
-                    <span class="inline-block text-xs sm:text-sm font-medium tracking-widest uppercase text-white/70 mb-4 sm:mb-6">
-                        Your Trusted IT Partner
-                    </span>
-                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white mb-6 sm:mb-8 leading-[1.1] tracking-tight">
-                        IT Solutions for Your
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">Business Success</span>
-                    </h1>
-                    <p class="text-base sm:text-lg lg:text-xl text-white/80 mb-10 sm:mb-12 leading-relaxed max-w-2xl font-light">
-                        From hardware and software to comprehensive IT services, we provide everything your organization needs to thrive in the digital age.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 sm:gap-5">
-                        <NuxtLink to="/hardware"
-                            class="group bg-white text-gray-900 px-8 py-4 rounded-2xl font-semibold hover:shadow-2xl hover:shadow-white/20 hover:scale-[1.03] transition-all duration-300 text-center shadow-xl inline-flex items-center justify-center gap-2">
-                            Shop Hardware
-                            <ChevronRight class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                        </NuxtLink>
-                        <NuxtLink to="/software"
-                            class="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-2xl font-semibold hover:bg-white/20 hover:border-white/50 hover:shadow-2xl hover:shadow-white/10 hover:scale-[1.03] transition-all duration-300 text-center">
-                            Explore Software
-                        </NuxtLink>
-                    </div>
+                <!-- Navigation Arrows - Centered Vertically -->
+                <div class="absolute top-1/2 -translate-y-1/2 left-4 sm:left-8 z-20">
+                    <CarouselPrevious class="relative left-0 translate-x-0 translate-y-0 bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 hover:border-white/50 w-12 h-12 sm:w-14 sm:h-14" />
                 </div>
-            </div>
+                <div class="absolute top-1/2 -translate-y-1/2 right-4 sm:right-8 z-20">
+                    <CarouselNext class="relative right-0 translate-x-0 translate-y-0 bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 hover:border-white/50 w-12 h-12 sm:w-14 sm:h-14" />
+                </div>
+
+                <!-- Pagination Dots -->
+                <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                    <button
+                        v-for="(slide, index) in heroSlides"
+                        :key="slide.id"
+                        @click="() => carouselApi?.scrollTo(index)"
+                        :class="[
+                            'w-2.5 h-2.5 rounded-full transition-all duration-300',
+                            currentSlide === index
+                                ? 'bg-white w-8'
+                                : 'bg-white/40 hover:bg-white/60'
+                        ]"
+                        :aria-label="`Go to slide ${index + 1}`"
+                    />
+                </div>
+            </Carousel>
         </div>
 
         <!-- Featured Products Section -->
@@ -47,7 +59,7 @@
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <!-- Header Section with asymmetric layout -->
-                <div class="mb-12 sm:mb-16">
+                <div class="mb-4 sm:mb-6">
                     <div class="flex flex-col gap-6">
                         <!-- Left side - Title and description -->
                         <div class="flex-1">
@@ -56,40 +68,27 @@
                                     Handpicked for you
                                 </span>
                             </div>
-                            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-                                Featured Products
-                            </h2>
-                            <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
-                                Discover our carefully selected collection of premium IT products.
-                                Each item is chosen for its exceptional quality, performance, and value.
-                            </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Products Grid -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-4">
                     <ProductCard v-for="product in featuredProducts" :key="product.uuid" :product="product" />
                 </div>
             </div>
         </div>
 
         <!-- Popular Categories Section -->
-        <div v-if="popularCategories && popularCategories.length > 0" class="bg-gradient-to-b from-gray-50 to-white py-8 sm:py-12">
+        <div v-if="popularCategories && popularCategories.length > 0" class="bg-gradient-to-b from-gray-50 to-white py-3 sm:py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Header -->
-                <div class="mb-6 sm:mb-8">
+                <div class="mb-4 sm:mb-6">
                     <div class="mb-2">
                         <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
                             Shop by category
                         </span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 leading-tight">
-                        Popular Categories
-                    </h2>
-                    <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
-                        Browse our most popular product categories to find exactly what you need.
-                    </p>
                 </div>
 
                 <!-- Categories Grid -->
@@ -100,21 +99,15 @@
         </div>
 
         <!-- Category Products Sections -->
-        <div v-if="categoriesWithProducts && categoriesWithProducts.length > 0" class="bg-white py-10 sm:py-16">
+        <div v-if="categoriesWithProducts && categoriesWithProducts.length > 0" class="bg-white py-4 sm:py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Section Header -->
-                <div class="mb-10 sm:mb-12">
+                <div class="mb-4 sm:mb-6">
                     <div class="mb-2">
                         <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
                             Explore our collection
                         </span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 leading-tight">
-                        Shop by Category
-                    </h2>
-                    <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
-                        Discover top products from each category, handpicked just for you.
-                    </p>
                 </div>
 
                 <!-- Categories with Products -->
@@ -222,7 +215,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, onUnmounted } from 'vue';
 import {
     Monitor,
     Cable,
@@ -242,57 +235,11 @@ import {
 } from 'lucide-vue-next';
 import softwareServicesData from '~/assets/data/Service/system.json';
 import type { Product } from '~/types';
+import type { CarouselApi } from '~/components/ui/carousel';
 
-interface Category {
-    uuid: string;
-    name: string;
-    slug: string;
-    description: string | null;
-    image: string;
-    is_popular: boolean;
-}
-
-interface CategoryWithProducts extends Category {
-    products: Product[];
-}
-
-const config = useRuntimeConfig();
 const { featuredProducts } = useFeaturedProducts();
-
-// Fetch popular categories
-const popularCategories = ref<Category[]>([]);
-const { data: categoriesData } = await useFetch<{ data: Category[] }>(
-    `${config.public.apiBaseUrl}/api/v1/categories/popular`
-);
-
-if (categoriesData.value?.data) {
-    popularCategories.value = categoriesData.value.data;
-}
-
-// Fetch products for each category
-const categoriesWithProducts = ref<CategoryWithProducts[]>([]);
-
-if (popularCategories.value.length > 0) {
-    const productPromises = popularCategories.value.map(async (category) => {
-        const { data } = await useFetch<{ data: Product[] }>(
-            `${config.public.apiBaseUrl}/api/v1/categories/${category.slug}/products`
-        );
-
-        const products = data.value?.data ?? [];
-
-        // Only return category if it has products
-        if (products.length > 0) {
-            return {
-                ...category,
-                products: products.slice(0, 4) // Limit to 4 products
-            };
-        }
-        return null;
-    });
-
-    const results = await Promise.all(productPromises);
-    categoriesWithProducts.value = results.filter((cat): cat is CategoryWithProducts => cat !== null);
-}
+const { popularCategories } = await usePopularCategories();
+const { categoriesWithProducts } = await useCategoriesWithProducts(popularCategories);
 
 const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
 
@@ -302,4 +249,70 @@ const whyChooseUs = [
     { title: 'Expert Support', description: '24/7 technical assistance', icon: Headset },
     { title: 'Quality Products', description: 'Top brands guaranteed', icon: Award },
 ];
+
+// Carousel state
+const carouselApi = ref<CarouselApi>();
+const currentSlide = ref(0);
+let autoplayInterval: NodeJS.Timeout | null = null;
+
+// Hero slides data - IT themed images
+const heroSlides = [
+    {
+        id: 1,
+        image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop'
+    },
+    {
+        id: 2,
+        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop'
+    },
+    {
+        id: 3,
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop'
+    },
+    {
+        id: 4,
+        image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop'
+    }
+];
+
+// Initialize carousel API and setup autoplay
+function onCarouselInit(api: CarouselApi) {
+    if (!api) return;
+
+    carouselApi.value = api;
+    currentSlide.value = api.selectedScrollSnap();
+
+    // Update current slide on select
+    api.on('select', () => {
+        currentSlide.value = api.selectedScrollSnap();
+    });
+
+    // Setup autoplay - slide every 4 seconds
+    startAutoplay();
+}
+
+function startAutoplay() {
+    if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+    }
+
+    autoplayInterval = setInterval(() => {
+        if (carouselApi.value) {
+            carouselApi.value.scrollNext();
+        }
+    }, 4000); // 4 seconds
+}
+
+// Stop autoplay when user interacts
+function stopAutoplay() {
+    if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+    }
+}
+
+// Cleanup on component unmount
+onUnmounted(() => {
+    stopAutoplay();
+});
 </script>
