@@ -48,7 +48,7 @@
                 <div class="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-12" data-aos="fade-up">
                     <!-- Left: Product Image -->
                     <div class="lg:w-1/2">
-                        <div class="bg-white p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl border border-gray-200 cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 group" @click="openLightbox(activeImageIndex)">
+                        <div class="p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl border border-gray-200 cursor-pointer transition-all duration-500 group" @click="openLightbox(activeImageIndex)">
                             <img :src="allImages[activeImageIndex]?.original" :alt="product.name" class="w-full h-64 sm:h-80 lg:h-96 object-contain group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <!-- Thumbnails -->
@@ -59,10 +59,10 @@
                                 :src="image.thumb"
                                 :alt="`${product.name} - ${index + 1}`"
                                 :class="[
-                                    'w-16 h-16 sm:w-20 sm:h-20 object-contain border-2 rounded-lg sm:rounded-xl cursor-pointer transition-all duration-300 flex-shrink-0',
+                                    'w-20 h-20 sm:w-32 sm:h-32 object-contain border-2 rounded-lg sm:rounded-xl cursor-pointer transition-all duration-300 flex-shrink-0 p-2',
                                     activeImageIndex === index
-                                        ? 'border-brand ring-2 sm:ring-4 ring-brand/20 shadow-lg scale-105 sm:scale-110'
-                                        : 'border-gray-200 hover:border-brand/50 hover:shadow-md'
+                                        ? 'border-brand ring-2 sm:ring-4 ring-brand/20 shadow-lg mt-2'
+                                        : 'border-gray-200 hover:border-brand/50 hover:shadow-md mt-2'
                                 ]"
                                 @click="activeImageIndex = index"
                             />
@@ -128,7 +128,7 @@
                         </div>
 
                         <!-- Price & Stock Section -->
-                        <div class="bg-gradient-to-br from-white to-gray-50/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 space-y-3 sm:space-y-4 border border-gray-200 shadow-md" data-aos="fade-left" data-aos-delay="250">
+                        <div class="rounded-xl sm:rounded-2xl p-4 sm:p-6 space-y-3 sm:space-y-4 border border-gray-200 " data-aos="fade-left" data-aos-delay="250">
                             <div class="flex items-baseline gap-2 sm:gap-4">
                                 <span v-if="selectedSku?.compare_at_price" class="text-sm sm:text-lg text-gray-400 line-through font-medium">
                                     ${{ parseFloat(selectedSku.compare_at_price).toFixed(2) }}
@@ -144,12 +144,11 @@
                                     <XCircle class="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
                                     <span class="text-red-700 font-bold text-sm sm:text-base">Out of Stock</span>
                                 </div>
-                                <span class="text-gray-600 text-xs sm:text-sm font-semibold">{{ selectedSku?.stock_quantity.toLocaleString() }} available</span>
                             </div>
                         </div>
 
                         <!-- Product Detail Box (SKU attributes) -->
-                        <div class="border-2 border-gray-200 rounded-xl sm:rounded-2xl overflow-hidden shadow-md bg-white" data-aos="fade-left" data-aos-delay="300">
+                        <div class="border-2 border-gray-200 rounded-xl sm:rounded-2xl overflow-hidden" data-aos="fade-left" data-aos-delay="300">
                             <div class="flex items-center gap-2 sm:gap-3 px-3 py-3 sm:px-5 sm:py-4 bg-gradient-to-r from-gray-50 to-white border-b-2 border-gray-100">
                                 <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-brand/10 flex items-center justify-center flex-shrink-0">
                                     <Info class="w-4 h-4 sm:w-5 sm:h-5 text-brand" />
@@ -165,12 +164,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Description -->
-                        <div v-if="product.description" class="bg-white rounded-xl sm:rounded-2xl border border-gray-200 p-4 sm:p-5 shadow-sm" data-aos="fade-left" data-aos-delay="350">
-                            <h3 class="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wide mb-2 sm:mb-3">Description</h3>
-                            <p class="text-sm sm:text-base text-gray-700 leading-relaxed">{{ product.description }}</p>
                         </div>
 
                         <!-- Quantity and Add to Cart -->
@@ -220,6 +213,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <!-- Description -->
+                <div v-if="product.description" class=" rounded-xl sm:rounded-2xl border border-gray-200 p-4 sm:p-5 mt-10" data-aos="fade-left" data-aos-delay="350">
+                    <h3 class="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wide mb-2 sm:mb-3">Description</h3>
+                    <p class="text-sm sm:text-base text-gray-700 leading-relaxed">{{ product.description }}</p>
                 </div>
             </div>
 
