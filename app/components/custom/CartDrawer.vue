@@ -17,34 +17,48 @@ const open = ref(false)
 const { items, totalItems, totalPrice, removeItem, updateQuantity, clearCart } = useCart()
 const authStore = useAuthStore()
 const router = useRouter()
+const { forceUnlockScroll } = useScrollLock()
 
-// Prevent body scroll when drawer is open
+// Force unlock scroll on component mount and when closing
+onMounted(() => {
+    forceUnlockScroll()
+})
+
+// Watch for drawer close and force unlock scroll
 watch(open, (isOpen) => {
-    if (typeof document !== 'undefined') {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden'
-        } else {
-            document.body.style.overflow = ''
-        }
+    if (!isOpen) {
+        // Small delay to ensure drawer close animation completes
+        setTimeout(() => {
+            forceUnlockScroll()
+        }, 100)
     }
 })
 
 // Cleanup on unmount
 onUnmounted(() => {
-    if (typeof document !== 'undefined') {
-        document.body.style.overflow = ''
-    }
+    forceUnlockScroll()
 })
 
+// Function to handle drawer closing - ensures scroll is restored
+const handleDrawerClose = () => {
+    open.value = false
+    // Force immediate scroll restoration
+    setTimeout(() => {
+        forceUnlockScroll()
+    }, 50)
+}
+
 const handleCheckout = () => {
+    // Close drawer and restore scroll before navigation
+    open.value = false
+    forceUnlockScroll()
+    
     if (!authStore.isAuthenticated) {
-        open.value = false
         router.push({
             path: '/signin',
             query: { redirect: '/checkout' }
         })
     } else {
-        open.value = false
         router.push('/checkout')
     }
 }
@@ -78,6 +92,7 @@ const handleCheckout = () => {
                     </div>
                     <DrawerClose as-child>
                         <button
+                            @click="handleDrawerClose"
                             class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                         >
                             <X class="w-5 h-5 text-gray-600" />
@@ -108,7 +123,7 @@ const handleCheckout = () => {
                     </p>
 
                     <DrawerClose as-child>
-                        <button class="px-8 py-3.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-semibold text-sm transition-all hover:scale-105 active:scale-95 shadow-lg">
+                        <button @click="handleDrawerClose" class="px-8 py-3.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-semibold text-sm transition-all hover:scale-105 active:scale-95 shadow-lg">
                             Start Shopping
                         </button>
                     </DrawerClose>
@@ -126,7 +141,7 @@ const handleCheckout = () => {
                             <NuxtLink
                                 :to="`/products/${item.productSlug}`"
                                 class="relative w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 rounded-xl sm:rounded-2xl overflow-hidden bg-gray-50 group-hover:scale-[1.02] transition-transform duration-300"
-                                @click="open = false"
+                                @click="handleDrawerClose"
                             >
                                 <img
                                     :src="item.image"
@@ -143,7 +158,7 @@ const handleCheckout = () => {
                                         <NuxtLink
                                             :to="`/products/${item.productSlug}`"
                                             class="font-semibold text-base sm:text-lg text-gray-900 line-clamp-2 hover:text-brand transition-colors leading-tight mb-1.5 block"
-                                            @click="open = false"
+                                            @click="handleDrawerClose"
                                         >
                                             {{ item.productName }}
                                         </NuxtLink>
