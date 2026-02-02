@@ -5,16 +5,6 @@
         <div class="relative aspect-square bg-gray-50 overflow-hidden cursor-pointer" @click="navigateToDetail">
             <img :src="product.image" :alt="product.name"
                 class="w-full h-full object-contain p-4 sm:p-5 group-hover:scale-105 transition-transform duration-300" />
-
-            <!-- Status Badge -->
-            <div v-if="!product.in_stock"
-                class="absolute top-3 left-3 bg-red-500 text-white text-[10px] sm:text-xs font-medium px-2.5 py-1 rounded-md">
-                Out of Stock
-            </div>
-            <div v-else-if="product.is_featured"
-                class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] sm:text-xs font-medium px-2.5 py-1 rounded-md">
-                Featured
-            </div>
         </div>
 
         <!-- Product Info -->
@@ -31,15 +21,15 @@
 
                 <!-- Action Buttons -->
                 <div class="flex gap-2">
-                    <button @click="handleAddToCart" :disabled="!product.in_stock || adding"
-                        class="flex-1 bg-brand text-white px-2.5 py-1.5 rounded hover:bg-brand/90 active:scale-[0.98] disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium text-[11px] sm:text-xs text-center whitespace-nowrap"
-                        :class="{ 'bg-green-500!': added }">
+                    <button @click="handleAddToCart" :disabled="!product.in_stock || adding || isInCart"
+                        class="flex-1 bg-brand text-white px-2.5 py-2.5 rounded hover:bg-brand/90 active:scale-[0.98] disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium text-[11px] sm:text-xs text-center whitespace-nowrap"
+                        :class="{ 'bg-black ! hover:bg-black !': isInCart }">
                         <span v-if="adding" class="flex items-center justify-center gap-1">
                             <span class="inline-block w-2.5 h-2.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                             <span class="hidden lg:inline">Adding...</span>
                         </span>
-                        <span v-else-if="added" class="flex items-center justify-center gap-1">
-                            <span class="inline-block animate-scale-in text-sm">✓</span>
+                        <span v-else-if="isInCart" class="flex items-center justify-center gap-1">
+                            <span class="inline-block text-sm">✓</span>
                             <span class="hidden lg:inline">Added</span>
                         </span>
                         <span v-else>
@@ -47,7 +37,7 @@
                             <span class="lg:hidden">Add</span>
                         </span>
                     </button>
-                    <button @click="navigateToDetail"
+                    <button @click="handleBuyNow"
                         class="flex-1 bg-gray-900 text-white px-2.5 py-1.5 rounded hover:bg-gray-800 active:scale-[0.98] transition-all duration-200 font-medium text-[11px] sm:text-xs whitespace-nowrap">
                         <span class="hidden lg:inline">Buy now</span>
                         <span class="lg:hidden">Buy</span>
@@ -72,20 +62,34 @@
     const config = useRuntimeConfig();
     const { addItem } = useCart();
     const { addToast } = useToast();
+    const authStore = useAuthStore();
+    const cartStore = useCartStore();
 
     const adding = ref(false);
-    const added = ref(false);
 
     const formattedPrice = computed(() => {
         return parseFloat(props.product.price).toFixed(2);
+    });
+
+    // Check if product is already in cart
+    const isInCart = computed(() => {
+        return cartStore.items.some(item => item.productSlug === props.product.slug);
     });
 
     const navigateToDetail = () => {
         router.push(`/products/${props.product.slug}`);
     };
 
+    const handleBuyNow = () => {
+        if (!authStore.isAuthenticated) {
+            router.push('/signin');
+        } else {
+            router.push('/checkout');
+        }
+    };
+
     const handleAddToCart = async () => {
-        if (!props.product.in_stock || adding.value) return;
+        if (!props.product.in_stock || adding.value || isInCart.value) return;
 
         adding.value = true;
         try {
@@ -107,9 +111,7 @@
                 maxQuantity: sku.stock_quantity,
                 category: detail.categories[0]?.name,
             });
-            added.value = true;
             addToast(`${detail.name} added to cart!`, 'success');
-            setTimeout(() => { added.value = false; }, 1500);
         } catch {
             // Fallback to detail page on error
             router.push(`/products/${props.product.slug}?action=add-to-cart`);

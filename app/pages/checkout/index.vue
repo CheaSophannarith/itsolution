@@ -354,9 +354,10 @@
 
 <script setup lang="ts">
     import { ChevronRight, ShoppingCart } from 'lucide-vue-next'
-    import { computed, ref } from 'vue'
+    import { computed, ref, onMounted } from 'vue'
     import { useRouter } from 'vue-router'
     import { useCartStore } from '~/stores/cart'
+    import { useAuthStore } from '~/stores/auth'
 
     // Disable default layout
     definePageMeta({
@@ -365,6 +366,14 @@
 
     const router = useRouter()
     const cartStore = useCartStore()
+    const authStore = useAuthStore()
+
+    // Check authentication on mount
+    onMounted(() => {
+        if (!authStore.isAuthenticated) {
+            router.push('/login')
+        }
+    })
 
     // Current step in the checkout process
     const currentStep = ref(1)
