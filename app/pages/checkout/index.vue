@@ -1,24 +1,34 @@
 <template>
     <div class="min-h-screen bg-white">
-        <!-- Checkout Header -->
-        <header class="bg-brand text-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-                <NuxtLink to="/">
-                    <img src="/SHI_LOGO.png" alt="SHI" class="h-6 brightness-0 invert" />
-                </NuxtLink>
-                <!-- <NuxtLink to="/hardware" class="flex items-center gap-2 text-sm hover:underline">
-                    <ShoppingCart class="w-4 h-4" />
-                    View cart
-                </NuxtLink> -->
+        <!-- User-Friendly Checkout Header -->
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <!-- Back Button -->
+                    <NuxtLink to="/" class="flex items-center gap-2 text-gray-600 hover:text-brand transition-colors group">
+                        <ChevronRight class="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" />
+                        <span class="text-sm font-medium hidden sm:inline">Continue Shopping</span>
+                        <span class="text-sm font-medium sm:hidden">Back</span>
+                    </NuxtLink>
+
+                    <!-- Logo -->
+                    <NuxtLink to="/" class="absolute left-1/2 -translate-x-1/2">
+                        <img src="/logo.png" alt="TanXLM" class="h-8 sm:h-10 hover:opacity-80 transition-opacity" />
+                    </NuxtLink>
+
+                </div>
             </div>
         </header>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
             <!-- Title Row -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-2">
-                <h1 class="text-3xl font-bold text-gray-900">Checkout</h1>
-                <p class="text-gray-600">Order subtotal ({{ totalItems }} items): <span class="font-semibold">${{
-                    subtotal.toFixed(2) }}</span></p>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Complete Your Order</h1>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-500">Subtotal ({{ totalItems }} items):</span>
+                    <span class="text-lg font-bold text-gray-900">${{ subtotal.toFixed(2) }}</span>
+                </div>
             </div>
 
             <div class="lg:grid lg:grid-cols-12 lg:gap-12">
@@ -349,6 +359,28 @@
                 </div>
             </div>
         </div>
+
+        <!-- Professional Checkout Footer -->
+        <footer class="bg-white border-t border-gray-200 mt-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <!-- Footer Links -->
+                <div class="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-600 mb-4">
+                    <NuxtLink to="/terms-and-conditions" class="hover:text-brand transition-colors">Terms & Conditions</NuxtLink>
+                    <span class="text-gray-300">|</span>
+                    <NuxtLink to="/privacy-policy" class="hover:text-brand transition-colors">Privacy Policy</NuxtLink>
+                    <span class="text-gray-300">|</span>
+                    <NuxtLink to="/contact" class="hover:text-brand transition-colors">Contact Support</NuxtLink>
+                </div>
+
+                <!-- Copyright -->
+                <div class="text-center text-sm text-gray-500">
+                    © {{ new Date().getFullYear() }} TanXLM. All rights reserved.
+                </div>
+            </div>
+        </footer>
+
+        <!-- Toast Notifications -->
+        <ToastContainer />
     </div>
 </template>
 

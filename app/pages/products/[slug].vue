@@ -9,9 +9,9 @@
         </div>
 
         <!-- Product Detail -->
-        <div v-else-if="product" class="min-h-screen bg-gray-50">
+        <div v-else-if="product" class="min-h-screen bg-gradient-to-b from-gray-50 via-white to-blue-50/30">
             <!-- Breadcrumb -->
-            <div class="bg-white border-b">
+            <div class="bg-white border-b border-gray-100 shadow-sm">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <Breadcrumb>
                         <BreadcrumbList>
@@ -44,25 +44,25 @@
             </div>
 
             <!-- Main Content -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div class="flex flex-col lg:flex-row gap-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+                <div class="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-12" data-aos="fade-up">
                     <!-- Left: Product Image -->
                     <div class="lg:w-1/2">
-                        <div class="bg-gray-50 p-8 rounded-lg border border-gray-100 cursor-pointer" @click="openLightbox(activeImageIndex)">
-                            <img :src="allImages[activeImageIndex]?.original" :alt="product.name" class="w-full h-96 object-contain hover:scale-105 transition-transform duration-300" />
+                        <div class="bg-white p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl border border-gray-200 cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 group" @click="openLightbox(activeImageIndex)">
+                            <img :src="allImages[activeImageIndex]?.original" :alt="product.name" class="w-full h-64 sm:h-80 lg:h-96 object-contain group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <!-- Thumbnails -->
-                        <div v-if="allImages.length > 1" class="mt-4 flex gap-2 overflow-x-auto">
+                        <div v-if="allImages.length > 1" class="mt-3 sm:mt-4 flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide">
                             <img
                                 v-for="(image, index) in allImages"
                                 :key="index"
                                 :src="image.thumb"
                                 :alt="`${product.name} - ${index + 1}`"
                                 :class="[
-                                    'w-20 h-20 object-contain border-2 rounded cursor-pointer transition-all duration-200',
+                                    'w-16 h-16 sm:w-20 sm:h-20 object-contain border-2 rounded-lg sm:rounded-xl cursor-pointer transition-all duration-300 flex-shrink-0',
                                     activeImageIndex === index
-                                        ? 'border-brand ring-2 ring-brand/20'
-                                        : 'border-gray-200 hover:border-gray-400'
+                                        ? 'border-brand ring-2 sm:ring-4 ring-brand/20 shadow-lg scale-105 sm:scale-110'
+                                        : 'border-gray-200 hover:border-brand/50 hover:shadow-md'
                                 ]"
                                 @click="activeImageIndex = index"
                             />
@@ -72,49 +72,54 @@
                     <!-- Lightbox Modal -->
                     <Teleport to="body">
                         <Transition name="fade">
-                            <div v-if="lightboxOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80" @click.self="lightboxOpen = false">
-                                <button @click="lightboxOpen = false" class="absolute top-4 right-4 text-white/80 hover:text-white z-10">
-                                    <X class="w-8 h-8" />
+                            <div v-if="lightboxOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm" @click.self="lightboxOpen = false">
+                                <button @click="lightboxOpen = false" class="absolute top-6 right-6 text-white/80 hover:text-white z-10 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-all duration-300 backdrop-blur-md">
+                                    <X class="w-6 h-6" />
                                 </button>
-                                <button v-if="allImages.length > 1" @click="prevImage" class="absolute left-4 text-white/80 hover:text-white z-10">
-                                    <ChevronLeft class="w-10 h-10" />
+                                <button v-if="allImages.length > 1" @click="prevImage" class="absolute left-6 text-white/80 hover:text-white z-10 bg-white/10 hover:bg-white/20 rounded-full p-4 transition-all duration-300 backdrop-blur-md hover:scale-110">
+                                    <ChevronLeft class="w-8 h-8" />
                                 </button>
                                 <img
                                     :src="allImages[lightboxIndex]?.original"
                                     :alt="product.name"
-                                    class="max-h-[90vh] max-w-[90vw] object-contain"
+                                    class="max-h-[90vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl"
                                 />
-                                <button v-if="allImages.length > 1" @click="nextImage" class="absolute right-4 text-white/80 hover:text-white z-10">
-                                    <ChevronRight class="w-10 h-10" />
+                                <button v-if="allImages.length > 1" @click="nextImage" class="absolute right-6 text-white/80 hover:text-white z-10 bg-white/10 hover:bg-white/20 rounded-full p-4 transition-all duration-300 backdrop-blur-md hover:scale-110">
+                                    <ChevronRight class="w-8 h-8" />
                                 </button>
-                                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm">
-                                    {{ lightboxIndex + 1 }} / {{ allImages.length }}
+                                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/20">
+                                    <span class="text-white font-bold">{{ lightboxIndex + 1 }} / {{ allImages.length }}</span>
                                 </div>
                             </div>
                         </Transition>
                     </Teleport>
 
                     <!-- Right: Product Info -->
-                    <div class="lg:w-1/2 space-y-5">
+                    <div class="lg:w-1/2 space-y-4 sm:space-y-6">
                         <!-- Product Name -->
-                        <h1 class="text-2xl lg:text-3xl font-bold text-gray-800">{{ product.name }}</h1>
+                        <div data-aos="fade-left" data-aos-delay="100">
+                            <h1 class="text-xl sm:text-2xl lg:text-4xl font-bold text-gray-900 leading-tight">{{ product.name }}</h1>
+                        </div>
 
                         <!-- Brand -->
-                        <p class="text-sm text-gray-500">Brand: <span class="font-medium text-gray-700">{{ product.brand.name }}</span></p>
+                        <div data-aos="fade-left" data-aos-delay="150" class="flex items-center gap-2">
+                            <span class="text-xs font-semibold tracking-widest uppercase text-brand">Brand:</span>
+                            <span class="font-bold text-gray-900 text-base sm:text-lg">{{ product.brand.name }}</span>
+                        </div>
 
                         <!-- SKU Selector -->
-                        <div v-if="product.skus.length > 1" class="space-y-3">
-                            <label class="text-sm font-medium text-gray-700">Select Variant:</label>
-                            <div class="flex flex-wrap gap-2">
+                        <div v-if="product.skus.length > 1" class="space-y-3 sm:space-y-4" data-aos="fade-left" data-aos-delay="200">
+                            <label class="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wide">Select Variant:</label>
+                            <div class="flex flex-wrap gap-2 sm:gap-3">
                                 <button
                                     v-for="sku in product.skus"
                                     :key="sku.uuid"
                                     @click="selectedSkuUuid = sku.uuid"
                                     :class="[
-                                        'px-4 py-2 text-sm border rounded-lg transition-colors',
+                                        'px-3 py-2 sm:px-5 sm:py-3 text-xs sm:text-sm border-2 rounded-lg sm:rounded-xl transition-all duration-300 font-semibold',
                                         selectedSkuUuid === sku.uuid
-                                            ? 'border-brand bg-brand/5 text-brand font-medium'
-                                            : 'border-gray-300 text-gray-600 hover:border-gray-400'
+                                            ? 'border-brand bg-brand text-white shadow-lg shadow-brand/30 scale-105'
+                                            : 'border-gray-200 text-gray-700 hover:border-brand hover:shadow-md bg-white'
                                     ]"
                                 >
                                     {{ skuLabel(sku) }}
@@ -123,106 +128,117 @@
                         </div>
 
                         <!-- Price & Stock Section -->
-                        <div class="bg-gray-50 rounded-lg p-4 space-y-3">
-                            <div class="flex items-baseline gap-3">
-                                <span v-if="selectedSku?.compare_at_price" class="text-sm text-gray-500 line-through">
+                        <div class="bg-gradient-to-br from-white to-gray-50/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 space-y-3 sm:space-y-4 border border-gray-200 shadow-md" data-aos="fade-left" data-aos-delay="250">
+                            <div class="flex items-baseline gap-2 sm:gap-4">
+                                <span v-if="selectedSku?.compare_at_price" class="text-sm sm:text-lg text-gray-400 line-through font-medium">
                                     ${{ parseFloat(selectedSku.compare_at_price).toFixed(2) }}
                                 </span>
-                                <span class="text-3xl font-bold text-pink-500">${{ parseFloat(selectedSku?.price ?? '0').toFixed(2) }}</span>
+                                <span class="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-pink-500 to-pink-600 bg-clip-text text-transparent">${{ parseFloat(selectedSku?.price ?? '0').toFixed(2) }}</span>
                             </div>
-                            <div class="flex items-center gap-4 pt-2 border-t border-gray-200">
-                                <div v-if="selectedSku?.is_in_stock" class="flex items-center gap-2">
-                                    <CheckCircle class="w-5 h-5 text-green-500" />
-                                    <span class="text-green-600 font-medium">In Stock</span>
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 pt-2 sm:pt-3 border-t-2 border-gray-100">
+                                <div v-if="selectedSku?.is_in_stock" class="flex items-center gap-2 bg-green-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl w-fit">
+                                    <CheckCircle class="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
+                                    <span class="text-green-700 font-bold text-sm sm:text-base">In Stock</span>
                                 </div>
-                                <div v-else class="flex items-center gap-2">
-                                    <XCircle class="w-5 h-5 text-red-500" />
-                                    <span class="text-red-600 font-medium">Out of Stock</span>
+                                <div v-else class="flex items-center gap-2 bg-red-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl w-fit">
+                                    <XCircle class="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
+                                    <span class="text-red-700 font-bold text-sm sm:text-base">Out of Stock</span>
                                 </div>
-                                <span class="text-gray-500 text-sm">{{ selectedSku?.stock_quantity.toLocaleString() }} available</span>
+                                <span class="text-gray-600 text-xs sm:text-sm font-semibold">{{ selectedSku?.stock_quantity.toLocaleString() }} available</span>
                             </div>
                         </div>
 
                         <!-- Product Detail Box (SKU attributes) -->
-                        <div class="border border-gray-200 rounded-lg overflow-hidden">
-                            <div class="flex items-center gap-2 px-4 py-3 bg-gray-100 border-b border-gray-200">
-                                <Info class="w-5 h-5 text-blue-950" />
-                                <h2 class="text-base font-bold text-gray-800">Product Detail</h2>
+                        <div class="border-2 border-gray-200 rounded-xl sm:rounded-2xl overflow-hidden shadow-md bg-white" data-aos="fade-left" data-aos-delay="300">
+                            <div class="flex items-center gap-2 sm:gap-3 px-3 py-3 sm:px-5 sm:py-4 bg-gradient-to-r from-gray-50 to-white border-b-2 border-gray-100">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-brand/10 flex items-center justify-center flex-shrink-0">
+                                    <Info class="w-4 h-4 sm:w-5 sm:h-5 text-brand" />
+                                </div>
+                                <h2 class="text-base sm:text-lg font-bold text-gray-900">Product Details</h2>
                             </div>
-                            <div class="p-4">
-                                <div :class="['space-y-2', { 'max-h-52 overflow-y-auto pr-2': productSpecs.length > 5 }]">
+                            <div class="p-3 sm:p-5">
+                                <div :class="['space-y-2 sm:space-y-3', { 'max-h-52 overflow-y-auto pr-2': productSpecs.length > 5 }]">
                                     <div v-for="(item, index) in productSpecs" :key="index"
-                                        class="flex items-center text-sm py-2 border-b border-gray-100 last:border-0">
-                                        <span class="font-medium text-gray-600 w-40 shrink-0">{{ item.label }}</span>
-                                        <span class="text-gray-800">{{ item.value }}</span>
+                                        class="flex flex-col sm:flex-row sm:items-center text-xs sm:text-sm py-2 sm:py-3 border-b border-gray-100 last:border-0 hover:bg-gray-50 px-2 rounded-lg transition-colors gap-1 sm:gap-0">
+                                        <span class="font-bold text-gray-700 sm:w-40 sm:shrink-0 uppercase tracking-wide">{{ item.label }}</span>
+                                        <span class="text-gray-900 font-medium">{{ item.value }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Description -->
-                        <div v-if="product.description" class="prose prose-sm max-w-none text-gray-600">
-                            <p>{{ product.description }}</p>
+                        <div v-if="product.description" class="bg-white rounded-xl sm:rounded-2xl border border-gray-200 p-4 sm:p-5 shadow-sm" data-aos="fade-left" data-aos-delay="350">
+                            <h3 class="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wide mb-2 sm:mb-3">Description</h3>
+                            <p class="text-sm sm:text-base text-gray-700 leading-relaxed">{{ product.description }}</p>
                         </div>
 
                         <!-- Quantity and Add to Cart -->
-                        <div class="flex items-center gap-4 pt-2">
-                            <div class="flex items-center border border-gray-300 rounded bg-white">
+                        <div class="space-y-3" data-aos="fade-left" data-aos-delay="400">
+                            <!-- Quantity Selector -->
+                            <div class="flex items-center justify-center border-2 border-gray-300 rounded-xl bg-white shadow-sm w-fit mx-auto sm:mx-0">
                                 <button @click="decrementQuantity"
-                                    class="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors"
+                                    class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-all duration-300 rounded-l-xl font-bold active:scale-95"
                                     :disabled="quantity <= 1">
-                                    <Minus class="w-4 h-4" />
+                                    <Minus class="w-4 h-4 sm:w-5 sm:h-5" />
                                 </button>
                                 <input type="number" v-model.number="quantity" min="1" :max="selectedSku?.stock_quantity"
-                                    class="w-16 h-10 text-center border-x border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand" />
+                                    class="w-16 h-10 sm:w-20 sm:h-12 text-center border-x-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand font-bold text-base sm:text-lg" />
                                 <button @click="incrementQuantity"
-                                    class="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors"
+                                    class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-all duration-300 rounded-r-xl font-bold active:scale-95"
                                     :disabled="quantity >= (selectedSku?.stock_quantity ?? 0)">
-                                    <Plus class="w-4 h-4" />
+                                    <Plus class="w-4 h-4 sm:w-5 sm:h-5" />
                                 </button>
                             </div>
-                            <button
-                                @click="handleAddToCart"
-                                :disabled="!selectedSku?.is_in_stock"
-                                :class="[
-                                    'flex-1 px-6 py-2.5 font-semibold transition-all duration-300 flex items-center justify-center gap-2 rounded hover:scale-[1.02] active:scale-[0.98]',
-                                    selectedSku?.is_in_stock
-                                        ? 'bg-blue-950 text-white hover:bg-blue-800 hover:shadow-lg'
-                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                ]">
-                                <ShoppingCart :class="['w-5 h-5 transition-transform', buttonClicked && 'animate-cart-shake']" />
-                                Add to Cart
-                            </button>
-                            <button
-                                @click="handleBuyNow"
-                                :disabled="!selectedSku?.is_in_stock"
-                                :class="[
-                                    'flex-1 px-6 py-2.5 font-semibold transition-colors flex items-center justify-center gap-2 rounded',
-                                    selectedSku?.is_in_stock
-                                        ? 'bg-pink-500 text-white hover:bg-pink-600'
-                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                ]">
-                                <ShoppingBag class="w-5 h-5" />
-                                Buy Now
-                            </button>
+
+                            <!-- Action Buttons -->
+                            <div class="flex gap-2 sm:gap-3 lg:gap-4">
+                                <button
+                                    @click="handleAddToCart"
+                                    :disabled="!selectedSku?.is_in_stock"
+                                    :class="[
+                                        'flex-1 px-3 py-3 sm:px-6 sm:py-3.5 font-bold text-xs sm:text-base lg:text-lg transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 lg:gap-3 rounded-lg sm:rounded-xl active:scale-[0.98]',
+                                        selectedSku?.is_in_stock
+                                            ? 'bg-brand text-white hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/30 sm:hover:scale-[1.02]'
+                                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    ]">
+                                    <ShoppingCart :class="['w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 transition-transform', buttonClicked && 'animate-cart-shake']" />
+                                    <span class="whitespace-nowrap">Add to Cart</span>
+                                </button>
+                                <button
+                                    @click="handleBuyNow"
+                                    :disabled="!selectedSku?.is_in_stock"
+                                    :class="[
+                                        'flex-1 px-3 py-3 sm:px-6 sm:py-3.5 font-bold text-xs sm:text-base lg:text-lg transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 lg:gap-3 rounded-lg sm:rounded-xl active:scale-[0.98]',
+                                        selectedSku?.is_in_stock
+                                            ? 'bg-gray-900 text-white hover:bg-gray-800 hover:shadow-xl hover:shadow-gray-900/30 sm:hover:scale-[1.02]'
+                                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    ]">
+                                    <ShoppingBag class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
+                                    <span class="whitespace-nowrap">Buy Now</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Related Products Section -->
-            <div v-if="primaryCategory && relatedProducts.length > 0" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-8">
-                <div class="border-t border-gray-200 pt-8">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-2xl font-bold text-gray-800">Related Products</h2>
+            <div v-if="primaryCategory && relatedProducts.length > 0" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 mt-6 sm:mt-8">
+                <div class="border-t-2 border-gray-200 pt-8 sm:pt-12" data-aos="fade-up">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
+                        <div>
+                            <span class="text-xs font-semibold tracking-widest uppercase text-brand mb-1 sm:mb-2 block">You might also like</span>
+                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Related Products</h2>
+                        </div>
                         <NuxtLink
                             :to="`/categories/${primaryCategory.slug}`"
-                            class="text-sm text-brand hover:text-brand/80 font-medium flex items-center gap-1">
-                            View all in {{ primaryCategory.name }}
-                            <ChevronRight class="w-4 h-4" />
+                            class="text-xs sm:text-sm text-brand hover:text-brand/80 font-bold flex items-center gap-1 sm:gap-2 bg-brand/5 px-3 py-2 sm:px-4 rounded-lg sm:rounded-xl hover:bg-brand/10 transition-all duration-300 group w-fit">
+                            <span class="line-clamp-1">View all</span>
+                            <ChevronRight class="w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                         </NuxtLink>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6" data-aos="fade-up" data-aos-delay="200">
                         <ProductCard
                             v-for="relatedProduct in relatedProducts"
                             :key="relatedProduct.slug"
@@ -234,12 +250,16 @@
         </div>
 
         <!-- Not Found -->
-        <div v-else class="min-h-screen flex items-center justify-center">
-            <div class="text-center">
-                <h1 class="text-2xl font-bold text-gray-800 mb-2">Product Not Found</h1>
-                <p class="text-gray-600 mb-4">The product you're looking for doesn't exist.</p>
-                <NuxtLink to="/" class="text-brand hover:underline">
+        <div v-else class="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-white">
+            <div class="text-center px-4" data-aos="zoom-in">
+                <div class="w-24 h-24 mx-auto mb-6 bg-red-50 rounded-full flex items-center justify-center">
+                    <XCircle class="w-12 h-12 text-red-500" />
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 mb-3">Product Not Found</h1>
+                <p class="text-gray-600 mb-8 text-lg">The product you're looking for doesn't exist.</p>
+                <NuxtLink to="/" class="inline-flex items-center gap-2 bg-brand text-white px-8 py-4 rounded-xl font-bold hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 active:scale-95">
                     Back to Home
+                    <ChevronRight class="w-5 h-5" />
                 </NuxtLink>
             </div>
         </div>
@@ -420,5 +440,14 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown));
 
 .animate-cart-shake {
     animation: cart-shake 0.6s ease-in-out;
+}
+
+/* Hide scrollbar for thumbnails on mobile */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
 }
 </style>
