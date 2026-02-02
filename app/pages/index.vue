@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen">
         <!-- Hero Carousel Section -->
-        <div class="relative w-full overflow-hidden">
+        <div class="relative w-full overflow-hidden" data-aos="fade-in">
             <Carousel
                 class="w-full"
                 :opts="{
@@ -59,7 +59,7 @@
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <!-- Header Section with asymmetric layout -->
-                <div class="mb-4 sm:mb-6">
+                <div class="mb-4 sm:mb-6" data-aos="fade-up">
                     <div class="flex flex-col gap-6">
                         <!-- Left side - Title and description -->
                         <div class="flex-1">
@@ -73,7 +73,8 @@
                 </div>
 
                 <!-- Products Grid -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-4"
+                    data-aos="fade-up" data-aos-delay="200">
                     <ProductCard v-for="product in featuredProducts" :key="product.uuid" :product="product" />
                 </div>
             </div>
@@ -83,7 +84,7 @@
         <div v-if="popularCategories && popularCategories.length > 0" class="bg-gradient-to-b from-gray-50 to-white py-3 sm:py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Header -->
-                <div class="mb-4 sm:mb-6">
+                <div class="mb-4 sm:mb-6" data-aos="fade-right">
                     <div class="mb-2">
                         <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
                             Shop by category
@@ -92,7 +93,8 @@
                 </div>
 
                 <!-- Categories Grid -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5"
+                    data-aos="fade-up" data-aos-delay="200">
                     <CategoryCard v-for="category in popularCategories" :key="category.uuid" :category="category" />
                 </div>
             </div>
@@ -102,7 +104,7 @@
         <div v-if="categoriesWithProducts && categoriesWithProducts.length > 0" class="bg-white py-4 sm:py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Section Header -->
-                <div class="mb-4 sm:mb-6">
+                <div class="mb-4 sm:mb-6" data-aos="fade-up">
                     <div class="mb-2">
                         <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
                             Explore our collection
@@ -112,7 +114,8 @@
 
                 <!-- Categories with Products -->
                 <div class="space-y-12 sm:space-y-16">
-                    <div v-for="category in categoriesWithProducts" :key="category.uuid">
+                    <div v-for="(category, index) in categoriesWithProducts" :key="category.uuid"
+                        data-aos="fade-up" :data-aos-delay="index * 100">
                     <!-- Layout - Flex row on all screens -->
                     <div class="flex items-stretch gap-3 sm:gap-4">
                         <!-- Category Image - Left side -->
@@ -150,7 +153,7 @@
         <!-- About Our Services Section -->
         <div class="bg-white py-6 sm:py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
-                <div class="text-center mb-12 sm:mb-16">
+                <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
                     <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Our Software Solutions</h2>
                     <p class="text-gray-500 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                         We provide comprehensive software solutions and custom development services to help your business
@@ -159,7 +162,8 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
-                    <div v-for="item in softwareServices" :key="item.id"
+                    <div v-for="(item, index) in softwareServices" :key="item.id"
+                        data-aos="zoom-in" :data-aos-delay="index * 150"
                         class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 hover:border-gray-200 hover:-translate-y-1.5">
                         <NuxtLink :to="`/services/${item.slug}`" class="block">
                             <div class="aspect-video overflow-hidden bg-gray-50">
@@ -180,7 +184,7 @@
                     </div>
                 </div>
 
-                <div class="text-center mt-12 sm:mt-16">
+                <div class="text-center mt-12 sm:mt-16" data-aos="fade-up" data-aos-delay="400">
                     <NuxtLink to="/services"
                         class="group inline-flex items-center gap-2 bg-brand text-white px-8 py-4 rounded-2xl font-semibold hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/20 hover:scale-[1.03] transition-all duration-300 shadow-lg">
                         View All Services
@@ -193,14 +197,15 @@
         <!-- Why Choose Us Section -->
         <div class="bg-gradient-to-b from-gray-50 to-white py-16 sm:py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
-                <div class="text-center mb-12 sm:mb-16">
+                <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
                     <span class="text-xs font-semibold tracking-widest uppercase text-brand mb-3 block">Our Advantages</span>
                     <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Why Choose Tan</h2>
                     <p class="text-gray-500 text-sm sm:text-base max-w-lg mx-auto">Trusted by businesses worldwide for IT excellence</p>
                 </div>
 
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
-                    <div v-for="feature in whyChooseUs" :key="feature.title"
+                    <div v-for="(feature, index) in whyChooseUs" :key="feature.title"
+                        data-aos="fade-up" :data-aos-delay="index * 100"
                         class="text-center group hover:-translate-y-2 transition-all duration-500 bg-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200">
                         <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-brand/10 to-brand/5 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 group-hover:from-brand/15 group-hover:to-brand/10 transition-all duration-500">
                             <component :is="feature.icon" class="w-8 h-8 sm:w-10 sm:h-10 text-brand" />

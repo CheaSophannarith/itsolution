@@ -259,6 +259,14 @@ import {
 } from '@/components/ui/breadcrumb';
 import type { ProductSku } from '~/types';
 
+// Custom page transition
+definePageMeta({
+    pageTransition: {
+        name: 'slide-left',
+        mode: 'out-in'
+    }
+})
+
 const route = useRoute();
 const slug = computed(() => route.params.slug as string);
 

@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@pinia/nuxt": "^0.11.3",
 		"@vueuse/core": "^14.1.0",
+		"aos": "^2.3.4",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"embla-carousel-vue": "^8.6.0",

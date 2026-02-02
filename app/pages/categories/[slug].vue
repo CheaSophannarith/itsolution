@@ -199,6 +199,14 @@
     import FilterPriceRange from '~/components/custom/FilterPriceRange.vue';
     import type { CategoryTree } from '~/types';
 
+    // Custom page transition
+    definePageMeta({
+        pageTransition: {
+            name: 'slide-right',
+            mode: 'out-in'
+        }
+    })
+
     const route = useRoute();
     const slug = computed(() => route.params.slug as string);
 

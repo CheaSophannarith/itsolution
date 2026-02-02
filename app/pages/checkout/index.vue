@@ -359,9 +359,13 @@
     import { useCartStore } from '~/stores/cart'
     import { useAuthStore } from '~/stores/auth'
 
-    // Disable default layout
+    // Disable default layout and add custom transition
     definePageMeta({
-        layout: false
+        layout: false,
+        pageTransition: {
+            name: 'scale',
+            mode: 'out-in'
+        }
     })
 
     const router = useRouter()
