@@ -24,9 +24,12 @@
 
             <!-- Title Row -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
-                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Complete Your Order</h1>
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">{{ isBuyNowMode ? 'Quick Checkout' : 'Complete Your Order' }}</h1>
+                    <p v-if="isBuyNowMode" class="text-sm text-brand mt-1">Checking out selected item only</p>
+                </div>
                 <div class="flex items-center gap-2">
-                    <span class="text-sm text-gray-500">Subtotal ({{ totalItems }} items):</span>
+                    <span class="text-sm text-gray-500">Subtotal ({{ totalItems }} {{ totalItems === 1 ? 'item' : 'items' }}):</span>
                     <span class="text-lg font-bold text-gray-900">${{ subtotal.toFixed(2) }}</span>
                 </div>
             </div>
@@ -367,7 +370,7 @@
                         <div class="border-t border-gray-200 pt-4">
                             <h3 class="font-bold mb-4 flex items-center gap-2">
                                 <ShoppingCart class="w-4 h-4" />
-                                Cart ({{ totalItems }} Items)
+                                {{ isBuyNowMode ? 'Your Item' : `Cart (${totalItems} ${totalItems === 1 ? 'Item' : 'Items'})` }}
                             </h3>
                             <div class="space-y-3">
                                 <div v-for="item in cartItems" :key="item.uuid"
@@ -446,9 +449,10 @@
 <script setup lang="ts">
     import { ChevronRight, ShoppingCart } from 'lucide-vue-next'
     import { computed, ref, onMounted } from 'vue'
-    import { useRouter } from 'vue-router'
+    import { useRouter, useRoute } from 'vue-router'
     import { useCartStore } from '~/stores/cart'
     import { useAuthStore } from '~/stores/auth'
+    import type { CartItem } from '~/types'
 
     // Disable default layout and add custom transition
     definePageMeta({
@@ -460,13 +464,75 @@
     })
 
     const router = useRouter()
+    const route = useRoute()
     const cartStore = useCartStore()
     const authStore = useAuthStore()
+    const config = useRuntimeConfig()
+
+    // Buy Now mode
+    const isBuyNowMode = computed(() => route.query.buyNow === 'true')
+    const buyNowSku = ref<string>('')
+    const buyNowQty = ref<number>(1)
+    const buyNowItem = ref<CartItem | null>(null)
+    const buyNowLoading = ref(false)
 
     // Check authentication on mount
-    onMounted(() => {
+    onMounted(async () => {
         if (!authStore.isAuthenticated) {
             router.push('/login')
+            return
+        }
+
+        // Handle Buy Now mode - fetch product details directly (does NOT use cart)
+        if (isBuyNowMode.value) {
+            buyNowLoading.value = true
+            try {
+                const slug = route.query.slug as string
+                buyNowSku.value = route.query.sku as string
+                buyNowQty.value = parseInt(route.query.qty as string) || 1
+
+                // Fetch product details
+                const res = await $fetch<any>(
+                    `${config.public.apiBaseUrl}/api/v1/products/${slug}`
+                )
+                const product = res.data
+                const sku = product.skus.find((s: any) => s.uuid === buyNowSku.value)
+
+                if (!sku) {
+                    console.error('SKU not found')
+                    router.push('/')
+                    return
+                }
+
+                // Create a mock cart item for display (not actually in cart)
+                buyNowItem.value = {
+                    uuid: 'buy-now-temp',
+                    quantity: buyNowQty.value,
+                    line_total: (parseFloat(sku.price) * buyNowQty.value).toFixed(2),
+                    sku: {
+                        uuid: sku.uuid,
+                        sku: sku.sku,
+                        name: sku.name,
+                        price: sku.price,
+                        compare_at_price: sku.compare_at_price,
+                        is_in_stock: sku.is_in_stock,
+                        stock_quantity: sku.stock_quantity,
+                        attribute_options: sku.attribute_options,
+                        product: {
+                            uuid: product.uuid,
+                            name: product.name,
+                            slug: product.slug,
+                            image: product.images.featured.thumb
+                        }
+                    },
+                    added_at: new Date().toISOString()
+                }
+            } catch (error) {
+                console.error('Failed to fetch product for Buy Now:', error)
+                router.push('/')
+            } finally {
+                buyNowLoading.value = false
+            }
         }
     })
 
@@ -499,10 +565,28 @@
     ])
     const selectedShipping = ref('standard')
 
-    // Use cart store items
-    const cartItems = computed(() => cartStore.items)
-    const totalItems = computed(() => cartStore.totalItems)
-    const subtotal = computed(() => cartStore.totalPrice)
+    // Use cart store items OR buy now item
+    const cartItems = computed(() => {
+        if (isBuyNowMode.value && buyNowItem.value) {
+            return [buyNowItem.value]
+        }
+        return cartStore.items
+    })
+
+    const totalItems = computed(() => {
+        if (isBuyNowMode.value && buyNowItem.value) {
+            return buyNowItem.value.quantity
+        }
+        return cartStore.totalItems
+    })
+
+    const subtotal = computed(() => {
+        if (isBuyNowMode.value && buyNowItem.value) {
+            return parseFloat(buyNowItem.value.line_total)
+        }
+        return cartStore.totalPrice
+    })
+
     const shippingCost = computed(() => shippingOptions.value.find(o => o.id === selectedShipping.value)?.price || 0)
     const total = computed(() => subtotal.value + shippingCost.value)
 
@@ -521,7 +605,12 @@
     function placeOrder() {
         // TODO: Implement order placement logic
         alert('Order placed successfully!')
-        cartStore.clearCart()
+
+        // Only clear cart if not in Buy Now mode
+        if (!isBuyNowMode.value) {
+            cartStore.clearCart()
+        }
+
         router.push('/')
     }
 </script>

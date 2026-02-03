@@ -87,7 +87,7 @@ const handleCheckout = () => {
                             Cart
                         </DrawerTitle>
                         <DrawerDescription class="text-sm text-gray-500 mt-1 font-medium">
-                            {{ totalItems }} {{ totalItems === 1 ? 'item' : 'items' }}
+                            {{ ItemCount }} {{ ItemCount === 1 ? 'item' : 'items' }}
                         </DrawerDescription>
                     </div>
                     <DrawerClose as-child>

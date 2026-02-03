@@ -386,13 +386,15 @@ const decrementQuantity = () => {
     }
 };
 
-const handleAddToCart = async () => {
+const handleAddToCart = async (showToast = true) => {
     if (!product.value || !selectedSku.value || isAddingToCart.value) return;
 
     try {
         isAddingToCart.value = true;
         await addToCart(selectedSku.value.uuid, quantity.value);
-        addToast(`${quantity.value} x ${product.value.name} added to cart!`, 'success');
+        if (showToast) {
+            addToast(`${quantity.value} x ${product.value.name} added to cart!`, 'success');
+        }
         buttonClicked.value = true;
         setTimeout(() => { buttonClicked.value = false; }, 600);
         quantity.value = 1;
@@ -411,8 +413,30 @@ const handleAddToCart = async () => {
 };
 
 const handleBuyNow = async () => {
-    await handleAddToCart();
-    navigateTo('/checkout');
+    if (!product.value || !selectedSku.value) return;
+
+    const authStore = useAuthStore();
+    if (!authStore.isAuthenticated) {
+        // Redirect to login page with return URL
+        navigateTo({
+            path: '/signin',
+            query: { redirect: route.fullPath }
+        });
+        addToast('Please sign in to continue', 'info');
+        return;
+    }
+
+    // Navigate directly to checkout in Buy Now mode (does NOT add to cart)
+    addToast('Proceeding to checkout...', 'success');
+    navigateTo({
+        path: '/checkout',
+        query: {
+            buyNow: 'true',
+            slug: product.value.slug,
+            sku: selectedSku.value.uuid,
+            qty: quantity.value.toString()
+        }
+    });
 };
 
 // Lightbox keyboard navigation

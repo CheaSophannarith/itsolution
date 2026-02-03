@@ -51,8 +51,8 @@
                             <span class="lg:hidden">Add</span>
                         </span>
                     </button>
-                    <button @click="handleBuyNow"
-                        class="flex-1 bg-gray-900 text-white px-2.5 py-1.5 rounded hover:bg-gray-800 active:scale-[0.98] transition-all duration-200 font-medium text-[11px] sm:text-xs whitespace-nowrap">
+                    <button @click="handleBuyNow" :disabled="!product.in_stock || adding"
+                        class="flex-1 bg-gray-900 text-white px-2.5 py-1.5 rounded hover:bg-gray-800 active:scale-[0.98] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-medium text-[11px] sm:text-xs whitespace-nowrap">
                         <span class="hidden lg:inline">Buy now</span>
                         <span class="lg:hidden">Buy</span>
                     </button>
@@ -102,11 +102,51 @@
         router.push(`/products/${props.product.slug}`);
     };
 
-    const handleBuyNow = () => {
+    const handleBuyNow = async () => {
         if (!authStore.isAuthenticated) {
+            addToast('Please sign in to continue', 'info');
             router.push('/signin');
-        } else {
-            router.push('/checkout');
+            return;
+        }
+
+        if (!props.product.in_stock) {
+            addToast('Product is out of stock', 'error');
+            return;
+        }
+
+        try {
+            // Fetch product details to get SKU
+            const res = await $fetch<ProductDetailResponse>(
+                `${config.public.apiBaseUrl}/api/v1/products/${props.product.slug}`
+            );
+            const detail = res.data;
+            const sku = detail.skus.find(s => s.is_in_stock);
+
+            if (!sku) {
+                addToast('Product is out of stock', 'error');
+                return;
+            }
+
+            // Navigate directly to Quick Checkout (Buy Now mode - does NOT add to cart)
+            addToast('Proceeding to checkout...', 'success');
+            router.push({
+                path: '/checkout',
+                query: {
+                    buyNow: 'true',
+                    slug: props.product.slug,
+                    sku: sku.uuid,
+                    qty: '1'
+                }
+            });
+        } catch (error: any) {
+            console.error('Failed to proceed with Buy Now:', error);
+
+            if (error.message?.includes('sign in')) {
+                addToast('Please sign in to continue', 'info');
+                router.push('/signin');
+            } else {
+                addToast('Failed to proceed to checkout', 'error');
+            }
         }
     };
 
