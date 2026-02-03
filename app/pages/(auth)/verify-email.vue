@@ -169,10 +169,13 @@ const {
     emailResent,
     cooldownActive,
     cooldownSeconds,
+    isPolling,
     verifyEmail,
     resendVerificationEmail,
     resetVerificationState,
-    stopCooldown
+    stopCooldown,
+    startPolling,
+    stopPolling
 } = useEmailVerification()
 
 onMounted(async () => {
@@ -208,7 +211,12 @@ onMounted(async () => {
         // Check if already verified
         if (authStore.user?.email_verified_at) {
             navigateTo('/')
+            return
         }
+
+        // Start polling to check verification status in real-time
+        // This allows users to verify via email and see the change automatically
+        startPolling(5000) // Check every 5 seconds
     }
 })
 
@@ -227,6 +235,7 @@ async function handleLogout() {
 
 onUnmounted(() => {
     stopCooldown()
+    stopPolling()
 })
 </script>
 

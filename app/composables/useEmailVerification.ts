@@ -15,6 +15,10 @@ export const useEmailVerification = () => {
     const cooldownSeconds = ref(60);
     let cooldownInterval: NodeJS.Timeout | null = null;
 
+    // Real-time verification polling
+    const isPolling = ref(false);
+    let pollingInterval: NodeJS.Timeout | null = null;
+
     /**
      * Verify email using the verification link parameters
      */
@@ -209,6 +213,51 @@ export const useEmailVerification = () => {
         return authStore.isAuthenticated && !authStore.user?.email_verified_at;
     }
 
+    /**
+     * Start polling for email verification status
+     * Checks every few seconds if the email has been verified
+     */
+    function startPolling(intervalMs: number = 5000) {
+        // Don't start if already polling
+        if (isPolling.value || pollingInterval) return;
+
+        isPolling.value = true;
+
+        pollingInterval = setInterval(async () => {
+            try {
+                // Fetch latest user data
+                await authStore.fetchUser();
+
+                // Check if email is now verified
+                if (authStore.user?.email_verified_at) {
+                    // Email verified! Stop polling and show success
+                    stopPolling();
+                    verificationSuccess.value = true;
+                    addToast('Email verified successfully!', 'success');
+
+                    // Redirect to home after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error('Polling error:', error);
+                // Continue polling even on error
+            }
+        }, intervalMs);
+    }
+
+    /**
+     * Stop polling for email verification status
+     */
+    function stopPolling() {
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+            pollingInterval = null;
+        }
+        isPolling.value = false;
+    }
+
     return {
         // State
         isVerifying,
@@ -219,6 +268,7 @@ export const useEmailVerification = () => {
         emailResent,
         cooldownActive,
         cooldownSeconds,
+        isPolling,
 
         // Methods
         verifyEmail,
@@ -226,6 +276,8 @@ export const useEmailVerification = () => {
         resetVerificationState,
         startCooldown,
         stopCooldown,
-        needsVerification
+        needsVerification,
+        startPolling,
+        stopPolling
     };
 };
