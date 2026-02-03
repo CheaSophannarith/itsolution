@@ -180,7 +180,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
                         <div v-for="(item, index) in softwareServices" :key="item.id" data-aos="zoom-in"
                             :data-aos-delay="index * 150"
-                            class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 hover:border-gray-200 hover:-translate-y-1.5">
+                            class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 hover:border-gray-200 hover:-translate-y-0.2">
                             <NuxtLink :to="`/services/${item.slug}`" class="block">
                                 <div class="aspect-video overflow-hidden bg-gray-50">
                                     <img :src="item.image" :alt="item.name"
@@ -230,7 +230,7 @@
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
                         <div v-for="(feature, index) in whyChooseUs" :key="feature.title" data-aos="fade-up"
                             :data-aos-delay="index * 100"
-                            class="text-center group hover:-translate-y-2 transition-all duration-500 bg-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200">
+                            class="text-center group transition-all duration-500 bg-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200">
                             <div
                                 class="w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-brand/10 to-brand/5 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 group-hover:from-brand/15 group-hover:to-brand/10 transition-all duration-500">
                                 <component :is="feature.icon" class="w-8 h-8 sm:w-10 sm:h-10 text-brand" />

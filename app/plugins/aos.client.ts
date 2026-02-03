@@ -11,8 +11,8 @@ export default defineNuxtPlugin(() => {
         once: true,
         offset: 100,
         delay: 0,
-        // Disable animations on phone to improve performance
-        disable: 'phone'
+        // Enable animations on all devices
+        disable: false
       })
       
       // Refresh AOS on route changes
