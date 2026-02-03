@@ -41,52 +41,65 @@
             <!-- Wishlist Items -->
             <div v-else class="space-y-4">
                 <!-- Grid Layout for larger screens, Stack for mobile -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                    <div v-for="item in wishlistStore.items" :key="item.uuid" 
-                        class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-                        
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+                    <div v-for="item in wishlistStore.items" :key="item.uuid"
+                        class="bg-white overflow-hidden transition-all duration-300">
+
                         <!-- Product Image -->
-                        <div v-if="item?.product" class="relative aspect-square bg-gray-50 cursor-pointer group" 
+                        <div v-if="item?.product" class="relative aspect-square bg-white cursor-pointer group"
                             @click="() => navigateToProduct(item.product.slug)">
-                            <img :src="item.product.image" :alt="item.product.name"
-                                class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" />
-                            
+                            <img :src="item.product.image || '/placeholder-product.png'" :alt="item.product.name"
+                                class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" />
+
                             <!-- Remove Button -->
                             <button
                                 @click.stop="() => removeFromWishlist(item.product.uuid, item.product.slug)"
                                 :disabled="removing === item.product.slug"
-                                class="absolute top-2 right-2 p-2 bg-white/90 hover:bg-white backdrop-blur-sm rounded-full shadow-sm hover:shadow-md transition-all duration-200 group/remove"
+                                class="absolute top-3 right-3 p-2 transition-all duration-300 group/remove z-10"
                             >
-                                <X class="w-4 h-4 text-gray-600 group-hover/remove:text-red-500 transition-colors" />
+                                <X class="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 group-hover/remove:text-red-500 transition-colors drop-shadow-md" />
                             </button>
                         </div>
 
                         <!-- Product Info -->
-                        <div v-if="item?.product" class="p-4">
-                            <h3 class="font-medium text-gray-900 mb-2 line-clamp-2 text-sm sm:text-base cursor-pointer hover:text-brand transition-colors"
+                        <div v-if="item?.product" class="px-4 pb-4 pt-3">
+                            <!-- Best Badge -->
+                            <div v-if="item.product.is_featured" class="mb-2">
+                                <span class="inline-block bg-yellow-600 text-white text-xs font-bold px-3 py-1 uppercase">
+                                    BEST
+                                </span>
+                            </div>
+
+                            <h3 class="text-base font-bold text-gray-900 mb-1 cursor-pointer hover:text-brand transition-colors duration-300 min-h-10"
                                 @click="() => navigateToProduct(item.product.slug)">
                                 {{ item.product.name }}
                             </h3>
-                            
-                            <p class="text-lg font-semibold text-gray-900 mb-3">
-                                ${{ parseFloat(item.product.price).toFixed(2) }}
+
+                            <!-- Brand -->
+                            <p v-if="item.product.brand" class="text-xs text-gray-500 mb-4">
+                                {{ item.product.brand.name }}
                             </p>
 
-                            <!-- Action Buttons -->
-                            <div class="flex gap-2">
-                                <button 
+                            <!-- Price & Button -->
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-lg text-gray-900">${{ parseFloat(item.product.price).toFixed(2) }}</span>
+                                    <span v-if="item.product.compare_at_price" class="text-sm text-gray-400 line-through">${{ parseFloat(item.product.compare_at_price).toFixed(2) }}</span>
+                                </div>
+
+                                <button
                                     @click="() => addToCart(item.product)"
                                     :disabled="addingToCart === item.product.slug || isInCart(item.product.slug)"
-                                    class="flex-1 bg-brand text-white px-3 py-2 rounded text-sm font-medium hover:bg-brand/90 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200"
-                                    :class="{ 'bg-green-600 hover:bg-green-700': isInCart(item.product.slug) }"
+                                    class="w-full bg-white border-2 border-gray-200 text-gray-900 py-2.5 hover:border-gray-900 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-300 font-medium text-sm"
+                                    :class="{ 'border-green-600 bg-green-50 text-green-700': isInCart(item.product.slug) }"
                                 >
                                     <span v-if="addingToCart === item.product.slug" class="flex items-center justify-center gap-2">
-                                        <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                                        Adding...
+                                        <span class="inline-block w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin"></span>
+                                        <span>Adding...</span>
                                     </span>
-                                    <span v-else-if="isInCart(item.product.slug)" class="flex items-center justify-center gap-1">
+                                    <span v-else-if="isInCart(item.product.slug)" class="flex items-center justify-center gap-2">
                                         <Check class="w-4 h-4" />
-                                        In Cart
+                                        <span>In Cart</span>
                                     </span>
                                     <span v-else>Add to Cart</span>
                                 </button>

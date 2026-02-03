@@ -6,6 +6,19 @@
         <div class="relative aspect-square bg-white overflow-hidden cursor-pointer" @click="navigateToDetail">
             <img :src="product.image || '/placeholder-product.png'" :alt="product.name"
                 class="w-full h-full object-contain p-4 group-hover:scale-105 transition-all duration-300" />
+
+            <!-- Wishlist Button -->
+            <button
+                @click.stop="toggleWishlist"
+                :disabled="wishlistLoading"
+                class="absolute top-3 right-3 p-2 transition-all duration-300 group/heart z-10"
+                :title="authStore.isAuthenticated ? (isInWishlist ? 'Remove from wishlist' : 'Add to wishlist') : 'Sign in to add to wishlist'"
+            >
+                <Heart
+                    class="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 group-hover/heart:scale-125 drop-shadow-md"
+                    :class="isInWishlist ? 'text-red-500 fill-red-500' : 'text-gray-700 group-hover/heart:text-red-500'"
+                />
+            </button>
         </div>
 
         <!-- Product Info -->
@@ -22,11 +35,6 @@
                 @click="navigateToDetail">
                 {{ product.name }}
             </h3>
-
-            <!-- Product Description -->
-            <p v-if="product.short_description" class="text-xs text-gray-600 mb-3 line-clamp-2 min-h-10">
-                {{ product.short_description }}
-            </p>
 
             <!-- Brand -->
             <p v-if="product.brand" class="text-xs text-gray-500 mb-4">
@@ -51,10 +59,10 @@
                     </span>
                     <span v-else-if="isInCart" class="flex items-center justify-center gap-2">
                         <span class="text-base">✓</span>
-                        <span>Added to Bag</span>
+                        <span>Added to Cart</span>
                     </span>
                     <span v-else>
-                        Add to Bag
+                        Add to Cart
                     </span>
                 </button>
             </div>
@@ -93,14 +101,6 @@
         return parseFloat(props.product.compare_at_price).toFixed(2);
     });
 
-    const discountPercentage = computed(() => {
-        if (!props.product.compare_at_price) return 0;
-        const original = parseFloat(props.product.compare_at_price);
-        const current = parseFloat(props.product.price);
-        if (original <= current) return 0;
-        return Math.round(((original - current) / original) * 100);
-    });
-
     // Check if product is already in cart
     const isInCart = computed(() => {
         return cartStore.items.some(item => item.sku.product.slug === props.product.slug);
@@ -113,54 +113,6 @@
 
     const navigateToDetail = () => {
         router.push(`/products/${props.product.slug}`);
-    };
-
-    const handleBuyNow = async () => {
-        if (!authStore.isAuthenticated) {
-            addToast('Please sign in to continue', 'info');
-            router.push('/signin');
-            return;
-        }
-
-        if (!props.product.in_stock) {
-            addToast('Product is out of stock', 'error');
-            return;
-        }
-
-        try {
-            // Fetch product details to get SKU
-            const res = await $fetch<ProductDetailResponse>(
-                `${config.public.apiBaseUrl}/api/v1/products/${props.product.slug}`
-            );
-            const detail = res.data;
-            const sku = detail.skus.find(s => s.is_in_stock);
-
-            if (!sku) {
-                addToast('Product is out of stock', 'error');
-                return;
-            }
-
-            // Navigate directly to Quick Checkout (Buy Now mode - does NOT add to cart)
-            addToast('Proceeding to checkout...', 'success');
-            router.push({
-                path: '/checkout',
-                query: {
-                    buyNow: 'true',
-                    slug: props.product.slug,
-                    sku: sku.uuid,
-                    qty: '1'
-                }
-            });
-        } catch (error: any) {
-            console.error('Failed to proceed with Buy Now:', error);
-
-            if (error.message?.includes('sign in')) {
-                addToast('Please sign in to continue', 'info');
-                router.push('/signin');
-            } else {
-                addToast('Failed to proceed to checkout', 'error');
-            }
-        }
     };
 
     const handleAddToCart = async () => {
