@@ -127,96 +127,20 @@
 
                             <div>
                                 <div class="space-y-4">
-                                    <!-- Payment Method Selection -->
+                                    <!-- Payment Method Display -->
                                     <div class="space-y-3">
-                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Select Payment Method *</label>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Payment Method</label>
 
-                                        <!-- KHQR Option -->
-                                        <label
-                                            class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 border-2 rounded-2xl cursor-pointer hover:border-brand hover:shadow-lg hover:bg-gray-50/50 transition-all duration-300"
-                                            :class="form.paymentMethod === 'khqr' ? 'border-brand bg-brand/5 shadow-lg' : 'border-gray-200'">
-                                            <input type="radio" v-model="form.paymentMethod" value="khqr"
-                                                class="w-5 h-5 text-brand focus:ring-brand" />
+                                        <!-- KHQR Option (Selected by default) -->
+                                        <div
+                                            class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 border-2 rounded-2xl border-brand bg-brand/5 shadow-lg">
                                             <div class="flex-1 min-w-0">
                                                 <div class="font-bold text-gray-900 text-base sm:text-lg">KHQR Payment</div>
-                                                <!-- <div class="text-sm sm:text-base text-gray-600 mt-1 md:hidden sm:hidden">Pay with any Cambodian banking app (ABA, Wing, ACLEDA, etc.)</div> -->
+                                                <div class="text-sm sm:text-base text-gray-600 mt-1">Pay with any Cambodian banking app (ABA, Wing, ACLEDA, etc.)</div>
                                             </div>
                                             <div class="text-3xl sm:text-4xl">🇰🇭</div>
-                                        </label>
+                                        </div>
 
-                                        <!-- Credit/Debit Card Option -->
-                                        <label
-                                            class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 border-2 rounded-2xl cursor-pointer hover:border-brand hover:shadow-lg hover:bg-gray-50/50 transition-all duration-300"
-                                            :class="form.paymentMethod === 'card' ? 'border-brand bg-brand/5 shadow-lg' : 'border-gray-200'">
-                                            <input type="radio" v-model="form.paymentMethod" value="card"
-                                                class="w-5 h-5 text-brand focus:ring-brand" />
-                                            <div class="flex-1 min-w-0">
-                                                <div class="font-bold text-gray-900 text-base sm:text-lg">Credit/Debit Card</div>
-                                                <!-- <div class="text-sm sm:text-base text-gray-600 mt-1">Visa, Mastercard, and other major cards</div> -->
-                                            </div>
-                                            <div class="text-3xl sm:text-4xl">💳</div>
-                                        </label>
-                                    </div>
-
-                                    <!-- KHQR Payment Details -->
-                                    <div v-if="form.paymentMethod === 'khqr'" class="bg-gradient-to-br from-blue-50 to-blue-100/50 p-4 sm:p-6 rounded-2xl border-2 border-blue-200">
-                                        <h4 class="font-bold text-gray-900 text-lg sm:text-xl mb-3">KHQR Payment Instructions</h4>
-                                        <div class="text-sm sm:text-base text-gray-700 space-y-2">
-                                            <p class="flex items-start gap-3">
-                                                <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
-                                                Click "Place Order" to proceed to payment
-                                            </p>
-                                            <p class="flex items-start gap-3">
-                                                <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
-                                                A KHQR code will be displayed for payment
-                                            </p>
-                                            <p class="flex items-start gap-3">
-                                                <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
-                                                Scan the QR code with your banking app
-                                            </p>
-                                            <p class="flex items-start gap-3">
-                                                <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
-                                                Confirm the payment in your banking app
-                                            </p>
-                                        </div>
-                                        <div class="mt-4 p-4 bg-white rounded-xl border border-blue-200">
-                                            <p class="text-sm sm:text-base text-gray-700 flex items-start gap-3">
-                                                <span class="text-blue-600 text-xl shrink-0">ℹ️</span>
-                                                <span>You will receive a payment confirmation via email after successful payment</span>
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Card Payment Form -->
-                                    <div v-if="form.paymentMethod === 'card'" class="space-y-4 bg-gray-50/50 p-4 sm:p-5 rounded-2xl border border-gray-200">
-                                        <div>
-                                            <label for="cardName"
-                                                class="block text-sm font-semibold text-gray-700 mb-2">Name on Card *</label>
-                                            <input id="cardName" v-model="form.cardName" type="text"
-                                                placeholder="John Doe"
-                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 bg-white" />
-                                        </div>
-                                        <div>
-                                            <label for="cardNumber"
-                                                class="block text-sm font-semibold text-gray-700 mb-2">Card Number *</label>
-                                            <input id="cardNumber" v-model="form.cardNumber" type="text"
-                                                placeholder="1234 5678 9012 3456"
-                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 bg-white" />
-                                        </div>
-                                        <div class="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label for="expiry"
-                                                    class="block text-sm font-semibold text-gray-700 mb-2">Expiry Date *</label>
-                                                <input id="expiry" v-model="form.expiry" type="text" placeholder="MM/YY"
-                                                    class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 bg-white" />
-                                            </div>
-                                            <div>
-                                                <label for="cvv"
-                                                    class="block text-sm font-semibold text-gray-700 mb-2">CVV *</label>
-                                                <input id="cvv" v-model="form.cvv" type="text" placeholder="123" maxlength="4"
-                                                    class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 bg-white" />
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -225,11 +149,15 @@
                         <!-- Place Order Button -->
                         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
                             <button @click="placeOrder"
-                                :disabled="!form.firstName || !form.lastName || !form.address || !form.city || !form.province || !form.paymentMethod"
-                                class="w-full bg-brand text-white px-6 py-3.5 sm:py-4 rounded-2xl font-bold text-lg sm:text-xl hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100">
+                                :disabled="isPlacingOrder"
+                                class="w-full bg-brand text-white px-6 py-1 sm:py-4 rounded-2xl font-bold text-lg sm:text-xl hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100">
                                 <span class="flex items-center justify-center gap-3">
-                                    <ShoppingCart class="w-5 h-5 sm:w-6 sm:h-6" />
-                                    Place Order - ${{ total.toFixed(2) }}
+                                    <ShoppingCart v-if="!isPlacingOrder" class="w-5 h-5 sm:w-6 sm:h-6" />
+                                    <svg v-else class="animate-spin h-5 w-5 sm:h-6 sm:w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    {{ isPlacingOrder ? 'Processing...' : `Proceed to Payment - $${total.toFixed(2)}` }}
                                 </span>
                             </button>
                         </div>
@@ -240,21 +168,6 @@
                 <div class="order-1 lg:order-2 lg:col-span-5 mb-6 lg:mb-0">
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-lg p-4 sm:p-6 lg:sticky lg:top-6">
                         <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Order Summary</h2>
-
-                        <!-- Promo Code -->
-                        <div class="mb-5">
-                            <label class="block text-sm font-semibold text-gray-700 mb-3">
-                                Promo Code 
-                                <span class="text-xs text-gray-500 font-normal">(3 per order maximum)</span>
-                            </label>
-                            <div class="flex gap-3">
-                                <input v-model="promoCode" type="text" placeholder="Enter promo code"
-                                    class="flex-1 px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
-                                <button class="bg-brand text-white px-4 sm:px-6 py-3 rounded-xl hover:bg-brand/90 hover:shadow-lg transition-all duration-300 active:scale-95">
-                                    <ChevronRight class="w-5 h-5" />
-                                </button>
-                            </div>
-                        </div>
 
                         <!-- Totals -->
                         <div class="space-y-2 py-4 border-t border-gray-200">
@@ -426,15 +339,8 @@
         address2: '',
         city: '',
         province: '',
-        cardName: '',
-        cardNumber: '',
-        expiry: '',
-        cvv: '',
-        paymentMethod: ''
+        paymentMethod: 'khqr' // Default to KHQR
     })
-
-    // Promo code
-    const promoCode = ref('')
 
     // Use cart store items OR buy now item
     const cartItems = computed(() => {
@@ -460,16 +366,74 @@
 
     const total = computed(() => subtotal.value)
 
-    function placeOrder() {
-        // TODO: Implement order placement logic
-        alert('Order placed successfully!')
+    // Loading state for order placement
+    const isPlacingOrder = ref(false)
 
-        // Only clear cart if not in Buy Now mode
-        if (!isBuyNowMode.value) {
-            cartStore.clearCart()
+    async function placeOrder() {
+        if (isPlacingOrder.value) return
+
+        try {
+            isPlacingOrder.value = true
+
+            // Prepare order data
+            const orderData = {
+                shipping_address: {
+                    first_name: form.value.firstName,
+                    last_name: form.value.lastName,
+                    address: form.value.address,
+                    address2: form.value.address2,
+                    city: form.value.city,
+                    province: form.value.province
+                },
+                payment_method: 'khqr',
+                items: isBuyNowMode.value && buyNowItem.value
+                    ? [{
+                        sku_uuid: buyNowItem.value.sku.uuid,
+                        quantity: buyNowItem.value.quantity,
+                        price: buyNowItem.value.sku.price
+                    }]
+                    : cartStore.items.map(item => ({
+                        sku_uuid: item.sku.uuid,
+                        quantity: item.quantity,
+                        price: item.sku.price
+                    })),
+                subtotal: subtotal.value,
+                total: total.value
+            }
+
+            // Create order via API
+            const response = await $fetch<any>(
+                `${config.public.apiBaseUrl}/api/v1/orders`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authStore.token}`
+                    },
+                    body: JSON.stringify(orderData)
+                }
+            )
+
+            // Navigate to payment page with order details
+            router.push({
+                path: '/payment',
+                query: {
+                    order_id: response.data.uuid || response.data.id,
+                    amount: total.value.toFixed(2)
+                }
+            })
+
+            // Only clear cart after successful order creation (not in Buy Now mode)
+            if (!isBuyNowMode.value) {
+                cartStore.clearCart()
+            }
+
+        } catch (error: any) {
+            console.error('Failed to create order:', error)
+            alert(error.message || 'Failed to create order. Please try again.')
+        } finally {
+            isPlacingOrder.value = false
         }
-
-        router.push('/')
     }
 </script>
 
