@@ -63,13 +63,6 @@
 
                         <!-- Product Info -->
                         <div v-if="item?.product" class="px-4 pb-4 pt-3">
-                            <!-- Best Badge -->
-                            <div v-if="item.product.is_featured" class="mb-2">
-                                <span class="inline-block bg-yellow-600 text-white text-xs font-bold px-3 py-1 uppercase">
-                                    BEST
-                                </span>
-                            </div>
-
                             <h3 class="text-base font-bold text-gray-900 mb-1 cursor-pointer hover:text-brand transition-colors duration-300 min-h-10"
                                 @click="() => navigateToProduct(item.product.slug)">
                                 {{ item.product.name }}
