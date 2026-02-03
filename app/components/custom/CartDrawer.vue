@@ -80,7 +80,7 @@ const handleCheckout = () => {
 
         <DrawerContent class="!w-full sm:!max-w-md md:!max-w-lg lg:!max-w-xl h-full flex flex-col bg-white">
             <!-- Clean Minimal Header -->
-            <DrawerHeader class="border-b border-gray-100 px-5 sm:px-8 py-5 sm:py-6">
+            <DrawerHeader class="border-b border-gray-100 px-5 sm:px-8 py-2 sm:py-2">
                 <div class="flex items-center justify-between">
                     <div>
                         <DrawerTitle class="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
@@ -102,7 +102,7 @@ const handleCheckout = () => {
             </DrawerHeader>
 
             <!-- Beautiful Cart Items -->
-            <div class="flex-1 overflow-y-auto px-5 sm:px-8 py-6 sm:py-8 beautiful-scrollbar bg-gray-50/30">
+            <div class="flex-1 overflow-y-auto px-5 sm:px-8 py-3 sm:py-4 beautiful-scrollbar bg-gray-50/30">
                 <!-- Beautiful Empty State -->
                 <div v-if="items.length === 0" class="flex flex-col items-center justify-center h-full min-h-[400px]">
                     <div class="relative mb-8">
@@ -134,7 +134,7 @@ const handleCheckout = () => {
                     <div
                         v-for="item in items"
                         :key="item.uuid"
-                        class="group relative bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100"
+                        class="group relative bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 hover:border-brand transition-all duration-300 border border-brand/10"
                     >
                         <div class="flex gap-4 sm:gap-5">
                             <!-- Premium Product Image -->
@@ -146,7 +146,7 @@ const handleCheckout = () => {
                                 <img
                                     :src="item.sku.product.image"
                                     :alt="item.sku.product.name"
-                                    class="w-full h-full object-contain p-3"
+                                    class="w-full h-full object-contain"
                                     loading="lazy"
                                 />
                             </NuxtLink>
