@@ -78,69 +78,63 @@ const handleCheckout = () => {
             </slot>
         </DrawerTrigger>
 
-        <DrawerContent class="!w-full sm:!max-w-md md:!max-w-lg lg:!max-w-xl h-full flex flex-col bg-white">
+        <DrawerContent class="w-full! sm:max-w-sm! md:max-w-md! lg:max-w-lg! h-full flex flex-col bg-white">
             <!-- Clean Minimal Header -->
-            <DrawerHeader class="border-b border-gray-100 px-5 sm:px-8 py-2 sm:py-2">
+            <DrawerHeader class="border-b border-gray-100 px-3 sm:px-4 py-2">
                 <div class="flex items-center justify-between">
                     <div>
-                        <DrawerTitle class="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
+                        <DrawerTitle class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">
                             Cart
                         </DrawerTitle>
-                        <DrawerDescription class="text-sm text-gray-500 mt-1 font-medium">
+                        <DrawerDescription class="text-xs text-gray-500 mt-0.5 font-medium">
                             {{ ItemCount }} {{ ItemCount === 1 ? 'item' : 'items' }}
                         </DrawerDescription>
                     </div>
                     <DrawerClose as-child>
                         <button
                             @click="handleDrawerClose"
-                            class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+                            class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                         >
-                            <X class="w-5 h-5 text-gray-600" />
+                            <X class="w-4 h-4 text-gray-600" />
                         </button>
                     </DrawerClose>
                 </div>
             </DrawerHeader>
 
             <!-- Beautiful Cart Items -->
-            <div class="flex-1 overflow-y-auto px-5 sm:px-8 py-3 sm:py-4 beautiful-scrollbar bg-gray-50/30">
+            <div class="flex-1 overflow-y-auto px-3 sm:px-4 py-2 sm:py-3 beautiful-scrollbar bg-gray-50/30">
                 <!-- Beautiful Empty State -->
                 <div v-if="items.length === 0" class="flex flex-col items-center justify-center h-full min-h-[400px]">
-                    <div class="relative mb-8">
-                        <!-- Animated background glow -->
-                        <div class="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-pink-400/20 blur-3xl animate-pulse"></div>
-
-                        <!-- Icon container -->
-                        <div class="relative w-28 h-28 sm:w-32 sm:h-32 bg-white rounded-3xl shadow-xl flex items-center justify-center border border-gray-100">
-                            <ShoppingCart class="w-14 h-14 sm:w-16 sm:h-16 text-gray-300 stroke-[1.5]" />
-                        </div>
+                    <div class="mb-6">
+                        <ShoppingCart class="w-10 h-10 sm:w-12 sm:h-12 text-blue-950 stroke-[1.5]" />
                     </div>
 
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 tracking-tight">
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 tracking-tight">
                         Your cart is empty
                     </h3>
-                    <p class="text-sm sm:text-base text-gray-500 text-center max-w-xs mb-8 leading-relaxed">
+                    <p class="text-xs sm:text-sm text-gray-500 text-center max-w-xs mb-6 leading-relaxed">
                         Start adding products you love and they'll appear here
                     </p>
 
                     <DrawerClose as-child>
-                        <button @click="handleDrawerClose" class="px-8 py-3.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-semibold text-sm transition-all hover:scale-105 active:scale-95 shadow-lg">
+                        <button @click="handleDrawerClose" class="px-6 py-2.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-semibold text-xs transition-all hover:scale-105 active:scale-95 shadow-lg">
                             Start Shopping
                         </button>
                     </DrawerClose>
                 </div>
 
                 <!-- Clean Items List -->
-                <TransitionGroup v-else name="cart-item" tag="div" class="space-y-4 sm:space-y-5">
+                <TransitionGroup v-else name="cart-item" tag="div" class="space-y-2 sm:space-y-3">
                     <div
                         v-for="item in items"
                         :key="item.uuid"
-                        class="group relative bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 hover:border-brand transition-all duration-300 border border-brand/10"
+                        class="group relative bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-3 hover:border-brand transition-all duration-300 border border-brand/10"
                     >
-                        <div class="flex gap-4 sm:gap-5">
+                        <div class="flex gap-2.5 sm:gap-3">
                             <!-- Premium Product Image -->
                             <NuxtLink
                                 :to="`/products/${item.sku.product.slug}`"
-                                class="relative w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 rounded-xl sm:rounded-2xl overflow-hidden bg-gray-50 group-hover:scale-[1.02] transition-transform duration-300"
+                                class="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden bg-gray-50 group-hover:scale-[1.02] transition-transform duration-300"
                                 @click="handleDrawerClose"
                             >
                                 <img
@@ -153,60 +147,60 @@ const handleCheckout = () => {
 
                             <!-- Product Info -->
                             <div class="flex-1 min-w-0">
-                                <div class="flex justify-between gap-3 mb-3">
+                                <div class="flex justify-between gap-2 mb-2">
                                     <div class="flex-1 min-w-0">
                                         <NuxtLink
                                             :to="`/products/${item.sku.product.slug}`"
-                                            class="font-semibold text-base sm:text-lg text-gray-900 line-clamp-2 hover:text-brand transition-colors leading-tight mb-1.5 block"
+                                            class="font-semibold text-sm sm:text-base text-gray-900 line-clamp-2 hover:text-brand transition-colors leading-tight mb-1 block"
                                             @click="handleDrawerClose"
                                         >
                                             {{ item.sku.product.name }}
                                         </NuxtLink>
-                                        <p v-if="item.sku.attribute_options.length > 0" class="text-sm text-gray-500 font-medium">
+                                        <p v-if="item.sku.attribute_options.length > 0" class="text-xs text-gray-500 font-medium">
                                             {{ item.sku.attribute_options.map(o => o.label).join(' / ') }}
                                         </p>
                                     </div>
 
                                     <!-- Price -->
                                     <div class="text-right">
-                                        <div class="font-bold text-lg sm:text-xl text-gray-900 tabular-nums">
+                                        <div class="font-bold text-sm sm:text-base text-gray-900 tabular-nums">
                                             ${{ parseFloat(item.line_total).toFixed(2) }}
                                         </div>
-                                        <div v-if="item.quantity > 1" class="text-xs text-gray-400 mt-0.5 tabular-nums">
+                                        <div v-if="item.quantity > 1" class="text-[10px] text-gray-400 mt-0.5 tabular-nums">
                                             ${{ parseFloat(item.sku.price).toFixed(2) }} each
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Controls Row -->
-                                <div class="flex items-center justify-between gap-3 mt-4">
+                                <div class="flex items-center justify-between gap-2 mt-2">
                                     <!-- Clean Quantity Controls -->
                                     <div class="inline-flex items-center bg-gray-50 rounded-full border border-gray-200">
                                         <button
-                                            class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors rounded-l-full hover:bg-gray-100"
+                                            class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors rounded-l-full hover:bg-gray-100"
                                             :disabled="item.quantity <= 1"
                                             @click="updateQuantity(item.uuid, item.quantity - 1)"
                                         >
-                                            <Minus class="w-4 h-4" />
+                                            <Minus class="w-3 h-3" />
                                         </button>
-                                        <span class="px-4 text-sm sm:text-base font-bold text-gray-900 tabular-nums min-w-[2.5rem] text-center">
+                                        <span class="px-3 text-xs sm:text-sm font-bold text-gray-900 tabular-nums min-w-[2rem] text-center">
                                             {{ item.quantity }}
                                         </span>
                                         <button
-                                            class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors rounded-r-full hover:bg-gray-100"
+                                            class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors rounded-r-full hover:bg-gray-100"
                                             :disabled="item.quantity >= item.sku.stock_quantity"
                                             @click="updateQuantity(item.uuid, item.quantity + 1)"
                                         >
-                                            <Plus class="w-4 h-4" />
+                                            <Plus class="w-3 h-3" />
                                         </button>
                                     </div>
 
                                     <!-- Remove Button -->
                                     <button
-                                        class="text-sm font-medium text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1.5 group/remove"
+                                        class="text-xs font-medium text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1 group/remove"
                                         @click="removeItem(item.uuid)"
                                     >
-                                        <Trash2 class="w-4 h-4 group-hover/remove:scale-110 transition-transform" />
+                                        <Trash2 class="w-3.5 h-3.5 group-hover/remove:scale-110 transition-transform" />
                                         <span class="hidden sm:inline">Remove</span>
                                     </button>
                                 </div>
@@ -217,25 +211,25 @@ const handleCheckout = () => {
             </div>
 
             <!-- Premium Footer -->
-            <DrawerFooter v-if="items.length > 0" class="border-t border-gray-100 bg-white px-5 sm:px-8 py-5 sm:py-6 space-y-5">
+            <DrawerFooter v-if="items.length > 0" class="border-t border-gray-100 bg-white px-3 sm:px-4 py-3 sm:py-4 space-y-3">
                 <!-- Subtotal -->
-                <div class="flex justify-between items-center text-sm">
+                <div class="flex justify-between items-center text-xs">
                     <span class="text-gray-600 font-medium">Subtotal</span>
                     <button
-                        class="text-gray-400 hover:text-red-500 transition-colors font-medium text-sm flex items-center gap-1.5"
+                        class="text-gray-400 hover:text-red-500 transition-colors font-medium text-xs flex items-center gap-1"
                         @click="clearCart"
                     >
-                        <Trash2 class="w-3.5 h-3.5" />
+                        <Trash2 class="w-3 h-3" />
                         Clear all
                     </button>
                 </div>
 
                 <!-- Total -->
-                <div class="flex justify-between items-baseline py-4 border-t border-gray-100">
-                    <span class="text-lg sm:text-xl font-bold text-gray-900">Total</span>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-xs text-gray-400 font-medium uppercase tracking-wider">USD</span>
-                        <span class="text-3xl sm:text-4xl font-bold text-gray-900 tabular-nums tracking-tight">
+                <div class="flex justify-between items-baseline py-2 border-t border-gray-100">
+                    <span class="text-base sm:text-lg font-bold text-gray-900">Total</span>
+                    <div class="flex items-baseline gap-1.5">
+                        <span class="text-[10px] text-gray-400 font-medium uppercase tracking-wider">USD</span>
+                        <span class="text-xl sm:text-2xl font-bold text-gray-900 tabular-nums tracking-tight">
                             ${{ totalPrice.toFixed(2) }}
                         </span>
                     </div>
@@ -243,7 +237,7 @@ const handleCheckout = () => {
 
                 <!-- Checkout Button -->
                 <button
-                    class="w-full bg-gray-900 hover:bg-black text-white py-4 sm:py-4.5 rounded-full font-bold text-base sm:text-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl flex items-center justify-center gap-3 group"
+                    class="w-full bg-gray-900 hover:bg-black text-white py-2.5 sm:py-3 rounded-full font-bold text-sm sm:text-base transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group"
                     @click="handleCheckout"
                 >
                     <span>Proceed to Checkout</span>
