@@ -188,22 +188,23 @@
                             <div class="flex gap-2 sm:gap-3 lg:gap-4">
                                 <button
                                     @click="handleAddToCart"
-                                    :disabled="!selectedSku?.is_in_stock"
+                                    :disabled="!selectedSku?.is_in_stock || isAddingToCart"
                                     :class="[
                                         'flex-1 px-3 py-3 sm:px-6 sm:py-3.5 font-bold text-xs sm:text-base lg:text-lg transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 lg:gap-3 rounded-lg sm:rounded-xl active:scale-[0.98]',
-                                        selectedSku?.is_in_stock
+                                        selectedSku?.is_in_stock && !isAddingToCart
                                             ? 'bg-brand text-white hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/30 sm:hover:scale-[1.02]'
                                             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                     ]">
-                                    <ShoppingCart :class="['w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 transition-transform', buttonClicked && 'animate-cart-shake']" />
-                                    <span class="whitespace-nowrap">Add to Cart</span>
+                                    <div v-if="isAddingToCart" class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                    <ShoppingCart v-else :class="['w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 transition-transform', buttonClicked && 'animate-cart-shake']" />
+                                    <span class="whitespace-nowrap">{{ isAddingToCart ? 'Adding...' : 'Add to Cart' }}</span>
                                 </button>
                                 <button
                                     @click="handleBuyNow"
-                                    :disabled="!selectedSku?.is_in_stock"
+                                    :disabled="!selectedSku?.is_in_stock || isAddingToCart"
                                     :class="[
                                         'flex-1 px-3 py-3 sm:px-6 sm:py-3.5 font-bold text-xs sm:text-base lg:text-lg transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 lg:gap-3 rounded-lg sm:rounded-xl active:scale-[0.98]',
-                                        selectedSku?.is_in_stock
+                                        selectedSku?.is_in_stock && !isAddingToCart
                                             ? 'bg-gray-900 text-white hover:bg-gray-800 hover:shadow-xl hover:shadow-gray-900/30 sm:hover:scale-[1.02]'
                                             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                     ]">
@@ -312,12 +313,13 @@ useHead({
     ],
 });
 
-const { addItem: addToCart } = useCart();
+const { addItem: addToCart, isSyncing } = useCart();
 const { addToast } = useToast();
 
 const quantity = ref(1);
 const selectedSkuUuid = ref('');
 const buttonClicked = ref(false);
+const isAddingToCart = ref(false);
 
 watch(product, (val) => {
     if (val && val.skus?.length > 0) {
@@ -384,27 +386,32 @@ const decrementQuantity = () => {
     }
 };
 
-const handleAddToCart = () => {
-    if (!product.value || !selectedSku.value) return;
-    addToCart({
-        skuUuid: selectedSku.value.uuid,
-        productUuid: product.value.uuid,
-        productName: product.value.name,
-        productSlug: product.value.slug,
-        variantLabel: skuLabel(selectedSku.value),
-        image: allImages.value[0]?.thumb ?? '',
-        price: parseFloat(selectedSku.value.price),
-        maxQuantity: selectedSku.value.stock_quantity,
-        category: product.value.categories[0]?.name,
-    }, quantity.value);
-    addToast(`${quantity.value} x ${product.value.name} added to cart!`, 'success');
-    buttonClicked.value = true;
-    setTimeout(() => { buttonClicked.value = false; }, 600);
-    quantity.value = 1;
+const handleAddToCart = async () => {
+    if (!product.value || !selectedSku.value || isAddingToCart.value) return;
+
+    try {
+        isAddingToCart.value = true;
+        await addToCart(selectedSku.value.uuid, quantity.value);
+        addToast(`${quantity.value} x ${product.value.name} added to cart!`, 'success');
+        buttonClicked.value = true;
+        setTimeout(() => { buttonClicked.value = false; }, 600);
+        quantity.value = 1;
+    } catch (error: any) {
+        console.error('Failed to add to cart:', error);
+
+        // Check if error is due to authentication
+        if (error.message?.includes('sign in')) {
+            addToast('Please sign in to add items to cart', 'info');
+        } else {
+            addToast('Failed to add to cart', 'error');
+        }
+    } finally {
+        isAddingToCart.value = false;
+    }
 };
 
-const handleBuyNow = () => {
-    handleAddToCart();
+const handleBuyNow = async () => {
+    await handleAddToCart();
     navigateTo('/checkout');
 };
 

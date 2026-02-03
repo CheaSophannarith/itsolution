@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button'
 import { watch } from 'vue'
 
 const open = ref(false)
-const { items, totalItems, totalPrice, removeItem, updateQuantity, clearCart } = useCart()
+const { items, ItemCount, totalPrice, removeItem, updateQuantity, clearCart } = useCart()
 const authStore = useAuthStore()
 const router = useRouter()
 const { forceUnlockScroll } = useScrollLock()
@@ -70,9 +70,9 @@ const handleCheckout = () => {
             <slot name="trigger">
                 <Button variant="ghost" size="icon" class="relative text-brand hover:text-white hover:bg-brand">
                     <ShoppingCart class="w-5 h-5" />
-                    <span v-if="totalItems > 0"
+                    <span v-if="ItemCount > 0"
                         class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-in zoom-in">
-                        {{ totalItems }}
+                        {{ ItemCount }}
                     </span>
                 </Button>
             </slot>
@@ -133,19 +133,19 @@ const handleCheckout = () => {
                 <TransitionGroup v-else name="cart-item" tag="div" class="space-y-4 sm:space-y-5">
                     <div
                         v-for="item in items"
-                        :key="item.skuUuid"
+                        :key="item.uuid"
                         class="group relative bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100"
                     >
                         <div class="flex gap-4 sm:gap-5">
                             <!-- Premium Product Image -->
                             <NuxtLink
-                                :to="`/products/${item.productSlug}`"
+                                :to="`/products/${item.sku.product.slug}`"
                                 class="relative w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 rounded-xl sm:rounded-2xl overflow-hidden bg-gray-50 group-hover:scale-[1.02] transition-transform duration-300"
                                 @click="handleDrawerClose"
                             >
                                 <img
-                                    :src="item.image"
-                                    :alt="item.productName"
+                                    :src="item.sku.product.image"
+                                    :alt="item.sku.product.name"
                                     class="w-full h-full object-contain p-3"
                                     loading="lazy"
                                 />
@@ -156,24 +156,24 @@ const handleCheckout = () => {
                                 <div class="flex justify-between gap-3 mb-3">
                                     <div class="flex-1 min-w-0">
                                         <NuxtLink
-                                            :to="`/products/${item.productSlug}`"
+                                            :to="`/products/${item.sku.product.slug}`"
                                             class="font-semibold text-base sm:text-lg text-gray-900 line-clamp-2 hover:text-brand transition-colors leading-tight mb-1.5 block"
                                             @click="handleDrawerClose"
                                         >
-                                            {{ item.productName }}
+                                            {{ item.sku.product.name }}
                                         </NuxtLink>
-                                        <p v-if="item.variantLabel" class="text-sm text-gray-500 font-medium">
-                                            {{ item.variantLabel }}
+                                        <p v-if="item.sku.attribute_options.length > 0" class="text-sm text-gray-500 font-medium">
+                                            {{ item.sku.attribute_options.map(o => o.label).join(' / ') }}
                                         </p>
                                     </div>
 
                                     <!-- Price -->
                                     <div class="text-right">
                                         <div class="font-bold text-lg sm:text-xl text-gray-900 tabular-nums">
-                                            ${{ (item.price * item.quantity).toFixed(2) }}
+                                            ${{ parseFloat(item.line_total).toFixed(2) }}
                                         </div>
                                         <div v-if="item.quantity > 1" class="text-xs text-gray-400 mt-0.5 tabular-nums">
-                                            ${{ item.price.toFixed(2) }} each
+                                            ${{ parseFloat(item.sku.price).toFixed(2) }} each
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@ const handleCheckout = () => {
                                         <button
                                             class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors rounded-l-full hover:bg-gray-100"
                                             :disabled="item.quantity <= 1"
-                                            @click="updateQuantity(item.skuUuid, item.quantity - 1)"
+                                            @click="updateQuantity(item.uuid, item.quantity - 1)"
                                         >
                                             <Minus class="w-4 h-4" />
                                         </button>
@@ -194,8 +194,8 @@ const handleCheckout = () => {
                                         </span>
                                         <button
                                             class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors rounded-r-full hover:bg-gray-100"
-                                            :disabled="item.quantity >= item.maxQuantity"
-                                            @click="updateQuantity(item.skuUuid, item.quantity + 1)"
+                                            :disabled="item.quantity >= item.sku.stock_quantity"
+                                            @click="updateQuantity(item.uuid, item.quantity + 1)"
                                         >
                                             <Plus class="w-4 h-4" />
                                         </button>
@@ -204,7 +204,7 @@ const handleCheckout = () => {
                                     <!-- Remove Button -->
                                     <button
                                         class="text-sm font-medium text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1.5 group/remove"
-                                        @click="removeItem(item.skuUuid)"
+                                        @click="removeItem(item.uuid)"
                                     >
                                         <Trash2 class="w-4 h-4 group-hover/remove:scale-110 transition-transform" />
                                         <span class="hidden sm:inline">Remove</span>

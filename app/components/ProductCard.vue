@@ -90,7 +90,7 @@
 
     // Check if product is already in cart
     const isInCart = computed(() => {
-        return cartStore.items.some(item => item.productSlug === props.product.slug);
+        return cartStore.items.some(item => item.sku.product.slug === props.product.slug);
     });
 
     // Check if product is in wishlist
@@ -122,21 +122,17 @@
             const sku = detail.skus.find(s => s.is_in_stock);
             if (!sku) return;
 
-            addItem({
-                skuUuid: sku.uuid,
-                productUuid: detail.uuid,
-                productName: detail.name,
-                productSlug: detail.slug,
-                variantLabel: sku.attribute_options.map(o => o.label).join(' / '),
-                image: detail.images.featured?.thumb ?? props.product.image,
-                price: parseFloat(sku.price),
-                maxQuantity: sku.stock_quantity,
-                category: detail.categories[0]?.name,
-            });
+            await addItem(sku.uuid, 1);
             addToast(`${detail.name} added to cart!`, 'success');
-        } catch {
-            // Fallback to detail page on error
-            router.push(`/products/${props.product.slug}?action=add-to-cart`);
+        } catch (error: any) {
+            console.error('Failed to add to cart:', error);
+
+            // Check if error is due to authentication
+            if (error.message?.includes('sign in')) {
+                addToast('Please sign in to add items to cart', 'info');
+            } else {
+                addToast('Failed to add to cart', 'error');
+            }
         } finally {
             adding.value = false;
         }
