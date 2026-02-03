@@ -1,10 +1,10 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 py-8">
+    <div class="min-h-screen bg-linear-to-br from-gray-50 via-white to-gray-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <!-- Page Header with Animation -->
             <div class="mb-6 md:mb-8" data-aos="fade-down">
                 <div class="flex items-center gap-3 mb-2">
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold bg-linear-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
                         My Orders
                     </h1>
                 </div>
@@ -17,7 +17,7 @@
                     data-aos="fade-up"
                     :data-aos-delay="index * 100">
                     <!-- Order Header with Gradient -->
-                    <div class="px-4 sm:px-6 py-4 sm:py-5 bg-gradient-to-r from-gray-50 via-white to-gray-50 border-b border-gray-100">
+                    <div class="px-4 sm:px-6 py-4 sm:py-5 bg-linear-to-r from-gray-50 via-white to-gray-50 border-b border-gray-100">
                         <!-- Mobile Layout -->
                         <div class="block sm:hidden space-y-3">
                             <div class="flex items-center justify-between">
@@ -71,11 +71,11 @@
                         <div class="space-y-3">
                             <div v-for="item in order.items"
                                 :key="item.id"
-                                class="flex flex-col sm:flex-row gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-gradient-to-r from-gray-50 to-white border border-gray-100 hover:shadow-md hover:border-brand/20 transition-all duration-300 group">
+                                class="flex flex-col sm:flex-row gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-linear-to-r from-gray-50 to-white border border-gray-100 hover:shadow-md hover:border-brand/20 transition-all duration-300 group">
                                 
                                 <!-- Mobile Layout -->
                                 <div class="flex gap-3 sm:hidden">
-                                    <div class="relative flex-shrink-0">
+                                    <div class="relative shrink-0">
                                         <img :src="item.image" :alt="item.name"
                                             class="w-16 h-16 object-cover rounded-lg border-2 border-gray-200 group-hover:border-brand/30 transition-all duration-300">
                                         <div class="absolute -top-2 -right-2 w-5 h-5 bg-brand text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg">
@@ -100,7 +100,7 @@
 
                                 <!-- Desktop Layout -->
                                 <div class="hidden sm:flex gap-4 w-full">
-                                    <div class="relative flex-shrink-0">
+                                    <div class="relative shrink-0">
                                         <img :src="item.image" :alt="item.name"
                                             class="w-20 h-20 object-cover rounded-xl border-2 border-gray-200 group-hover:border-brand/30 transition-all duration-300">
                                         <div class="absolute -top-2 -right-2 w-6 h-6 bg-brand text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg">
@@ -132,7 +132,7 @@
             <!-- Empty State with Enhanced Design -->
             <div v-else class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 sm:p-12 md:p-16 text-center" data-aos="fade-up">
                 <div class="max-w-md mx-auto">
-                    <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-gray-100 to-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-inner">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 bg-linear-to-br from-gray-100 to-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-inner">
                         <Package class="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" />
                     </div>
                     <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3">No Orders Found</h3>
@@ -140,7 +140,7 @@
                         You haven't placed any orders yet. Start shopping to see your order history here!
                     </p>
                     <NuxtLink to="/"
-                        class="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-brand to-pink-500 text-white rounded-xl hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 font-bold text-base sm:text-lg group">
+                        class="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-linear-to-r from-brand to-pink-500 text-white rounded-xl hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 font-bold text-base sm:text-lg group">
                         Start Shopping
                         <ArrowRight class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                     </NuxtLink>
