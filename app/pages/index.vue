@@ -150,11 +150,11 @@
 
                             <!-- Products Grid - Full width below -->
                             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-                                <ProductCard v-for="product in category.products.slice(0, 4)" :key="product.uuid" :product="product" />
+                                <ProductCard v-for="product in category.products" :key="product.uuid" :product="product" />
                             </div>
 
                             <!-- View All Link -->
-                            <div v-if="category.products.length > 4" class="mt-6 text-center">
+                            <div class="mt-6 text-center">
                                 <NuxtLink :to="`/categories/${category.slug}`"
                                     class="inline-flex items-center gap-2 text-brand hover:text-brand/80 font-semibold transition-colors group">
                                     <span>View all {{ category.name }}</span>
@@ -271,7 +271,7 @@
     const { carouselSlides } = useCarousel();
     const { featuredProducts } = useFeaturedProducts();
     const { popularCategories } = await usePopularCategories();
-    const { categoriesWithProducts } = await useCategoriesWithProducts(popularCategories);
+    const { categoriesWithProducts } = await useCategoriesWithLatestProducts(popularCategories);
 
     const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
 
