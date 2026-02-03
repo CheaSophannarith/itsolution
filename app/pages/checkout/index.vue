@@ -370,23 +370,24 @@
                                 Cart ({{ totalItems }} Items)
                             </h3>
                             <div class="space-y-3">
-                                <div v-for="item in cartItems" :key="item.skuUuid"
+                                <div v-for="item in cartItems" :key="item.uuid"
                                     class="flex gap-3 p-3 rounded-xl border border-gray-100 bg-white hover:shadow-md hover:border-gray-200 transition-all duration-300">
                                     <div
                                         class="w-16 h-16 flex-shrink-0 bg-gray-50/50 border border-gray-100 rounded-lg overflow-hidden">
-                                        <img :src="item.image" :alt="item.productName" class="w-full h-full object-contain p-1"
+                                        <img :src="item.sku.product.image" :alt="item.sku.product.name" class="w-full h-full object-contain p-1"
                                             loading="lazy"
                                             @error="(e: Event) => (e.target as HTMLImageElement).src = 'https://via.placeholder.com/64x64?text=No+Image'" />
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <div class="flex justify-between items-start mb-1">
-                                            <div class="font-semibold text-sm text-gray-900 line-clamp-1">{{ item.productName }}</div>
-                                            <div class="font-bold text-sm text-pink-600 ml-2">${{ (item.price * item.quantity).toFixed(2) }}</div>
+                                            <div class="font-semibold text-sm text-gray-900 line-clamp-1">{{ item.sku.product.name }}</div>
+                                            <div class="font-bold text-sm text-pink-600 ml-2">${{ parseFloat(item.line_total).toFixed(2) }}</div>
                                         </div>
                                         <div class="text-xs text-gray-500 space-y-0.5">
-                                            <p v-if="item.category" class="text-brand font-medium">{{ item.category }}</p>
-                                            <p v-if="item.variantLabel" class="text-gray-600">{{ item.variantLabel }}</p>
-                                            <p class="text-gray-400">Qty: {{ item.quantity }} × ${{ item.price.toFixed(2) }}</p>
+                                            <p v-if="item.sku.attribute_options.length > 0" class="text-gray-600">
+                                                {{ item.sku.attribute_options.map(o => o.label).join(' / ') }}
+                                            </p>
+                                            <p class="text-gray-400">Qty: {{ item.quantity }} × ${{ parseFloat(item.sku.price).toFixed(2) }}</p>
                                         </div>
                                     </div>
                                 </div>

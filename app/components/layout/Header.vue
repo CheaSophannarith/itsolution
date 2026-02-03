@@ -558,7 +558,7 @@
     import { useRoute } from 'vue-router'
     import CartDrawer from '~/components/custom/CartDrawer.vue'
 
-    const { totalItems: cartTotalItems } = useCart()
+    const { ItemCount: cartTotalItems } = useCart()
     const authStore = useAuthStore()
     const wishlistStore = useWishlistStore()
     const { addToast } = useToast()

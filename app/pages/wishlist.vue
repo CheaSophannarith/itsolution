@@ -136,7 +136,7 @@ await wishlistStore.initializeWishlist();
 
 // Check if product is in cart
 const isInCart = (productSlug: string) => {
-    return cartStore.items.some(item => item.productSlug === productSlug);
+    return cartStore.items.some(item => item.sku.product.slug === productSlug);
 };
 
 // Navigate to product detail page
@@ -175,22 +175,17 @@ const addToCart = async (product: WishlistProduct) => {
             return;
         }
 
-        addItem({
-            skuUuid: sku.uuid,
-            productUuid: detail.uuid,
-            productName: detail.name,
-            productSlug: detail.slug,
-            variantLabel: sku.attribute_options.map(o => o.label).join(' / '),
-            image: detail.images.featured?.thumb ?? product.image,
-            price: parseFloat(sku.price),
-            maxQuantity: sku.stock_quantity,
-            category: detail.categories[0]?.name,
-        });
+        await addItem(sku.uuid, 1);
         addToast(`${detail.name} added to cart!`, 'success');
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error adding to cart:', error);
-        // Fallback to detail page on error
-        router.push(`/products/${product.slug}?action=add-to-cart`);
+
+        // Check if error is due to authentication
+        if (error.message?.includes('sign in')) {
+            addToast('Please sign in to add items to cart', 'info');
+        } else {
+            addToast('Failed to add to cart', 'error');
+        }
     } finally {
         addingToCart.value = null;
     }
