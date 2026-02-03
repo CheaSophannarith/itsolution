@@ -13,7 +13,8 @@
                 >
                 <CarouselContent>
                     <CarouselItem v-for="slide in carouselSlides" :key="slide.uuid">
-                        <div class="relative w-full h-[300px] sm:h-[400px] lg:h-[450px] overflow-hidden">
+                        <div class="relative w-full h-[500px] sm:h-[600px] lg:h-[66
+                        0px] overflow-hidden">
                             <img
                                 :src="slide.desktop"
                                 :alt="slide.title || 'Carousel slide'"
@@ -163,11 +164,9 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
                 <ClientOnly>
                     <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
-                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Our Software Solutions</h2>
-                        <p class="text-gray-500 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-                            We provide comprehensive software solutions and custom development services to help your business
-                            thrive in the digital era.
-                        </p>
+                          <span class="text-lg sm:text-lg font-bold tracking-[0.2em] uppercase text-brand">
+                                Our Software Solutions
+                            </span>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">

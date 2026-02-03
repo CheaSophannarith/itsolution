@@ -4,7 +4,21 @@
         <!-- Product Image -->
         <div class="relative aspect-square bg-gray-50 overflow-hidden cursor-pointer" @click="navigateToDetail">
             <img :src="product.image" :alt="product.name"
-                class="w-full h-full object-contain p-4 sm:p-5 group-hover:scale-105 transition-transform duration-300" />
+                class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+            
+            <!-- Wishlist Button -->
+            <button
+                @click.stop="toggleWishlist"
+                :disabled="wishlistLoading"
+                class="absolute top-2 right-2 sm:top-3 sm:right-3 p-2 bg-white/80 hover:bg-white backdrop-blur-sm rounded-full shadow-sm hover:shadow-md transition-all duration-200 group/heart"
+                :class="{ 'bg-red-50 hover:bg-red-100': isInWishlist }"
+                :title="authStore.isAuthenticated ? (isInWishlist ? 'Remove from wishlist' : 'Add to wishlist') : 'Sign in to add to wishlist'"
+            >
+                <Heart
+                    class="w-4 h-4 sm:w-5 sm:h-5 transition-all duration-200 group-hover/heart:scale-110"
+                    :class="isInWishlist ? 'text-red-500 fill-red-500' : 'text-gray-600 group-hover/heart:text-red-500'"
+                />
+            </button>
         </div>
 
         <!-- Product Info -->
@@ -51,6 +65,7 @@
 <script setup lang="ts">
     import { computed, ref } from 'vue';
     import { useRouter } from 'vue-router';
+    import { Heart } from 'lucide-vue-next';
     import type { Product } from '~/types';
     import type { ProductDetailResponse } from '~/types/models/product-detail';
 
@@ -64,8 +79,10 @@
     const { addToast } = useToast();
     const authStore = useAuthStore();
     const cartStore = useCartStore();
+    const wishlistStore = useWishlistStore();
 
     const adding = ref(false);
+    const wishlistLoading = ref(false);
 
     const formattedPrice = computed(() => {
         return parseFloat(props.product.price).toFixed(2);
@@ -74,6 +91,11 @@
     // Check if product is already in cart
     const isInCart = computed(() => {
         return cartStore.items.some(item => item.productSlug === props.product.slug);
+    });
+
+    // Check if product is in wishlist
+    const isInWishlist = computed(() => {
+        return wishlistStore.isInWishlist(props.product.slug);
     });
 
     const navigateToDetail = () => {
@@ -117,6 +139,23 @@
             router.push(`/products/${props.product.slug}?action=add-to-cart`);
         } finally {
             adding.value = false;
+        }
+    };
+
+    const toggleWishlist = async () => {
+        if (!authStore.isAuthenticated) {
+            router.push('/signin');
+            return;
+        }
+
+        wishlistLoading.value = true;
+        try {
+            await wishlistStore.toggleProduct(props.product.uuid, props.product.slug);
+        } catch (error) {
+            console.error('Error toggling wishlist:', error);
+            addToast('Failed to update wishlist', 'error');
+        } finally {
+            wishlistLoading.value = false;
         }
     };
 </script>

@@ -101,6 +101,15 @@
                             <Search class="w-5 h-5" />
                         </button>
 
+                        <!-- Wishlist Icon - Desktop -->
+                        <NuxtLink to="/wishlist" class="hidden sm:block p-2 text-brand hover:bg-gray-100 rounded-md transition-colors relative">
+                            <Heart class="w-5 h-5" />
+                            <span v-if="wishlistStore.totalItems > 0" 
+                                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                                {{ wishlistStore.totalItems > 99 ? '99+' : wishlistStore.totalItems }}
+                            </span>
+                        </NuxtLink>
+
                         <!-- Cart Drawer -->
                         <CartDrawer>
                             <template #trigger>
@@ -189,6 +198,15 @@
                             class="hidden sm:flex items-center gap-2 text-brand hover:text-white hover:bg-brand hover:px-2 hover:py-2 rounded-md transition-all font-bold">
                             <CircleUser class="w-5 h-5" />
                             <span class="hidden lg:inline">Sign In</span>
+                        </NuxtLink>
+
+                        <!-- Mobile Wishlist Icon -->
+                        <NuxtLink to="/wishlist" class="sm:hidden p-2 text-brand hover:bg-gray-100 rounded-md transition-colors relative">
+                            <Heart class="w-5 h-5" />
+                            <span v-if="wishlistStore.totalItems > 0" 
+                                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                                {{ wishlistStore.totalItems > 99 ? '99+' : wishlistStore.totalItems }}
+                            </span>
                         </NuxtLink>
 
                         <!-- Mobile Profile Icon - Always visible -->
@@ -535,13 +553,14 @@
 </template>
 
 <script setup lang="ts">
-    import { ChevronDown, ChevronRight, CircleUser, LogOut, Menu, Phone, Search, ShoppingCart, X } from 'lucide-vue-next'
+    import { ChevronDown, ChevronRight, CircleUser, LogOut, Menu, Phone, Search, ShoppingCart, X, Heart } from 'lucide-vue-next'
     import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
     import { useRoute } from 'vue-router'
     import CartDrawer from '~/components/custom/CartDrawer.vue'
 
     const { totalItems: cartTotalItems } = useCart()
     const authStore = useAuthStore()
+    const wishlistStore = useWishlistStore()
     const { addToast } = useToast()
 
     // Desktop Search
@@ -879,4 +898,13 @@
         closeProfileMenu()
         closeUserMenu()
     })
+
+    // Initialize wishlist when user is authenticated
+    watch(() => authStore.isAuthenticated, (isAuthenticated) => {
+        if (isAuthenticated) {
+            wishlistStore.initializeWishlist()
+        } else {
+            wishlistStore.clearWishlist()
+        }
+    }, { immediate: true })
 </script>

@@ -5,3 +5,4 @@ export * from './models/category-tree';
 export * from './models/category-filter';
 export * from './models/auth';
 export * from './models/carousel';
+export * from './models/wishlist';
