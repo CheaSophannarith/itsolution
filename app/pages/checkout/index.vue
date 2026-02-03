@@ -42,7 +42,7 @@
                         <button @click="toggleStep(1)"
                             class="w-full flex items-start gap-4 py-6 text-left focus:outline-none">
                             <span
-                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold flex-shrink-0', currentStep >= 1 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">1</span>
+                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold shrink-0', currentStep >= 1 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">1</span>
                             <div class="flex-1">
                                 <h2 class="text-xl font-semibold text-gray-900">Shipping address</h2>
                                 <p v-if="currentStep > 1 && form.firstName" class="text-sm text-gray-500 mt-1">
@@ -146,7 +146,7 @@
                             class="w-full flex items-start gap-4 py-6 text-left focus:outline-none"
                             :disabled="currentStep < 2">
                             <span
-                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold flex-shrink-0', currentStep >= 2 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">2</span>
+                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold shrink-0', currentStep >= 2 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">2</span>
                             <div class="flex-1">
                                 <h2
                                     :class="['text-xl font-semibold', currentStep >= 2 ? 'text-gray-900' : 'text-gray-400']">
@@ -186,7 +186,7 @@
                             class="w-full flex items-start gap-4 py-6 text-left focus:outline-none"
                             :disabled="currentStep < 3">
                             <span
-                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold flex-shrink-0', currentStep >= 3 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">3</span>
+                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold shrink-0', currentStep >= 3 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">3</span>
                             <div class="flex-1">
                                 <h2
                                     :class="['text-xl font-semibold', currentStep >= 3 ? 'text-gray-900' : 'text-gray-400']">
@@ -232,7 +232,7 @@
                                 </div>
 
                                 <!-- KHQR Payment Details -->
-                                <div v-if="form.paymentMethod === 'khqr'" class="bg-gradient-to-br from-blue-50 to-blue-100/50 p-6 rounded-xl border border-blue-200">
+                                <div v-if="form.paymentMethod === 'khqr'" class="bg-linear-to-br from-blue-50 to-blue-100/50 p-6 rounded-xl border border-blue-200">
                                     <h4 class="font-bold text-gray-900 mb-3">KHQR Payment Instructions</h4>
                                     <div class="text-sm text-gray-700 space-y-2">
                                         <p>1. Click "Continue to review" to see your order summary</p>
@@ -296,7 +296,7 @@
                             class="w-full flex items-start gap-4 py-6 text-left focus:outline-none"
                             :disabled="currentStep < 4">
                             <span
-                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold flex-shrink-0', currentStep >= 4 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">4</span>
+                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold shrink-0', currentStep >= 4 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">4</span>
                             <div class="flex-1">
                                 <h2
                                     :class="['text-xl font-semibold', currentStep >= 4 ? 'text-gray-900' : 'text-gray-400']">
@@ -307,7 +307,7 @@
                         <!-- Step 4 Content -->
                         <div v-show="currentStep === 4" class="pb-6 pl-12">
                             <div class="space-y-4">
-                                <div class="bg-gradient-to-br from-gray-50 to-gray-100/50 p-5 rounded-xl border border-gray-200">
+                                <div class="bg-linear-to-br from-gray-50 to-gray-100/50 p-5 rounded-xl border border-gray-200">
                                     <h3 class="font-bold text-gray-900 mb-3">Order Summary</h3>
                                     <div class="text-sm space-y-2">
                                         <p class="flex flex-col sm:flex-row gap-1"><span class="font-semibold text-gray-700">Ship to:</span> <span class="text-gray-600">{{ form.firstName }} {{
@@ -376,7 +376,7 @@
                                 <div v-for="item in cartItems" :key="item.uuid"
                                     class="flex gap-3 p-3 rounded-xl border border-gray-100 bg-white hover:shadow-md hover:border-gray-200 transition-all duration-300">
                                     <div
-                                        class="w-16 h-16 flex-shrink-0 bg-gray-50/50 border border-gray-100 rounded-lg overflow-hidden">
+                                        class="w-16 h-16 shrink-0 bg-gray-50/50 border border-gray-100 rounded-lg overflow-hidden">
                                         <img :src="item.sku.product.image" :alt="item.sku.product.name" class="w-full h-full object-contain p-1"
                                             loading="lazy"
                                             @error="(e: Event) => (e.target as HTMLImageElement).src = 'https://via.placeholder.com/64x64?text=No+Image'" />
@@ -577,7 +577,7 @@
         if (isBuyNowMode.value && buyNowItem.value) {
             return buyNowItem.value.quantity
         }
-        return cartStore.totalItems
+        return cartStore.ItemCount
     })
 
     const subtotal = computed(() => {
