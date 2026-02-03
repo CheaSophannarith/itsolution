@@ -120,36 +120,46 @@
                     <div class="space-y-12 sm:space-y-16">
                         <div v-for="(category, index) in categoriesWithProducts" :key="category.uuid" data-aos="fade-up"
                             :data-aos-delay="index * 100">
-                            <!-- Layout - Flex row on all screens -->
-                            <div class="flex items-stretch gap-3 sm:gap-4">
-                                <!-- Category Image - Left side -->
-                                <div class="w-40 sm:w-52 lg:w-80 shrink-0">
-                                    <NuxtLink :to="`/categories/${category.slug}`"
-                                        class="group relative block rounded-lg overflow-hidden border-2 border-gray-200 hover:border-brand transition-all duration-300 h-full">
-                                        <div class="relative h-full bg-gray-900 overflow-hidden">
-                                            <img :src="category.image" :alt="category.name"
-                                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
+                            <!-- Category Banner - Above products -->
+                            <div class="mb-6">
+                                <NuxtLink :to="`/categories/${category.slug}`"
+                                    class="group relative block rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-brand transition-all duration-300">
+                                    <div class="relative h-48 sm:h-56 lg:h-64 bg-gray-900 overflow-hidden">
+                                        <img :src="category.image" :alt="category.name"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
 
-                                            <div class="absolute inset-0 bg-black/50"></div>
+                                        <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
 
-                                            <div class="absolute inset-x-0 bottom-0 p-3 sm:p-4 lg:p-5 z-10">
-                                                <h3
-                                                    class="text-sm sm:text-base lg:text-xl font-bold text-white mb-1 sm:mb-2">
+                                        <div class="absolute inset-0 flex items-center px-6 sm:px-8 lg:px-12 z-10">
+                                            <div>
+                                                <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">
                                                     {{ category.name }}
                                                 </h3>
-                                                <div
-                                                    class="inline-flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 bg-white/20 backdrop-blur-sm rounded-full group-hover:bg-brand transition-all duration-300">
-                                                    <ChevronRight class="w-4 h-4 lg:w-5 lg:h-5 text-white" />
+                                                <div class="inline-flex items-center gap-2 text-white/90 group-hover:text-white transition-colors">
+                                                    <span class="text-sm sm:text-base font-medium">Explore collection</span>
+                                                    <div
+                                                        class="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white/20 backdrop-blur-sm rounded-full group-hover:bg-brand group-hover:translate-x-1 transition-all duration-300">
+                                                        <ChevronRight class="w-5 h-5 sm:w-6 sm:h-6" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </NuxtLink>
-                                </div>
+                                    </div>
+                                </NuxtLink>
+                            </div>
 
-                                <!-- Products Row - Right side -->
-                                <div class="flex-1 min-w-0">
-                                    <CategoryProductsSection :products="category.products" />
-                                </div>
+                            <!-- Products Grid - Full width below -->
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+                                <ProductCard v-for="product in category.products.slice(0, 4)" :key="product.uuid" :product="product" />
+                            </div>
+
+                            <!-- View All Link -->
+                            <div v-if="category.products.length > 4" class="mt-6 text-center">
+                                <NuxtLink :to="`/categories/${category.slug}`"
+                                    class="inline-flex items-center gap-2 text-brand hover:text-brand/80 font-semibold transition-colors group">
+                                    <span>View all {{ category.name }}</span>
+                                    <ChevronRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </NuxtLink>
                             </div>
                         </div>
                     </div>
