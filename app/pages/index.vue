@@ -80,29 +80,6 @@
             </div>
         </div>
 
-        <!-- Popular Categories Section -->
-        <div v-if="popularCategories && popularCategories.length > 0"
-            class="bg-linear-to-b from-gray-50 to-white py-3 sm:py-8">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Header -->
-                <ClientOnly>
-                    <div class="mb-4 sm:mb-6" data-aos="fade-right">
-                        <div class="mb-2">
-                            <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
-                                Shop by category
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Categories Grid -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5" data-aos="fade-up"
-                        data-aos-delay="200">
-                        <CategoryCard v-for="category in popularCategories" :key="category.uuid" :category="category" />
-                    </div>
-                </ClientOnly>
-            </div>
-        </div>
-
         <!-- Category Products Sections -->
         <div v-if="categoriesWithProducts && categoriesWithProducts.length > 0" class="bg-white py-4 sm:py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -111,19 +88,19 @@
                     <div class="mb-4 sm:mb-6" data-aos="fade-up">
                         <div class="mb-2">
                             <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-brand">
-                                Explore our collection
+                                Explore our popular categories
                             </span>
                         </div>
                     </div>
 
                     <!-- Categories with Products -->
-                    <div class="space-y-12 sm:space-y-16">
+                    <div class="space-y-8 sm:space-y-16">
                         <div v-for="(category, index) in categoriesWithProducts" :key="category.uuid" data-aos="fade-up"
                             :data-aos-delay="index * 100">
                             <!-- Category Banner - Above products -->
                             <div class="mb-6">
                                 <NuxtLink :to="`/categories/${category.slug}`"
-                                    class="group relative block rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-brand transition-all duration-300">
+                                    class="group relative block overflow-hidden border-2 border-gray-200 hover:border-brand transition-all duration-300">
                                     <div class="relative h-48 sm:h-56 lg:h-64 bg-gray-900 overflow-hidden">
                                         <img :src="category.image" :alt="category.name"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
