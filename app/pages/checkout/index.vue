@@ -20,90 +20,72 @@
             </div>
         </header>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
             <!-- Title Row -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
                 <div>
                     <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">{{ isBuyNowMode ? 'Quick Checkout' : 'Complete Your Order' }}</h1>
-                    <p v-if="isBuyNowMode" class="text-sm text-brand mt-1">Checking out selected item only</p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-sm text-gray-500">Subtotal ({{ totalItems }} {{ totalItems === 1 ? 'item' : 'items' }}):</span>
-                    <span class="text-lg font-bold text-gray-900">${{ subtotal.toFixed(2) }}</span>
                 </div>
             </div>
 
-            <div class="lg:grid lg:grid-cols-12 lg:gap-12">
-                <!-- Left Column - Accordion Steps -->
-                <div class="lg:col-span-7">
-                    <!-- Step 1: Shipping Address -->
-                    <div class="border-b border-gray-200">
-                        <button @click="toggleStep(1)"
-                            class="w-full flex items-start gap-4 py-6 text-left focus:outline-none">
-                            <span
-                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold shrink-0', currentStep >= 1 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">1</span>
-                            <div class="flex-1">
-                                <h2 class="text-xl font-semibold text-gray-900">Shipping address</h2>
-                                <p v-if="currentStep > 1 && form.firstName" class="text-sm text-gray-500 mt-1">
-                                    {{ form.firstName }} {{ form.lastName }}, {{ form.address }}, {{ form.city }}, {{
-                                        form.province }}
-                                </p>
+            <div class="flex flex-col lg:grid lg:grid-cols-12 lg:gap-6 xl:gap-8">
+                <!-- Left Column - Checkout Form -->
+                <div class="order-2 lg:order-1 lg:col-span-7">
+                    <div class="space-y-6">
+                        <!-- Shipping Address Section -->
+                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-brand text-white text-sm font-bold shrink-0">1</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Shipping Address</h2>
                             </div>
-                        </button>
 
-                        <!-- Step 1 Content -->
-                        <div v-show="currentStep === 1" class="pb-6 pl-12">
-                            <p class="text-xs text-gray-500 mb-4">*Indicates required field</p>
-                            <div class="space-y-4">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="firstName"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">First Name
-                                            *</label>
-                                        <input id="firstName" v-model="form.firstName" type="text"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
+                            <div>
+                                <p class="text-xs text-gray-500 mb-4">*Indicates required field</p>
+                                <div class="space-y-4">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="firstName"
+                                                class="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
+                                            <input id="firstName" v-model="form.firstName" type="text"
+                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                        </div>
+                                        <div>
+                                            <label for="lastName"
+                                                class="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
+                                            <input id="lastName" v-model="form.lastName" type="text"
+                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label for="lastName"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Last Name
-                                            *</label>
-                                        <input id="lastName" v-model="form.lastName" type="text"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
+                                    <div class="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
+                                        <div class="sm:col-span-2">
+                                            <label for="address"
+                                                class="block text-sm font-semibold text-gray-700 mb-2">Street Address *</label>
+                                            <input id="address" v-model="form.address" type="text"
+                                                placeholder="Street or P.O. Box"
+                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                        </div>
+                                        <div class="sm:col-span-2">
+                                            <label for="address2"
+                                                class="block text-sm font-semibold text-gray-700 mb-2">Apartment, Suite, Floor (Optional)</label>
+                                            <input id="address2" v-model="form.address2" type="text"
+                                                placeholder="Leave blank if P.O. Box in Address 1"
+                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="address"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Address 1 -
-                                            Street or P.O. Box *</label>
-                                        <input id="address" v-model="form.address" type="text"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
-                                    </div>
-                                    <div>
-                                        <label for="address2"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Address 2 -
-                                            Apt, Suite, Floor</label>
-                                        <input id="address2" v-model="form.address2" type="text"
-                                            placeholder="Leave blank if P.O. Box in Address 1"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="city"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">City
-                                            *</label>
-                                        <input id="city" v-model="form.city" type="text"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
-                                    </div>
-                                    <div>
-                                        <label for="province"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Province
-                                            *</label>
-                                        <select id="province" v-model="form.province"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent bg-white">
-                                            <option value="">Select...</option>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                                        <div>
+                                            <label for="city"
+                                                class="block text-sm font-semibold text-gray-700 mb-2">City *</label>
+                                            <input id="city" v-model="form.city" type="text"
+                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                        </div>
+                                        <div>
+                                            <label for="province"
+                                                class="block text-sm font-semibold text-gray-700 mb-2">Province *</label>
+                                            <select id="province" v-model="form.province"
+                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand bg-white transition-all duration-200 hover:border-gray-300 cursor-pointer">
+                                                <option value="" class="text-gray-500">Select Province...</option>
                                             <option value="Phnom Penh">Phnom Penh</option>
                                             <option value="Siem Reap">Siem Reap</option>
                                             <option value="Battambang">Battambang</option>
@@ -129,216 +111,146 @@
                                             <option value="Kampong Chhnang">Kampong Chhnang</option>
                                             <option value="Kampong Thom">Kampong Thom</option>
                                             <option value="Preah Sihanouk">Preah Sihanouk</option>
-                                        </select>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <button @click="nextStep"
-                                    class="mt-4 bg-brand text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/20 transition-all duration-300 active:scale-[0.98]">
-                                    Continue to shipping method
-                                </button>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Step 2: Shipping Method -->
-                    <div class="border-b border-gray-200">
-                        <button @click="toggleStep(2)"
-                            class="w-full flex items-start gap-4 py-6 text-left focus:outline-none"
-                            :disabled="currentStep < 2">
-                            <span
-                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold shrink-0', currentStep >= 2 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">2</span>
-                            <div class="flex-1">
-                                <h2
-                                    :class="['text-xl font-semibold', currentStep >= 2 ? 'text-gray-900' : 'text-gray-400']">
-                                    Shipping method</h2>
-                                <p v-if="currentStep > 2 && selectedShipping" class="text-sm text-gray-500 mt-1">
-                                    {{shippingOptions.find(o => o.id === selectedShipping)?.name}}
-                                </p>
+                        <!-- Payment Section -->
+                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-brand text-white text-sm font-bold shrink-0">2</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Payment Method</h2>
                             </div>
-                        </button>
 
-                        <!-- Step 2 Content -->
-                        <div v-show="currentStep === 2" class="pb-6 pl-12">
-                            <div class="space-y-3">
-                                <label v-for="option in shippingOptions" :key="option.id"
-                                    class="flex items-center gap-3 p-4 border rounded-xl cursor-pointer hover:border-brand hover:shadow-md transition-all duration-300"
-                                    :class="selectedShipping === option.id ? 'border-brand bg-blue-50 shadow-md' : 'border-gray-200'">
-                                    <input type="radio" v-model="selectedShipping" :value="option.id"
-                                        class="w-4 h-4 text-brand" />
-                                    <div class="flex-1">
-                                        <div class="font-semibold text-gray-900">{{ option.name }}</div>
-                                        <div class="text-sm text-gray-500">{{ option.description }}</div>
+                            <div>
+                                <div class="space-y-4">
+                                    <!-- Payment Method Selection -->
+                                    <div class="space-y-3">
+                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Select Payment Method *</label>
+
+                                        <!-- KHQR Option -->
+                                        <label
+                                            class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 border-2 rounded-2xl cursor-pointer hover:border-brand hover:shadow-lg hover:bg-gray-50/50 transition-all duration-300"
+                                            :class="form.paymentMethod === 'khqr' ? 'border-brand bg-brand/5 shadow-lg' : 'border-gray-200'">
+                                            <input type="radio" v-model="form.paymentMethod" value="khqr"
+                                                class="w-5 h-5 text-brand focus:ring-brand" />
+                                            <div class="flex-1 min-w-0">
+                                                <div class="font-bold text-gray-900 text-base sm:text-lg">KHQR Payment</div>
+                                                <!-- <div class="text-sm sm:text-base text-gray-600 mt-1 md:hidden sm:hidden">Pay with any Cambodian banking app (ABA, Wing, ACLEDA, etc.)</div> -->
+                                            </div>
+                                            <div class="text-3xl sm:text-4xl">🇰🇭</div>
+                                        </label>
+
+                                        <!-- Credit/Debit Card Option -->
+                                        <label
+                                            class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 border-2 rounded-2xl cursor-pointer hover:border-brand hover:shadow-lg hover:bg-gray-50/50 transition-all duration-300"
+                                            :class="form.paymentMethod === 'card' ? 'border-brand bg-brand/5 shadow-lg' : 'border-gray-200'">
+                                            <input type="radio" v-model="form.paymentMethod" value="card"
+                                                class="w-5 h-5 text-brand focus:ring-brand" />
+                                            <div class="flex-1 min-w-0">
+                                                <div class="font-bold text-gray-900 text-base sm:text-lg">Credit/Debit Card</div>
+                                                <!-- <div class="text-sm sm:text-base text-gray-600 mt-1">Visa, Mastercard, and other major cards</div> -->
+                                            </div>
+                                            <div class="text-3xl sm:text-4xl">💳</div>
+                                        </label>
                                     </div>
-                                    <div class="font-bold" :class="option.price === 0 ? 'text-green-600' : 'text-gray-900'">{{ option.price === 0 ? 'FREE' :
-                                        `$${option.price.toFixed(2)}` }}</div>
-                                </label>
-                            </div>
-                            <button @click="nextStep"
-                                class="mt-4 bg-brand text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/20 transition-all duration-300 active:scale-[0.98]">
-                                Continue to payment
-                            </button>
-                        </div>
-                    </div>
 
-                    <!-- Step 3: Payment -->
-                    <div class="border-b border-gray-200">
-                        <button @click="toggleStep(3)"
-                            class="w-full flex items-start gap-4 py-6 text-left focus:outline-none"
-                            :disabled="currentStep < 3">
-                            <span
-                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold shrink-0', currentStep >= 3 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">3</span>
-                            <div class="flex-1">
-                                <h2
-                                    :class="['text-xl font-semibold', currentStep >= 3 ? 'text-gray-900' : 'text-gray-400']">
-                                    Payment</h2>
-                                <p v-if="currentStep > 3 && form.paymentMethod" class="text-sm text-gray-500 mt-1">
-                                    {{ form.paymentMethod === 'card' ? `Card ending in ${form.cardNumber.slice(-4)}` : 'KHQR Payment' }}
-                                </p>
-                            </div>
-                        </button>
-
-                        <!-- Step 3 Content -->
-                        <div v-show="currentStep === 3" class="pb-6 pl-12">
-                            <div class="space-y-4">
-                                <!-- Payment Method Selection -->
-                                <div class="space-y-3 mb-6">
-                                    <label class="block text-xs font-medium text-gray-700 mb-2 uppercase">Select Payment Method *</label>
-
-                                    <!-- KHQR Option -->
-                                    <label
-                                        class="flex items-center gap-4 p-4 border rounded-xl cursor-pointer hover:border-brand hover:shadow-md transition-all duration-300"
-                                        :class="form.paymentMethod === 'khqr' ? 'border-brand bg-blue-50 shadow-md' : 'border-gray-200'">
-                                        <input type="radio" v-model="form.paymentMethod" value="khqr"
-                                            class="w-4 h-4 text-brand" />
-                                        <div class="flex-1">
-                                            <div class="font-semibold text-gray-900">KHQR Payment</div>
-                                            <div class="text-sm text-gray-500">Pay with any Cambodian banking app (ABA, Wing, ACLEDA, etc.)</div>
+                                    <!-- KHQR Payment Details -->
+                                    <div v-if="form.paymentMethod === 'khqr'" class="bg-gradient-to-br from-blue-50 to-blue-100/50 p-4 sm:p-6 rounded-2xl border-2 border-blue-200">
+                                        <h4 class="font-bold text-gray-900 text-lg sm:text-xl mb-3">KHQR Payment Instructions</h4>
+                                        <div class="text-sm sm:text-base text-gray-700 space-y-2">
+                                            <p class="flex items-start gap-3">
+                                                <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
+                                                Click "Place Order" to proceed to payment
+                                            </p>
+                                            <p class="flex items-start gap-3">
+                                                <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
+                                                A KHQR code will be displayed for payment
+                                            </p>
+                                            <p class="flex items-start gap-3">
+                                                <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
+                                                Scan the QR code with your banking app
+                                            </p>
+                                            <p class="flex items-start gap-3">
+                                                <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
+                                                Confirm the payment in your banking app
+                                            </p>
                                         </div>
-                                        <div class="text-2xl">🇰🇭</div>
-                                    </label>
-
-                                    <!-- Credit/Debit Card Option -->
-                                    <label
-                                        class="flex items-center gap-4 p-4 border rounded-xl cursor-pointer hover:border-brand hover:shadow-md transition-all duration-300"
-                                        :class="form.paymentMethod === 'card' ? 'border-brand bg-blue-50 shadow-md' : 'border-gray-200'">
-                                        <input type="radio" v-model="form.paymentMethod" value="card"
-                                            class="w-4 h-4 text-brand" />
-                                        <div class="flex-1">
-                                            <div class="font-semibold text-gray-900">Credit/Debit Card</div>
-                                            <div class="text-sm text-gray-500">Visa, Mastercard, and other major cards</div>
+                                        <div class="mt-4 p-4 bg-white rounded-xl border border-blue-200">
+                                            <p class="text-sm sm:text-base text-gray-700 flex items-start gap-3">
+                                                <span class="text-blue-600 text-xl shrink-0">ℹ️</span>
+                                                <span>You will receive a payment confirmation via email after successful payment</span>
+                                            </p>
                                         </div>
-                                        <div class="text-2xl">💳</div>
-                                    </label>
-                                </div>
+                                    </div>
 
-                                <!-- KHQR Payment Details -->
-                                <div v-if="form.paymentMethod === 'khqr'" class="bg-linear-to-br from-blue-50 to-blue-100/50 p-6 rounded-xl border border-blue-200">
-                                    <h4 class="font-bold text-gray-900 mb-3">KHQR Payment Instructions</h4>
-                                    <div class="text-sm text-gray-700 space-y-2">
-                                        <p>1. Click "Continue to review" to see your order summary</p>
-                                        <p>2. A KHQR code will be displayed on the next screen</p>
-                                        <p>3. Scan the QR code with your banking app (ABA, Wing, ACLEDA, etc.)</p>
-                                        <p>4. Confirm the payment in your banking app</p>
-                                    </div>
-                                    <div class="mt-4 p-3 bg-white rounded-lg border border-blue-200">
-                                        <p class="text-xs text-gray-600 flex items-start gap-2">
-                                            <span class="text-blue-600">ℹ️</span>
-                                            <span>You will receive a payment confirmation via email after successful payment</span>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Card Payment Form -->
-                                <div v-if="form.paymentMethod === 'card'" class="space-y-4">
-                                    <div>
-                                        <label for="cardName"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Name on Card
-                                            *</label>
-                                        <input id="cardName" v-model="form.cardName" type="text"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
-                                    </div>
-                                    <div>
-                                        <label for="cardNumber"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Card Number
-                                            *</label>
-                                        <input id="cardNumber" v-model="form.cardNumber" type="text"
-                                            placeholder="1234 5678 9012 3456"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-4">
+                                    <!-- Card Payment Form -->
+                                    <div v-if="form.paymentMethod === 'card'" class="space-y-4 bg-gray-50/50 p-4 sm:p-5 rounded-2xl border border-gray-200">
                                         <div>
-                                            <label for="expiry"
-                                                class="block text-xs font-medium text-gray-700 mb-1 uppercase">Expiry Date
-                                                *</label>
-                                            <input id="expiry" v-model="form.expiry" type="text" placeholder="MM/YY"
-                                                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
+                                            <label for="cardName"
+                                                class="block text-sm font-semibold text-gray-700 mb-2">Name on Card *</label>
+                                            <input id="cardName" v-model="form.cardName" type="text"
+                                                placeholder="John Doe"
+                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 bg-white" />
                                         </div>
                                         <div>
-                                            <label for="cvv"
-                                                class="block text-xs font-medium text-gray-700 mb-1 uppercase">CVV *</label>
-                                            <input id="cvv" v-model="form.cvv" type="text" placeholder="123"
-                                                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
+                                            <label for="cardNumber"
+                                                class="block text-sm font-semibold text-gray-700 mb-2">Card Number *</label>
+                                            <input id="cardNumber" v-model="form.cardNumber" type="text"
+                                                placeholder="1234 5678 9012 3456"
+                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 bg-white" />
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label for="expiry"
+                                                    class="block text-sm font-semibold text-gray-700 mb-2">Expiry Date *</label>
+                                                <input id="expiry" v-model="form.expiry" type="text" placeholder="MM/YY"
+                                                    class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 bg-white" />
+                                            </div>
+                                            <div>
+                                                <label for="cvv"
+                                                    class="block text-sm font-semibold text-gray-700 mb-2">CVV *</label>
+                                                <input id="cvv" v-model="form.cvv" type="text" placeholder="123" maxlength="4"
+                                                    class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 bg-white" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <button @click="nextStep" :disabled="!form.paymentMethod"
-                                    class="mt-4 bg-brand text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/20 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
-                                    Continue to review
-                                </button>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Step 4: Review & Place Order -->
-                    <div class="border-b border-gray-200">
-                        <button @click="toggleStep(4)"
-                            class="w-full flex items-start gap-4 py-6 text-left focus:outline-none"
-                            :disabled="currentStep < 4">
-                            <span
-                                :class="['flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold shrink-0', currentStep >= 4 ? 'bg-brand text-white' : 'bg-gray-200 text-gray-600']">4</span>
-                            <div class="flex-1">
-                                <h2
-                                    :class="['text-xl font-semibold', currentStep >= 4 ? 'text-gray-900' : 'text-gray-400']">
-                                    Review & place order</h2>
-                            </div>
-                        </button>
-
-                        <!-- Step 4 Content -->
-                        <div v-show="currentStep === 4" class="pb-6 pl-12">
-                            <div class="space-y-4">
-                                <div class="bg-linear-to-br from-gray-50 to-gray-100/50 p-5 rounded-xl border border-gray-200">
-                                    <h3 class="font-bold text-gray-900 mb-3">Order Summary</h3>
-                                    <div class="text-sm space-y-2">
-                                        <p class="flex flex-col sm:flex-row gap-1"><span class="font-semibold text-gray-700">Ship to:</span> <span class="text-gray-600">{{ form.firstName }} {{
-                                            form.lastName }}, {{ form.address }}, {{ form.city }}, {{ form.province }}</span></p>
-                                        <p><span class="font-semibold text-gray-700">Shipping:</span> <span class="text-gray-600">{{
-                                            shippingOptions.find(o => o.id === selectedShipping)?.name}}</span></p>
-                                        <p><span class="font-semibold text-gray-700">Payment:</span> <span class="text-gray-600">{{ form.paymentMethod === 'card' ? `Card ending in ${form.cardNumber.slice(-4)}` : 'KHQR Payment' }}</span></p>
-                                    </div>
-                                </div>
-                                <button @click="placeOrder"
-                                    class="w-full bg-brand text-white px-6 py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 active:scale-[0.98]">
+                        <!-- Place Order Button -->
+                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+                            <button @click="placeOrder"
+                                :disabled="!form.firstName || !form.lastName || !form.address || !form.city || !form.province || !form.paymentMethod"
+                                class="w-full bg-brand text-white px-6 py-3.5 sm:py-4 rounded-2xl font-bold text-lg sm:text-xl hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100">
+                                <span class="flex items-center justify-center gap-3">
+                                    <ShoppingCart class="w-5 h-5 sm:w-6 sm:h-6" />
                                     Place Order - ${{ total.toFixed(2) }}
-                                </button>
-                            </div>
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right Column - Summary -->
-                <div class="lg:col-span-5 mt-8 lg:mt-0">
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-4">
-                        <h2 class="text-xl font-bold text-gray-900 mb-5">Order Summary</h2>
+                <div class="order-1 lg:order-2 lg:col-span-5 mb-6 lg:mb-0">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-lg p-4 sm:p-6 lg:sticky lg:top-6">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Order Summary</h2>
 
                         <!-- Promo Code -->
                         <div class="mb-5">
-                            <label class="block text-xs font-medium text-gray-600 mb-2">Promo code <span class="text-gray-400">3 per
-                                    order maximum</span></label>
-                            <div class="flex gap-2">
-                                <input v-model="promoCode" type="text" placeholder="Enter code"
-                                    class="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
-                                <button class="bg-brand text-white px-4 py-2.5 rounded-xl hover:bg-brand/90 hover:shadow-md transition-all duration-300">
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">
+                                Promo Code 
+                                <span class="text-xs text-gray-500 font-normal">(3 per order maximum)</span>
+                            </label>
+                            <div class="flex gap-3">
+                                <input v-model="promoCode" type="text" placeholder="Enter promo code"
+                                    class="flex-1 px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                <button class="bg-brand text-white px-4 sm:px-6 py-3 rounded-xl hover:bg-brand/90 hover:shadow-lg transition-all duration-300 active:scale-95">
                                     <ChevronRight class="w-5 h-5" />
                                 </button>
                             </div>
@@ -350,15 +262,6 @@
                                 <span>Subtotal</span>
                                 <span class="font-medium">${{ subtotal.toFixed(2) }}</span>
                             </div>
-                            <div class="flex justify-between text-sm">
-                                <span>Shipping</span>
-                                <span class="font-medium text-green-600">{{ shippingCost === 0 ? 'FREE' :
-                                    `$${shippingCost.toFixed(2)}` }}</span>
-                            </div>
-                            <div class="flex justify-between text-sm">
-                                <span>Estimated tax <span class="text-gray-400 cursor-help">ⓘ</span></span>
-                                <span class="font-medium">--</span>
-                            </div>
                         </div>
 
                         <div class="flex justify-between py-4 border-t border-gray-200">
@@ -367,52 +270,31 @@
                         </div>
 
                         <!-- Cart Items -->
-                        <div class="border-t border-gray-200 pt-4">
-                            <h3 class="font-bold mb-4 flex items-center gap-2">
-                                <ShoppingCart class="w-4 h-4" />
+                        <div class="border-t-2 border-gray-200 pt-4">
+                            <h3 class="font-bold text-lg sm:text-xl text-gray-900 mb-4 flex items-center gap-3">
+                                <ShoppingCart class="w-5 h-5 sm:w-6 sm:h-6" />
                                 {{ isBuyNowMode ? 'Your Item' : `Cart (${totalItems} ${totalItems === 1 ? 'Item' : 'Items'})` }}
                             </h3>
-                            <div class="space-y-3">
+                            <div class="space-y-3 max-h-80 sm:max-h-96 overflow-y-auto custom-scrollbar">
                                 <div v-for="item in cartItems" :key="item.uuid"
-                                    class="flex gap-3 p-3 rounded-xl border border-gray-100 bg-white hover:shadow-md hover:border-gray-200 transition-all duration-300">
+                                    class="flex gap-3 p-3 rounded-2xl border-2 border-gray-100 bg-white hover:shadow-lg hover:border-gray-200 transition-all duration-300">
                                     <div
-                                        class="w-16 h-16 shrink-0 bg-gray-50/50 border border-gray-100 rounded-lg overflow-hidden">
-                                        <img :src="item.sku.product.image" :alt="item.sku.product.name" class="w-full h-full object-contain p-1"
+                                        class="w-16 h-16 sm:w-20 sm:h-20 shrink-0 bg-gray-50/50 border-2 border-gray-100 rounded-xl overflow-hidden">
+                                        <img :src="item.sku.product.image" :alt="item.sku.product.name" class="w-full h-full object-contain p-1 sm:p-2"
                                             loading="lazy"
-                                            @error="(e: Event) => (e.target as HTMLImageElement).src = 'https://via.placeholder.com/64x64?text=No+Image'" />
+                                            @error="(e: Event) => (e.target as HTMLImageElement).src = 'https://via.placeholder.com/80x80?text=No+Image'" />
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <div class="flex justify-between items-start mb-1">
-                                            <div class="font-semibold text-sm text-gray-900 line-clamp-1">{{ item.sku.product.name }}</div>
-                                            <div class="font-bold text-sm text-pink-600 ml-2">${{ parseFloat(item.line_total).toFixed(2) }}</div>
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div class="font-bold text-sm sm:text-base text-gray-900 line-clamp-2 pr-2">{{ item.sku.product.name }}</div>
+                                            <div class="font-bold text-sm sm:text-lg text-brand ml-2 shrink-0">${{ parseFloat(item.line_total).toFixed(2) }}</div>
                                         </div>
-                                        <div class="text-xs text-gray-500 space-y-0.5">
-                                            <p v-if="item.sku.attribute_options.length > 0" class="text-gray-600">
+                                        <div class="text-xs sm:text-sm text-gray-500 space-y-1">
+                                            <p v-if="item.sku.attribute_options.length > 0" class="text-gray-600 font-medium">
                                                 {{ item.sku.attribute_options.map(o => o.label).join(' / ') }}
                                             </p>
-                                            <p class="text-gray-400">Qty: {{ item.quantity }} × ${{ parseFloat(item.sku.price).toFixed(2) }}</p>
+                                            <p class="text-gray-500">Qty: {{ item.quantity }} × ${{ parseFloat(item.sku.price).toFixed(2) }}</p>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Need Help -->
-                        <div class="border-t border-gray-100 pt-5 mt-5">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h4 class="font-bold mb-3 text-gray-900">Need help?</h4>
-                                    <a href="#" class="text-brand hover:text-brand/80 font-medium text-sm block mb-2 transition-colors">Visit our Help
-                                        Center</a>
-                                    <p class="text-sm text-gray-600 mb-0.5">Call us</p>
-                                    <p class="text-sm font-semibold text-gray-900">+855 12 345 678</p>
-                                    <p class="text-xs text-gray-500 mt-1">Mon-Fri 8am-6pm (Cambodia Time)</p>
-                                </div>
-                                <div class="text-right">
-                                    <div
-                                        class="border-2 border-green-200 bg-green-50 rounded-lg px-3 py-2 text-xs inline-block">
-                                        <div class="font-bold text-green-700">✓ Secure</div>
-                                        <div class="text-green-600">& Trusted</div>
                                     </div>
                                 </div>
                             </div>
@@ -423,8 +305,8 @@
         </div>
 
         <!-- Professional Checkout Footer -->
-        <footer class="bg-white border-t border-gray-200 mt-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <footer class="bg-white border-t border-gray-200 mt-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
                 <!-- Footer Links -->
                 <div class="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-600 mb-4">
                     <NuxtLink to="/terms-and-conditions" class="hover:text-brand transition-colors">Terms & Conditions</NuxtLink>
@@ -536,9 +418,6 @@
         }
     })
 
-    // Current step in the checkout process
-    const currentStep = ref(1)
-
     // Form data
     const form = ref({
         firstName: '',
@@ -556,14 +435,6 @@
 
     // Promo code
     const promoCode = ref('')
-
-    // Shipping options
-    const shippingOptions = ref([
-        { id: 'standard', name: 'Standard Shipping', description: '5-7 business days', price: 0 },
-        { id: 'express', name: 'Express Shipping', description: '2-3 business days', price: 9.99 },
-        { id: 'overnight', name: 'Overnight Shipping', description: '1 business day', price: 19.99 }
-    ])
-    const selectedShipping = ref('standard')
 
     // Use cart store items OR buy now item
     const cartItems = computed(() => {
@@ -587,20 +458,7 @@
         return cartStore.totalPrice
     })
 
-    const shippingCost = computed(() => shippingOptions.value.find(o => o.id === selectedShipping.value)?.price || 0)
-    const total = computed(() => subtotal.value + shippingCost.value)
-
-    function toggleStep(step: number) {
-        if (step <= currentStep.value) {
-            currentStep.value = step
-        }
-    }
-
-    function nextStep() {
-        if (currentStep.value < 4) {
-            currentStep.value++
-        }
-    }
+    const total = computed(() => subtotal.value)
 
     function placeOrder() {
         // TODO: Implement order placement logic
@@ -614,3 +472,58 @@
         router.push('/')
     }
 </script>
+
+<style scoped>
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Line clamp utility */
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Mobile first responsive adjustments */
+@media (max-width: 640px) {
+    .sticky {
+        position: static;
+    }
+}
+
+/* Ensure proper spacing on very small screens */
+@media (max-width: 360px) {
+    .px-4 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    .gap-4 {
+        gap: 0.75rem;
+    }
+}
+</style>
