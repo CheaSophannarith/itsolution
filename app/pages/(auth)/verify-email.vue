@@ -5,7 +5,7 @@
         <div class="absolute inset-0">
             <div class="absolute top-20 -left-20 w-96 h-96 bg-gray-100 rounded-full blur-3xl animate-pulse"></div>
             <div
-                class="absolute bottom-20 -right-20 w-[500px] h-[500px] bg-gray-50 rounded-full blur-3xl animate-pulse delay-1000">
+                class="absolute bottom-20 -right-20 w-125 h-125 bg-gray-50 rounded-full blur-3xl animate-pulse delay-1000">
             </div>
             <div class="absolute top-1/2 left-1/2 w-80 h-80 bg-gray-100 rounded-full blur-3xl animate-bounce-slow">
             </div>
@@ -108,7 +108,7 @@
                         leave-to-class="opacity-0 -translate-y-2">
                         <div v-if="emailResent"
                             class="mb-6 bg-green-50 border-l-4 border-green-500 rounded-lg p-4 flex items-start gap-3">
-                            <CheckCircle class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                            <CheckCircle class="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
                             <div>
                                 <p class="text-sm font-medium text-green-800">Email sent!</p>
                                 <p class="text-sm text-green-700 mt-1">Check your inbox for the verification link.</p>
