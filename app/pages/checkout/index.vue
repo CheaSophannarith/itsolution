@@ -44,7 +44,7 @@
                                 <h2 class="text-xl font-semibold text-gray-900">Shipping address</h2>
                                 <p v-if="currentStep > 1 && form.firstName" class="text-sm text-gray-500 mt-1">
                                     {{ form.firstName }} {{ form.lastName }}, {{ form.address }}, {{ form.city }}, {{
-                                        form.state }} {{ form.zip }}
+                                        form.province }}
                                 </p>
                             </div>
                         </button>
@@ -86,14 +86,7 @@
                                             class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                    <div>
-                                        <label for="zip"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Zip Code
-                                            *</label>
-                                        <input id="zip" v-model="form.zip" type="text"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
-                                    </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label for="city"
                                             class="block text-xs font-medium text-gray-700 mb-1 uppercase">City
@@ -102,22 +95,37 @@
                                             class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                     <div>
-                                        <label for="state"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">State
+                                        <label for="province"
+                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Province
                                             *</label>
-                                        <select id="state" v-model="form.state"
-                                            class="w-full px-3 py-2 border border-gray-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent bg-white">
+                                        <select id="province" v-model="form.province"
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent bg-white">
                                             <option value="">Select...</option>
-                                            <option value="AL">Alabama</option>
-                                            <option value="AK">Alaska</option>
-                                            <option value="AZ">Arizona</option>
-                                            <option value="CA">California</option>
-                                            <option value="CO">Colorado</option>
-                                            <option value="FL">Florida</option>
-                                            <option value="GA">Georgia</option>
-                                            <option value="NY">New York</option>
-                                            <option value="TX">Texas</option>
-                                            <option value="WA">Washington</option>
+                                            <option value="Phnom Penh">Phnom Penh</option>
+                                            <option value="Siem Reap">Siem Reap</option>
+                                            <option value="Battambang">Battambang</option>
+                                            <option value="Sihanoukville">Sihanoukville</option>
+                                            <option value="Kampong Cham">Kampong Cham</option>
+                                            <option value="Kampong Speu">Kampong Speu</option>
+                                            <option value="Kampot">Kampot</option>
+                                            <option value="Kandal">Kandal</option>
+                                            <option value="Kep">Kep</option>
+                                            <option value="Koh Kong">Koh Kong</option>
+                                            <option value="Kratié">Kratié</option>
+                                            <option value="Mondulkiri">Mondulkiri</option>
+                                            <option value="Oddar Meanchey">Oddar Meanchey</option>
+                                            <option value="Pailin">Pailin</option>
+                                            <option value="Preah Vihear">Preah Vihear</option>
+                                            <option value="Prey Veng">Prey Veng</option>
+                                            <option value="Pursat">Pursat</option>
+                                            <option value="Ratanakiri">Ratanakiri</option>
+                                            <option value="Stung Treng">Stung Treng</option>
+                                            <option value="Svay Rieng">Svay Rieng</option>
+                                            <option value="Takéo">Takéo</option>
+                                            <option value="Banteay Meanchey">Banteay Meanchey</option>
+                                            <option value="Kampong Chhnang">Kampong Chhnang</option>
+                                            <option value="Kampong Thom">Kampong Thom</option>
+                                            <option value="Preah Sihanouk">Preah Sihanouk</option>
                                         </select>
                                     </div>
                                 </div>
@@ -180,8 +188,8 @@
                                 <h2
                                     :class="['text-xl font-semibold', currentStep >= 3 ? 'text-gray-900' : 'text-gray-400']">
                                     Payment</h2>
-                                <p v-if="currentStep > 3 && form.cardNumber" class="text-sm text-gray-500 mt-1">
-                                    Card ending in {{ form.cardNumber.slice(-4) }}
+                                <p v-if="currentStep > 3 && form.paymentMethod" class="text-sm text-gray-500 mt-1">
+                                    {{ form.paymentMethod === 'card' ? `Card ending in ${form.cardNumber.slice(-4)}` : 'KHQR Payment' }}
                                 </p>
                             </div>
                         </button>
@@ -189,38 +197,90 @@
                         <!-- Step 3 Content -->
                         <div v-show="currentStep === 3" class="pb-6 pl-12">
                             <div class="space-y-4">
-                                <div>
-                                    <label for="cardName"
-                                        class="block text-xs font-medium text-gray-700 mb-1 uppercase">Name on Card
-                                        *</label>
-                                    <input id="cardName" v-model="form.cardName" type="text"
-                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
+                                <!-- Payment Method Selection -->
+                                <div class="space-y-3 mb-6">
+                                    <label class="block text-xs font-medium text-gray-700 mb-2 uppercase">Select Payment Method *</label>
+
+                                    <!-- KHQR Option -->
+                                    <label
+                                        class="flex items-center gap-4 p-4 border rounded-xl cursor-pointer hover:border-brand hover:shadow-md transition-all duration-300"
+                                        :class="form.paymentMethod === 'khqr' ? 'border-brand bg-blue-50 shadow-md' : 'border-gray-200'">
+                                        <input type="radio" v-model="form.paymentMethod" value="khqr"
+                                            class="w-4 h-4 text-brand" />
+                                        <div class="flex-1">
+                                            <div class="font-semibold text-gray-900">KHQR Payment</div>
+                                            <div class="text-sm text-gray-500">Pay with any Cambodian banking app (ABA, Wing, ACLEDA, etc.)</div>
+                                        </div>
+                                        <div class="text-2xl">🇰🇭</div>
+                                    </label>
+
+                                    <!-- Credit/Debit Card Option -->
+                                    <label
+                                        class="flex items-center gap-4 p-4 border rounded-xl cursor-pointer hover:border-brand hover:shadow-md transition-all duration-300"
+                                        :class="form.paymentMethod === 'card' ? 'border-brand bg-blue-50 shadow-md' : 'border-gray-200'">
+                                        <input type="radio" v-model="form.paymentMethod" value="card"
+                                            class="w-4 h-4 text-brand" />
+                                        <div class="flex-1">
+                                            <div class="font-semibold text-gray-900">Credit/Debit Card</div>
+                                            <div class="text-sm text-gray-500">Visa, Mastercard, and other major cards</div>
+                                        </div>
+                                        <div class="text-2xl">💳</div>
+                                    </label>
                                 </div>
-                                <div>
-                                    <label for="cardNumber"
-                                        class="block text-xs font-medium text-gray-700 mb-1 uppercase">Card Number
-                                        *</label>
-                                    <input id="cardNumber" v-model="form.cardNumber" type="text"
-                                        placeholder="1234 5678 9012 3456"
-                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
+
+                                <!-- KHQR Payment Details -->
+                                <div v-if="form.paymentMethod === 'khqr'" class="bg-gradient-to-br from-blue-50 to-blue-100/50 p-6 rounded-xl border border-blue-200">
+                                    <h4 class="font-bold text-gray-900 mb-3">KHQR Payment Instructions</h4>
+                                    <div class="text-sm text-gray-700 space-y-2">
+                                        <p>1. Click "Continue to review" to see your order summary</p>
+                                        <p>2. A KHQR code will be displayed on the next screen</p>
+                                        <p>3. Scan the QR code with your banking app (ABA, Wing, ACLEDA, etc.)</p>
+                                        <p>4. Confirm the payment in your banking app</p>
+                                    </div>
+                                    <div class="mt-4 p-3 bg-white rounded-lg border border-blue-200">
+                                        <p class="text-xs text-gray-600 flex items-start gap-2">
+                                            <span class="text-blue-600">ℹ️</span>
+                                            <span>You will receive a payment confirmation via email after successful payment</span>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="grid grid-cols-2 gap-4">
+
+                                <!-- Card Payment Form -->
+                                <div v-if="form.paymentMethod === 'card'" class="space-y-4">
                                     <div>
-                                        <label for="expiry"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Expiry Date
+                                        <label for="cardName"
+                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Name on Card
                                             *</label>
-                                        <input id="expiry" v-model="form.expiry" type="text" placeholder="MM/YY"
+                                        <input id="cardName" v-model="form.cardName" type="text"
                                             class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
                                     <div>
-                                        <label for="cvv"
-                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">CVV *</label>
-                                        <input id="cvv" v-model="form.cvv" type="text" placeholder="123"
+                                        <label for="cardNumber"
+                                            class="block text-xs font-medium text-gray-700 mb-1 uppercase">Card Number
+                                            *</label>
+                                        <input id="cardNumber" v-model="form.cardNumber" type="text"
+                                            placeholder="1234 5678 9012 3456"
                                             class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
                                     </div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="expiry"
+                                                class="block text-xs font-medium text-gray-700 mb-1 uppercase">Expiry Date
+                                                *</label>
+                                            <input id="expiry" v-model="form.expiry" type="text" placeholder="MM/YY"
+                                                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
+                                        </div>
+                                        <div>
+                                            <label for="cvv"
+                                                class="block text-xs font-medium text-gray-700 mb-1 uppercase">CVV *</label>
+                                            <input id="cvv" v-model="form.cvv" type="text" placeholder="123"
+                                                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <button @click="nextStep"
-                                    class="mt-4 bg-brand text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/20 transition-all duration-300 active:scale-[0.98]">
+
+                                <button @click="nextStep" :disabled="!form.paymentMethod"
+                                    class="mt-4 bg-brand text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/20 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
                                     Continue to review
                                 </button>
                             </div>
@@ -248,12 +308,10 @@
                                     <h3 class="font-bold text-gray-900 mb-3">Order Summary</h3>
                                     <div class="text-sm space-y-2">
                                         <p class="flex flex-col sm:flex-row gap-1"><span class="font-semibold text-gray-700">Ship to:</span> <span class="text-gray-600">{{ form.firstName }} {{
-                                            form.lastName }}, {{ form.address }}, {{ form.city }}, {{ form.state }} {{
-                                                form.zip }}</span></p>
+                                            form.lastName }}, {{ form.address }}, {{ form.city }}, {{ form.province }}</span></p>
                                         <p><span class="font-semibold text-gray-700">Shipping:</span> <span class="text-gray-600">{{
                                             shippingOptions.find(o => o.id === selectedShipping)?.name}}</span></p>
-                                        <p><span class="font-semibold text-gray-700">Payment:</span> <span class="text-gray-600">Card ending in {{
-                                            form.cardNumber.slice(-4) }}</span></p>
+                                        <p><span class="font-semibold text-gray-700">Payment:</span> <span class="text-gray-600">{{ form.paymentMethod === 'card' ? `Card ending in ${form.cardNumber.slice(-4)}` : 'KHQR Payment' }}</span></p>
                                     </div>
                                 </div>
                                 <button @click="placeOrder"
@@ -343,8 +401,8 @@
                                     <a href="#" class="text-brand hover:text-brand/80 font-medium text-sm block mb-2 transition-colors">Visit our Help
                                         Center</a>
                                     <p class="text-sm text-gray-600 mb-0.5">Call us</p>
-                                    <p class="text-sm font-semibold text-gray-900">888-764-8888</p>
-                                    <p class="text-xs text-gray-500 mt-1">Mon-Fri 6am-5pm PST</p>
+                                    <p class="text-sm font-semibold text-gray-900">+855 12 345 678</p>
+                                    <p class="text-xs text-gray-500 mt-1">Mon-Fri 8am-6pm (Cambodia Time)</p>
                                 </div>
                                 <div class="text-right">
                                     <div
@@ -421,12 +479,12 @@
         address: '',
         address2: '',
         city: '',
-        state: '',
-        zip: '',
+        province: '',
         cardName: '',
         cardNumber: '',
         expiry: '',
-        cvv: ''
+        cvv: '',
+        paymentMethod: ''
     })
 
     // Promo code
