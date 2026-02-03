@@ -10,7 +10,7 @@
                     <CarouselContent>
                         <CarouselItem v-for="slide in carouselSlides" :key="slide.uuid">
                             <div
-                                class="relative w-full h-[500px] sm:h-[600px] lg:h-[420px] xl:h[660px] overflow-hidden">
+                                class="relative w-full h-125 sm:h-150 lg:h-105 xl:h[660px] overflow-hidden">
                                 <img :src="slide.desktop" :alt="slide.title || 'Carousel slide'"
                                     class="w-full h-full object-cover" />
                             </div>
@@ -45,14 +45,14 @@
         <div v-if="featuredProducts && featuredProducts.length > 0"
             class="relative pt-8 pb-12 sm:pt-12 sm:pb-16 overflow-hidden">
             <!-- Background with diagonal split -->
-            <div class="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-blue-50/30"></div>
+            <div class="absolute inset-0 bg-linear-to-br from-gray-50 via-white to-blue-50/30"></div>
 
             <!-- Decorative geometric shapes -->
             <div
-                class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-brand/5 to-transparent rounded-full blur-3xl">
+                class="absolute top-0 right-0 w-96 h-96 bg-linear-to-br from-brand/5 to-transparent rounded-full blur-3xl">
             </div>
             <div
-                class="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-blue-500/5 to-transparent rounded-full blur-3xl">
+                class="absolute bottom-0 left-0 w-80 h-80 bg-linear-to-tr from-blue-500/5 to-transparent rounded-full blur-3xl">
             </div>
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -82,7 +82,7 @@
 
         <!-- Popular Categories Section -->
         <div v-if="popularCategories && popularCategories.length > 0"
-            class="bg-gradient-to-b from-gray-50 to-white py-3 sm:py-8">
+            class="bg-linear-to-b from-gray-50 to-white py-3 sm:py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Header -->
                 <ClientOnly>
@@ -128,7 +128,7 @@
                                         <img :src="category.image" :alt="category.name"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
 
-                                        <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
+                                        <div class="absolute inset-0 bg-linear-to-r from-black/60 via-black/40 to-transparent"></div>
 
                                         <div class="absolute inset-0 flex items-center px-6 sm:px-8 lg:px-12 z-10">
                                             <div>
@@ -215,7 +215,7 @@
         </div>
 
         <!-- Why Choose Us Section -->
-        <div class="bg-gradient-to-b from-gray-50 to-white py-16 sm:py-24">
+        <div class="bg-linear-to-b from-gray-50 to-white py-16 sm:py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
                 <ClientOnly>
                     <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
@@ -232,7 +232,7 @@
                             :data-aos-delay="index * 100"
                             class="text-center group hover:-translate-y-2 transition-all duration-500 bg-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200">
                             <div
-                                class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-brand/10 to-brand/5 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 group-hover:from-brand/15 group-hover:to-brand/10 transition-all duration-500">
+                                class="w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-brand/10 to-brand/5 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 group-hover:from-brand/15 group-hover:to-brand/10 transition-all duration-500">
                                 <component :is="feature.icon" class="w-8 h-8 sm:w-10 sm:h-10 text-brand" />
                             </div>
                             <h3 class="font-bold text-gray-900 mb-2 text-base sm:text-lg">{{ feature.title }}</h3>
