@@ -3,7 +3,7 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
             <!-- Account Information Card -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-                <div class="px-6 py-4 bg-gradient-to-r from-brand to-brand/90 border-b border-brand flex items-center justify-between">
+                <div class="px-6 py-4 bg-linear-to-r from-brand to-brand/90 border-b border-brand flex items-center justify-between">
                     <h2 class="text-lg font-semibold text-white">Account Information</h2>
                     <button v-if="!showProfileForm" @click="startProfileEdit" type="button"
                         class="px-4 py-2 bg-white text-brand rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
