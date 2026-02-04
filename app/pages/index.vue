@@ -9,8 +9,7 @@
                 }" @init-api="onCarouselInit">
                     <CarouselContent>
                         <CarouselItem v-for="slide in carouselSlides" :key="slide.uuid">
-                            <div
-                                class="relative w-full h-125 sm:h-150 lg:h-105 xl:h[660px] overflow-hidden">
+                            <div class="relative w-full h-125 sm:h-150 lg:h-105 xl:h[660px] overflow-hidden">
                                 <img :src="slide.desktop" :alt="slide.title || 'Carousel slide'"
                                     class="w-full h-full object-cover" />
                             </div>
@@ -81,7 +80,7 @@
         </div>
 
         <!-- Category Products Sections -->
-        <div v-if="categoriesWithProducts && categoriesWithProducts.length > 0" class="bg-white py-4 sm:py-8">
+        <div v-if="categoriesWithProducts && categoriesWithProducts.length > 0" class="bg-white py-4 sm:py-0">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Section Header -->
                 <ClientOnly>
@@ -105,15 +104,19 @@
                                         <img :src="category.image" :alt="category.name"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
 
-                                        <div class="absolute inset-0 bg-linear-to-r from-black/60 via-black/40 to-transparent"></div>
+                                        <div
+                                            class="absolute inset-0 bg-linear-to-r from-black/60 via-black/40 to-transparent">
+                                        </div>
 
                                         <div class="absolute inset-0 flex items-center px-6 sm:px-8 lg:px-12 z-10">
                                             <div>
                                                 <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">
                                                     {{ category.name }}
                                                 </h3>
-                                                <div class="inline-flex items-center gap-2 text-white/90 group-hover:text-white transition-colors">
-                                                    <span class="text-sm sm:text-base font-medium">Explore collection</span>
+                                                <div
+                                                    class="inline-flex items-center gap-2 text-white/90 group-hover:text-white transition-colors">
+                                                    <span class="text-sm sm:text-base font-medium">Explore
+                                                        collection</span>
                                                     <div
                                                         class="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white/20 backdrop-blur-sm rounded-full group-hover:bg-brand group-hover:translate-x-1 transition-all duration-300">
                                                         <ChevronRight class="w-5 h-5 sm:w-6 sm:h-6" />
@@ -127,7 +130,8 @@
 
                             <!-- Products Grid - Full width below -->
                             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-                                <ProductCard v-for="product in category.products" :key="product.uuid" :product="product" />
+                                <ProductCard v-for="product in category.products" :key="product.uuid"
+                                    :product="product" />
                             </div>
 
                             <!-- View All Link -->
