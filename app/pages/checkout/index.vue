@@ -40,7 +40,76 @@
                                 <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Shipping Address</h2>
                             </div>
 
-                            <div>
+                            <!-- Saved Address Display or Selector -->
+                            <div v-if="!useManualAddress && (selectedAddress || addresses.length > 0)" class="mb-4">
+                                <!-- Selected Address Display -->
+                                <div v-if="selectedAddress && !showAddressSelector"
+                                    class="border-2 border-brand bg-brand/5 rounded-xl p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <div class="flex items-center gap-2">
+                                            <MapPin class="w-5 h-5 text-brand" />
+                                            <span class="font-semibold text-gray-900">{{ selectedAddress.full_name }}</span>
+                                            <span v-if="selectedAddress.is_default"
+                                                class="px-2 py-0.5 bg-brand text-white text-xs font-medium rounded">
+                                                Default
+                                            </span>
+                                        </div>
+                                        <button @click="showAddressSelector = true" type="button"
+                                            class="text-brand hover:text-brand/80 text-sm font-medium flex items-center gap-1">
+                                            <Edit2 class="w-4 h-4" />
+                                            Change
+                                        </button>
+                                    </div>
+                                    <p class="text-sm text-gray-700 ml-7">{{ selectedAddress.formatted_address }}</p>
+                                    <button @click="useNewAddress" type="button"
+                                        class="mt-3 ml-7 text-sm text-brand hover:text-brand/80 font-medium flex items-center gap-1">
+                                        <Plus class="w-4 h-4" />
+                                        Use a different address
+                                    </button>
+                                </div>
+
+                                <!-- Address Selector -->
+                                <div v-if="showAddressSelector || (!selectedAddress && addresses.length > 0)"
+                                    class="space-y-3">
+                                    <p class="text-sm font-medium text-gray-700">Select a saved address:</p>
+                                    <div class="space-y-2 max-h-60 overflow-y-auto">
+                                        <button v-for="address in addresses.filter(a => a.type === 'shipping')"
+                                            :key="address.uuid" @click="selectAddress(address)" type="button"
+                                            class="w-full text-left border-2 rounded-xl p-3 hover:border-brand hover:bg-brand/5 transition-all"
+                                            :class="selectedAddress?.uuid === address.uuid ? 'border-brand bg-brand/5' : 'border-gray-200'">
+                                            <div class="flex items-center gap-2 mb-1">
+                                                <span class="font-semibold text-gray-900">{{ address.full_name }}</span>
+                                                <span v-if="address.is_default"
+                                                    class="px-2 py-0.5 bg-brand text-white text-xs font-medium rounded">
+                                                    Default
+                                                </span>
+                                            </div>
+                                            <p class="text-sm text-gray-600">{{ address.formatted_address }}</p>
+                                        </button>
+                                    </div>
+                                    <div class="flex gap-3 pt-2">
+                                        <button @click="useNewAddress" type="button"
+                                            class="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium flex items-center justify-center gap-2">
+                                            <Plus class="w-4 h-4" />
+                                            Add New Address
+                                        </button>
+                                        <button @click="navigateToProfile" type="button"
+                                            class="flex-1 px-4 py-2 bg-brand text-white rounded-xl hover:bg-brand/90 transition-colors font-medium">
+                                            Manage Addresses
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Manual Address Form -->
+                            <div v-if="useManualAddress || !selectedAddress">
+                                <div v-if="useManualAddress" class="mb-4">
+                                    <button @click="() => { useManualAddress = false; showAddressSelector = true }" type="button"
+                                        class="text-sm text-brand hover:text-brand/80 font-medium flex items-center gap-1">
+                                        <ChevronRight class="w-4 h-4 rotate-180" />
+                                        Back to saved addresses
+                                    </button>
+                                </div>
                                 <p class="text-xs text-gray-500 mb-4">*Indicates required field</p>
                                 <div class="space-y-4">
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -329,12 +398,13 @@
 </template>
 
 <script setup lang="ts">
-    import { ChevronRight, ShoppingCart } from 'lucide-vue-next'
-    import { computed, ref, onMounted } from 'vue'
+    import { ChevronRight, ShoppingCart, MapPin, Plus, Edit2 } from 'lucide-vue-next'
+    import { computed, ref, onMounted, watch } from 'vue'
     import { useRouter, useRoute } from 'vue-router'
     import { useCartStore } from '~/stores/cart'
     import { useAuthStore } from '~/stores/auth'
     import type { CartItem } from '~/types'
+    import type { Address } from '~/types/address'
 
     // Disable default layout and add custom transition
     definePageMeta({
@@ -351,6 +421,12 @@
     const authStore = useAuthStore()
     const config = useRuntimeConfig()
 
+    // Address management
+    const { addresses, isLoading: isLoadingAddresses, fetchAddresses } = useAddresses()
+    const selectedAddress = ref<Address | null>(null)
+    const showAddressSelector = ref(false)
+    const useManualAddress = ref(false)
+
     // Buy Now mode
     const isBuyNowMode = computed(() => route.query.buyNow === 'true')
     const buyNowSku = ref<string>('')
@@ -363,6 +439,16 @@
         if (!authStore.isAuthenticated) {
             router.push('/login')
             return
+        }
+
+        // Fetch addresses
+        await fetchAddresses()
+
+        // Set default address if available
+        const defaultAddress = addresses.value.find(addr => addr.is_default && addr.type === 'shipping')
+        if (defaultAddress) {
+            selectedAddress.value = defaultAddress
+            populateFormWithAddress(defaultAddress)
         }
 
         // Handle Buy Now mode - fetch product details directly (does NOT use cart)
@@ -417,6 +503,40 @@
             }
         }
     })
+
+    // Helper functions for address management
+    function populateFormWithAddress(address: Address) {
+        form.value.firstName = address.first_name
+        form.value.lastName = address.last_name
+        form.value.address = address.address_line_1
+        form.value.address2 = address.address_line_2 || ''
+        form.value.city = address.city
+        form.value.province = address.state || ''
+    }
+
+    function selectAddress(address: Address) {
+        selectedAddress.value = address
+        populateFormWithAddress(address)
+        showAddressSelector.value = false
+        useManualAddress.value = false
+    }
+
+    function useNewAddress() {
+        selectedAddress.value = null
+        useManualAddress.value = true
+        showAddressSelector.value = false
+        // Clear form
+        form.value.firstName = ''
+        form.value.lastName = ''
+        form.value.address = ''
+        form.value.address2 = ''
+        form.value.city = ''
+        form.value.province = ''
+    }
+
+    function navigateToProfile() {
+        router.push('/profile')
+    }
 
     // Form data
     const form = ref({
