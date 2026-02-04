@@ -1,16 +1,28 @@
 <template>
     <div class="min-h-screen bg-gray-50 py-8">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6">
-            <!-- Account Information Card -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-                <div class="px-6 py-4 bg-linear-to-r from-brand to-brand/90 border-b border-brand flex items-center justify-between">
-                    <h2 class="text-lg font-semibold text-white">Account Information</h2>
-                    <button v-if="!showProfileForm" @click="startProfileEdit" type="button"
-                        class="px-4 py-2 bg-white text-brand rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
-                        Edit Profile
-                    </button>
-                </div>
-                <div class="p-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+            <!-- Two Column Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Left Column: Account & Password -->
+                <div class="space-y-6">
+                    <!-- Account Information Card -->
+                    <div class="bg-white rounded-xl  border border-gray-200 overflow-hidden card-hover">
+                        <div class="px-6 py-4 bg-gradient-to-r from-brand to-brand/90 border-b border-brand flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                    </svg>
+                                </div>
+                                <h2 class="text-lg font-semibold text-white">Profile</h2>
+                            </div>
+                            <button v-if="!showProfileForm" @click="startProfileEdit" type="button"
+                                class="px-4 py-2 bg-white text-brand rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
+                                Edit Profile
+                            </button>
+                        </div>
+                        <div class="p-6">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="relative">
                             <div class="w-20 h-20 rounded-full overflow-hidden bg-brand flex items-center justify-center">
@@ -66,19 +78,26 @@
                             </button>
                         </div>
                     </form>
-                </div>
-            </div>
+                        </div>
+                    </div>
 
-            <!-- Change Password Card -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
-                    <h2 class="text-lg font-semibold text-gray-900">Change Password</h2>
-                    <button v-if="!showPasswordForm" @click="startPasswordEdit" type="button"
-                        class="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors text-sm font-medium">
-                        Change Password
-                    </button>
-                </div>
-                <div v-if="showPasswordForm" class="p-6">
+                    <!-- Change Password Card -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden card-hover">
+                        <div class="px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-gray-200 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                    </svg>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-900">Change Password</h2>
+                            </div>
+                            <button v-if="!showPasswordForm" @click="startPasswordEdit" type="button"
+                                class="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors text-sm font-medium">
+                                Change Password
+                            </button>
+                        </div>
+                        <div v-if="showPasswordForm" class="p-6">
                     <form @submit.prevent="updatePassword" class="space-y-4">
                         <div>
                             <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">Current
@@ -154,15 +173,30 @@
                             </button>
                         </div>
                     </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <!-- End Left Column -->
 
-            <!-- Address Management Card -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
-                    <h2 class="text-lg font-semibold text-gray-900">Addresses</h2>
+                <!-- Right Column: Addresses -->
+                <div class="space-y-6">
+                    <!-- Address Management Card -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden card-hover">
+                <div class="px-4 sm:px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-lg font-semibold text-gray-900">My Addresses</h2>
+                    </div>
                     <button v-if="!showAddressForm && addresses.length > 0" @click="startAddingAddress" type="button"
-                        class="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors text-sm font-medium">
+                        class="w-full sm:w-auto px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 hover:shadow-md transition-all text-sm font-medium flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
                         Add New Address
                     </button>
                 </div>
@@ -176,54 +210,92 @@
                     <!-- Address List -->
                     <div v-else-if="!showAddressForm && addresses.length > 0" class="space-y-4">
                         <div v-for="address in addresses" :key="address.uuid"
-                            class="border border-gray-200 rounded-lg p-4 hover:border-brand/50 transition-colors relative">
+                            class="address-card border-2 border-gray-200 rounded-xl p-4 sm:p-5 relative bg-gradient-to-br from-white to-gray-50/30">
                             <!-- Default Badge -->
                             <div v-if="address.is_default"
-                                class="absolute top-4 right-4 bg-brand text-white text-xs font-medium px-2 py-1 rounded">
-                                Default
+                                class="absolute top-4 sm:top-5 right-4 sm:right-5 bg-gradient-to-r from-brand to-brand/90 text-white text-xs font-semibold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-sm badge-pulse flex items-center gap-1">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="hidden xs:inline">Default</span>
                             </div>
 
-                            <div class="pr-20">
+                            <div class="pr-20 sm:pr-24">
                                 <!-- Address Type & Label -->
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="inline-block px-2 py-1 text-xs font-medium rounded"
-                                        :class="address.type === 'shipping' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg shadow-sm"
+                                        :class="address.type === 'shipping' ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-200' : 'bg-purple-100 text-purple-700 ring-1 ring-purple-200'">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path v-if="address.type === 'shipping'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                                        </svg>
                                         {{ address.type }}
                                     </span>
-                                    <span v-if="address.label" class="text-sm font-medium text-gray-700">
+                                    <span v-if="address.label" class="text-sm font-semibold text-gray-700 bg-gray-100 px-3 py-1.5 rounded-lg">
                                         {{ address.label }}
                                     </span>
                                 </div>
 
                                 <!-- Full Name -->
-                                <p class="font-semibold text-gray-900 mb-1">{{ address.full_name }}</p>
+                                <p class="font-bold text-gray-900 mb-2 text-lg">{{ address.full_name }}</p>
 
                                 <!-- Company -->
-                                <p v-if="address.company" class="text-sm text-gray-600 mb-1">{{ address.company }}</p>
+                                <p v-if="address.company" class="text-sm text-gray-700 mb-2 font-medium flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                    </svg>
+                                    {{ address.company }}
+                                </p>
 
                                 <!-- Formatted Address -->
-                                <p class="text-sm text-gray-600 leading-relaxed mb-2">{{ address.formatted_address }}</p>
+                                <p class="text-sm text-gray-600 leading-relaxed mb-3 flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <span>{{ address.formatted_address }}</span>
+                                </p>
 
                                 <!-- Contact Info -->
                                 <div class="flex flex-wrap gap-4 text-sm text-gray-600">
-                                    <span v-if="address.phone">{{ address.phone }}</span>
-                                    <span v-if="address.email">{{ address.email }}</span>
+                                    <span v-if="address.phone" class="flex items-center gap-1.5">
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                        </svg>
+                                        {{ address.phone }}
+                                    </span>
+                                    <span v-if="address.email" class="flex items-center gap-1.5">
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                        {{ address.email }}
+                                    </span>
                                 </div>
                             </div>
 
                             <!-- Action Buttons -->
-                            <div class="flex gap-2 mt-4 pt-4 border-t border-gray-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-gray-200">
                                 <button @click="startEditingAddress(address)" type="button"
-                                    class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
+                                    class="w-full px-4 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all text-sm font-semibold flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
                                     Edit
                                 </button>
                                 <button v-if="!address.is_default" @click="handleSetDefault(address.uuid)" type="button"
                                     :disabled="isSubmittingAddress"
-                                    class="flex-1 px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors text-sm font-medium disabled:opacity-50">
+                                    class="w-full px-4 py-2.5 bg-brand text-white rounded-lg hover:bg-brand/90 hover:shadow-md transition-all text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
                                     Set as Default
                                 </button>
                                 <button @click="startDeletingAddress(address)" type="button"
-                                    class="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm font-medium">
+                                    class="w-full px-4 py-2.5 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 hover:border-red-400 transition-all text-sm font-semibold flex items-center justify-center gap-2"
+                                    :class="!address.is_default ? 'sm:col-span-2 lg:col-span-1' : 'sm:col-span-2 lg:col-span-2'">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
                                     Delete
                                 </button>
                             </div>
@@ -231,7 +303,24 @@
                     </div>
 
                     <!-- Address Form -->
-                    <form v-else @submit.prevent="handleAddressSubmit" class="space-y-4">
+                    <form v-else @submit.prevent="handleAddressSubmit" class="space-y-5 form-section">
+                        <!-- Form Header -->
+                        <div class="flex items-center gap-3 pb-4 border-b border-gray-200">
+                            <div class="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path v-if="currentAddress" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">
+                                    {{ currentAddress ? 'Edit Address' : 'Add New Address' }}
+                                </h3>
+                                <p class="text-sm text-gray-500">
+                                    {{ currentAddress ? 'Update your address information' : 'Fill in the details below' }}
+                                </p>
+                            </div>
+                        </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -338,62 +427,84 @@
                             <label for="is_default" class="ml-2 text-sm text-gray-700">Set as default address</label>
                         </div>
 
-                        <div class="flex justify-end gap-3 pt-4 border-t">
+                        <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t">
                             <button v-if="addresses.length > 0" type="button" @click="cancelAddressForm"
-                                class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                class="w-full sm:w-auto px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-semibold">
                                 Cancel
                             </button>
                             <button type="submit" :disabled="isSubmittingAddress"
-                                class="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors disabled:opacity-50 flex items-center gap-2">
+                                class="w-full sm:w-auto px-6 py-2.5 bg-brand text-white rounded-lg hover:bg-brand/90 hover:shadow-md transition-all disabled:opacity-50 flex items-center justify-center gap-2 font-semibold">
                                 <Loader2 v-if="isSubmittingAddress" class="w-4 h-4 animate-spin" />
                                 <span>{{ currentAddress ? 'Update Address' : 'Save Address' }}</span>
                             </button>
                         </div>
                     </form>
                 </div>
+                    </div>
+                </div>
+                <!-- End Right Column -->
             </div>
+            <!-- End Two Column Layout -->
         </div>
 
         <!-- Delete Confirmation Modal -->
         <Transition name="modal">
             <div v-if="showDeleteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click.self="showDeleteModal = false">
                 <!-- Backdrop -->
-                <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity"></div>
+                <div class="absolute inset-0 bg-gray-900/70 backdrop-blur-md transition-opacity"></div>
 
                 <!-- Modal Content -->
-                <div class="relative bg-white rounded-xl shadow-2xl max-w-lg w-full overflow-hidden" @click.stop>
-                    <!-- Header -->
-                    <div class="px-6 pt-6 pb-4 border-b border-gray-100">
-                        <h3 class="text-xl font-semibold text-gray-900">Confirm Deletion</h3>
+                <div class="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden" @click.stop>
+                    <!-- Header with Icon -->
+                    <div class="px-4 sm:px-6 pt-6 pb-4">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-1">Delete Address</h3>
+                                <p class="text-xs sm:text-sm text-gray-600">This action cannot be undone</p>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Body -->
-                    <div class="px-6 py-5">
-                        <p class="text-gray-700 mb-4">Are you sure you want to delete this address?</p>
+                    <div class="px-4 sm:px-6 py-4">
+                        <p class="text-gray-700 mb-4">Are you sure you want to permanently delete this address?</p>
 
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-1">
-                            <p class="font-medium text-gray-900">{{ currentAddress?.full_name }}</p>
-                            <p class="text-sm text-gray-600 leading-relaxed">{{ currentAddress?.formatted_address }}</p>
+                        <div class="bg-gradient-to-br from-red-50 to-red-100/50 border-2 border-red-200 rounded-xl p-4 space-y-2">
+                            <p class="font-semibold text-gray-900 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                </svg>
+                                {{ currentAddress?.full_name }}
+                            </p>
+                            <p class="text-sm text-gray-700 leading-relaxed pl-6">{{ currentAddress?.formatted_address }}</p>
                         </div>
 
-                        <div class="mt-4 flex items-start gap-2 text-sm text-gray-600">
-                            <svg class="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <div class="mt-4 flex items-start gap-3 text-sm text-gray-600 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                            <svg class="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                             </svg>
-                            <span>This action is permanent and cannot be undone.</span>
+                            <span class="text-amber-900 font-medium">Warning: This action is permanent and cannot be reversed.</span>
                         </div>
                     </div>
 
                     <!-- Footer -->
-                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3">
+                    <div class="px-4 sm:px-6 py-4 bg-gray-50 border-t border-gray-200 flex flex-col-reverse sm:flex-row justify-end gap-3">
                         <button type="button" @click="showDeleteModal = false"
-                            class="px-5 py-2.5 text-gray-700 font-medium rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors">
+                            class="w-full sm:w-auto px-6 py-2.5 text-gray-700 font-semibold rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-all border-2 border-gray-300">
                             Cancel
                         </button>
                         <button type="button" @click="confirmDelete" :disabled="isSubmittingAddress"
-                            class="px-5 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center">
+                            class="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-lg hover:from-red-700 hover:to-red-800 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[120px] justify-center shadow-lg shadow-red-500/30">
                             <Loader2 v-if="isSubmittingAddress" class="w-4 h-4 animate-spin" />
-                            <span>{{ isSubmittingAddress ? 'Deleting...' : 'Delete' }}</span>
+                            <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            <span>{{ isSubmittingAddress ? 'Deleting...' : 'Delete Address' }}</span>
                         </button>
                     </div>
                 </div>
@@ -623,6 +734,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* Modal Transitions */
 .modal-enter-active,
 .modal-leave-active {
     transition: opacity 0.3s ease;
@@ -635,11 +747,186 @@ onMounted(async () => {
 
 .modal-enter-active > div:last-child,
 .modal-leave-active > div:last-child {
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .modal-enter-from > div:last-child,
 .modal-leave-to > div:last-child {
-    transform: scale(0.95);
+    transform: scale(0.9) translateY(-20px);
+    opacity: 0;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Address Card Hover Effects */
+.address-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.address-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand-color, #3b82f6), var(--brand-color-light, #60a5fa));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.address-card:hover::before {
+    transform: scaleX(1);
+}
+
+.address-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Animations */
+button {
+    transition: all 0.2s ease;
+}
+
+button:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+/* Badge Animations */
+.badge-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Form Input Focus Effects */
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+
+
+/* Empty State */
+.empty-state {
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading Spinner */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Smooth Transitions for Form */
+.form-section {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Two Column Layout */
+.space-y-6 > * {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Sticky behavior for left column on desktop */
+@media (min-width: 1024px) {
+    .space-y-6:first-child {
+        position: sticky;
+        top: 2rem;
+        align-self: start;
+    }
+}
+
+/* Responsive Utilities */
+@media (max-width: 640px) {
+    .address-card {
+        padding: 1rem;
+    }
+
+    /* Adjust badge on small screens */
+    .badge-pulse {
+        font-size: 0.7rem;
+    }
+
+    /* Better touch targets on mobile */
+    button {
+        min-height: 44px;
+    }
+}
+
+/* Hide scrollbar on mobile for cleaner look */
+@media (max-width: 768px) {
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
+}
+
+/* Smooth grid transitions */
+@media (min-width: 1024px) {
+    .grid {
+        gap: 1.5rem;
+    }
+}
+
+/* Print styles */
+@media print {
+    .modal-enter-active,
+    .modal-leave-active,
+    button:not(.print\\:block) {
+        display: none;
+    }
 }
 </style>
