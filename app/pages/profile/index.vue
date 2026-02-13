@@ -1,80 +1,105 @@
 <template>
-    <div class="min-h-screen bg-gray-50 py-8">
+    <div class="min-h-screen bg-white py-4 sm:py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
             <!-- Two Column Layout -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <!-- Left Column: Account & Password -->
                 <div class="space-y-6">
                     <!-- Account Information Card -->
-                    <div class="bg-white rounded-xl  border border-gray-200 overflow-hidden card-hover">
-                        <div class="px-6 py-4 bg-gradient-to-r from-brand to-brand/90 border-b border-brand flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-white rounded-lg sm:rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="px-4 sm:px-6 py-3 sm:py-4  border-b border-brand/20 flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center ring-2 ring-white/30">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                     </svg>
                                 </div>
-                                <h2 class="text-lg font-semibold text-white">Profile</h2>
+                                <h2 class="text-base sm:text-lg font-bold text-white tracking-wide">Profile Information</h2>
                             </div>
                             <button v-if="!showProfileForm" @click="startProfileEdit" type="button"
-                                class="px-4 py-2 bg-white text-brand rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
-                                Edit Profile
+                                class="px-3 sm:px-4 py-1.5 sm:py-2 bg-white text-brand rounded-lg hover:bg-gray-50 hover:shadow-md transition-all text-xs sm:text-sm font-semibold flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                                Edit
                             </button>
                         </div>
-                        <div class="p-6">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="relative">
-                            <div class="w-20 h-20 rounded-full overflow-hidden bg-brand flex items-center justify-center">
+                        <div class="p-4 sm:p-6 bg-gradient-to-br from-white to-gray-50/30">
+                    <div class="flex items-center gap-4 sm:gap-5 mb-6">
+                        <div class="relative group">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-gradient-to-br from-brand to-brand/80 flex items-center justify-center ring-4 ring-brand/10 shadow-lg group-hover:ring-brand/20 transition-all">
                                 <img v-if="avatarUrl"
                                     :src="avatarUrl"
                                     alt="Profile avatar"
                                     class="w-full h-full object-cover">
-                                <User v-else class="w-10 h-10 text-white" />
+                                <User v-else class="w-10 h-10 sm:w-12 sm:h-12 text-white" />
                             </div>
-                            <div v-if="showProfileForm" class="absolute -bottom-1 -right-1 flex gap-1">
-                                <label class="cursor-pointer bg-brand hover:bg-brand/90 text-white p-1.5 rounded-full shadow-lg transition-colors">
+                            <div v-if="showProfileForm" class="absolute -bottom-1 -right-1 flex gap-1.5">
+                                <label class="cursor-pointer bg-brand hover:bg-brand/90 text-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 ring-2 ring-white">
                                     <Upload class="w-4 h-4" />
                                     <input type="file" accept="image/*" @change="handleAvatarChange" class="hidden">
                                 </label>
                                 <button v-if="avatarUrl"
                                     @click="deleteAvatar"
                                     type="button"
-                                    class="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full shadow-lg transition-colors">
+                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 ring-2 ring-white">
                                     <Trash2 class="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-900">{{ authStore.user?.name }}</h3>
-                            <p class="text-gray-600">{{ authStore.user?.email }}</p>
+                        <div class="flex-1">
+                            <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1">{{ authStore.user?.name }}</h3>
+                            <p class="text-sm sm:text-base text-gray-600 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                {{ authStore.user?.email }}
+                            </p>
                         </div>
                     </div>
 
-                    <form v-if="showProfileForm" @submit.prevent="updateProfile" class="space-y-4">
+                    <form v-if="showProfileForm" @submit.prevent="updateProfile" class="space-y-5 bg-white rounded-xl">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <div class="group">
+                                <label for="name" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                    </svg>
+                                    Full Name
+                                </label>
                                 <input v-model="profileForm.name" type="text" id="name"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-white hover:border-gray-400 text-gray-900 placeholder-gray-400"
+                                    placeholder="Enter your full name">
                             </div>
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email
-                                    Address</label>
+                            <div class="group">
+                                <label for="email" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                    Email Address
+                                </label>
                                 <input v-model="profileForm.email" type="email" id="email"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-white hover:border-gray-400 text-gray-900 placeholder-gray-400"
+                                    placeholder="Enter your email address">
                             </div>
                         </div>
 
-                        <div class="flex justify-end gap-3 pt-4">
+                        <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
                             <button type="button" @click="handleCancelProfileEdit"
-                                class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all font-medium flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
                                 Cancel
                             </button>
                             <button type="submit" :disabled="isUpdating"
-                                class="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors disabled:opacity-50 flex items-center gap-2">
+                                class="px-6 py-2.5 bg-brand text-white rounded-lg hover:bg-brand/90 transition-all disabled:opacity-50 font-semibold shadow-md hover:shadow-lg flex items-center gap-2">
                                 <Loader2 v-if="isUpdating" class="w-4 h-4 animate-spin" />
-                                <span>Save Changes</span>
+                                <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span>Save</span>
                             </button>
                         </div>
                     </form>
@@ -82,22 +107,22 @@
                     </div>
 
                     <!-- Change Password Card -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden card-hover">
-                        <div class="px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-gray-200 flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-white rounded-lg sm:rounded-xl border border-gray-200 overflow-hidden">
+                        <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-brand/10 flex items-center justify-center">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                                     </svg>
                                 </div>
-                                <h2 class="text-lg font-semibold text-gray-900">Change Password</h2>
+                                <h2 class="text-base sm:text-lg font-semibold text-gray-900">Password</h2>
                             </div>
                             <button v-if="!showPasswordForm" @click="startPasswordEdit" type="button"
-                                class="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors text-sm font-medium">
-                                Change Password
+                                class="px-3 sm:px-4 py-1.5 sm:py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors text-xs sm:text-sm font-medium">
+                                Change
                             </button>
                         </div>
-                        <div v-if="showPasswordForm" class="p-6">
+                        <div v-if="showPasswordForm" class="p-4 sm:p-6">
                     <form @submit.prevent="updatePassword" class="space-y-4">
                         <div>
                             <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">Current
@@ -169,7 +194,7 @@
                             <button type="submit" :disabled="isUpdatingPassword"
                                 class="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors disabled:opacity-50 flex items-center gap-2">
                                 <Loader2 v-if="isUpdatingPassword" class="w-4 h-4 animate-spin" />
-                                <span>Update Password</span>
+                                <span>Save</span>
                             </button>
                         </div>
                     </form>
@@ -181,75 +206,76 @@
                 <!-- Right Column: Addresses -->
                 <div class="space-y-6">
                     <!-- Address Management Card -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden card-hover">
-                <div class="px-4 sm:px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-white rounded-lg sm:rounded-xl overflow-hidden">
+                <div class=" py-3 sm:py-4 flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-brand/10 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
                         </div>
-                        <h2 class="text-lg font-semibold text-gray-900">My Addresses</h2>
+                        <h2 class="text-base sm:text-lg font-semibold text-gray-900">Addresses</h2>
                     </div>
                     <button v-if="!showAddressForm && addresses.length > 0" @click="startAddingAddress" type="button"
-                        class="w-full sm:w-auto px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90 hover:shadow-md transition-all text-sm font-medium flex items-center justify-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="px-3 sm:px-4 py-1.5 sm:py-2 bg-brand text-white rounded-lg hover:bg-brand/90 transition-all text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5 sm:gap-2">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                         </svg>
-                        Add New Address
+                        <span class="hidden xs:inline">Add New</span>
+                        <span class="xs:hidden">Add</span>
                     </button>
                 </div>
 
-                <div class="p-6">
+                <div class="">
                     <!-- Loading State -->
                     <div v-if="isLoadingAddresses" class="flex items-center justify-center py-8">
                         <Loader2 class="w-6 h-6 animate-spin text-brand" />
                     </div>
 
                     <!-- Address List -->
-                    <div v-else-if="!showAddressForm && addresses.length > 0" class="space-y-4">
+                    <div v-else-if="!showAddressForm && addresses.length > 0" class="space-y-3 sm:space-y-4">
                         <div v-for="address in addresses" :key="address.uuid"
-                            class="address-card border-2 border-gray-200 rounded-xl p-4 sm:p-5 relative bg-gradient-to-br from-white to-gray-50/30">
+                            class="address-card border border-gray-200 rounded-lg p-3 sm:p-4 relative bg-white hover:border-gray-300 transition-all">
                             <!-- Default Badge -->
                             <div v-if="address.is_default"
-                                class="absolute top-4 sm:top-5 right-4 sm:right-5 bg-gradient-to-r from-brand to-brand/90 text-white text-xs font-semibold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-sm badge-pulse flex items-center gap-1">
+                                class="absolute top-3 sm:top-4 right-3 sm:right-4 bg-gradient-to-r from-brand to-brand/90 text-white text-xs font-medium px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full flex items-center gap-1">
                                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                 </svg>
                                 <span class="hidden xs:inline">Default</span>
                             </div>
 
-                            <div class="pr-20 sm:pr-24">
+                            <div class="pr-16 sm:pr-20">
                                 <!-- Address Type & Label -->
-                                <div class="flex items-center gap-2 mb-3">
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg shadow-sm"
-                                        :class="address.type === 'shipping' ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-200' : 'bg-purple-100 text-purple-700 ring-1 ring-purple-200'">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+                                    <span class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 text-xs font-medium rounded-md"
+                                        :class="address.type === 'shipping' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'">
+                                        <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path v-if="address.type === 'shipping'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                                             <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                                         </svg>
                                         {{ address.type }}
                                     </span>
-                                    <span v-if="address.label" class="text-sm font-semibold text-gray-700 bg-gray-100 px-3 py-1.5 rounded-lg">
+                                    <span v-if="address.label" class="text-xs sm:text-sm font-medium text-gray-700 bg-gray-100 px-2 sm:px-2.5 py-1 rounded-md">
                                         {{ address.label }}
                                     </span>
                                 </div>
 
                                 <!-- Full Name -->
-                                <p class="font-bold text-gray-900 mb-2 text-lg">{{ address.full_name }}</p>
+                                <p class="font-semibold text-gray-900 mb-1.5 sm:mb-2 text-base sm:text-lg">{{ address.full_name }}</p>
 
                                 <!-- Company -->
-                                <p v-if="address.company" class="text-sm text-gray-700 mb-2 font-medium flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <p v-if="address.company" class="text-xs sm:text-sm text-gray-700 mb-1.5 sm:mb-2 font-medium flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                                     </svg>
                                     {{ address.company }}
                                 </p>
 
                                 <!-- Formatted Address -->
-                                <p class="text-sm text-gray-600 leading-relaxed mb-3 flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed mb-2 sm:mb-3 flex items-start gap-1.5">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
@@ -257,15 +283,15 @@
                                 </p>
 
                                 <!-- Contact Info -->
-                                <div class="flex flex-wrap gap-4 text-sm text-gray-600">
-                                    <span v-if="address.phone" class="flex items-center gap-1.5">
-                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="flex flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600">
+                                    <span v-if="address.phone" class="flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                         </svg>
                                         {{ address.phone }}
                                     </span>
-                                    <span v-if="address.email" class="flex items-center gap-1.5">
-                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <span v-if="address.email" class="flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                         </svg>
                                         {{ address.email }}
@@ -274,26 +300,27 @@
                             </div>
 
                             <!-- Action Buttons -->
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-gray-200">
+                            <div class="grid grid-cols-3 gap-2 mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-200">
                                 <button @click="startEditingAddress(address)" type="button"
-                                    class="w-full px-4 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all text-sm font-semibold flex items-center justify-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                     </svg>
                                     Edit
                                 </button>
                                 <button v-if="!address.is_default" @click="handleSetDefault(address.uuid)" type="button"
                                     :disabled="isSubmittingAddress"
-                                    class="w-full px-4 py-2.5 bg-brand text-white rounded-lg hover:bg-brand/90 hover:shadow-md transition-all text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-brand text-white rounded-lg hover:bg-brand/90 transition-all text-xs sm:text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                     </svg>
-                                    Set as Default
+                                    <span class="hidden xs:inline">Set Default</span>
+                                    <span class="xs:hidden">Default</span>
                                 </button>
                                 <button @click="startDeletingAddress(address)" type="button"
-                                    class="w-full px-4 py-2.5 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 hover:border-red-400 transition-all text-sm font-semibold flex items-center justify-center gap-2"
-                                    :class="!address.is_default ? 'sm:col-span-2 lg:col-span-1' : 'sm:col-span-2 lg:col-span-2'">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-all text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5"
+                                    :class="address.is_default ? 'col-span-2 sm:col-span-1' : ''">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                     </svg>
                                     Delete
@@ -303,26 +330,26 @@
                     </div>
 
                     <!-- Address Form -->
-                    <form v-else @submit.prevent="handleAddressSubmit" class="space-y-5 form-section">
+                    <form v-else @submit.prevent="handleAddressSubmit" class="space-y-4 sm:space-y-5 form-section">
                         <!-- Form Header -->
-                        <div class="flex items-center gap-3 pb-4 border-b border-gray-200">
-                            <div class="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center">
-                                <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-brand/10 flex items-center justify-center">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path v-if="currentAddress" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                     <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900">
+                                <h3 class="text-base sm:text-lg font-semibold text-gray-900">
                                     {{ currentAddress ? 'Edit Address' : 'Add New Address' }}
                                 </h3>
-                                <p class="text-sm text-gray-500">
+                                <p class="text-xs sm:text-sm text-gray-500">
                                     {{ currentAddress ? 'Update your address information' : 'Fill in the details below' }}
                                 </p>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             <div>
                                 <label for="address_type" class="block text-sm font-medium text-gray-700 mb-1">Type
                                     <span class="text-red-500">*</span></label>
@@ -340,83 +367,80 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             <div>
-                                <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">First Name
+                                <label for="first_name" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">First Name
                                     <span class="text-red-500">*</span></label>
                                 <input v-model="addressForm.first_name" type="text" id="first_name" required
                                     maxlength="100"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                    class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                             </div>
                             <div>
-                                <label for="last_name" class="block text-sm font-medium text-gray-700 mb-1">Last Name
+                                <label for="last_name" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Last Name
                                     <span class="text-red-500">*</span></label>
                                 <input v-model="addressForm.last_name" type="text" id="last_name" required
                                     maxlength="100"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                    class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                             </div>
                         </div>
 
                         <div>
-                            <label for="company" class="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                            <label for="company" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Company</label>
                             <input v-model="addressForm.company" type="text" id="company" maxlength="200"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                         </div>
 
                         <div>
-                            <label for="address_line_1" class="block text-sm font-medium text-gray-700 mb-1">Address Line
-                                1 <span class="text-red-500">*</span></label>
+                            <label for="address_line_1" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Address Line 1 <span class="text-red-500">*</span></label>
                             <input v-model="addressForm.address_line_1" type="text" id="address_line_1" required
                                 maxlength="255"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                         </div>
 
                         <div>
-                            <label for="address_line_2" class="block text-sm font-medium text-gray-700 mb-1">Address Line
-                                2</label>
+                            <label for="address_line_2" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Address Line 2</label>
                             <input v-model="addressForm.address_line_2" type="text" id="address_line_2" maxlength="255"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City <span
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="city" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">City <span
                                         class="text-red-500">*</span></label>
                                 <input v-model="addressForm.city" type="text" id="city" required maxlength="100"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                    class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                             </div>
                             <div>
-                                <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
+                                <label for="state" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">State</label>
                                 <input v-model="addressForm.state" type="text" id="state" maxlength="100"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                    class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                             </div>
                             <div>
-                                <label for="postal_code" class="block text-sm font-medium text-gray-700 mb-1">Postal Code
+                                <label for="postal_code" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Postal
                                     <span class="text-red-500">*</span></label>
                                 <input v-model="addressForm.postal_code" type="text" id="postal_code" required
                                     maxlength="20"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                    class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                             </div>
                         </div>
 
                         <div>
-                            <label for="country_code" class="block text-sm font-medium text-gray-700 mb-1">Country Code
-                                (2 letters) <span class="text-red-500">*</span></label>
+                            <label for="country_code" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Country Code (2 letters) <span class="text-red-500">*</span></label>
                             <input v-model="addressForm.country_code" type="text" id="country_code" required minlength="2"
                                 maxlength="2" placeholder="e.g., US, GB, CA"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors uppercase">
+                                class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm uppercase">
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             <div>
-                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                <label for="phone" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone</label>
                                 <input v-model="addressForm.phone" type="tel" id="phone" maxlength="20"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                    class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                             </div>
                             <div>
-                                <label for="address_email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <label for="address_email" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email</label>
                                 <input v-model="addressForm.email" type="email" id="address_email" maxlength="255"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors">
+                                    class="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                             </div>
                         </div>
 
@@ -424,18 +448,18 @@
                         <div v-if="!currentAddress" class="flex items-center">
                             <input v-model="addressForm.is_default" type="checkbox" id="is_default"
                                 class="w-4 h-4 text-brand border-gray-300 rounded focus:ring-2 focus:ring-brand">
-                            <label for="is_default" class="ml-2 text-sm text-gray-700">Set as default address</label>
+                            <label for="is_default" class="ml-2 text-xs sm:text-sm text-gray-700">Set as default address</label>
                         </div>
 
-                        <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t">
+                        <div class="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-gray-200">
                             <button v-if="addresses.length > 0" type="button" @click="cancelAddressForm"
-                                class="w-full sm:w-auto px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-semibold">
+                                class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all text-sm font-medium">
                                 Cancel
                             </button>
                             <button type="submit" :disabled="isSubmittingAddress"
-                                class="w-full sm:w-auto px-6 py-2.5 bg-brand text-white rounded-lg hover:bg-brand/90 hover:shadow-md transition-all disabled:opacity-50 flex items-center justify-center gap-2 font-semibold">
+                                class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 bg-brand text-white rounded-lg hover:bg-brand/90 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm font-medium">
                                 <Loader2 v-if="isSubmittingAddress" class="w-4 h-4 animate-spin" />
-                                <span>{{ currentAddress ? 'Update Address' : 'Save Address' }}</span>
+                                <span>{{ currentAddress ? 'Update' : 'Save' }}</span>
                             </button>
                         </div>
                     </form>
@@ -495,11 +519,11 @@
                     <!-- Footer -->
                     <div class="px-4 sm:px-6 py-4 bg-gray-50 border-t border-gray-200 flex flex-col-reverse sm:flex-row justify-end gap-3">
                         <button type="button" @click="showDeleteModal = false"
-                            class="w-full sm:w-auto px-6 py-2.5 text-gray-700 font-semibold rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-all border-2 border-gray-300">
+                            class="w-full sm:w-auto px-6 py-2.5 text-gray-700 font-medium rounded-lg hover:bg-gray-100 transition-all border border-gray-300">
                             Cancel
                         </button>
                         <button type="button" @click="confirmDelete" :disabled="isSubmittingAddress"
-                            class="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-lg hover:from-red-700 hover:to-red-800 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[120px] justify-center shadow-lg shadow-red-500/30">
+                            class="w-full sm:w-auto px-6 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[120px] justify-center">
                             <Loader2 v-if="isSubmittingAddress" class="w-4 h-4 animate-spin" />
                             <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
@@ -777,30 +801,11 @@ onMounted(async () => {
 
 /* Address Card Hover Effects */
 .address-card {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.address-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--brand-color, #3b82f6), var(--brand-color-light, #60a5fa));
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-}
-
-.address-card:hover::before {
-    transform: scaleX(1);
+    transition: all 0.2s ease;
 }
 
 .address-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* Button Animations */
@@ -892,18 +897,9 @@ textarea:focus {
 
 /* Responsive Utilities */
 @media (max-width: 640px) {
-    .address-card {
-        padding: 1rem;
-    }
-
-    /* Adjust badge on small screens */
-    .badge-pulse {
-        font-size: 0.7rem;
-    }
-
     /* Better touch targets on mobile */
     button {
-        min-height: 44px;
+        min-height: 40px;
     }
 }
 
