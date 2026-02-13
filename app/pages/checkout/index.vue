@@ -287,6 +287,21 @@
                                 <div class="space-y-3 max-h-80 sm:max-h-96 overflow-y-auto custom-scrollbar">
                                     <div v-for="item in previewItems" :key="item.uuid"
                                         class="flex gap-3 p-3 rounded-2xl border-2 border-gray-100 bg-white hover:shadow-lg hover:border-gray-200 transition-all duration-300">
+                                        <!-- Product image -->
+                                        <div class="w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
+                                            <img
+                                                v-if="item.image_url"
+                                                :src="item.image_url"
+                                                :alt="item.product_name"
+                                                class="w-full h-full object-contain p-1"
+                                                loading="lazy"
+                                                @error="(e: Event) => (e.target as HTMLImageElement).style.display = 'none'"
+                                            />
+                                            <div v-else class="w-full h-full flex items-center justify-center text-gray-300">
+                                                <ShoppingCart class="w-6 h-6" />
+                                            </div>
+                                        </div>
+                                        <!-- Item details -->
                                         <div class="flex-1 min-w-0">
                                             <div class="flex justify-between items-start mb-1">
                                                 <div class="font-bold text-sm sm:text-base text-gray-900 line-clamp-2 pr-2">{{ item.product_name }}</div>
@@ -325,6 +340,59 @@
             </div>
         </footer>
 
+        <!-- Payment Dialog -->
+        <Dialog :open="showPaymentDialog" @update:open="showPaymentDialog = $event">
+            <!--
+                KHQR Card ratio 20:29 — card width 300px → height 435px
+                Header   = 12% of 435 = 52px
+                LR margin = 10% of 435 = 44px  → px-11
+                TB margin =  8% of 435 = 35px  → ~py-9
+            -->
+            <DialogContent
+                :show-close-button="false"
+                class="p-0 overflow-hidden w-75 rounded-2xl border-0 shadow-[0_0_16px_rgba(0,0,0,0.10)]"
+            >
+                <!-- Card body -->
+                <div class="bg-[#FFFFFF] flex flex-col" style="height: 435px;">
+
+                    <!-- Red Header — 52px, KHQR logo centered white -->
+                    <div
+                        class="shrink-0 flex items-center justify-center"
+                        style="background-color: #E1232E; height: 52px;"
+                    >
+                        <img src="/KHQR Logo.png" alt="KHQR" class="h-6 object-contain brightness-0 invert" />
+                    </div>
+
+                    <!-- Merchant name + USD amount — LR 44px, top 35px -->
+                    <div style="padding: 35px 44px 16px 44px;">
+                        <p class="text-xs font-medium" style="color: #000000; opacity: 0.5;">TanXLM</p>
+                        <p class="text-2xl font-bold mt-1" style="color: #000000;">
+                            $ {{ payment ? parseFloat(payment.amount).toLocaleString('en-US', { minimumFractionDigits: 2 }) : '0.00' }}
+                        </p>
+                    </div>
+
+                    <!-- Dashed divider — LR 44px -->
+                    <div style="margin: 0 44px; border-top: 1px dashed #D1D5DB;"></div>
+
+                    <!-- QR Code — LR 44px, TB 35px, fills remaining height -->
+                    <div class="flex flex-1 items-center justify-center" style="padding: 35px 44px;">
+                        <canvas ref="qrCanvas"></canvas>
+                    </div>
+
+                </div>
+
+                <!-- Cancel link below card -->
+                <div class="bg-white py-3 text-center border-t border-gray-100">
+                    <button
+                        @click="showPaymentDialog = false"
+                        class="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                        Cancel payment
+                    </button>
+                </div>
+            </DialogContent>
+        </Dialog>
+
         <!-- Toast Notifications -->
         <ToastContainer />
     </div>
@@ -332,12 +400,17 @@
 
 <script setup lang="ts">
     import { ChevronRight, ShoppingCart, MapPin, Plus, Edit2 } from 'lucide-vue-next'
-    import { computed, ref, onMounted, watch } from 'vue'
+    import { computed, ref, onMounted, nextTick, watch } from 'vue'
     import { useRouter, useRoute } from 'vue-router'
-    import { useCartStore } from '~/stores/cart'
     import { useAuthStore } from '~/stores/auth'
+    import { useCartStore } from '~/stores/cart'
+    import QRCode from 'qrcode'
     import type { CartItem } from '~/types'
     import type { Address } from '~/types/address'
+    import {
+        Dialog, DialogContent, DialogHeader,
+        DialogTitle, DialogDescription,
+    } from '@/components/ui/dialog'
 
     // Disable default layout and add custom transition
     definePageMeta({
@@ -350,8 +423,8 @@
 
     const router = useRouter()
     const route = useRoute()
-    const cartStore = useCartStore()
     const authStore = useAuthStore()
+    const cartStore = useCartStore()
     const config = useRuntimeConfig()
 
     // Checkout preview
@@ -496,75 +569,54 @@
         paymentMethod: 'khqr' // Default to KHQR
     })
 
-    // Loading state for order placement
-    const isPlacingOrder = ref(false)
+    const { isPlacingOrder, error: orderError, payment, placeOrder: submitOrder } = useCheckout()
+    const showPaymentDialog = ref(false)
+    const qrCanvas = ref<HTMLCanvasElement | null>(null)
+
+    let pollInterval: ReturnType<typeof setInterval> | null = null
 
     async function placeOrder() {
-        if (isPlacingOrder.value) return
-
-        try {
-            isPlacingOrder.value = true
-
-            // Prepare order data
-            const orderData = {
-                shipping_address: {
-                    first_name: form.value.firstName,
-                    last_name: form.value.lastName,
-                    address: form.value.address,
-                    address2: form.value.address2,
-                    city: form.value.city,
-                    province: form.value.province
-                },
-                payment_method: 'khqr',
-                items: isBuyNowMode.value && buyNowItem.value
-                    ? [{
-                        sku_uuid: buyNowItem.value.sku.uuid,
-                        quantity: buyNowItem.value.quantity,
-                        price: buyNowItem.value.sku.price
-                    }]
-                    : cartStore.items.map(item => ({
-                        sku_uuid: item.sku.uuid,
-                        quantity: item.quantity,
-                        price: item.sku.price
-                    })),
-                subtotal: subtotal.value,
-                total: total.value
-            }
-
-            // Create order via API
-            const response = await $fetch<any>(
-                `${config.public.apiBaseUrl}/api/v1/orders`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authStore.token}`
-                    },
-                    body: JSON.stringify(orderData)
-                }
-            )
-
-            // Navigate to payment page with order details
-            router.push({
-                path: '/payment',
-                query: {
-                    order_id: response.data.uuid || response.data.id,
-                    amount: total.value.toFixed(2)
-                }
-            })
-
-            // Only clear cart after successful order creation (not in Buy Now mode)
-            if (!isBuyNowMode.value) {
-                cartStore.clearCart()
-            }
-
-        } catch (error: any) {
-            console.error('Failed to create order:', error)
-            alert(error.message || 'Failed to create order. Please try again.')
-        } finally {
-            isPlacingOrder.value = false
+        if (!selectedAddress.value) {
+            alert('Please select a shipping address.')
+            return
         }
+        await submitOrder(selectedAddress.value.uuid)
+        if (orderError.value) {
+            alert(orderError.value)
+            return
+        }
+        showPaymentDialog.value = true
+        await nextTick()
+        if (payment.value?.qr_string && qrCanvas.value) {
+            await QRCode.toCanvas(qrCanvas.value, payment.value.qr_string, {
+                width: 224,
+                margin: 1,
+                color: { dark: '#000000', light: '#ffffff' }
+            })
+        }
+        startPaymentPolling()
     }
+
+    function startPaymentPolling() {
+        if (!payment.value?.uuid) return
+        pollInterval = setInterval(async () => {
+            try {
+                const api = useApi()
+                const res = await api.get<any>(`/api/v1/payments/${payment.value!.uuid}/status`)
+                const status = res.data.status
+                if (status === 'paid' || status === 'completed') {
+                    clearInterval(pollInterval!)
+                    cartStore.clearCart()
+                    showPaymentDialog.value = false
+                    router.push('/orders')
+                }
+            } catch { /* silent */ }
+        }, 3000)
+    }
+
+    onUnmounted(() => {
+        if (pollInterval) clearInterval(pollInterval)
+    })
 </script>
 
 <style scoped>
