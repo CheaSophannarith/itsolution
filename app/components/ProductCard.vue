@@ -1,6 +1,6 @@
 <template>
     <div
-        class="group relative bg-white overflow-hidden transition-all duration-300 flex flex-col h-full w-full">
+        class="group relative bg-white overflow-hidden transition-all duration-300 flex flex-col h-full w-full shadow-xs rounded-lg hover:shadow-sm">
 
         <!-- Product Image -->
         <div class="relative aspect-square bg-white overflow-hidden cursor-pointer" @click="navigateToDetail">
@@ -42,29 +42,58 @@
             </p>
 
             <!-- Price & Button -->
-            <div class="mt-auto space-y-2">
+            <div class="mt-auto space-y-3">
                 <!-- Price Display -->
-                <div class="flex items-center gap-2">
+                <div class="flex items-baseline gap-2">
                     <span class="font-bold text-lg text-gray-900">${{ formattedPrice }}</span>
                     <span v-if="product.compare_at_price" class="text-sm text-gray-400 line-through">${{ formattedComparePrice }}</span>
+                    <span v-if="discountPercent" class="ml-auto text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full">
+                        -{{ discountPercent }}%
+                    </span>
                 </div>
 
-                <!-- Add to Bag Button -->
-                <button @click="handleAddToCart" :disabled="!product.in_stock || adding || isInCart"
-                    class="w-full bg-white border-2 border-gray-200 text-gray-900 py-2.5 hover:border-gray-900 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-300 font-medium text-sm"
-                    :class="{ 'border-green-600 bg-green-50 text-green-700': isInCart }">
-                    <span v-if="adding" class="flex items-center justify-center gap-2">
-                        <span class="inline-block w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin"></span>
-                        <span>Adding...</span>
-                    </span>
-                    <span v-else-if="isInCart" class="flex items-center justify-center gap-2">
-                        <span class="text-base">✓</span>
-                        <span>Added to Cart</span>
-                    </span>
-                    <span v-else>
-                        Add to Cart
-                    </span>
-                </button>
+                <!-- Out of Stock -->
+                <div v-if="!product.in_stock"
+                    class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gray-100 text-gray-400 text-sm font-medium cursor-not-allowed select-none">
+                    <PackageX class="w-4 h-4" />
+                    Out of Stock
+                </div>
+
+                <!-- Add to Cart / In Cart Button -->
+                <template v-else>
+                    <!-- Already in cart: split button -->
+                    <div v-if="isInCart" class="flex gap-2">
+                        <div class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-500 text-white text-sm font-semibold shadow-sm shadow-emerald-200 select-none">
+                            <Check class="w-4 h-4 stroke-[2.5]" />
+                            In Cart
+                        </div>
+                        <button @click="openCartDrawer"
+                            class="px-3 py-2.5 rounded-xl border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-50 transition-colors duration-200 text-sm font-medium"
+                            title="View cart">
+                            <ShoppingCart class="w-4 h-4" />
+                        </button>
+                    </div>
+
+                    <!-- Add button with loading state -->
+                    <button v-else @click="handleAddToCart" :disabled="adding"
+                        class="w-full relative flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 overflow-hidden
+                               bg-gray-900 text-white hover:bg-gray-700 active:scale-[0.97]
+                               disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100"
+                        :aria-label="adding ? 'Adding to cart…' : 'Add to cart'">
+
+                        <!-- Shimmer on hover -->
+                        <span class="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+                        <span v-if="adding" class="flex items-center gap-2">
+                            <span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            Adding…
+                        </span>
+                        <span v-else class="flex items-center gap-2">
+                            <ShoppingCart class="w-4 h-4" />
+                            Add to Cart
+                        </span>
+                    </button>
+                </template>
             </div>
         </div>
     </div>
@@ -73,7 +102,7 @@
 <script setup lang="ts">
     import { computed, ref } from 'vue';
     import { useRouter } from 'vue-router';
-    import { Heart } from 'lucide-vue-next';
+    import { Heart, ShoppingCart, Check, PackageX } from 'lucide-vue-next';
     import type { Product } from '~/types';
     import type { ProductDetailResponse } from '~/types/models/product-detail';
 
@@ -100,6 +129,16 @@
         if (!props.product.compare_at_price) return null;
         return parseFloat(props.product.compare_at_price).toFixed(2);
     });
+
+    const discountPercent = computed(() => {
+        if (!props.product.compare_at_price) return null;
+        const orig = parseFloat(props.product.compare_at_price);
+        const curr = parseFloat(props.product.price);
+        if (!orig || orig <= curr) return null;
+        return Math.round(((orig - curr) / orig) * 100);
+    });
+
+    const { openCartDrawer } = useCartDrawer();
 
     // Check if product is already in cart
     const isInCart = computed(() => {

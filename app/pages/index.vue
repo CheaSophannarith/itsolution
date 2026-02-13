@@ -148,52 +148,6 @@
             </div>
         </div>
 
-        <!-- About Our Services Section -->
-        <div class="bg-white py-6 sm:py-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6">
-                <ClientOnly>
-                    <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
-                        <span class="text-lg sm:text-lg font-bold tracking-[0.2em] uppercase text-brand">
-                            Our Software Solutions
-                        </span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
-                        <div v-for="(item, index) in softwareServices" :key="item.id" data-aos="zoom-in"
-                            :data-aos-delay="index * 150"
-                            class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 hover:border-gray-200 hover:-translate-y-0.2">
-                            <NuxtLink :to="`/services/${item.slug}`" class="block">
-                                <div class="aspect-video overflow-hidden bg-gray-50">
-                                    <img :src="item.image" :alt="item.name"
-                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                                </div>
-                                <div class="p-6 sm:p-8">
-                                    <h3
-                                        class="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-brand transition-colors duration-300 mb-2.5">
-                                        {{ item.name }}
-                                    </h3>
-                                    <p class="text-sm sm:text-base text-gray-500 line-clamp-2 leading-relaxed">{{
-                                        item.description }}</p>
-                                    <span
-                                        class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand mt-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                                        Learn more
-                                        <ChevronRight class="w-4 h-4" />
-                                    </span>
-                                </div>
-                            </NuxtLink>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-12 sm:mt-16" data-aos="fade-up" data-aos-delay="400">
-                        <NuxtLink to="/services"
-                            class="group inline-flex items-center gap-2 bg-brand text-white px-8 py-4 rounded-2xl font-semibold hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/20 hover:scale-[1.03] transition-all duration-300 shadow-lg">
-                            View All Services
-                            <ChevronRight class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                        </NuxtLink>
-                    </div>
-                </ClientOnly>
-            </div>
-        </div>
 
         <!-- Why Choose Us Section -->
         <div class="bg-linear-to-b from-gray-50 to-white py-16 sm:py-24">
@@ -229,21 +183,11 @@
 <script setup lang="ts">
     import { ref, onUnmounted } from 'vue';
     import {
-        Monitor,
-        Cable,
-        Network,
-        Headphones,
         ChevronRight,
         Truck,
         Shield,
         Headset,
         Award,
-        Server,
-        Cloud,
-        Settings,
-        HardDrive,
-        Laptop,
-        ShoppingCart
     } from 'lucide-vue-next';
     import softwareServicesData from '~/assets/data/Service/system.json';
     import type { Product } from '~/types';
@@ -253,8 +197,6 @@
     const { featuredProducts } = useFeaturedProducts();
     const { popularCategories } = await usePopularCategories();
     const { categoriesWithProducts } = await useCategoriesWithLatestProducts(popularCategories);
-
-    const softwareServices = softwareServicesData as { id: number; name: string; description: string; image: string; slug: string }[];
 
     const whyChooseUs = [
         { title: 'Fast Shipping', description: 'Quick delivery on all orders', icon: Truck },
