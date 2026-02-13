@@ -238,49 +238,69 @@
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-lg p-4 sm:p-6 lg:sticky lg:top-6">
                         <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Order Summary</h2>
 
-                        <!-- Totals -->
-                        <div class="space-y-2 py-4 border-t border-gray-200">
-                            <div class="flex justify-between text-sm">
-                                <span>Subtotal</span>
-                                <span class="font-medium">${{ subtotal.toFixed(2) }}</span>
+                        <!-- Loading Preview -->
+                        <div v-if="isLoadingPreview" class="py-4 text-center text-sm text-gray-500">
+                            <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-brand mb-2"></div>
+                            <p>Loading order summary...</p>
+                        </div>
+
+                        <template v-else>
+                            <!-- Stock Warnings -->
+                            <div v-if="stockWarnings.length > 0" class="mb-3 space-y-1">
+                                <p v-for="warning in stockWarnings" :key="warning"
+                                    class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                                    ⚠️ {{ warning }}
+                                </p>
                             </div>
-                        </div>
 
-                        <div class="flex justify-between py-4 border-t border-gray-200">
-                            <span class="font-bold">Total</span>
-                            <span class="font-bold">${{ total.toFixed(2) }}</span>
-                        </div>
+                            <!-- Totals -->
+                            <div class="space-y-2 py-4 border-t border-gray-200">
+                                <div class="flex justify-between text-sm">
+                                    <span>Subtotal</span>
+                                    <span class="font-medium">${{ subtotal.toFixed(2) }}</span>
+                                </div>
+                                <div v-if="discountAmount > 0" class="flex justify-between text-sm text-green-600">
+                                    <span>Discount</span>
+                                    <span class="font-medium">-${{ discountAmount.toFixed(2) }}</span>
+                                </div>
+                                <div v-if="shippingAmount > 0" class="flex justify-between text-sm">
+                                    <span>Shipping</span>
+                                    <span class="font-medium">${{ shippingAmount.toFixed(2) }}</span>
+                                </div>
+                                <div v-if="taxAmount > 0" class="flex justify-between text-sm">
+                                    <span>Tax</span>
+                                    <span class="font-medium">${{ taxAmount.toFixed(2) }}</span>
+                                </div>
+                            </div>
 
-                        <!-- Cart Items -->
-                        <div class="border-t-2 border-gray-200 pt-4">
-                            <h3 class="font-bold text-lg sm:text-xl text-gray-900 mb-4 flex items-center gap-3">
-                                <ShoppingCart class="w-5 h-5 sm:w-6 sm:h-6" />
-                                {{ isBuyNowMode ? 'Your Item' : `Cart (${totalItems} ${totalItems === 1 ? 'Item' : 'Items'})` }}
-                            </h3>
-                            <div class="space-y-3 max-h-80 sm:max-h-96 overflow-y-auto custom-scrollbar">
-                                <div v-for="item in cartItems" :key="item.uuid"
-                                    class="flex gap-3 p-3 rounded-2xl border-2 border-gray-100 bg-white hover:shadow-lg hover:border-gray-200 transition-all duration-300">
-                                    <div
-                                        class="w-16 h-16 sm:w-20 sm:h-20 shrink-0 bg-gray-50/50 border-2 border-gray-100 rounded-xl overflow-hidden">
-                                        <img :src="item.sku.product.image" :alt="item.sku.product.name" class="w-full h-full object-contain p-1 sm:p-2"
-                                            loading="lazy"
-                                            @error="(e: Event) => (e.target as HTMLImageElement).src = 'https://via.placeholder.com/80x80?text=No+Image'" />
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <div class="flex justify-between items-start mb-2">
-                                            <div class="font-bold text-sm sm:text-base text-gray-900 line-clamp-2 pr-2">{{ item.sku.product.name }}</div>
-                                            <div class="font-bold text-sm sm:text-lg text-brand ml-2 shrink-0">${{ parseFloat(item.line_total).toFixed(2) }}</div>
-                                        </div>
-                                        <div class="text-xs sm:text-sm text-gray-500 space-y-1">
-                                            <p v-if="item.sku.attribute_options.length > 0" class="text-gray-600 font-medium">
-                                                {{ item.sku.attribute_options.map(o => o.label).join(' / ') }}
-                                            </p>
-                                            <p class="text-gray-500">Qty: {{ item.quantity }} × ${{ parseFloat(item.sku.price).toFixed(2) }}</p>
+                            <div class="flex justify-between py-4 border-t border-gray-200">
+                                <span class="font-bold">Total</span>
+                                <span class="font-bold">${{ total.toFixed(2) }}</span>
+                            </div>
+
+                            <!-- Items -->
+                            <div class="border-t-2 border-gray-200 pt-4">
+                                <h3 class="font-bold text-lg sm:text-xl text-gray-900 mb-4 flex items-center gap-3">
+                                    <ShoppingCart class="w-5 h-5 sm:w-6 sm:h-6" />
+                                    Items ({{ totalItems }} {{ totalItems === 1 ? 'Item' : 'Items' }})
+                                </h3>
+                                <div class="space-y-3 max-h-80 sm:max-h-96 overflow-y-auto custom-scrollbar">
+                                    <div v-for="item in previewItems" :key="item.uuid"
+                                        class="flex gap-3 p-3 rounded-2xl border-2 border-gray-100 bg-white hover:shadow-lg hover:border-gray-200 transition-all duration-300">
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex justify-between items-start mb-1">
+                                                <div class="font-bold text-sm sm:text-base text-gray-900 line-clamp-2 pr-2">{{ item.product_name }}</div>
+                                                <div class="font-bold text-sm sm:text-lg text-brand ml-2 shrink-0">${{ parseFloat(item.line_total).toFixed(2) }}</div>
+                                            </div>
+                                            <div class="text-xs sm:text-sm text-gray-500 space-y-1">
+                                                <p v-if="item.variant_name" class="text-gray-600 font-medium">{{ item.variant_name }}</p>
+                                                <p>Qty: {{ item.quantity }} × ${{ parseFloat(item.unit_price).toFixed(2) }}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -334,6 +354,20 @@
     const authStore = useAuthStore()
     const config = useRuntimeConfig()
 
+    // Checkout preview
+    const {
+        items: previewItems,
+        totalItems,
+        subtotal,
+        discountAmount,
+        shippingAmount,
+        taxAmount,
+        total,
+        stockWarnings,
+        isLoading: isLoadingPreview,
+        fetchPreview,
+    } = useCheckoutPreview()
+
     // Address management
     const { addresses, isLoading: isLoadingAddresses, fetchAddresses } = useAddresses()
     const selectedAddress = ref<Address | null>(null)
@@ -354,8 +388,8 @@
             return
         }
 
-        // Fetch addresses
-        await fetchAddresses()
+        // Fetch addresses and preview in parallel
+        await Promise.all([fetchAddresses(), fetchPreview()])
 
         // Set default address if available
         const defaultAddress = addresses.value.find(addr => addr.is_default && addr.type === 'shipping')
@@ -461,30 +495,6 @@
         province: '',
         paymentMethod: 'khqr' // Default to KHQR
     })
-
-    // Use cart store items OR buy now item
-    const cartItems = computed(() => {
-        if (isBuyNowMode.value && buyNowItem.value) {
-            return [buyNowItem.value]
-        }
-        return cartStore.items
-    })
-
-    const totalItems = computed(() => {
-        if (isBuyNowMode.value && buyNowItem.value) {
-            return buyNowItem.value.quantity
-        }
-        return cartStore.ItemCount
-    })
-
-    const subtotal = computed(() => {
-        if (isBuyNowMode.value && buyNowItem.value) {
-            return parseFloat(buyNowItem.value.line_total)
-        }
-        return cartStore.totalPrice
-    })
-
-    const total = computed(() => subtotal.value)
 
     // Loading state for order placement
     const isPlacingOrder = ref(false)
