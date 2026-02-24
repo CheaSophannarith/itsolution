@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { watch } from 'vue'
 
-const open = ref(false)
+const { open } = useCartDrawer()
 const { items, ItemCount, totalPrice, removeItem, updateQuantity, clearCart } = useCart()
 const authStore = useAuthStore()
 const router = useRouter()
