@@ -5,7 +5,8 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div class="flex items-center justify-between">
                     <!-- Back Button -->
-                    <NuxtLink to="/" class="flex items-center gap-2 text-gray-600 hover:text-brand transition-colors group">
+                    <NuxtLink to="/"
+                        class="flex items-center gap-2 text-gray-600 hover:text-brand transition-colors group">
                         <ChevronRight class="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" />
                         <span class="text-sm font-medium hidden sm:inline">Continue Shopping</span>
                         <span class="text-sm font-medium sm:hidden">Back</span>
@@ -25,7 +26,8 @@
             <!-- Title Row -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
                 <div>
-                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">{{ isBuyNowMode ? 'Quick Checkout' : 'Complete Your Order' }}</h1>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">{{ isBuyNowMode ? 'Quick Checkout' :
+                        'Complete Your Order' }}</h1>
                 </div>
             </div>
 
@@ -36,7 +38,8 @@
                         <!-- Shipping Address Section -->
                         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
                             <div class="flex items-center gap-3 mb-4">
-                                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-brand text-white text-sm font-bold shrink-0">1</span>
+                                <span
+                                    class="flex items-center justify-center w-8 h-8 rounded-full bg-brand text-white text-sm font-bold shrink-0">1</span>
                                 <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Shipping Address</h2>
                             </div>
 
@@ -51,7 +54,8 @@
                                             Default
                                         </span>
                                     </div>
-                                    <p class="text-sm text-gray-700 ml-7 mb-3">{{ selectedAddress.formatted_address }}</p>
+                                    <p class="text-sm text-gray-700 ml-7 mb-3">{{ selectedAddress.formatted_address }}
+                                    </p>
                                     <div class="ml-7">
                                         <button @click="openAddressSelector" type="button"
                                             class="text-brand hover:text-brand/80 text-sm font-medium flex items-center gap-1">
@@ -112,46 +116,57 @@
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label for="new_first_name" class="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
-                                        <input id="new_first_name" v-model="newAddressForm.first_name" type="text" required maxlength="100"
+                                        <label for="new_first_name"
+                                            class="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
+                                        <input id="new_first_name" v-model="newAddressForm.first_name" type="text"
+                                            required maxlength="100"
                                             class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
                                     </div>
                                     <div>
-                                        <label for="new_last_name" class="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
-                                        <input id="new_last_name" v-model="newAddressForm.last_name" type="text" required maxlength="100"
+                                        <label for="new_last_name"
+                                            class="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
+                                        <input id="new_last_name" v-model="newAddressForm.last_name" type="text"
+                                            required maxlength="100"
                                             class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label for="new_phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
+                                    <label for="new_phone"
+                                        class="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
                                     <input id="new_phone" v-model="newAddressForm.phone" type="tel" maxlength="20"
                                         placeholder="e.g., +855 12 345 678"
                                         class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
                                 </div>
 
                                 <div>
-                                    <label for="new_address_line_1" class="block text-sm font-semibold text-gray-700 mb-2">Street Address *</label>
-                                    <input id="new_address_line_1" v-model="newAddressForm.address_line_1" type="text" required maxlength="255"
-                                        placeholder="Street or P.O. Box"
+                                    <label for="new_address_line_1"
+                                        class="block text-sm font-semibold text-gray-700 mb-2">Street Address *</label>
+                                    <input id="new_address_line_1" v-model="newAddressForm.address_line_1" type="text"
+                                        required maxlength="255" placeholder="Street or P.O. Box"
                                         class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
                                 </div>
 
                                 <div>
-                                    <label for="new_address_line_2" class="block text-sm font-semibold text-gray-700 mb-2">Apartment, Suite, Floor</label>
-                                    <input id="new_address_line_2" v-model="newAddressForm.address_line_2" type="text" maxlength="255"
-                                        placeholder="Optional"
+                                    <label for="new_address_line_2"
+                                        class="block text-sm font-semibold text-gray-700 mb-2">Apartment, Suite,
+                                        Floor</label>
+                                    <input id="new_address_line_2" v-model="newAddressForm.address_line_2" type="text"
+                                        maxlength="255" placeholder="Optional"
                                         class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label for="new_city" class="block text-sm font-semibold text-gray-700 mb-2">City *</label>
-                                        <input id="new_city" v-model="newAddressForm.city" type="text" required maxlength="100"
+                                        <label for="new_city"
+                                            class="block text-sm font-semibold text-gray-700 mb-2">City *</label>
+                                        <input id="new_city" v-model="newAddressForm.city" type="text" required
+                                            maxlength="100"
                                             class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
                                     </div>
                                     <div>
-                                        <label for="new_state" class="block text-sm font-semibold text-gray-700 mb-2">Province *</label>
+                                        <label for="new_state"
+                                            class="block text-sm font-semibold text-gray-700 mb-2">Province *</label>
                                         <select id="new_state" v-model="newAddressForm.state"
                                             class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand bg-white transition-all duration-200 hover:border-gray-300 cursor-pointer">
                                             <option :value="null" class="text-gray-500">Select Province...</option>
@@ -186,19 +201,24 @@
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label for="new_postal_code" class="block text-sm font-semibold text-gray-700 mb-2">Postal Code *</label>
-                                        <input id="new_postal_code" v-model="newAddressForm.postal_code" type="text" required maxlength="20"
+                                        <label for="new_postal_code"
+                                            class="block text-sm font-semibold text-gray-700 mb-2">Postal Code *</label>
+                                        <input id="new_postal_code" v-model="newAddressForm.postal_code" type="text"
+                                            required maxlength="20"
                                             class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
                                     </div>
                                     <div>
-                                        <label for="new_country_code" class="block text-sm font-semibold text-gray-700 mb-2">Country Code *</label>
-                                        <input id="new_country_code" v-model="newAddressForm.country_code" type="text" required minlength="2" maxlength="2"
-                                            placeholder="KH"
+                                        <label for="new_country_code"
+                                            class="block text-sm font-semibold text-gray-700 mb-2">Country Code
+                                            *</label>
+                                        <input id="new_country_code" v-model="newAddressForm.country_code" type="text"
+                                            required minlength="2" maxlength="2" placeholder="KH"
                                             class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 uppercase" />
                                     </div>
                                 </div>
 
-                                <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-3 border-t border-gray-200">
+                                <div
+                                    class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-3 border-t border-gray-200">
                                     <button @click="cancelNewAddressForm" type="button"
                                         class="w-full sm:w-auto px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium">
                                         Cancel
@@ -212,8 +232,10 @@
                             </div>
 
                             <!-- State 4: No addresses at all, show form directly -->
-                            <div v-else-if="!selectedAddress && addresses.filter(a => a.type === 'shipping').length === 0 && !showNewAddressForm">
-                                <p class="text-sm text-gray-500 mb-3">No shipping addresses found. Add one to continue.</p>
+                            <div
+                                v-else-if="!selectedAddress && addresses.filter(a => a.type === 'shipping').length === 0 && !showNewAddressForm">
+                                <p class="text-sm text-gray-500 mb-3">No shipping addresses found. Add one to continue.
+                                </p>
                                 <button @click="openNewAddressForm" type="button"
                                     class="w-full px-4 py-3 border-2 border-dashed border-gray-300 text-gray-600 rounded-xl hover:border-brand hover:text-brand hover:bg-brand/5 transition-all font-medium flex items-center justify-center gap-2">
                                     <Plus class="w-5 h-5" />
@@ -225,7 +247,8 @@
                         <!-- Payment Section -->
                         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
                             <div class="flex items-center gap-3 mb-4">
-                                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-brand text-white text-sm font-bold shrink-0">2</span>
+                                <span
+                                    class="flex items-center justify-center w-8 h-8 rounded-full bg-brand text-white text-sm font-bold shrink-0">2</span>
                                 <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Payment Method</h2>
                             </div>
 
@@ -233,14 +256,17 @@
                                 <div class="space-y-4">
                                     <!-- Payment Method Display -->
                                     <div class="space-y-3">
-                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Payment Method</label>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Payment
+                                            Method</label>
 
                                         <!-- KHQR Option (Selected by default) -->
                                         <div
                                             class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 border-2 rounded-2xl border-brand bg-brand/5 shadow-lg">
                                             <div class="flex-1 min-w-0">
-                                                <div class="font-bold text-gray-900 text-base sm:text-lg">KHQR Payment</div>
-                                                <div class="text-sm sm:text-base text-gray-600 mt-1">Pay with any Cambodian banking app (ABA, Wing, ACLEDA, etc.)</div>
+                                                <div class="font-bold text-gray-900 text-base sm:text-lg">KHQR Payment
+                                                </div>
+                                                <div class="text-sm sm:text-base text-gray-600 mt-1">Pay with any
+                                                    Cambodian banking app (ABA, Wing, ACLEDA, etc.)</div>
                                             </div>
                                             <div class="text-3xl sm:text-4xl">🇰🇭</div>
                                         </div>
@@ -252,14 +278,17 @@
 
                         <!-- Place Order Button -->
                         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
-                            <button @click="placeOrder"
-                                :disabled="isPlacingOrder"
+                            <button @click="placeOrder" :disabled="isPlacingOrder"
                                 class="w-full bg-brand text-white px-6 py-1 sm:py-4 rounded-2xl font-bold text-lg sm:text-xl hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100">
                                 <span class="flex items-center justify-center gap-3">
                                     <ShoppingCart v-if="!isPlacingOrder" class="w-5 h-5 sm:w-6 sm:h-6" />
-                                    <svg v-else class="animate-spin h-5 w-5 sm:h-6 sm:w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    <svg v-else class="animate-spin h-5 w-5 sm:h-6 sm:w-6"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                        </path>
                                     </svg>
                                     {{ isPlacingOrder ? 'Processing...' : `Proceed to Payment - $${total.toFixed(2)}` }}
                                 </span>
@@ -275,7 +304,8 @@
 
                         <!-- Loading Preview -->
                         <div v-if="isLoadingPreview" class="py-4 text-center text-sm text-gray-500">
-                            <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-brand mb-2"></div>
+                            <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-brand mb-2">
+                            </div>
                             <p>Loading order summary...</p>
                         </div>
 
@@ -323,28 +353,30 @@
                                     <div v-for="item in previewItems" :key="item.uuid"
                                         class="flex gap-3 p-3 rounded-2xl border-2 border-gray-100 bg-white hover:shadow-lg hover:border-gray-200 transition-all duration-300">
                                         <!-- Product image -->
-                                        <div class="w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
-                                            <img
-                                                v-if="item.image_url"
-                                                :src="item.image_url"
-                                                :alt="item.product_name"
-                                                class="w-full h-full object-contain p-1"
-                                                loading="lazy"
-                                                @error="(e: Event) => (e.target as HTMLImageElement).style.display = 'none'"
-                                            />
-                                            <div v-else class="w-full h-full flex items-center justify-center text-gray-300">
+                                        <div
+                                            class="w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
+                                            <img v-if="item.image_url" :src="item.image_url" :alt="item.product_name"
+                                                class="w-full h-full object-contain p-1" loading="lazy"
+                                                @error="(e: Event) => (e.target as HTMLImageElement).style.display = 'none'" />
+                                            <div v-else
+                                                class="w-full h-full flex items-center justify-center text-gray-300">
                                                 <ShoppingCart class="w-6 h-6" />
                                             </div>
                                         </div>
                                         <!-- Item details -->
                                         <div class="flex-1 min-w-0">
                                             <div class="flex justify-between items-start mb-1">
-                                                <div class="font-bold text-sm sm:text-base text-gray-900 line-clamp-2 pr-2">{{ item.product_name }}</div>
-                                                <div class="font-bold text-sm sm:text-lg text-brand ml-2 shrink-0">${{ parseFloat(item.line_total).toFixed(2) }}</div>
+                                                <div
+                                                    class="font-bold text-sm sm:text-base text-gray-900 line-clamp-2 pr-2">
+                                                    {{ item.product_name }}</div>
+                                                <div class="font-bold text-sm sm:text-lg text-brand ml-2 shrink-0">${{
+                                                    parseFloat(item.line_total).toFixed(2) }}</div>
                                             </div>
                                             <div class="text-xs sm:text-sm text-gray-500 space-y-1">
-                                                <p v-if="item.variant_name" class="text-gray-600 font-medium">{{ item.variant_name }}</p>
-                                                <p>Qty: {{ item.quantity }} × ${{ parseFloat(item.unit_price).toFixed(2) }}</p>
+                                                <p v-if="item.variant_name" class="text-gray-600 font-medium">{{
+                                                    item.variant_name }}</p>
+                                                <p>Qty: {{ item.quantity }} × ${{ parseFloat(item.unit_price).toFixed(2)
+                                                    }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -361,7 +393,8 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
                 <!-- Footer Links -->
                 <div class="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-600 mb-4">
-                    <NuxtLink to="/terms-and-conditions" class="hover:text-brand transition-colors">Terms & Conditions</NuxtLink>
+                    <NuxtLink to="/terms-and-conditions" class="hover:text-brand transition-colors">Terms & Conditions
+                    </NuxtLink>
                     <span class="text-gray-300">|</span>
                     <NuxtLink to="/privacy-policy" class="hover:text-brand transition-colors">Privacy Policy</NuxtLink>
                     <span class="text-gray-300">|</span>
@@ -383,18 +416,14 @@
                 LR margin = 10% of 435 = 44px  → px-11
                 TB margin =  8% of 435 = 35px  → ~py-9
             -->
-            <DialogContent
-                :show-close-button="false"
-                class="p-0 overflow-hidden w-75 rounded-2xl border-0 shadow-[0_0_16px_rgba(0,0,0,0.10)]"
-            >
+            <DialogContent :show-close-button="false"
+                class="p-0 overflow-hidden w-75 rounded-2xl border-0 shadow-[0_0_16px_rgba(0,0,0,0.10)]">
                 <!-- Card body -->
                 <div class="bg-[#FFFFFF] flex flex-col" style="height: 435px;">
 
                     <!-- Red Header — 52px, KHQR logo centered white -->
-                    <div
-                        class="shrink-0 flex items-center justify-center"
-                        style="background-color: #E1232E; height: 52px;"
-                    >
+                    <div class="shrink-0 flex items-center justify-center"
+                        style="background-color: #E1232E; height: 52px;">
                         <img src="/KHQR Logo.png" alt="KHQR" class="h-6 object-contain brightness-0 invert" />
                     </div>
 
@@ -402,7 +431,10 @@
                     <div style="padding: 35px 44px 16px 44px;">
                         <p class="text-xs font-medium" style="color: #000000; opacity: 0.5;">TanXLM</p>
                         <p class="text-2xl font-bold mt-1" style="color: #000000;">
-                            $ {{ payment ? parseFloat(payment.amount).toLocaleString('en-US', { minimumFractionDigits: 2 }) : '0.00' }}
+                            $ {{ payment ? parseFloat(payment.amount).toLocaleString('en-US', {
+                                minimumFractionDigits: 2
+                            }) :
+                            '0.00' }}
                         </p>
                     </div>
 
@@ -418,10 +450,8 @@
 
                 <!-- Cancel link below card -->
                 <div class="bg-white py-3 text-center border-t border-gray-100">
-                    <button
-                        @click="showPaymentDialog = false"
-                        class="text-xs text-gray-400 hover:text-gray-600 transition-colors"
-                    >
+                    <button @click="showPaymentDialog = false"
+                        class="text-xs text-gray-400 hover:text-gray-600 transition-colors">
                         Cancel payment
                     </button>
                 </div>
@@ -705,56 +735,57 @@
 </script>
 
 <style scoped>
-/* Custom scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-}
 
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
-
-/* Line clamp utility */
-.line-clamp-1 {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* Mobile first responsive adjustments */
-@media (max-width: 640px) {
-    .sticky {
-        position: static;
+    /* Custom scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
     }
-}
 
-/* Ensure proper spacing on very small screens */
-@media (max-width: 360px) {
-    .px-4 {
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 3px;
     }
-    
-    .gap-4 {
-        gap: 0.75rem;
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
     }
-}
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
+    /* Line clamp utility */
+    .line-clamp-1 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Mobile first responsive adjustments */
+    @media (max-width: 640px) {
+        .sticky {
+            position: static;
+        }
+    }
+
+    /* Ensure proper spacing on very small screens */
+    @media (max-width: 360px) {
+        .px-4 {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+
+        .gap-4 {
+            gap: 0.75rem;
+        }
+    }
 </style>
