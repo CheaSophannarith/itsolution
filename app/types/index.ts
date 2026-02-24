@@ -7,3 +7,4 @@ export * from './models/auth';
 export * from './models/carousel';
 export * from './models/wishlist';
 export * from './models/cart';
+export * from './models/order';

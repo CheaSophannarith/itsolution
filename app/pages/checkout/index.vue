@@ -40,121 +40,121 @@
                                 <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Shipping Address</h2>
                             </div>
 
-                            <!-- Saved Address Display or Selector -->
-                            <div v-if="!useManualAddress && (selectedAddress || addresses.length > 0)" class="mb-4">
-                                <!-- Selected Address Display -->
-                                <div v-if="selectedAddress && !showAddressSelector"
-                                    class="border-2 border-brand bg-brand/5 rounded-xl p-4">
-                                    <div class="flex items-start justify-between mb-2">
-                                        <div class="flex items-center gap-2">
-                                            <MapPin class="w-5 h-5 text-brand" />
-                                            <span class="font-semibold text-gray-900">{{ selectedAddress.full_name }}</span>
-                                            <span v-if="selectedAddress.is_default"
-                                                class="px-2 py-0.5 bg-brand text-white text-xs font-medium rounded">
-                                                Default
-                                            </span>
-                                        </div>
-                                        <button @click="showAddressSelector = true" type="button"
+                            <!-- State 1: Show selected/default address -->
+                            <div v-if="selectedAddress && !showAddressSelector && !showNewAddressForm">
+                                <div class="border-2 border-brand bg-brand/5 rounded-xl p-4">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <MapPin class="w-5 h-5 text-brand shrink-0" />
+                                        <span class="font-semibold text-gray-900">{{ selectedAddress.full_name }}</span>
+                                        <span v-if="selectedAddress.is_default"
+                                            class="px-2 py-0.5 bg-brand text-white text-xs font-medium rounded">
+                                            Default
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-gray-700 ml-7 mb-3">{{ selectedAddress.formatted_address }}</p>
+                                    <div class="ml-7">
+                                        <button @click="openAddressSelector" type="button"
                                             class="text-brand hover:text-brand/80 text-sm font-medium flex items-center gap-1">
                                             <Edit2 class="w-4 h-4" />
-                                            Change
-                                        </button>
-                                    </div>
-                                    <p class="text-sm text-gray-700 ml-7">{{ selectedAddress.formatted_address }}</p>
-                                    <button @click="useNewAddress" type="button"
-                                        class="mt-3 ml-7 text-sm text-brand hover:text-brand/80 font-medium flex items-center gap-1">
-                                        <Plus class="w-4 h-4" />
-                                        Use a different address
-                                    </button>
-                                </div>
-
-                                <!-- Address Selector -->
-                                <div v-if="showAddressSelector || (!selectedAddress && addresses.length > 0)"
-                                    class="space-y-3">
-                                    <p class="text-sm font-medium text-gray-700">Select a saved address:</p>
-                                    <div class="space-y-2 max-h-60 overflow-y-auto">
-                                        <button v-for="address in addresses.filter(a => a.type === 'shipping')"
-                                            :key="address.uuid" @click="selectAddress(address)" type="button"
-                                            class="w-full text-left border-2 rounded-xl p-3 hover:border-brand hover:bg-brand/5 transition-all"
-                                            :class="selectedAddress?.uuid === address.uuid ? 'border-brand bg-brand/5' : 'border-gray-200'">
-                                            <div class="flex items-center gap-2 mb-1">
-                                                <span class="font-semibold text-gray-900">{{ address.full_name }}</span>
-                                                <span v-if="address.is_default"
-                                                    class="px-2 py-0.5 bg-brand text-white text-xs font-medium rounded">
-                                                    Default
-                                                </span>
-                                            </div>
-                                            <p class="text-sm text-gray-600">{{ address.formatted_address }}</p>
-                                        </button>
-                                    </div>
-                                    <div class="flex gap-3 pt-2">
-                                        <button @click="useNewAddress" type="button"
-                                            class="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium flex items-center justify-center gap-2">
-                                            <Plus class="w-4 h-4" />
-                                            Add New Address
-                                        </button>
-                                        <button @click="navigateToProfile" type="button"
-                                            class="flex-1 px-4 py-2 bg-brand text-white rounded-xl hover:bg-brand/90 transition-colors font-medium">
-                                            Manage Addresses
+                                            Change address
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Manual Address Form -->
-                            <div v-if="useManualAddress || !selectedAddress">
-                                <div v-if="useManualAddress" class="mb-4">
-                                    <button @click="() => { useManualAddress = false; showAddressSelector = true }" type="button"
-                                        class="text-sm text-brand hover:text-brand/80 font-medium flex items-center gap-1">
+                            <!-- State 2: Address selector list -->
+                            <div v-else-if="showAddressSelector && !showNewAddressForm" class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm font-medium text-gray-700">Select a shipping address:</p>
+                                    <button v-if="selectedAddress" @click="showAddressSelector = false" type="button"
+                                        class="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1">
                                         <ChevronRight class="w-4 h-4 rotate-180" />
-                                        Back to saved addresses
+                                        Back
                                     </button>
                                 </div>
-                                <p class="text-xs text-gray-500 mb-4">*Indicates required field</p>
-                                <div class="space-y-4">
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div>
-                                            <label for="firstName"
-                                                class="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
-                                            <input id="firstName" v-model="form.firstName" type="text"
-                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                <div class="space-y-2 max-h-64 overflow-y-auto custom-scrollbar">
+                                    <button v-for="address in addresses.filter(a => a.type === 'shipping')"
+                                        :key="address.uuid" @click="selectAddress(address)" type="button"
+                                        class="w-full text-left border-2 rounded-xl p-3 hover:border-brand hover:bg-brand/5 transition-all"
+                                        :class="selectedAddress?.uuid === address.uuid ? 'border-brand bg-brand/5' : 'border-gray-200'">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <MapPin class="w-4 h-4 shrink-0"
+                                                :class="selectedAddress?.uuid === address.uuid ? 'text-brand' : 'text-gray-400'" />
+                                            <span class="font-semibold text-gray-900">{{ address.full_name }}</span>
+                                            <span v-if="address.is_default"
+                                                class="px-2 py-0.5 bg-brand text-white text-xs font-medium rounded shrink-0">
+                                                Default
+                                            </span>
                                         </div>
-                                        <div>
-                                            <label for="lastName"
-                                                class="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
-                                            <input id="lastName" v-model="form.lastName" type="text"
-                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
-                                        </div>
+                                        <p class="text-sm text-gray-600 ml-6">{{ address.formatted_address }}</p>
+                                    </button>
+                                </div>
+                                <div class="pt-2">
+                                    <button @click="openNewAddressForm" type="button"
+                                        class="w-full px-4 py-2.5 border-2 border-dashed border-gray-300 text-gray-600 rounded-xl hover:border-brand hover:text-brand hover:bg-brand/5 transition-all font-medium flex items-center justify-center gap-2">
+                                        <Plus class="w-4 h-4" />
+                                        Add New Address
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- State 3: New address inline form -->
+                            <div v-else-if="showNewAddressForm" class="space-y-4">
+                                <div class="flex items-center justify-between pb-1 border-b border-gray-100">
+                                    <p class="text-sm font-semibold text-gray-700">New Shipping Address</p>
+                                    <button @click="cancelNewAddressForm" type="button"
+                                        class="text-sm text-gray-500 hover:text-gray-700 font-medium flex items-center gap-1">
+                                        <ChevronRight class="w-4 h-4 rotate-180" />
+                                        Back
+                                    </button>
+                                </div>
+                                <p class="text-xs text-gray-500">* Required field</p>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="new_first_name" class="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
+                                        <input id="new_first_name" v-model="newAddressForm.first_name" type="text" required maxlength="100"
+                                            class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
                                     </div>
-                                    <div class="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
-                                        <div class="sm:col-span-2">
-                                            <label for="address"
-                                                class="block text-sm font-semibold text-gray-700 mb-2">Street Address *</label>
-                                            <input id="address" v-model="form.address" type="text"
-                                                placeholder="Street or P.O. Box"
-                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
-                                        </div>
-                                        <div class="sm:col-span-2">
-                                            <label for="address2"
-                                                class="block text-sm font-semibold text-gray-700 mb-2">Apartment, Suite, Floor (Optional)</label>
-                                            <input id="address2" v-model="form.address2" type="text"
-                                                placeholder="Leave blank if P.O. Box in Address 1"
-                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
-                                        </div>
+                                    <div>
+                                        <label for="new_last_name" class="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
+                                        <input id="new_last_name" v-model="newAddressForm.last_name" type="text" required maxlength="100"
+                                            class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
                                     </div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                                        <div>
-                                            <label for="city"
-                                                class="block text-sm font-semibold text-gray-700 mb-2">City *</label>
-                                            <input id="city" v-model="form.city" type="text"
-                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
-                                        </div>
-                                        <div>
-                                            <label for="province"
-                                                class="block text-sm font-semibold text-gray-700 mb-2">Province *</label>
-                                            <select id="province" v-model="form.province"
-                                                class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand bg-white transition-all duration-200 hover:border-gray-300 cursor-pointer">
-                                                <option value="" class="text-gray-500">Select Province...</option>
+                                </div>
+
+                                <div>
+                                    <label for="new_phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
+                                    <input id="new_phone" v-model="newAddressForm.phone" type="tel" maxlength="20"
+                                        placeholder="e.g., +855 12 345 678"
+                                        class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                </div>
+
+                                <div>
+                                    <label for="new_address_line_1" class="block text-sm font-semibold text-gray-700 mb-2">Street Address *</label>
+                                    <input id="new_address_line_1" v-model="newAddressForm.address_line_1" type="text" required maxlength="255"
+                                        placeholder="Street or P.O. Box"
+                                        class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                </div>
+
+                                <div>
+                                    <label for="new_address_line_2" class="block text-sm font-semibold text-gray-700 mb-2">Apartment, Suite, Floor</label>
+                                    <input id="new_address_line_2" v-model="newAddressForm.address_line_2" type="text" maxlength="255"
+                                        placeholder="Optional"
+                                        class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="new_city" class="block text-sm font-semibold text-gray-700 mb-2">City *</label>
+                                        <input id="new_city" v-model="newAddressForm.city" type="text" required maxlength="100"
+                                            class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                    </div>
+                                    <div>
+                                        <label for="new_state" class="block text-sm font-semibold text-gray-700 mb-2">Province *</label>
+                                        <select id="new_state" v-model="newAddressForm.state"
+                                            class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand bg-white transition-all duration-200 hover:border-gray-300 cursor-pointer">
+                                            <option :value="null" class="text-gray-500">Select Province...</option>
                                             <option value="Phnom Penh">Phnom Penh</option>
                                             <option value="Siem Reap">Siem Reap</option>
                                             <option value="Battambang">Battambang</option>
@@ -180,10 +180,45 @@
                                             <option value="Kampong Chhnang">Kampong Chhnang</option>
                                             <option value="Kampong Thom">Kampong Thom</option>
                                             <option value="Preah Sihanouk">Preah Sihanouk</option>
-                                            </select>
-                                        </div>
+                                        </select>
                                     </div>
                                 </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="new_postal_code" class="block text-sm font-semibold text-gray-700 mb-2">Postal Code *</label>
+                                        <input id="new_postal_code" v-model="newAddressForm.postal_code" type="text" required maxlength="20"
+                                            class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+                                    </div>
+                                    <div>
+                                        <label for="new_country_code" class="block text-sm font-semibold text-gray-700 mb-2">Country Code *</label>
+                                        <input id="new_country_code" v-model="newAddressForm.country_code" type="text" required minlength="2" maxlength="2"
+                                            placeholder="KH"
+                                            class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 uppercase" />
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-3 border-t border-gray-200">
+                                    <button @click="cancelNewAddressForm" type="button"
+                                        class="w-full sm:w-auto px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium">
+                                        Cancel
+                                    </button>
+                                    <button @click="saveNewAddress" :disabled="isSubmittingAddress" type="button"
+                                        class="w-full sm:w-auto px-6 py-2.5 bg-brand text-white rounded-xl hover:bg-brand/90 transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50">
+                                        <Loader2 v-if="isSubmittingAddress" class="w-4 h-4 animate-spin" />
+                                        Save & Use This Address
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- State 4: No addresses at all, show form directly -->
+                            <div v-else-if="!selectedAddress && addresses.filter(a => a.type === 'shipping').length === 0 && !showNewAddressForm">
+                                <p class="text-sm text-gray-500 mb-3">No shipping addresses found. Add one to continue.</p>
+                                <button @click="openNewAddressForm" type="button"
+                                    class="w-full px-4 py-3 border-2 border-dashed border-gray-300 text-gray-600 rounded-xl hover:border-brand hover:text-brand hover:bg-brand/5 transition-all font-medium flex items-center justify-center gap-2">
+                                    <Plus class="w-5 h-5" />
+                                    Add Shipping Address
+                                </button>
                             </div>
                         </div>
 
@@ -399,14 +434,14 @@
 </template>
 
 <script setup lang="ts">
-    import { ChevronRight, ShoppingCart, MapPin, Plus, Edit2 } from 'lucide-vue-next'
+    import { ChevronRight, ShoppingCart, MapPin, Plus, Edit2, Loader2 } from 'lucide-vue-next'
     import { computed, ref, onMounted, nextTick, watch } from 'vue'
     import { useRouter, useRoute } from 'vue-router'
     import { useAuthStore } from '~/stores/auth'
     import { useCartStore } from '~/stores/cart'
     import QRCode from 'qrcode'
     import type { CartItem } from '~/types'
-    import type { Address } from '~/types/address'
+    import type { Address, AddressFormData } from '~/types/address'
     import {
         Dialog, DialogContent, DialogHeader,
         DialogTitle, DialogDescription,
@@ -442,9 +477,10 @@
     } = useCheckoutPreview()
 
     // Address management
-    const { addresses, isLoading: isLoadingAddresses, fetchAddresses } = useAddresses()
+    const { addresses, isLoading: isLoadingAddresses, isSubmitting: isSubmittingAddress, fetchAddresses, createAddress } = useAddresses()
     const selectedAddress = ref<Address | null>(null)
     const showAddressSelector = ref(false)
+    const showNewAddressForm = ref(false)
     const useManualAddress = ref(false)
 
     // Buy Now mode
@@ -468,7 +504,12 @@
         const defaultAddress = addresses.value.find(addr => addr.is_default && addr.type === 'shipping')
         if (defaultAddress) {
             selectedAddress.value = defaultAddress
-            populateFormWithAddress(defaultAddress)
+        } else {
+            // If no default, pick the first shipping address
+            const firstShipping = addresses.value.find(a => a.type === 'shipping')
+            if (firstShipping) {
+                selectedAddress.value = firstShipping
+            }
         }
 
         // Handle Buy Now mode - fetch product details directly (does NOT use cart)
@@ -524,48 +565,89 @@
         }
     })
 
-    // Helper functions for address management
-    function populateFormWithAddress(address: Address) {
-        form.value.firstName = address.first_name
-        form.value.lastName = address.last_name
-        form.value.address = address.address_line_1
-        form.value.address2 = address.address_line_2 || ''
-        form.value.city = address.city
-        form.value.province = address.state || ''
+    // New address form data (matches AddressFormData structure)
+    const newAddressForm = ref<AddressFormData>({
+        type: 'shipping',
+        first_name: '',
+        last_name: '',
+        company: null,
+        address_line_1: '',
+        address_line_2: null,
+        city: '',
+        state: null,
+        postal_code: '',
+        country_code: 'KH',
+        phone: null,
+        email: null,
+        label: null,
+        is_default: false,
+    })
+
+    function resetNewAddressForm() {
+        newAddressForm.value = {
+            type: 'shipping',
+            first_name: '',
+            last_name: '',
+            company: null,
+            address_line_1: '',
+            address_line_2: null,
+            city: '',
+            state: null,
+            postal_code: '',
+            country_code: 'KH',
+            phone: null,
+            email: null,
+            label: null,
+            is_default: false,
+        }
     }
 
+    // Helper functions for address management
     function selectAddress(address: Address) {
         selectedAddress.value = address
-        populateFormWithAddress(address)
         showAddressSelector.value = false
-        useManualAddress.value = false
+        showNewAddressForm.value = false
     }
 
-    function useNewAddress() {
-        selectedAddress.value = null
-        useManualAddress.value = true
+    function openAddressSelector() {
+        showAddressSelector.value = true
+        showNewAddressForm.value = false
+    }
+
+    function openNewAddressForm() {
+        resetNewAddressForm()
+        showNewAddressForm.value = true
         showAddressSelector.value = false
-        // Clear form
-        form.value.firstName = ''
-        form.value.lastName = ''
-        form.value.address = ''
-        form.value.address2 = ''
-        form.value.city = ''
-        form.value.province = ''
+    }
+
+    function cancelNewAddressForm() {
+        showNewAddressForm.value = false
+        // If we had a selected address, go back to showing it
+        if (selectedAddress.value) {
+            showAddressSelector.value = false
+        } else {
+            showAddressSelector.value = true
+        }
+    }
+
+    async function saveNewAddress() {
+        try {
+            const created = await createAddress(newAddressForm.value)
+            // Auto-select the newly created address
+            selectedAddress.value = created
+            showNewAddressForm.value = false
+            showAddressSelector.value = false
+        } catch {
+            // Error already handled by composable toast
+        }
     }
 
     function navigateToProfile() {
         router.push('/profile')
     }
 
-    // Form data
+    // Form data (kept for payment method only)
     const form = ref({
-        firstName: '',
-        lastName: '',
-        address: '',
-        address2: '',
-        city: '',
-        province: '',
         paymentMethod: 'khqr' // Default to KHQR
     })
 
@@ -574,6 +656,17 @@
     const qrCanvas = ref<HTMLCanvasElement | null>(null)
 
     let pollInterval: ReturnType<typeof setInterval> | null = null
+
+    // Watch for qrCanvas to be mounted (dialog transition finishes rendering)
+    watch(qrCanvas, async (canvas) => {
+        if (canvas && payment.value?.qr_string) {
+            await QRCode.toCanvas(canvas, payment.value.qr_string, {
+                width: 224,
+                margin: 1,
+                color: { dark: '#000000', light: '#ffffff' }
+            })
+        }
+    })
 
     async function placeOrder() {
         if (!selectedAddress.value) {
@@ -586,14 +679,6 @@
             return
         }
         showPaymentDialog.value = true
-        await nextTick()
-        if (payment.value?.qr_string && qrCanvas.value) {
-            await QRCode.toCanvas(qrCanvas.value, payment.value.qr_string, {
-                width: 224,
-                margin: 1,
-                color: { dark: '#000000', light: '#ffffff' }
-            })
-        }
         startPaymentPolling()
     }
 

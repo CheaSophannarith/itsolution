@@ -1,148 +1,183 @@
 <template>
-    <div class="min-h-screen bg-linear-to-br from-gray-50 via-white to-gray-50 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <!-- Page Header with Animation -->
-            <div class="mb-6 md:mb-8" data-aos="fade-down">
-                <div class="flex items-center gap-3 mb-2">
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold bg-linear-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                        My Orders
-                    </h1>
-                </div>
+    <div class="min-h-screen bg-gray-50/60 py-6 sm:py-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <!-- Page Header -->
+            <div class="mb-6 sm:mb-8" data-aos="fade-down">
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">My Orders</h1>
+                <p class="text-sm text-gray-500 mt-1">
+                    <template v-if="total > 0">{{ total }} order{{ total !== 1 ? 's' : '' }} placed</template>
+                    <template v-else>Track and manage your orders</template>
+                </p>
             </div>
 
-            <!-- Orders List with Enhanced Design -->
-            <div v-if="orders.length > 0" class="space-y-6">
-                <div v-for="(order, index) in orders" :key="order.id"
-                    class="bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all duration-300"
-                    data-aos="fade-up"
-                    :data-aos-delay="index * 100">
-                    <!-- Order Header with Gradient -->
-                    <div class="px-4 sm:px-6 py-4 sm:py-5 bg-linear-to-r from-gray-50 via-white to-gray-50 border-b border-gray-100">
-                        <!-- Mobile Layout -->
-                        <div class="block sm:hidden space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-xs text-gray-500 font-medium">Order Date</p>
-                                    <p class="font-semibold text-gray-900 text-sm">{{ formatDate(order.date) }}</p>
-                                </div>
-                                <span :class="[
-                                    'px-3 py-1.5 text-xs font-bold rounded-full shadow-sm',
-                                    getStatusColor(order.status)
-                                ]">
-                                    {{ order.status }}
-                                </span>
-                            </div>
-                            <div class="pt-2 border-t border-gray-100">
-                                <p class="text-xs text-gray-500 font-medium">Total Amount</p>
-                                <p class="font-bold text-brand text-lg">${{ order.total.toFixed(2) }}</p>
-                            </div>
+            <!-- Loading State -->
+            <div v-if="isLoading" class="space-y-4">
+                <div v-for="n in 3" :key="n"
+                    class="bg-white rounded-2xl border border-gray-100 p-5 sm:p-6 animate-pulse">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="space-y-2">
+                            <div class="h-3 w-24 bg-gray-200 rounded-full"></div>
+                            <div class="h-4 w-36 bg-gray-200 rounded-full"></div>
                         </div>
-                        
-                        <!-- Desktop Layout -->
-                        <div class="hidden sm:flex items-center justify-between gap-4">
-                            <div class="flex items-center gap-6">
-                                <div>
-                                    <p class="text-xs text-gray-500 font-medium">Order Date</p>
-                                    <p class="font-semibold text-gray-900">{{ formatDate(order.date) }}</p>
-                                </div>
-                                <div class="hidden md:block w-px h-12 bg-gray-200"></div>
-                                <div class="hidden md:block">
-                                    <p class="text-xs text-gray-500 font-medium">Total Amount</p>
-                                    <p class="font-bold text-brand">${{ order.total.toFixed(2) }}</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <span :class="[
-                                    'px-4 py-2 text-sm font-bold rounded-full shadow-sm',
-                                    getStatusColor(order.status)
-                                ]">
-                                    {{ order.status }}
-                                </span>
-                            </div>
-                        </div>
+                        <div class="h-7 w-20 bg-gray-200 rounded-full"></div>
                     </div>
-
-                    <!-- Order Items with Enhanced Design -->
-                    <div class="p-4 sm:p-6">
-                        <h3 class="text-sm font-bold text-gray-700 mb-3 sm:mb-4 flex items-center gap-2">
-                            <ShoppingCart class="w-4 h-4" />
-                            ORDER ITEMS ({{ order.items.length }})
-                        </h3>
-                        <div class="space-y-3">
-                            <div v-for="item in order.items"
-                                :key="item.id"
-                                class="flex flex-col sm:flex-row gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-linear-to-r from-gray-50 to-white border border-gray-100 hover:shadow-md hover:border-brand/20 transition-all duration-300 group">
-                                
-                                <!-- Mobile Layout -->
-                                <div class="flex gap-3 sm:hidden">
-                                    <div class="relative shrink-0">
-                                        <img :src="item.image" :alt="item.name"
-                                            class="w-16 h-16 object-cover rounded-lg border-2 border-gray-200 group-hover:border-brand/30 transition-all duration-300">
-                                        <div class="absolute -top-2 -right-2 w-5 h-5 bg-brand text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg">
-                                            {{ item.quantity }}
-                                        </div>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h3 class="font-bold text-gray-900 mb-1 text-sm group-hover:text-brand transition-colors truncate">{{ item.name }}</h3>
-                                        <p class="text-xs text-gray-600 mb-2 truncate">{{ item.variant }}</p>
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center gap-1 text-xs">
-                                                <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded-md font-medium">
-                                                    Qty: {{ item.quantity }}
-                                                </span>
-                                                <span class="text-gray-400">×</span>
-                                                <span class="text-gray-600 font-semibold">${{ item.price.toFixed(2) }}</span>
-                                            </div>
-                                            <p class="font-bold text-brand">${{ (item.price * item.quantity).toFixed(2) }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Desktop Layout -->
-                                <div class="hidden sm:flex gap-4 w-full">
-                                    <div class="relative shrink-0">
-                                        <img :src="item.image" :alt="item.name"
-                                            class="w-20 h-20 object-cover rounded-xl border-2 border-gray-200 group-hover:border-brand/30 transition-all duration-300">
-                                        <div class="absolute -top-2 -right-2 w-6 h-6 bg-brand text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg">
-                                            {{ item.quantity }}
-                                        </div>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-bold text-gray-900 mb-1 group-hover:text-brand transition-colors">{{ item.name }}</h3>
-                                        <p class="text-sm text-gray-600 mb-2">{{ item.variant }}</p>
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded-md font-medium">
-                                                Qty: {{ item.quantity }}
-                                            </span>
-                                            <span class="text-xs text-gray-400">×</span>
-                                            <span class="text-xs text-gray-600 font-semibold">${{ item.price.toFixed(2) }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-right flex flex-col justify-center">
-                                        <p class="font-bold text-lg text-brand">${{ (item.price * item.quantity).toFixed(2) }}</p>
-                                        <p class="text-xs text-gray-500">Total</p>
-                                    </div>
-                                </div>
+                    <div class="border-t border-gray-100 pt-4 space-y-3">
+                        <div class="h-3 w-32 bg-gray-100 rounded-full"></div>
+                        <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                            <div class="w-12 h-12 bg-gray-200 rounded-lg shrink-0"></div>
+                            <div class="flex-1 space-y-2">
+                                <div class="h-3.5 w-40 bg-gray-200 rounded-full"></div>
+                                <div class="h-3 w-24 bg-gray-100 rounded-full"></div>
                             </div>
+                            <div class="h-4 w-16 bg-gray-200 rounded-full"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Empty State with Enhanced Design -->
-            <div v-else class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 sm:p-12 md:p-16 text-center" data-aos="fade-up">
-                <div class="max-w-md mx-auto">
-                    <div class="w-20 h-20 sm:w-24 sm:h-24 bg-linear-to-br from-gray-100 to-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-inner">
-                        <Package class="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" />
+            <!-- Error State -->
+            <div v-else-if="error" class="bg-white rounded-2xl border border-red-100 p-8 sm:p-12 text-center"
+                data-aos="fade-up">
+                <div class="max-w-sm mx-auto">
+                    <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <AlertCircle class="w-8 h-8 text-red-400" />
                     </div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3">No Orders Found</h3>
-                    <p class="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 px-4 sm:px-0">
-                        You haven't placed any orders yet. Start shopping to see your order history here!
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Something went wrong</h3>
+                    <p class="text-sm text-gray-500 mb-6">{{ error }}</p>
+                    <button @click="fetchOrders(1)"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 bg-brand text-white text-sm font-medium rounded-xl hover:bg-brand/90 transition-colors">
+                        <RefreshCw class="w-4 h-4" />
+                        Try Again
+                    </button>
+                </div>
+            </div>
+
+            <!-- Orders List -->
+            <div v-else-if="orders.length > 0" class="space-y-4">
+                <div v-for="(order, index) in orders" :key="order.uuid"
+                    class="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:shadow-gray-100 transition-all duration-300"
+                    data-aos="fade-up" :data-aos-delay="index * 80">
+
+                    <!-- Order Header -->
+                    <div class="px-5 sm:px-6 py-4 border-b border-gray-100">
+                        <div class="flex flex-wrap items-start sm:items-center justify-between gap-3">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-5">
+                                <div>
+                                    <p class="text-[11px] uppercase tracking-wider text-gray-400 font-medium">Order</p>
+                                    <p class="font-semibold text-gray-900 text-sm">{{ order.order_number }}</p>
+                                </div>
+                                <div class="hidden sm:block w-px h-8 bg-gray-200"></div>
+                                <div>
+                                    <p class="text-[11px] uppercase tracking-wider text-gray-400 font-medium">Date</p>
+                                    <p class="text-sm text-gray-700">{{ formatDate(order.created_at) }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span :class="['order-badge', getStatusClass(order.status)]">
+                                    {{ formatStatus(order.status) }}
+                                </span>
+                                <span :class="['order-badge', getPaymentStatusClass(order.payment_status)]">
+                                    {{ formatStatus(order.payment_status) }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Items -->
+                    <div class="px-5 sm:px-6 py-4">
+                        <p class="text-[11px] uppercase tracking-wider text-gray-400 font-medium mb-3">
+                            {{ order.items.length }} Item{{ order.items.length !== 1 ? 's' : '' }}
+                        </p>
+
+                        <div class="space-y-2.5">
+                            <div v-for="item in order.items" :key="item.uuid"
+                                class="flex items-center gap-3 sm:gap-4 p-3 rounded-xl bg-gray-50/80 hover:bg-gray-50 transition-colors group">
+                                <!-- Item icon placeholder -->
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-white border border-gray-200 flex items-center justify-center shrink-0 group-hover:border-brand/30 transition-colors">
+                                    <Package
+                                        class="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 group-hover:text-brand/50 transition-colors" />
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4
+                                        class="text-sm font-semibold text-gray-900 truncate group-hover:text-brand transition-colors">
+                                        {{ item.product_name }}
+                                    </h4>
+                                    <p v-if="item.variant_name" class="text-xs text-gray-500 truncate mt-0.5">
+                                        {{ item.variant_name }}
+                                    </p>
+                                    <div class="flex items-center gap-1.5 mt-1 text-xs text-gray-400">
+                                        <span>{{ item.quantity }} × ${{ item.unit_price }}</span>
+                                    </div>
+                                </div>
+                                <div class="text-right shrink-0">
+                                    <p class="text-sm font-bold text-gray-900">${{ item.subtotal }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary Footer -->
+                    <div class="px-5 sm:px-6 py-4 bg-gray-50/50 border-t border-gray-100">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <!-- Shipping Address Preview -->
+                            <div class="flex items-start gap-2 text-xs text-gray-500">
+                                <MapPin class="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                                <span class="line-clamp-1">
+                                    {{ order.shipping_address.full_name }},
+                                    {{ order.shipping_address.address_line_1 }},
+                                    {{ order.shipping_address.city }}
+                                </span>
+                            </div>
+                            <!-- Price Summary -->
+                            <div class="flex items-center gap-4 sm:gap-6">
+                                <div v-if="parseFloat(order.discount_amount) > 0" class="text-right">
+                                    <p class="text-[10px] uppercase tracking-wider text-gray-400">Discount</p>
+                                    <p class="text-xs font-semibold text-green-600">-${{ order.discount_amount }}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[10px] uppercase tracking-wider text-gray-400">Total</p>
+                                    <p class="text-base sm:text-lg font-bold text-brand">${{ order.total }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div v-if="lastPage > 1" class="mt-8 flex justify-center">
+                    <Pagination v-model:page="paginationPage" :total="total" :items-per-page="perPage"
+                        :sibling-count="1" show-edges>
+                        <PaginationContent v-slot="{ items }" class="flex-wrap justify-center gap-1">
+                            <PaginationPrevious />
+                            <template v-for="(item, index) in items" :key="index">
+                                <PaginationItem v-if="item.type === 'page'" :value="item.value"
+                                    :is-active="item.value === currentPage">
+                                    {{ item.value }}
+                                </PaginationItem>
+                                <PaginationEllipsis v-else :index="index" />
+                            </template>
+                            <PaginationNext />
+                        </PaginationContent>
+                    </Pagination>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div v-else class="bg-white rounded-2xl border border-gray-100 p-10 sm:p-16 text-center" data-aos="fade-up">
+                <div class="max-w-xs mx-auto">
+                    <div
+                        class="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-5 rotate-3">
+                        <Package class="w-10 h-10 text-gray-300" />
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">No Orders Yet</h3>
+                    <p class="text-sm text-gray-500 mb-8 leading-relaxed">
+                        Your order history will appear here once you make your first purchase.
                     </p>
                     <NuxtLink to="/"
-                        class="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-linear-to-r from-brand to-pink-500 text-white rounded-xl hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 font-bold text-base sm:text-lg group">
-                        Start Shopping
-                        <ArrowRight class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-brand text-white rounded-xl hover:bg-brand/90 transition-colors font-semibold text-sm group">
+                        Browse Products
+                        <ArrowRight class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                     </NuxtLink>
                 </div>
             </div>
@@ -151,133 +186,108 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { MapPin, Package, DollarSign, ArrowRight, ShoppingCart } from 'lucide-vue-next'
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+    import { onMounted, watch, ref } from 'vue'
+    import { MapPin, Package, ArrowRight, AlertCircle, RefreshCw } from 'lucide-vue-next'
+    import {
+        Pagination, PaginationContent, PaginationEllipsis,
+        PaginationItem, PaginationNext, PaginationPrevious,
+    } from '~/components/ui/pagination'
+    import AOS from 'aos'
+    import 'aos/dist/aos.css'
 
-definePageMeta({
-    middleware: 'auth'
-})
-
-// Initialize AOS animations
-onMounted(() => {
-    AOS.init({
-        duration: 800,
-        once: true,
-        offset: 50
+    definePageMeta({
+        middleware: 'auth'
     })
-})
 
-// Mock data - replace with API call
-const orders = ref([
-    {
-        id: '1',
-        orderNumber: 'ORD-2024-001',
-        date: '2024-01-15',
-        status: 'Delivered',
-        items: [
-            { id: '1', name: 'Samsung Galaxy S23 Ultra', variant: '256GB, Black', quantity: 1, price: 1199.99, image: '/placeholder-product.jpg' },
-            { id: '2', name: 'Wireless Charger', variant: 'Fast Charging', quantity: 1, price: 29.99, image: '/placeholder-product.jpg' }
-        ],
-        shippingAddress: {
-            name: 'John Doe',
-            street: '123 Main Street',
-            city: 'New York',
-            state: 'NY',
-            zip: '10001',
-            phone: '+1 234-567-8900'
-        },
-        subtotal: 1229.98,
-        shipping: 15.00,
-        tax: 98.40,
-        total: 1343.38,
-        trackingNumber: 'TRK123456789'
-    },
-    {
-        id: '2',
-        orderNumber: 'ORD-2024-002',
-        date: '2024-01-20',
-        status: 'Processing',
-        items: [
-            { id: '3', name: 'Laptop Pro M2', variant: '16GB RAM, 512GB SSD', quantity: 1, price: 1899.99, image: '/placeholder-product.jpg' }
-        ],
-        shippingAddress: {
-            name: 'John Doe',
-            street: '123 Main Street',
-            city: 'New York',
-            state: 'NY',
-            zip: '10001',
-            phone: '+1 234-567-8900'
-        },
-        subtotal: 1899.99,
-        shipping: 0.00,
-        tax: 151.99,
-        total: 2051.98,
-        trackingNumber: null
-    },
-    {
-        id: '3',
-        orderNumber: 'ORD-2024-003',
-        date: '2024-01-22',
-        status: 'Shipped',
-        items: [
-            { id: '4', name: 'Mechanical Keyboard', variant: 'RGB, Cherry MX Blue', quantity: 1, price: 149.99, image: '/placeholder-product.jpg' },
-            { id: '5', name: 'Gaming Mouse', variant: 'Wireless, 16000 DPI', quantity: 1, price: 79.99, image: '/placeholder-product.jpg' },
-            { id: '6', name: 'Mouse Pad', variant: 'Extended, RGB', quantity: 1, price: 24.99, image: '/placeholder-product.jpg' }
-        ],
-        shippingAddress: {
-            name: 'John Doe',
-            street: '123 Main Street',
-            city: 'New York',
-            state: 'NY',
-            zip: '10001',
-            phone: '+1 234-567-8900'
-        },
-        subtotal: 254.97,
-        shipping: 10.00,
-        tax: 20.40,
-        total: 285.37,
-        trackingNumber: 'TRK987654321'
+    const {
+        orders, isLoading, error,
+        currentPage, lastPage, perPage, total,
+        fetchOrders, goToPage,
+    } = useOrders()
+
+    // Local page model for the Pagination component
+    const paginationPage = ref(1)
+
+    // Watch pagination component changes and fetch from server
+    watch(paginationPage, (newPage) => {
+        if (newPage !== currentPage.value) {
+            goToPage(newPage)
+        }
+    })
+
+    // Sync server page back to pagination component
+    watch(currentPage, (newPage) => {
+        paginationPage.value = newPage
+    })
+
+    onMounted(() => {
+        AOS.init({ duration: 600, once: true, offset: 30 })
+        fetchOrders()
+    })
+
+    function formatDate(dateString: string) {
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric', month: 'short', day: 'numeric',
+        })
     }
-])
 
-function getStatusColor(status: string) {
-    const colors: Record<string, string> = {
-        'Pending': 'bg-gradient-to-r from-yellow-100 to-yellow-50 text-yellow-700 border border-yellow-200',
-        'Processing': 'bg-gradient-to-r from-blue-100 to-blue-50 text-blue-700 border border-blue-200',
-        'Shipped': 'bg-gradient-to-r from-purple-100 to-purple-50 text-purple-700 border border-purple-200',
-        'Delivered': 'bg-gradient-to-r from-green-100 to-green-50 text-green-700 border border-green-200',
-        'Cancelled': 'bg-gradient-to-r from-red-100 to-red-50 text-red-700 border border-red-200'
+    function formatStatus(status: string) {
+        return status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
     }
-    return colors[status] || 'bg-gradient-to-r from-gray-100 to-gray-50 text-gray-700 border border-gray-200'
-}
 
-function formatDate(dateString: string) {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-}
+    function getStatusClass(status: string): string {
+        const map: Record<string, string> = {
+            pending: 'badge-yellow',
+            processing: 'badge-blue',
+            shipped: 'badge-purple',
+            delivered: 'badge-green',
+            completed: 'badge-green',
+            cancelled: 'badge-red',
+            refunded: 'badge-red',
+        }
+        return map[status.toLowerCase()] || 'badge-gray'
+    }
+
+    function getPaymentStatusClass(status: string): string {
+        const map: Record<string, string> = {
+            paid: 'badge-green',
+            pending: 'badge-yellow',
+            failed: 'badge-red',
+            refunded: 'badge-red',
+            expired: 'badge-gray',
+        }
+        return map[status.toLowerCase()] || 'badge-gray'
+    }
 </script>
 
 <style scoped>
-/* Hide scrollbar for Chrome, Safari and Opera */
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
-}
+    @reference '~/assets/css/tailwind.css';
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
+    .order-badge {
+        @apply px-2.5 py-1 text-[11px] font-semibold rounded-full leading-none whitespace-nowrap;
+    }
 
-/* Smooth animations */
-.group:hover .group-hover\:translate-x-1 {
-    transform: translateX(0.25rem);
-}
+    .badge-yellow {
+        @apply bg-amber-50 text-amber-700 ring-1 ring-amber-200/60;
+    }
 
-/* Custom border width */
-.border-b-3 {
-    border-bottom-width: 3px;
-}
+    .badge-blue {
+        @apply bg-blue-50 text-blue-700 ring-1 ring-blue-200/60;
+    }
+
+    .badge-purple {
+        @apply bg-purple-50 text-purple-700 ring-1 ring-purple-200/60;
+    }
+
+    .badge-green {
+        @apply bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200/60;
+    }
+
+    .badge-red {
+        @apply bg-red-50 text-red-700 ring-1 ring-red-200/60;
+    }
+
+    .badge-gray {
+        @apply bg-gray-50 text-gray-600 ring-1 ring-gray-200/60;
+    }
 </style>
