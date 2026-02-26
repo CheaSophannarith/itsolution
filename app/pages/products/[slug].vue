@@ -217,16 +217,6 @@
                                     <span class="whitespace-nowrap">{{ isAddingToCart ? 'Adding...' : 'Add to Cart'
                                         }}</span>
                                 </button>
-                                <button @click="handleBuyNow" :disabled="!selectedSku?.is_in_stock || isAddingToCart"
-                                    :class="[
-                                        'flex-1 px-3 py-3 sm:px-6 sm:py-3.5 font-bold text-xs sm:text-base lg:text-lg transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 lg:gap-3 rounded-lg sm:rounded-xl active:scale-[0.98]',
-                                        selectedSku?.is_in_stock && !isAddingToCart
-                                            ? 'bg-gray-900 text-white hover:bg-gray-800 hover:shadow-xl hover:shadow-gray-900/30 sm:hover:scale-[1.02]'
-                                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                    ]">
-                                    <ShoppingBag class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
-                                    <span class="whitespace-nowrap">Buy Now</span>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -287,7 +277,7 @@
 </template>
 
 <script setup lang="ts">
-    import { CheckCircle, ChevronLeft, ChevronRight, Info, Minus, Plus, ShoppingBag, ShoppingCart, X, XCircle } from 'lucide-vue-next';
+    import { CheckCircle, ChevronLeft, ChevronRight, Info, Minus, Plus, ShoppingCart, X, XCircle } from 'lucide-vue-next';
     import ProductCard from '~/components/ProductCard.vue';
     import {
         Breadcrumb,
@@ -431,33 +421,6 @@
         } finally {
             isAddingToCart.value = false;
         }
-    };
-
-    const handleBuyNow = async () => {
-        if (!product.value || !selectedSku.value) return;
-
-        const authStore = useAuthStore();
-        if (!authStore.isAuthenticated) {
-            // Redirect to login page with return URL
-            navigateTo({
-                path: '/signin',
-                query: { redirect: route.fullPath }
-            });
-            addToast('Please sign in to continue', 'info');
-            return;
-        }
-
-        // Navigate directly to checkout in Buy Now mode (does NOT add to cart)
-        addToast('Proceeding to checkout...', 'success');
-        navigateTo({
-            path: '/checkout',
-            query: {
-                buyNow: 'true',
-                slug: product.value.slug,
-                sku: selectedSku.value.uuid,
-                qty: quantity.value.toString()
-            }
-        });
     };
 
     // Lightbox keyboard navigation

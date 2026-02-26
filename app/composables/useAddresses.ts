@@ -6,7 +6,7 @@ export const useAddresses = () => {
     const { addToast } = useToast()
 
     const addresses = ref<Address[]>([])
-    const isLoading = ref(false)
+    const isLoading = ref(true)
     const isSubmitting = ref(false)
 
     // Fetch all addresses
