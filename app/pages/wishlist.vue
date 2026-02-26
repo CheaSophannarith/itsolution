@@ -1,125 +1,184 @@
 <template>
-    <div class="min-h-screen bg-gray-50">
-        <!-- Page Header -->
-        <div class="bg-white border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="py-6 sm:py-8">
-                    <div class="flex items-center gap-3">
-                        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">My Wishlist</h1>
+    <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 sm:py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+            <!-- Page Header -->
+            <div class="mb-8" data-aos="fade-down">
+                <div class="flex items-center gap-2 text-xs text-gray-400 mb-4 font-medium tracking-wide">
+                    <NuxtLink to="/" class="hover:text-brand transition-colors">Home</NuxtLink>
+                    <ChevronRight class="w-3 h-3" />
+                    <span class="text-gray-600">My Wishlist</span>
+                </div>
+                <div class="flex items-start sm:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">My Wishlist</h1>
+                        <p class="text-sm text-gray-500 mt-1">
+                            <template v-if="wishlistStore.totalItems > 0">
+                                {{ wishlistStore.totalItems }} item{{ wishlistStore.totalItems !== 1 ? 's' : '' }} saved
+                            </template>
+                            <template v-else>Items you love, saved for later</template>
+                        </p>
                     </div>
-                    <!-- <p class="text-gray-600 mt-2 text-sm sm:text-base">
-                        {{ wishlistStore.totalItems }} {{ wishlistStore.totalItems === 1 ? 'item' : 'items' }} saved for later
-                    </p> -->
+                    <div v-if="!wishlistStore.loading && wishlistStore.totalItems > 0"
+                        class="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-white rounded-xl border border-gray-200 shadow-sm">
+                        <Heart class="w-4 h-4 text-rose-400 fill-rose-400" />
+                        <span class="text-sm font-bold text-gray-800">{{ wishlistStore.totalItems }}</span>
+                        <span class="text-sm text-gray-500 hidden sm:inline">Saved</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Main Content -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             <!-- Loading State -->
-            <div v-if="wishlistStore.loading && !wishlistStore.initialized" class="text-center py-12">
-                <div class="inline-block w-8 h-8 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                <p class="text-gray-500 mt-4">Loading your wishlist...</p>
+            <div v-if="wishlistStore.loading && !wishlistStore.initialized">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+                    <div v-for="n in 8" :key="n"
+                        class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden animate-pulse">
+                        <div class="aspect-square bg-gray-100"></div>
+                        <div class="p-4 space-y-3">
+                            <div class="h-2.5 w-16 bg-gray-200 rounded-full"></div>
+                            <div class="h-4 w-full bg-gray-200 rounded-full"></div>
+                            <div class="h-3.5 w-3/4 bg-gray-100 rounded-full"></div>
+                            <div class="h-5 w-24 bg-gray-200 rounded-full"></div>
+                            <div class="h-9 w-full bg-gray-100 rounded-xl"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Empty State -->
-            <div v-else-if="wishlistStore.totalItems === 0" class="text-center py-12 sm:py-16">
-                <div class="w-24 h-24 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-6">
-                    <Heart class="w-12 h-12 text-gray-400" />
+            <div v-else-if="wishlistStore.totalItems === 0"
+                class="bg-white rounded-2xl border border-gray-100 shadow-sm p-12 sm:p-16 text-center"
+                data-aos="fade-up">
+                <div class="max-w-xs mx-auto">
+                    <div class="relative w-24 h-24 mx-auto mb-6">
+                        <div class="absolute inset-0 bg-rose-100/60 rounded-3xl rotate-6"></div>
+                        <div class="absolute inset-0 bg-rose-50/60 rounded-3xl -rotate-3"></div>
+                        <div class="relative w-24 h-24 bg-white border-2 border-gray-100 rounded-3xl flex items-center justify-center shadow-sm">
+                            <Heart class="w-10 h-10 text-gray-300" />
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Your Wishlist is Empty</h3>
+                    <p class="text-sm text-gray-500 mb-8 leading-relaxed">
+                        Save items you love and come back to them anytime.
+                    </p>
+                    <NuxtLink to="/"
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-brand text-white rounded-xl hover:bg-brand/90 transition-all font-semibold text-sm group shadow-sm hover:shadow-md hover:shadow-brand/20">
+                        <ShoppingBag class="w-4 h-4" />
+                        Browse Products
+                        <ArrowRight class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                    </NuxtLink>
                 </div>
-                <h2 class="text-xl sm:text-2xl font-semibold text-gray-900 mb-3">Your wishlist is empty</h2>
-                <p class="text-gray-500 mb-8 max-w-md mx-auto">
-                    Start adding products you love to your wishlist. You can save them for later or share with friends.
-                </p>
-                <NuxtLink to="/" 
-                    class="inline-flex items-center gap-2 bg-brand text-white px-6 py-3 rounded-lg font-medium hover:bg-brand/90 transition-colors">
-                    <ShoppingBag class="w-5 h-5" />
-                    Continue Shopping
-                </NuxtLink>
             </div>
 
-            <!-- Wishlist Items -->
-            <div v-else class="space-y-4">
-                <!-- Grid Layout for larger screens, Stack for mobile -->
+            <!-- Wishlist Grid -->
+            <div v-else>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-                    <div v-for="item in wishlistStore.items" :key="item.uuid"
-                        class="bg-white overflow-hidden transition-all duration-300">
+                    <div v-for="(item, index) in wishlistStore.items" :key="item.uuid"
+                        class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md hover:border-gray-200 transition-all duration-300 group flex flex-col"
+                        data-aos="fade-up" :data-aos-delay="(index % 8) * 50">
 
                         <!-- Product Image -->
-                        <div v-if="item?.product" class="relative aspect-square bg-white cursor-pointer group"
-                            @click="() => navigateToProduct(item.product.slug)">
-                            <img :src="item.product.image || '/placeholder-product.png'" :alt="item.product.name"
-                                class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" />
+                        <div v-if="item?.product"
+                            class="relative aspect-square bg-gray-50 cursor-pointer overflow-hidden"
+                            @click="navigateToProduct(item.product.slug)">
+
+                            <img :src="item.product.image || '/placeholder-product.png'"
+                                :alt="item.product.name"
+                                class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" />
+
+                            <!-- Discount Badge -->
+                            <div v-if="item.product.compare_at_price && parseFloat(item.product.compare_at_price) > parseFloat(item.product.price)"
+                                class="absolute top-2.5 left-2.5 px-2 py-0.5 bg-rose-500 text-white text-[10px] font-bold rounded-full">
+                                -{{ Math.round((1 - parseFloat(item.product.price) / parseFloat(item.product.compare_at_price)) * 100) }}%
+                            </div>
 
                             <!-- Remove Button -->
                             <button
-                                @click.stop="() => removeFromWishlist(item.product.uuid, item.product.slug)"
+                                @click.stop="removeFromWishlist(item.product.uuid, item.product.slug)"
                                 :disabled="removing === item.product.slug"
-                                class="absolute top-3 right-3 p-2 transition-all duration-300 group/remove z-10"
-                            >
-                                <X class="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 group-hover/remove:text-red-500 transition-colors drop-shadow-md" />
+                                class="absolute top-2.5 right-2.5 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm border border-gray-100 opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:border-red-200 z-10">
+                                <span v-if="removing === item.product.slug"
+                                    class="w-3.5 h-3.5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin">
+                                </span>
+                                <X v-else class="w-3.5 h-3.5 text-gray-500 hover:text-red-500 transition-colors" />
                             </button>
+
+                            <!-- Out of Stock Overlay -->
+                            <div v-if="!item.product.in_stock"
+                                class="absolute inset-0 bg-white/70 backdrop-blur-[1px] flex items-center justify-center">
+                                <span class="px-3 py-1 bg-gray-800/80 text-white text-xs font-semibold rounded-full">
+                                    Out of Stock
+                                </span>
+                            </div>
                         </div>
 
                         <!-- Product Info -->
-                        <div v-if="item?.product" class="px-4 pb-4 pt-3">
-                            <h3 class="text-base font-bold text-gray-900 mb-1 cursor-pointer hover:text-brand transition-colors duration-300 min-h-10"
-                                @click="() => navigateToProduct(item.product.slug)">
-                                {{ item.product.name }}
-                            </h3>
-
-                            <!-- Brand -->
-                            <p v-if="item.product.brand" class="text-xs text-gray-500 mb-4">
+                        <div v-if="item?.product" class="p-4 flex flex-col flex-1">
+                            <p v-if="item.product.brand" class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-1">
                                 {{ item.product.brand.name }}
                             </p>
 
-                            <!-- Price & Button -->
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-2">
-                                    <span class="font-bold text-lg text-gray-900">${{ parseFloat(item.product.price).toFixed(2) }}</span>
-                                    <span v-if="item.product.compare_at_price" class="text-sm text-gray-400 line-through">${{ parseFloat(item.product.compare_at_price).toFixed(2) }}</span>
-                                </div>
+                            <h3 class="text-sm font-semibold text-gray-800 mb-3 line-clamp-2 cursor-pointer hover:text-brand transition-colors leading-snug flex-1"
+                                @click="navigateToProduct(item.product.slug)">
+                                {{ item.product.name }}
+                            </h3>
 
-                                <button
-                                    @click="() => addToCart(item.product)"
-                                    :disabled="addingToCart === item.product.slug || isInCart(item.product.slug)"
-                                    class="w-full bg-white border-2 border-gray-200 text-gray-900 py-2.5 hover:border-gray-900 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-300 font-medium text-sm"
-                                    :class="{ 'border-green-600 bg-green-50 text-green-700': isInCart(item.product.slug) }"
-                                >
-                                    <span v-if="addingToCart === item.product.slug" class="flex items-center justify-center gap-2">
-                                        <span class="inline-block w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin"></span>
-                                        <span>Adding...</span>
-                                    </span>
-                                    <span v-else-if="isInCart(item.product.slug)" class="flex items-center justify-center gap-2">
-                                        <Check class="w-4 h-4" />
-                                        <span>In Cart</span>
-                                    </span>
-                                    <span v-else>Add to Cart</span>
-                                </button>
+                            <!-- Price -->
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-base font-extrabold text-gray-900">
+                                    ${{ parseFloat(item.product.price).toFixed(2) }}
+                                </span>
+                                <span v-if="item.product.compare_at_price && parseFloat(item.product.compare_at_price) > parseFloat(item.product.price)"
+                                    class="text-xs text-gray-400 line-through">
+                                    ${{ parseFloat(item.product.compare_at_price).toFixed(2) }}
+                                </span>
                             </div>
+
+                            <!-- Add to Cart Button -->
+                            <button
+                                @click="addToCart(item.product)"
+                                :disabled="addingToCart === item.product.slug || isInCart(item.product.slug) || !item.product.in_stock"
+                                class="w-full py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2"
+                                :class="isInCart(item.product.slug)
+                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default'
+                                    : !item.product.in_stock
+                                        ? 'bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed'
+                                        : 'bg-brand text-white hover:bg-brand/90 shadow-sm hover:shadow-md hover:shadow-brand/20'">
+                                <span v-if="addingToCart === item.product.slug"
+                                    class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin">
+                                </span>
+                                <Check v-else-if="isInCart(item.product.slug)" class="w-4 h-4" />
+                                <ShoppingCart v-else-if="item.product.in_stock" class="w-4 h-4" />
+                                <span>
+                                    {{ addingToCart === item.product.slug ? 'Adding...' : isInCart(item.product.slug) ? 'In Cart' : !item.product.in_stock ? 'Out of Stock' : 'Add to Cart' }}
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Continue Shopping Button -->
-                <div class="text-center pt-8">
-                    <NuxtLink to="/" 
-                        class="inline-flex items-center gap-2 text-brand hover:text-brand/80 font-medium transition-colors">
-                        <ArrowLeft class="w-5 h-5" />
+                <!-- Footer CTA -->
+                <div class="text-center pt-10" data-aos="fade-up">
+                    <NuxtLink to="/"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-brand transition-colors group">
+                        <ArrowLeft class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
                         Continue Shopping
                     </NuxtLink>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { Heart, X, ShoppingBag, ArrowLeft, Check } from 'lucide-vue-next';
+import { Heart, X, ShoppingBag, ShoppingCart, ArrowLeft, ArrowRight, Check, ChevronRight } from 'lucide-vue-next';
 import type { WishlistProduct } from '~/types';
 import type { ProductDetailResponse } from '~/types/models/product-detail';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 definePageMeta({
     middleware: 'auth',
@@ -130,42 +189,38 @@ const router = useRouter();
 const config = useRuntimeConfig();
 const wishlistStore = useWishlistStore();
 const cartStore = useCartStore();
-const authStore = useAuthStore();
 const { addItem } = useCart();
 const { addToast } = useToast();
 
 const removing = ref<string | null>(null);
 const addingToCart = ref<string | null>(null);
 
-// Initialize wishlist on page load
 await wishlistStore.initializeWishlist();
 
-// Check if product is in cart
+onMounted(() => {
+    AOS.init({ duration: 600, once: true, offset: 30 });
+});
+
 const isInCart = (productSlug: string) => {
     return cartStore.items.some(item => item.sku.product.slug === productSlug);
 };
 
-// Navigate to product detail page
 const navigateToProduct = (slug: string) => {
     router.push(`/products/${slug}`);
 };
 
-// Remove item from wishlist
 const removeFromWishlist = async (productUuid: string, productSlug: string) => {
     if (removing.value) return;
-
     removing.value = productSlug;
     try {
         await wishlistStore.removeItem(productUuid, productSlug);
     } catch (error) {
-        console.error('Error removing from wishlist:', error);
         addToast('Failed to remove item from wishlist', 'error');
     } finally {
         removing.value = null;
     }
 };
 
-// Add product to cart
 const addToCart = async (product: WishlistProduct) => {
     if (!product.in_stock || addingToCart.value === product.slug || isInCart(product.slug)) return;
 
@@ -180,13 +235,9 @@ const addToCart = async (product: WishlistProduct) => {
             addToast('Product is out of stock', 'error');
             return;
         }
-
         await addItem(sku.uuid, 1);
         addToast(`${detail.name} added to cart!`, 'success');
     } catch (error: any) {
-        console.error('Error adding to cart:', error);
-
-        // Check if error is due to authentication
         if (error.message?.includes('sign in')) {
             addToast('Please sign in to add items to cart', 'info');
         } else {
@@ -199,10 +250,12 @@ const addToCart = async (product: WishlistProduct) => {
 </script>
 
 <style scoped>
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
+    @reference '~/assets/css/tailwind.css';
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 </style>
