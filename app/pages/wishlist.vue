@@ -96,11 +96,11 @@
                             <button
                                 @click.stop="removeFromWishlist(item.product.uuid, item.product.slug)"
                                 :disabled="removing === item.product.slug"
-                                class="absolute top-2.5 right-2.5 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm border border-gray-100 opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:border-red-200 z-10">
+                                class="absolute top-3 right-3 p-2 transition-all duration-300 z-10">
                                 <span v-if="removing === item.product.slug"
-                                    class="w-3.5 h-3.5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin">
+                                    class="w-4 h-4 sm:w-5 sm:h-5 border-2 border-red-400 border-t-transparent rounded-full animate-spin block">
                                 </span>
-                                <X v-else class="w-3.5 h-3.5 text-gray-500 hover:text-red-500 transition-colors" />
+                                <Trash2 v-else class="w-5 h-5 sm:w-6 sm:h-6 text-red-500 drop-shadow-md transition-all duration-300 hover:scale-125" />
                             </button>
 
                             <!-- Out of Stock Overlay -->
@@ -134,25 +134,40 @@
                                 </span>
                             </div>
 
-                            <!-- Add to Cart Button -->
-                            <button
-                                @click="addToCart(item.product)"
-                                :disabled="addingToCart === item.product.slug || isInCart(item.product.slug) || !item.product.in_stock"
-                                class="w-full py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2"
-                                :class="isInCart(item.product.slug)
-                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default'
-                                    : !item.product.in_stock
-                                        ? 'bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed'
-                                        : 'bg-brand text-white hover:bg-brand/90 shadow-sm hover:shadow-md hover:shadow-brand/20'">
-                                <span v-if="addingToCart === item.product.slug"
-                                    class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin">
-                                </span>
-                                <Check v-else-if="isInCart(item.product.slug)" class="w-4 h-4" />
-                                <ShoppingCart v-else-if="item.product.in_stock" class="w-4 h-4" />
-                                <span>
-                                    {{ addingToCart === item.product.slug ? 'Adding...' : isInCart(item.product.slug) ? 'In Cart' : !item.product.in_stock ? 'Out of Stock' : 'Add to Cart' }}
-                                </span>
-                            </button>
+                            <!-- Out of Stock -->
+                            <div v-if="!item.product.in_stock"
+                                class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gray-100 text-gray-400 text-sm font-medium cursor-not-allowed select-none">
+                                <PackageX class="w-4 h-4" />
+                                Out of Stock
+                            </div>
+
+                            <template v-else>
+                                <!-- In Cart: split button -->
+                                <div v-if="isInCart(item.product.slug)" class="flex gap-2">
+                                    <div class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-500 text-white text-sm font-semibold shadow-sm shadow-emerald-200 select-none">
+                                        In Cart
+                                    </div>
+                                    <button @click="openCartDrawer"
+                                        class="px-3 py-2.5 rounded-xl border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-50 transition-colors duration-200"
+                                        title="View cart">
+                                        <ShoppingCart class="w-4 h-4" />
+                                    </button>
+                                </div>
+
+                                <!-- Add to Cart -->
+                                <button v-else @click="addToCart(item.product)" :disabled="addingToCart === item.product.slug"
+                                    class="w-full relative flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 overflow-hidden bg-gray-900 text-white hover:bg-gray-700 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100">
+                                    <span class="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                                    <span v-if="addingToCart === item.product.slug" class="flex items-center gap-2">
+                                        <span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                        Adding…
+                                    </span>
+                                    <span v-else class="flex items-center gap-2">
+                                        <ShoppingCart class="w-4 h-4" />
+                                        Add to Cart
+                                    </span>
+                                </button>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -174,7 +189,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { Heart, X, ShoppingBag, ShoppingCart, ArrowLeft, ArrowRight, Check, ChevronRight } from 'lucide-vue-next';
+import { Heart, Trash2, ShoppingBag, ShoppingCart, ArrowLeft, ArrowRight, PackageX, ChevronRight } from 'lucide-vue-next';
 import type { WishlistProduct } from '~/types';
 import type { ProductDetailResponse } from '~/types/models/product-detail';
 import AOS from 'aos';
@@ -194,6 +209,7 @@ const { addToast } = useToast();
 
 const removing = ref<string | null>(null);
 const addingToCart = ref<string | null>(null);
+const { openCartDrawer } = useCartDrawer();
 
 await wishlistStore.initializeWishlist();
 
