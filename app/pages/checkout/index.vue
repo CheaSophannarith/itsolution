@@ -25,8 +25,7 @@
             <!-- Title Row -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
                 <div>
-                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">{{ isBuyNowMode ? 'Quick Checkout' :
-                        'Complete Your Order' }}</h1>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Complete Your Order</h1>
                 </div>
             </div>
 
@@ -524,11 +523,10 @@
 <script setup lang="ts">
     import { ChevronRight, ShoppingCart, MapPin, Plus, Edit2, Loader2 } from 'lucide-vue-next'
     import { computed, ref, onMounted, nextTick, watch } from 'vue'
-    import { useRouter, useRoute } from 'vue-router'
+    import { useRouter } from 'vue-router'
     import { useAuthStore } from '~/stores/auth'
     import { useCartStore } from '~/stores/cart'
     import QRCode from 'qrcode'
-    import type { CartItem } from '~/types'
     import type { Address, AddressFormData } from '~/types/address'
     import {
         Dialog, DialogContent, DialogHeader,
@@ -545,7 +543,6 @@
     })
 
     const router = useRouter()
-    const route = useRoute()
     const authStore = useAuthStore()
     const cartStore = useCartStore()
     const config = useRuntimeConfig()
@@ -574,13 +571,6 @@
     // Page is ready only when both fetches are done
     const isPageLoading = computed(() => isLoadingAddresses.value || isLoadingPreview.value)
 
-    // Buy Now mode
-    const isBuyNowMode = computed(() => route.query.buyNow === 'true')
-    const buyNowSku = ref<string>('')
-    const buyNowQty = ref<number>(1)
-    const buyNowItem = ref<CartItem | null>(null)
-    const buyNowLoading = ref(false)
-
     // Check authentication on mount
     onMounted(async () => {
         if (!authStore.isAuthenticated) {
@@ -600,58 +590,6 @@
             const firstShipping = addresses.value.find(a => a.type === 'shipping')
             if (firstShipping) {
                 selectedAddress.value = firstShipping
-            }
-        }
-
-        // Handle Buy Now mode - fetch product details directly (does NOT use cart)
-        if (isBuyNowMode.value) {
-            buyNowLoading.value = true
-            try {
-                const slug = route.query.slug as string
-                buyNowSku.value = route.query.sku as string
-                buyNowQty.value = parseInt(route.query.qty as string) || 1
-
-                // Fetch product details
-                const res = await $fetch<any>(
-                    `${config.public.apiBaseUrl}/api/v1/products/${slug}`
-                )
-                const product = res.data
-                const sku = product.skus.find((s: any) => s.uuid === buyNowSku.value)
-
-                if (!sku) {
-                    console.error('SKU not found')
-                    router.push('/')
-                    return
-                }
-
-                // Create a mock cart item for display (not actually in cart)
-                buyNowItem.value = {
-                    uuid: 'buy-now-temp',
-                    quantity: buyNowQty.value,
-                    line_total: (parseFloat(sku.price) * buyNowQty.value).toFixed(2),
-                    sku: {
-                        uuid: sku.uuid,
-                        sku: sku.sku,
-                        name: sku.name,
-                        price: sku.price,
-                        compare_at_price: sku.compare_at_price,
-                        is_in_stock: sku.is_in_stock,
-                        stock_quantity: sku.stock_quantity,
-                        attribute_options: sku.attribute_options,
-                        product: {
-                            uuid: product.uuid,
-                            name: product.name,
-                            slug: product.slug,
-                            image: product.images.featured.thumb
-                        }
-                    },
-                    added_at: new Date().toISOString()
-                }
-            } catch (error) {
-                console.error('Failed to fetch product for Buy Now:', error)
-                router.push('/')
-            } finally {
-                buyNowLoading.value = false
             }
         }
     })
