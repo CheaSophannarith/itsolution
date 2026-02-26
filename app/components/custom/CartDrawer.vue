@@ -78,7 +78,7 @@ const handleCheckout = () => {
             </slot>
         </DrawerTrigger>
 
-        <DrawerContent class="w-full! sm:max-w-sm! md:max-w-md! lg:max-w-lg! h-full flex flex-col bg-white">
+        <DrawerContent class="w-full! sm:max-w-sm! md:max-w-sm! lg:max-w-md! h-full flex flex-col bg-white">
             <!-- Clean Minimal Header -->
             <DrawerHeader class="border-b border-gray-100 px-3 sm:px-4 py-2">
                 <div class="flex items-center justify-between">
@@ -104,20 +104,20 @@ const handleCheckout = () => {
             <!-- Beautiful Cart Items -->
             <div class="flex-1 overflow-y-auto px-3 sm:px-4 py-2 sm:py-3 beautiful-scrollbar bg-gray-50/30">
                 <!-- Beautiful Empty State -->
-                <div v-if="items.length === 0" class="flex flex-col items-center justify-center h-full min-h-[400px]">
-                    <div class="mb-6">
-                        <ShoppingCart class="w-10 h-10 sm:w-12 sm:h-12 text-blue-950 stroke-[1.5]" />
+                <div v-if="items.length === 0" class="flex flex-col items-center justify-center h-full min-h-[360px]">
+                    <div class="mb-3">
+                        <ShoppingCart class="w-9 h-9 sm:w-10 sm:h-10 text-blue-950 stroke-[1.5]" />
                     </div>
 
-                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 tracking-tight">
+                    <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-1.5 tracking-tight">
                         Your cart is empty
                     </h3>
-                    <p class="text-xs sm:text-sm text-gray-500 text-center max-w-xs mb-6 leading-relaxed">
+                    <p class="text-xs text-gray-500 text-center max-w-xs mb-4 leading-relaxed">
                         Start adding products you love and they'll appear here
                     </p>
 
                     <DrawerClose as-child>
-                        <button @click="handleDrawerClose" class="px-6 py-2.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-semibold text-xs transition-all hover:scale-105 active:scale-95 shadow-lg">
+                        <button @click="handleDrawerClose" class="px-5 py-2 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-semibold text-xs transition-all hover:scale-105 active:scale-95 shadow-md">
                             Start Shopping
                         </button>
                     </DrawerClose>
@@ -134,7 +134,7 @@ const handleCheckout = () => {
                             <!-- Premium Product Image -->
                             <NuxtLink
                                 :to="`/products/${item.sku.product.slug}`"
-                                class="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden bg-gray-50 group-hover:scale-[1.02] transition-transform duration-300"
+                                class="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden bg-gray-50 group-hover:scale-[1.02] transition-transform duration-300"
                                 @click="handleDrawerClose"
                             >
                                 <img
@@ -147,7 +147,7 @@ const handleCheckout = () => {
 
                             <!-- Product Info -->
                             <div class="flex-1 min-w-0">
-                                <div class="flex justify-between gap-2 mb-2">
+                                <div class="flex justify-between gap-2 mb-1.5">
                                     <div class="flex-1 min-w-0">
                                         <NuxtLink
                                             :to="`/products/${item.sku.product.slug}`"
@@ -173,7 +173,7 @@ const handleCheckout = () => {
                                 </div>
 
                                 <!-- Controls Row -->
-                                <div class="flex items-center justify-between gap-2 mt-2">
+                                <div class="flex items-center justify-between gap-2 mt-1.5">
                                     <!-- Clean Quantity Controls -->
                                     <div class="inline-flex items-center bg-gray-50 rounded-full border border-gray-200">
                                         <button
@@ -211,7 +211,7 @@ const handleCheckout = () => {
             </div>
 
             <!-- Premium Footer -->
-            <DrawerFooter v-if="items.length > 0" class="border-t border-gray-100 bg-white px-3 sm:px-4 py-3 sm:py-4 space-y-3">
+            <DrawerFooter v-if="items.length > 0" class="border-t border-gray-100 bg-white px-3 sm:px-4 py-2 sm:py-3 space-y-2">
                 <!-- Subtotal -->
                 <div class="flex justify-between items-center text-xs">
                     <span class="text-gray-600 font-medium">Subtotal</span>
@@ -225,11 +225,11 @@ const handleCheckout = () => {
                 </div>
 
                 <!-- Total -->
-                <div class="flex justify-between items-baseline py-2 border-t border-gray-100">
-                    <span class="text-base sm:text-lg font-bold text-gray-900">Total</span>
-                    <div class="flex items-baseline gap-1.5">
+                <div class="flex justify-between items-baseline py-1.5 border-t border-gray-100">
+                    <span class="text-sm sm:text-base font-bold text-gray-900">Total</span>
+                    <div class="flex items-baseline gap-1">
                         <span class="text-[10px] text-gray-400 font-medium uppercase tracking-wider">USD</span>
-                        <span class="text-xl sm:text-2xl font-bold text-gray-900 tabular-nums tracking-tight">
+                        <span class="text-lg sm:text-xl font-bold text-gray-900 tabular-nums tracking-tight">
                             ${{ totalPrice.toFixed(2) }}
                         </span>
                     </div>
@@ -237,7 +237,7 @@ const handleCheckout = () => {
 
                 <!-- Checkout Button -->
                 <button
-                    class="w-full bg-gray-900 hover:bg-black text-white py-2.5 sm:py-3 rounded-full font-bold text-sm sm:text-base transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group"
+                    class="w-full bg-gray-900 hover:bg-black text-white py-2 sm:py-2.5 rounded-full font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
                     @click="handleCheckout"
                 >
                     <span>Proceed to Checkout</span>

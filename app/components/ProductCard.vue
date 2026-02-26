@@ -64,7 +64,6 @@
                     <!-- Already in cart: split button -->
                     <div v-if="isInCart" class="flex gap-2">
                         <div class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-500 text-white text-sm font-semibold shadow-sm shadow-emerald-200 select-none">
-                            <Check class="w-4 h-4 stroke-[2.5]" />
                             In Cart
                         </div>
                         <button @click="openCartDrawer"

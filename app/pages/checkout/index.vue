@@ -1,8 +1,8 @@
 <template>
-    <div class="min-h-screen bg-white">
+    <div class="min-h-screen bg-gray-50">
         <!-- User-Friendly Checkout Header -->
         <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
                 <div class="flex items-center justify-between">
                     <!-- Back Button -->
                     <NuxtLink to="/"
@@ -20,22 +20,22 @@
             </div>
         </header>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
 
             <!-- Title Row -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2">
                 <div>
-                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Complete Your Order</h1>
+                    <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Complete Your Order</h1>
                 </div>
             </div>
 
             <!-- Full-page skeleton while fetching -->
             <div v-if="isPageLoading" class="flex flex-col lg:grid lg:grid-cols-12 lg:gap-6 xl:gap-8 animate-pulse">
                 <!-- Left skeleton -->
-                <div class="order-2 lg:order-1 lg:col-span-7 space-y-6">
+                <div class="order-2 lg:order-1 lg:col-span-7 space-y-4">
                     <!-- Address card -->
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
-                        <div class="flex items-center gap-3 mb-5">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-4">
+                        <div class="flex items-center gap-3 mb-4">
                             <div class="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
                             <div class="h-5 bg-gray-200 rounded w-40"></div>
                         </div>
@@ -49,23 +49,23 @@
                         </div>
                     </div>
                     <!-- Payment card -->
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
-                        <div class="flex items-center gap-3 mb-5">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-4">
+                        <div class="flex items-center gap-3 mb-4">
                             <div class="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
                             <div class="h-5 bg-gray-200 rounded w-36"></div>
                         </div>
-                        <div class="border-2 border-gray-100 rounded-xl p-4">
-                            <div class="h-16 bg-gray-200 rounded-xl"></div>
+                        <div class="border-2 border-gray-100 rounded-xl p-3">
+                            <div class="h-14 bg-gray-200 rounded-xl"></div>
                         </div>
                     </div>
                     <!-- Button -->
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
-                        <div class="h-14 bg-gray-200 rounded-2xl w-full"></div>
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-4">
+                        <div class="h-12 bg-gray-200 rounded-2xl w-full"></div>
                     </div>
                 </div>
                 <!-- Right skeleton -->
-                <div class="order-1 lg:order-2 lg:col-span-5 mb-6 lg:mb-0">
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-lg p-4 sm:p-6 space-y-4">
+                <div class="order-1 lg:order-2 lg:col-span-5 mb-4 lg:mb-0">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-lg p-3 sm:p-4 space-y-3">
                         <div class="h-6 bg-gray-200 rounded w-36"></div>
                         <div class="space-y-2 pt-4 border-t border-gray-200">
                             <div class="flex justify-between">
@@ -100,18 +100,18 @@
             <div v-else class="flex flex-col lg:grid lg:grid-cols-12 lg:gap-6 xl:gap-8">
                 <!-- Left Column - Checkout Form -->
                 <div class="order-2 lg:order-1 lg:col-span-7">
-                    <div class="space-y-6">
+                    <div class="space-y-4">
                         <!-- Shipping Address Section -->
-                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
-                            <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-5">
+                            <div class="flex items-center gap-3 mb-3">
                                 <span
-                                    class="flex items-center justify-center w-8 h-8 rounded-full bg-brand text-white text-sm font-bold shrink-0">1</span>
-                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Shipping Address</h2>
+                                    class="flex items-center justify-center w-7 h-7 rounded-full bg-brand text-white text-xs font-bold shrink-0">1</span>
+                                <h2 class="text-base sm:text-lg font-bold text-gray-900">Shipping Address</h2>
                             </div>
 
                             <!-- State 1: Show selected/default address -->
                             <div v-if="selectedAddress && !showAddressSelector && !showNewAddressForm">
-                                <div class="border-2 border-brand bg-brand/5 rounded-xl p-4">
+                                <div class="border-2 border-brand bg-brand/5 rounded-xl p-3">
                                     <div class="flex items-center gap-2 mb-2">
                                         <MapPin class="w-5 h-5 text-brand shrink-0" />
                                         <span class="font-semibold text-gray-900">{{ selectedAddress.full_name }}</span>
@@ -145,7 +145,7 @@
                                 <div class="space-y-2 max-h-64 overflow-y-auto custom-scrollbar">
                                     <button v-for="address in addresses.filter(a => a.type === 'shipping')"
                                         :key="address.uuid" @click="selectAddress(address)" type="button"
-                                        class="w-full text-left border-2 rounded-xl p-3 hover:border-brand hover:bg-brand/5 transition-all"
+                                        class="w-full text-left border-2 rounded-xl p-2.5 hover:border-brand hover:bg-brand/5 transition-all"
                                         :class="selectedAddress?.uuid === address.uuid ? 'border-brand bg-brand/5' : 'border-gray-200'">
                                         <div class="flex items-center gap-2 mb-1">
                                             <MapPin class="w-4 h-4 shrink-0"
@@ -311,11 +311,11 @@
                         </div>
 
                         <!-- Payment Section -->
-                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
-                            <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-5">
+                            <div class="flex items-center gap-3 mb-3">
                                 <span
-                                    class="flex items-center justify-center w-8 h-8 rounded-full bg-brand text-white text-sm font-bold shrink-0">2</span>
-                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Payment Method</h2>
+                                    class="flex items-center justify-center w-7 h-7 rounded-full bg-brand text-white text-xs font-bold shrink-0">2</span>
+                                <h2 class="text-base sm:text-lg font-bold text-gray-900">Payment Method</h2>
                             </div>
 
                             <div>
@@ -327,14 +327,14 @@
 
                                         <!-- KHQR Option (Selected by default) -->
                                         <div
-                                            class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 border-2 rounded-2xl border-brand bg-brand/5 shadow-lg">
+                                            class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-3 border-2 rounded-xl border-brand bg-brand/5 shadow-sm">
                                             <div class="flex-1 min-w-0">
-                                                <div class="font-bold text-gray-900 text-base sm:text-lg">KHQR Payment
+                                                <div class="font-bold text-gray-900 text-sm sm:text-base">KHQR Payment
                                                 </div>
-                                                <div class="text-sm sm:text-base text-gray-600 mt-1">Pay with any
+                                                <div class="text-xs sm:text-sm text-gray-600 mt-0.5">Pay with any
                                                     Cambodian banking app (ABA, Wing, ACLEDA, etc.)</div>
                                             </div>
-                                            <div class="text-3xl sm:text-4xl">🇰🇭</div>
+                                            <div class="text-2xl sm:text-3xl">🇰🇭</div>
                                         </div>
 
                                     </div>
@@ -343,9 +343,9 @@
                         </div>
 
                         <!-- Place Order Button -->
-                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-4">
                             <button @click="placeOrder" :disabled="isPlacingOrder"
-                                class="w-full bg-brand text-white px-6 py-1 sm:py-4 rounded-2xl font-bold text-lg sm:text-xl hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100">
+                                class="w-full bg-brand text-white px-6 py-3 rounded-2xl font-bold text-base sm:text-lg hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/25 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100">
                                 <span class="flex items-center justify-center gap-3">
                                     <ShoppingCart v-if="!isPlacingOrder" class="w-5 h-5 sm:w-6 sm:h-6" />
                                     <svg v-else class="animate-spin h-5 w-5 sm:h-6 sm:w-6"
@@ -364,20 +364,20 @@
                 </div>
 
                 <!-- Right Column - Summary -->
-                <div class="order-1 lg:order-2 lg:col-span-5 mb-6 lg:mb-0">
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-lg p-4 sm:p-6 lg:sticky lg:top-6">
-                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Order Summary</h2>
+                <div class="order-1 lg:order-2 lg:col-span-5 mb-4 lg:mb-0">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-lg p-3 sm:p-5 lg:sticky lg:top-[52px]">
+                        <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-3">Order Summary</h2>
 
                         <!-- Stock Warnings -->
-                            <div v-if="stockWarnings.length > 0" class="mb-3 space-y-1">
+                            <div v-if="stockWarnings.length > 0" class="mb-2 space-y-1">
                                 <p v-for="warning in stockWarnings" :key="warning"
-                                    class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                                    class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">
                                     ⚠️ {{ warning }}
                                 </p>
                             </div>
 
                             <!-- Totals -->
-                            <div class="space-y-2 py-4 border-t border-gray-200">
+                            <div class="space-y-1.5 py-3 border-t border-gray-200">
                                 <div class="flex justify-between text-sm">
                                     <span>Subtotal</span>
                                     <span class="font-medium">${{ subtotal.toFixed(2) }}</span>
@@ -396,23 +396,23 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-between py-4 border-t border-gray-200">
-                                <span class="font-bold">Total</span>
-                                <span class="font-bold">${{ total.toFixed(2) }}</span>
+                            <div class="flex justify-between py-3 border-t border-gray-200">
+                                <span class="font-bold text-sm">Total</span>
+                                <span class="font-bold text-sm">${{ total.toFixed(2) }}</span>
                             </div>
 
                             <!-- Items -->
-                            <div class="border-t-2 border-gray-200 pt-4">
-                                <h3 class="font-bold text-lg sm:text-xl text-gray-900 mb-4 flex items-center gap-3">
-                                    <ShoppingCart class="w-5 h-5 sm:w-6 sm:h-6" />
+                            <div class="border-t-2 border-gray-200 pt-3">
+                                <h3 class="font-semibold text-sm text-gray-900 mb-2.5 flex items-center gap-2">
+                                    <ShoppingCart class="w-4 h-4" />
                                     Items ({{ totalItems }} {{ totalItems === 1 ? 'Item' : 'Items' }})
                                 </h3>
-                                <div class="space-y-3 max-h-80 sm:max-h-96 overflow-y-auto custom-scrollbar">
+                                <div class="space-y-2 max-h-64 sm:max-h-80 overflow-y-auto custom-scrollbar">
                                     <div v-for="item in previewItems" :key="item.uuid"
-                                        class="flex gap-3 p-3 rounded-2xl border-2 border-gray-100 bg-white hover:shadow-lg hover:border-gray-200 transition-all duration-300">
+                                        class="flex gap-2.5 p-2.5 rounded-xl border border-gray-100 bg-white hover:shadow-sm hover:border-gray-200 transition-all duration-200">
                                         <!-- Product image -->
                                         <div
-                                            class="w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
+                                            class="w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-gray-50 border border-gray-100">
                                             <img v-if="item.image_url" :src="item.image_url" :alt="item.product_name"
                                                 class="w-full h-full object-contain p-1" loading="lazy"
                                                 @error="(e: Event) => (e.target as HTMLImageElement).style.display = 'none'" />
@@ -423,15 +423,15 @@
                                         </div>
                                         <!-- Item details -->
                                         <div class="flex-1 min-w-0">
-                                            <div class="flex justify-between items-start mb-1">
+                                            <div class="flex justify-between items-start mb-0.5">
                                                 <div
-                                                    class="font-bold text-sm sm:text-base text-gray-900 line-clamp-2 pr-2">
+                                                    class="font-semibold text-xs sm:text-sm text-gray-900 line-clamp-2 pr-1">
                                                     {{ item.product_name }}</div>
-                                                <div class="font-bold text-sm sm:text-lg text-brand ml-2 shrink-0">${{
+                                                <div class="font-bold text-xs sm:text-sm text-brand ml-1.5 shrink-0">${{
                                                     parseFloat(item.line_total).toFixed(2) }}</div>
                                             </div>
-                                            <div class="text-xs sm:text-sm text-gray-500 space-y-1">
-                                                <p v-if="item.variant_name" class="text-gray-600 font-medium">{{
+                                            <div class="text-xs text-gray-500 space-y-0.5">
+                                                <p v-if="item.variant_name" class="text-gray-600">{{
                                                     item.variant_name }}</p>
                                                 <p>Qty: {{ item.quantity }} × ${{ parseFloat(item.unit_price).toFixed(2)
                                                     }}</p>
@@ -446,10 +446,10 @@
         </div>
 
         <!-- Professional Checkout Footer -->
-        <footer class="bg-white border-t border-gray-200 mt-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+        <footer class="bg-white border-t border-gray-200 mt-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <!-- Footer Links -->
-                <div class="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-600 mb-4">
+                <div class="flex flex-wrap justify-center items-center gap-4 text-xs text-gray-500 mb-2.5">
                     <NuxtLink to="/terms-and-conditions" class="hover:text-brand transition-colors">Terms & Conditions
                     </NuxtLink>
                     <span class="text-gray-300">|</span>
@@ -459,7 +459,7 @@
                 </div>
 
                 <!-- Copyright -->
-                <div class="text-center text-sm text-gray-500">
+                <div class="text-center text-xs text-gray-400">
                     © {{ new Date().getFullYear() }} TanXLM. All rights reserved.
                 </div>
             </div>
@@ -566,7 +566,6 @@
     const selectedAddress = ref<Address | null>(null)
     const showAddressSelector = ref(false)
     const showNewAddressForm = ref(false)
-    const useManualAddress = ref(false)
 
     // Page is ready only when both fetches are done
     const isPageLoading = computed(() => isLoadingAddresses.value || isLoadingPreview.value)
