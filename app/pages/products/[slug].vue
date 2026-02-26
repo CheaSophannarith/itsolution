@@ -41,39 +41,43 @@
 
             <!-- Main Content -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-14">
-                <div class="flex flex-col lg:flex-row gap-8 lg:gap-16" data-aos="fade-up">
+                <div class="flex flex-col lg:flex-row gap-8 lg:gap-12" data-aos="fade-up">
 
                     <!-- Left: Product Image -->
-                    <div class="lg:w-[55%]">
+                    <div class="lg:w-[48%] flex flex-col gap-3">
+
                         <!-- Main Image -->
                         <div
-                            class="bg-gray-50 rounded-2xl sm:rounded-3xl cursor-zoom-in overflow-hidden aspect-square"
+                            class="bg-white rounded-xl cursor-zoom-in overflow-hidden aspect-[4/3] border border-gray-300"
                             @click="openLightbox(activeImageIndex)"
                         >
                             <img
                                 :src="allImages[activeImageIndex]?.original"
                                 :alt="product.name"
-                                class="w-full h-full object-contain p-6 sm:p-8 hover:scale-105 transition-transform duration-500"
+                                class="w-full h-full object-contain p-3 sm:p-5 hover:scale-105 transition-transform duration-500"
                             />
                         </div>
 
-                        <!-- Thumbnails -->
-                        <div v-if="allImages.length > 1" class="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                        <!-- Thumbnail Strip — bottom -->
+                        <div
+                            v-if="allImages.length > 1"
+                            class="flex gap-2 overflow-x-auto scrollbar-hide"
+                        >
                             <button
                                 v-for="(image, index) in allImages"
                                 :key="index"
                                 @click="activeImageIndex = index"
                                 :class="[
-                                    'w-16 h-16 sm:w-20 sm:h-20 rounded-xl shrink-0 overflow-hidden border-2 transition-all duration-200 bg-gray-50',
+                                    'w-20 h-20 sm:w-24 sm:h-24 rounded-lg shrink-0 overflow-hidden border-2 transition-all duration-200 bg-white',
                                     activeImageIndex === index
-                                        ? 'border-gray-900'
-                                        : 'border-transparent hover:border-gray-200'
+                                        ? 'border-gray-800'
+                                        : 'border-gray-300 hover:border-gray-500'
                                 ]"
                             >
                                 <img
                                     :src="image.thumb"
                                     :alt="`${product.name} - ${index + 1}`"
-                                    class="w-full h-full object-contain p-2"
+                                    class="w-full h-full object-contain p-1.5"
                                 />
                             </button>
                         </div>
@@ -107,7 +111,7 @@
                     </Teleport>
 
                     <!-- Right: Product Info -->
-                    <div class="lg:w-[45%] lg:sticky lg:top-20 lg:self-start space-y-5">
+                    <div class="lg:w-[45%] space-y-5">
 
                         <!-- Brand -->
                         <p class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400">{{ product.brand.name }}</p>
@@ -151,7 +155,7 @@
                                     @click="selectedSkuUuid = sku.uuid"
                                     :class="[
                                         'px-4 py-1.5 text-sm font-semibold rounded-full border-2 transition-all duration-200',
-                                        selectedSkuUuid === sku.uuid
+                                        selectedSku?.uuid === sku.uuid
                                             ? 'border-gray-900 bg-gray-900 text-white'
                                             : 'border-gray-200 text-gray-700 hover:border-gray-400 bg-white'
                                     ]"
