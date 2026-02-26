@@ -16,7 +16,6 @@
                     <NuxtLink to="/" class="absolute left-1/2 -translate-x-1/2">
                         <img src="/logo.png" alt="TanXLM" class="h-8 sm:h-10 hover:opacity-80 transition-opacity" />
                     </NuxtLink>
-
                 </div>
             </div>
         </header>
@@ -31,7 +30,75 @@
                 </div>
             </div>
 
-            <div class="flex flex-col lg:grid lg:grid-cols-12 lg:gap-6 xl:gap-8">
+            <!-- Full-page skeleton while fetching -->
+            <div v-if="isPageLoading" class="flex flex-col lg:grid lg:grid-cols-12 lg:gap-6 xl:gap-8 animate-pulse">
+                <!-- Left skeleton -->
+                <div class="order-2 lg:order-1 lg:col-span-7 space-y-6">
+                    <!-- Address card -->
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+                            <div class="h-5 bg-gray-200 rounded w-40"></div>
+                        </div>
+                        <div class="border-2 border-gray-100 rounded-xl p-4 space-y-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-5 h-5 bg-gray-200 rounded-full shrink-0"></div>
+                                <div class="h-4 bg-gray-200 rounded w-36"></div>
+                            </div>
+                            <div class="h-3 bg-gray-200 rounded w-56 ml-7"></div>
+                            <div class="h-3 bg-gray-200 rounded w-24 ml-7"></div>
+                        </div>
+                    </div>
+                    <!-- Payment card -->
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+                            <div class="h-5 bg-gray-200 rounded w-36"></div>
+                        </div>
+                        <div class="border-2 border-gray-100 rounded-xl p-4">
+                            <div class="h-16 bg-gray-200 rounded-xl"></div>
+                        </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+                        <div class="h-14 bg-gray-200 rounded-2xl w-full"></div>
+                    </div>
+                </div>
+                <!-- Right skeleton -->
+                <div class="order-1 lg:order-2 lg:col-span-5 mb-6 lg:mb-0">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-lg p-4 sm:p-6 space-y-4">
+                        <div class="h-6 bg-gray-200 rounded w-36"></div>
+                        <div class="space-y-2 pt-4 border-t border-gray-200">
+                            <div class="flex justify-between">
+                                <div class="h-3 bg-gray-200 rounded w-20"></div>
+                                <div class="h-3 bg-gray-200 rounded w-16"></div>
+                            </div>
+                            <div class="flex justify-between">
+                                <div class="h-3 bg-gray-200 rounded w-16"></div>
+                                <div class="h-3 bg-gray-200 rounded w-12"></div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between pt-4 border-t border-gray-200">
+                            <div class="h-4 bg-gray-200 rounded w-12"></div>
+                            <div class="h-4 bg-gray-200 rounded w-20"></div>
+                        </div>
+                        <div class="space-y-3 pt-4 border-t-2 border-gray-200">
+                            <div class="h-5 bg-gray-200 rounded w-28"></div>
+                            <div v-for="i in 2" :key="i" class="flex gap-3 p-3 rounded-2xl border-2 border-gray-100">
+                                <div class="w-16 h-16 bg-gray-200 rounded-xl shrink-0"></div>
+                                <div class="flex-1 space-y-2 pt-1">
+                                    <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                                    <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                                    <div class="h-3 bg-gray-200 rounded w-1/3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real content once everything is loaded -->
+            <div v-else class="flex flex-col lg:grid lg:grid-cols-12 lg:gap-6 xl:gap-8">
                 <!-- Left Column - Checkout Form -->
                 <div class="order-2 lg:order-1 lg:col-span-7">
                     <div class="space-y-6">
@@ -302,15 +369,7 @@
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-lg p-4 sm:p-6 lg:sticky lg:top-6">
                         <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Order Summary</h2>
 
-                        <!-- Loading Preview -->
-                        <div v-if="isLoadingPreview" class="py-4 text-center text-sm text-gray-500">
-                            <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-brand mb-2">
-                            </div>
-                            <p>Loading order summary...</p>
-                        </div>
-
-                        <template v-else>
-                            <!-- Stock Warnings -->
+                        <!-- Stock Warnings -->
                             <div v-if="stockWarnings.length > 0" class="mb-3 space-y-1">
                                 <p v-for="warning in stockWarnings" :key="warning"
                                     class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
@@ -382,7 +441,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </template>
                     </div>
                 </div>
             </div>
@@ -512,6 +570,9 @@
     const showAddressSelector = ref(false)
     const showNewAddressForm = ref(false)
     const useManualAddress = ref(false)
+
+    // Page is ready only when both fetches are done
+    const isPageLoading = computed(() => isLoadingAddresses.value || isLoadingPreview.value)
 
     // Buy Now mode
     const isBuyNowMode = computed(() => route.query.buyNow === 'true')
