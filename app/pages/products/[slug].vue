@@ -22,12 +22,14 @@
                                 <template v-for="crumb in primaryCategory.breadcrumbs" :key="crumb.uuid">
                                     <BreadcrumbSeparator />
                                     <BreadcrumbItem>
-                                        <BreadcrumbLink :href="`/categories/${crumb.slug}`">{{ crumb.name }}</BreadcrumbLink>
+                                        <BreadcrumbLink :href="`/categories/${crumb.slug}`">{{ crumb.name }}
+                                        </BreadcrumbLink>
                                     </BreadcrumbItem>
                                 </template>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
-                                    <BreadcrumbLink :href="`/categories/${primaryCategory.slug}`">{{ primaryCategory.name }}</BreadcrumbLink>
+                                    <BreadcrumbLink :href="`/categories/${primaryCategory.slug}`">{{
+                                        primaryCategory.name }}</BreadcrumbLink>
                                 </BreadcrumbItem>
                             </template>
                             <BreadcrumbSeparator />
@@ -47,38 +49,23 @@
                     <div class="lg:w-[48%] flex flex-col gap-3">
 
                         <!-- Main Image -->
-                        <div
-                            class="bg-white rounded-xl cursor-zoom-in overflow-hidden aspect-[4/3] border border-gray-300"
-                            @click="openLightbox(activeImageIndex)"
-                        >
-                            <img
-                                :src="allImages[activeImageIndex]?.original"
-                                :alt="product.name"
-                                class="w-full h-full object-contain p-3 sm:p-5 hover:scale-105 transition-transform duration-500"
-                            />
+                        <div class="bg-white rounded-xl cursor-zoom-in overflow-hidden aspect-[4/3] border border-gray-300"
+                            @click="openLightbox(activeImageIndex)">
+                            <img :src="allImages[activeImageIndex]?.original" :alt="product.name"
+                                class="w-full h-full object-contain p-3 sm:p-5 hover:scale-105 transition-transform duration-500" />
                         </div>
 
                         <!-- Thumbnail Strip — bottom -->
-                        <div
-                            v-if="allImages.length > 1"
-                            class="flex gap-2 overflow-x-auto scrollbar-hide"
-                        >
-                            <button
-                                v-for="(image, index) in allImages"
-                                :key="index"
-                                @click="activeImageIndex = index"
+                        <div v-if="allImages.length > 1" class="flex gap-2 overflow-x-auto scrollbar-hide">
+                            <button v-for="(image, index) in allImages" :key="index" @click="activeImageIndex = index"
                                 :class="[
                                     'w-20 h-20 sm:w-24 sm:h-24 rounded-lg shrink-0 overflow-hidden border-2 transition-all duration-200 bg-white',
                                     activeImageIndex === index
                                         ? 'border-gray-800'
                                         : 'border-gray-300 hover:border-gray-500'
-                                ]"
-                            >
-                                <img
-                                    :src="image.thumb"
-                                    :alt="`${product.name} - ${index + 1}`"
-                                    class="w-full h-full object-contain p-1.5"
-                                />
+                                ]">
+                                <img :src="image.thumb" :alt="`${product.name} - ${index + 1}`"
+                                    class="w-full h-full object-contain p-1.5" />
                             </button>
                         </div>
                     </div>
@@ -103,8 +90,11 @@
                                     class="absolute right-6 text-white/80 hover:text-white z-10 bg-white/10 hover:bg-white/20 rounded-full p-4 transition-all duration-300 backdrop-blur-md hover:scale-110">
                                     <ChevronRight class="w-8 h-8" />
                                 </button>
-                                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
-                                    <span class="text-white text-sm font-semibold">{{ lightboxIndex + 1 }} / {{ allImages.length }}</span>
+                                <div
+                                    class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                                    <span class="text-white text-sm font-semibold">{{ lightboxIndex + 1 }} / {{
+                                        allImages.length
+                                        }}</span>
                                 </div>
                             </div>
                         </Transition>
@@ -114,10 +104,12 @@
                     <div class="lg:w-[45%] space-y-5">
 
                         <!-- Brand -->
-                        <p class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400">{{ product.brand.name }}</p>
+                        <p class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400">{{ product.brand.name
+                            }}</p>
 
                         <!-- Product Name -->
-                        <h1 class="text-2xl sm:text-3xl lg:text-[2.25rem] font-bold text-gray-900 tracking-tight leading-tight -mt-1">
+                        <h1
+                            class="text-2xl sm:text-3xl lg:text-[2.25rem] font-bold text-gray-900 tracking-tight leading-tight -mt-1">
                             {{ product.name }}
                         </h1>
 
@@ -126,7 +118,8 @@
                             <span class="text-2xl sm:text-3xl font-bold text-pink-500 tabular-nums">
                                 ${{ parseFloat(selectedSku?.price ?? '0').toFixed(2) }}
                             </span>
-                            <span v-if="selectedSku?.compare_at_price" class="text-base text-gray-400 line-through font-medium tabular-nums">
+                            <span v-if="selectedSku?.compare_at_price"
+                                class="text-base text-gray-400 line-through font-medium tabular-nums">
                                 ${{ parseFloat(selectedSku.compare_at_price).toFixed(2) }}
                             </span>
                         </div>
@@ -147,19 +140,16 @@
 
                         <!-- Variant Selector -->
                         <div v-if="product.skus.length > 1">
-                            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">Select Variant</p>
+                            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">Select
+                                Variant</p>
                             <div class="flex flex-wrap gap-2">
-                                <button
-                                    v-for="sku in product.skus"
-                                    :key="sku.uuid"
-                                    @click="selectedSkuUuid = sku.uuid"
+                                <button v-for="sku in product.skus" :key="sku.uuid" @click="selectedSkuUuid = sku.uuid"
                                     :class="[
                                         'px-4 py-1.5 text-sm font-semibold rounded-full border-2 transition-all duration-200',
                                         selectedSku?.uuid === sku.uuid
                                             ? 'border-gray-900 bg-gray-900 text-white'
                                             : 'border-gray-200 text-gray-700 hover:border-gray-400 bg-white'
-                                    ]"
-                                >
+                                    ]">
                                     {{ skuLabel(sku) }}
                                 </button>
                             </div>
@@ -169,36 +159,34 @@
                         <div class="flex items-center gap-3">
                             <!-- Quantity Control -->
                             <div class="flex items-center border border-gray-200 rounded-full bg-gray-50 shrink-0">
-                                <button
-                                    @click="decrementQuantity"
-                                    :disabled="quantity <= 1"
-                                    class="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-900 disabled:opacity-30 rounded-l-full hover:bg-gray-100 transition-colors"
-                                >
+                                <button @click="decrementQuantity" :disabled="quantity <= 1"
+                                    class="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-900 disabled:opacity-30 rounded-l-full hover:bg-gray-100 transition-colors">
                                     <Minus class="w-3.5 h-3.5" />
                                 </button>
-                                <span class="w-9 text-center text-sm font-bold text-gray-900 tabular-nums select-none">{{ quantity }}</span>
-                                <button
-                                    @click="incrementQuantity"
+                                <span
+                                    class="w-9 text-center text-sm font-bold text-gray-900 tabular-nums select-none">{{
+                                    quantity
+                                    }}</span>
+                                <button @click="incrementQuantity"
                                     :disabled="quantity >= (selectedSku?.stock_quantity ?? 0)"
-                                    class="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-900 disabled:opacity-30 rounded-r-full hover:bg-gray-100 transition-colors"
-                                >
+                                    class="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-900 disabled:opacity-30 rounded-r-full hover:bg-gray-100 transition-colors">
                                     <Plus class="w-3.5 h-3.5" />
                                 </button>
                             </div>
 
                             <!-- Add to Cart Button -->
-                            <button
-                                @click="() => handleAddToCart()"
-                                :disabled="!selectedSku?.is_in_stock || isAddingToCart"
-                                :class="[
+                            <button @click="() => handleAddToCart()"
+                                :disabled="!selectedSku?.is_in_stock || isAddingToCart" :class="[
                                     'flex-1 h-11 rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-all duration-200',
                                     selectedSku?.is_in_stock && !isAddingToCart
                                         ? 'bg-brand text-white hover:bg-brand/90 active:scale-[0.98] shadow-sm hover:shadow-md'
                                         : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                ]"
-                            >
-                                <div v-if="isAddingToCart" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                <ShoppingCart v-else :class="['w-4 h-4 transition-transform', buttonClicked && 'animate-cart-shake']" />
+                                ]">
+                                <div v-if="isAddingToCart"
+                                    class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin">
+                                </div>
+                                <ShoppingCart v-else
+                                    :class="['w-4 h-4 transition-transform', buttonClicked && 'animate-cart-shake']" />
                                 <span>{{ isAddingToCart ? 'Adding...' : 'Add to Cart' }}</span>
                             </button>
                         </div>
@@ -207,14 +195,15 @@
 
                         <!-- Specifications -->
                         <div>
-                            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">Specifications</p>
-                            <div :class="['divide-y divide-gray-50', { 'max-h-52 overflow-y-auto pr-1': productSpecs.length > 5 }]">
-                                <div
-                                    v-for="(item, index) in productSpecs"
-                                    :key="index"
-                                    class="flex items-start gap-4 py-2.5"
-                                >
-                                    <span class="text-xs text-gray-400 font-medium uppercase tracking-wide w-28 shrink-0 pt-px">{{ item.label }}</span>
+                            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">
+                                Specifications</p>
+                            <div
+                                :class="['divide-y divide-gray-50', { 'max-h-52 overflow-y-auto pr-1': productSpecs.length > 5 }]">
+                                <div v-for="(item, index) in productSpecs" :key="index"
+                                    class="flex items-start gap-4 py-2.5">
+                                    <span
+                                        class="text-xs text-gray-400 font-medium uppercase tracking-wide w-28 shrink-0 pt-px">{{
+                                        item.label }}</span>
                                     <span class="text-sm text-gray-900 font-medium">{{ item.value }}</span>
                                 </div>
                             </div>
@@ -224,7 +213,8 @@
 
                 <!-- Description -->
                 <div v-if="product.description" class="mt-16 lg:mt-24 max-w-3xl" data-aos="fade-up">
-                    <p class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400 mb-4">About this Product</p>
+                    <p class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400 mb-4">About this Product
+                    </p>
                     <p class="text-base text-gray-600 leading-relaxed">{{ product.description }}</p>
                 </div>
             </div>
@@ -234,19 +224,21 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
                     <div class="flex items-end justify-between mb-8" data-aos="fade-up">
                         <div>
-                            <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-1.5">You might also like</p>
+                            <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-1.5">You might
+                                also like
+                            </p>
                             <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Related Products</h2>
                         </div>
-                        <NuxtLink
-                            :to="`/categories/${primaryCategory.slug}`"
-                            class="text-sm font-semibold text-brand hover:text-brand/80 flex items-center gap-1 transition-colors group"
-                        >
+                        <NuxtLink :to="`/categories/${primaryCategory.slug}`"
+                            class="text-sm font-semibold text-brand hover:text-brand/80 flex items-center gap-1 transition-colors group">
                             View all
                             <ChevronRight class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                         </NuxtLink>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4" data-aos="fade-up" data-aos-delay="100">
-                        <ProductCard v-for="relatedProduct in relatedProducts" :key="relatedProduct.slug" :product="relatedProduct" />
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
+                        data-aos="fade-up" data-aos-delay="100">
+                        <ProductCard v-for="relatedProduct in relatedProducts" :key="relatedProduct.slug"
+                            :product="relatedProduct" />
                     </div>
                 </div>
             </div>
