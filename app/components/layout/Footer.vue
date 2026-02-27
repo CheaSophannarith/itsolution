@@ -1,14 +1,17 @@
 <template>
-    <footer class="bg-brand/9 text-black">
+    <footer class="bg-brand text-white">
         <!-- Main Footer Content -->
-        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-10 sm:py-12">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 sm:gap-12 lg:gap-16">
                 <!-- My Account -->
                 <div>
-                    <h3 class="font-bold text-lg sm:text-xl mb-4 sm:mb-5 text-black">My Account</h3>
-                    <ul class="space-y-2 sm:space-y-3">
+                    <h3 class="font-bold text-base sm:text-lg mb-5 uppercase tracking-widest text-white">My Account</h3>
+                    <ul class="space-y-3 sm:space-y-4">
                         <li v-for="link in accountLinks" :key="link.name">
-                            <NuxtLink :to="link.path" class="text-sm sm:text-base text-black/80 hover:text-brand">
+                            <NuxtLink
+                                :to="link.path"
+                                class="text-sm sm:text-base text-white/60 hover:text-white transition-colors duration-200"
+                            >
                                 {{ link.name }}
                             </NuxtLink>
                         </li>
@@ -17,10 +20,13 @@
 
                 <!-- About Us -->
                 <div>
-                    <h3 class="font-bold text-lg sm:text-xl mb-4 sm:mb-5 text-black">About Us</h3>
-                    <ul class="space-y-2 sm:space-y-3">
+                    <h3 class="font-bold text-base sm:text-lg mb-5 uppercase tracking-widest text-white">About Us</h3>
+                    <ul class="space-y-3 sm:space-y-4">
                         <li v-for="link in aboutLinks" :key="link.name">
-                            <NuxtLink :to="link.path" class="text-sm sm:text-base text-black/80 hover:text-brand">
+                            <NuxtLink
+                                :to="link.path"
+                                class="text-sm sm:text-base text-white/60 hover:text-white transition-colors duration-200"
+                            >
                                 {{ link.name }}
                             </NuxtLink>
                         </li>
@@ -29,23 +35,21 @@
 
                 <!-- Contact Us -->
                 <div class="col-span-2 lg:col-span-1">
-                    <h3 class="font-bold text-lg sm:text-xl mb-4 sm:mb-5 text-black">Contact Us</h3>
-                    <div class="space-y-3 sm:space-y-4 text-sm sm:text-base text-black/80">
+                    <h3 class="font-bold text-base sm:text-lg mb-5 uppercase tracking-widest text-white">Contact Us</h3>
+                    <div class="space-y-4 text-sm sm:text-base text-white/60">
                         <div v-for="phone in phoneNumbers" :key="phone.number" class="flex items-center gap-3">
-                            <Phone class="w-5 h-5 shrink-0" />
-                            <a :href="`tel:${phone.number.replace(/\s/g, '')}`" class="hover:text-brand">
-                                {{ phone.number }} ({{ phone.carrier }})
-                            </a>
+                            <Phone class="w-4 h-4 shrink-0 text-white/80" />
+                            <span>{{ phone.number }} ({{ phone.carrier }})</span>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <Mail class="w-5 h-5 shrink-0" />
-                            <a href="mailto:sales@itsolutiondigital.com" class="hover:text-brand break-all">
+                        <div class="flex items-center gap-3 hover:text-white transition-colors duration-200">
+                            <Mail class="w-4 h-4 shrink-0 text-white/80" />
+                            <a href="mailto:sales@itsolutiondigital.com" class="break-all">
                                 sales@itsolutiondigital.com
                             </a>
                         </div>
                         <div class="flex items-start gap-3">
-                            <MapPin class="w-5 h-5 mt-0.5 shrink-0" />
-                            <span>
+                            <MapPin class="w-4 h-4 mt-1 shrink-0 text-white/80" />
+                            <span class="leading-relaxed">
                                 St. Commercial, Chipmong Landmark, Sangkat Chak Angrae Leu, Khan Meanchey, Phnom Penh, Cambodia 120601
                             </span>
                         </div>
@@ -55,21 +59,18 @@
         </div>
 
         <!-- Bottom Bar -->
-        <div class="border-t border-brand/20">
+        <div class="border-t border-white/20">
             <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 sm:py-6">
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p class="text-sm sm:text-base text-black/70 text-center sm:text-left">
+                    <p class="text-sm text-white/50 text-center sm:text-left">
                         &copy; {{ currentYear }} TANXLM. All rights reserved.
                     </p>
-                    <div class="flex items-center gap-5">
-                        <a href="#" class="text-black/70 hover:text-brand">
-                            <Facebook class="w-6 h-6" />
+                    <div class="flex items-center gap-4">
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors duration-200">
+                            <Facebook class="w-4 h-4" />
                         </a>
-                        <a href="#" class="text-black/70 hover:text-brand">
-                            <Instagram class="w-6 h-6" />
-                        </a>
-                        <a href="#" class="text-black/70 hover:text-brand">
-                            <Twitter class="w-6 h-6" />
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors duration-200">
+                            <Instagram class="w-4 h-4" />
                         </a>
                     </div>
                 </div>
