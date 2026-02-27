@@ -215,7 +215,7 @@
                 <div v-if="product.description" class="mt-16 lg:mt-24 max-w-3xl" data-aos="fade-up">
                     <p class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400 mb-4">About this Product
                     </p>
-                    <p class="text-base text-gray-600 leading-relaxed">{{ product.description }}</p>
+                    <div class="product-description text-base text-gray-600 leading-relaxed" v-html="product.description"></div>
                 </div>
             </div>
 
@@ -458,6 +458,32 @@
 
     .animate-cart-shake {
         animation: cart-shake 0.6s ease-in-out;
+    }
+
+    /* Product description HTML content */
+    .product-description :deep(p) {
+        margin-bottom: 0.75rem;
+    }
+
+    .product-description :deep(ul) {
+        list-style: disc;
+        padding-left: 1.5rem;
+        margin-bottom: 0.75rem;
+        space-y: 0.25rem;
+    }
+
+    .product-description :deep(ul ul) {
+        list-style: circle;
+        margin-top: 0.25rem;
+    }
+
+    .product-description :deep(li) {
+        margin-bottom: 0.35rem;
+    }
+
+    .product-description :deep(strong) {
+        font-weight: 600;
+        color: #111827;
     }
 
     /* Hide scrollbar for thumbnails on mobile */
