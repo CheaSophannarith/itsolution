@@ -9,31 +9,34 @@
                 }" @init-api="onCarouselInit">
                     <CarouselContent>
                         <CarouselItem v-for="slide in carouselSlides" :key="slide.uuid">
-                            <div class="relative w-full h-125 sm:h-150 lg:h-105 xl:h[660px] overflow-hidden">
-                                <img :src="slide.desktop" :alt="slide.title || 'Carousel slide'"
-                                    class="w-full h-full object-cover" />
+                            <div class="relative w-full aspect-[4/3] sm:aspect-[16/7] lg:aspect-[21/8] overflow-hidden">
+                                <picture>
+                                    <source :srcset="slide.desktop" media="(min-width: 640px)" />
+                                    <img :src="slide.mobile || slide.desktop" :alt="slide.title || 'Carousel slide'"
+                                        class="w-full h-full object-cover" />
+                                </picture>
                             </div>
                         </CarouselItem>
                     </CarouselContent>
 
                     <!-- Navigation Arrows - Centered Vertically -->
-                    <div class="absolute top-1/2 -translate-y-1/2 left-4 sm:left-8 z-20">
+                    <div class="absolute top-1/2 -translate-y-1/2 left-2 sm:left-6 z-20">
                         <CarouselPrevious
-                            class="relative left-0 translate-x-0 translate-y-0 bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 hover:border-white/50 w-12 h-12 sm:w-14 sm:h-14" />
+                            class="relative left-0 translate-x-0 translate-y-0 bg-black/20 backdrop-blur-sm border-white/20 text-white hover:bg-black/40 hover:border-white/40 w-8 h-8 sm:w-11 sm:h-11 lg:w-13 lg:h-13" />
                     </div>
-                    <div class="absolute top-1/2 -translate-y-1/2 right-4 sm:right-8 z-20">
+                    <div class="absolute top-1/2 -translate-y-1/2 right-2 sm:right-6 z-20">
                         <CarouselNext
-                            class="relative right-0 translate-x-0 translate-y-0 bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 hover:border-white/50 w-12 h-12 sm:w-14 sm:h-14" />
+                            class="relative right-0 translate-x-0 translate-y-0 bg-black/20 backdrop-blur-sm border-white/20 text-white hover:bg-black/40 hover:border-white/40 w-8 h-8 sm:w-11 sm:h-11 lg:w-13 lg:h-13" />
                     </div>
 
                     <!-- Pagination Dots -->
-                    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                    <div class="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 z-20">
                         <button v-for="(slide, index) in carouselSlides" :key="slide.uuid"
                             @click="() => carouselApi?.scrollTo(index)" :class="[
-                                'w-2.5 h-2.5 rounded-full transition-all duration-300',
+                                'h-1.5 sm:h-2 rounded-full transition-all duration-300',
                                 currentSlide === index
-                                    ? 'bg-white w-8'
-                                    : 'bg-white/40 hover:bg-white/60'
+                                    ? 'bg-white w-5 sm:w-7'
+                                    : 'bg-white/50 hover:bg-white/70 w-1.5 sm:w-2'
                             ]" :aria-label="`Go to slide ${index + 1}`" />
                     </div>
                 </Carousel>
