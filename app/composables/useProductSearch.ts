@@ -10,7 +10,6 @@ export function useProductSearch(searchQuery: Ref<string>) {
     const { data, status, error, refresh } = useFetch<ProductSearchResponse>(
         () => `${config.public.apiBaseUrl}/api/v1/products?filter[search]=${searchQuery.value}`,
         {
-            key: `product-search-${searchQuery.value}`,
             immediate: false,
             watch: false,
         }

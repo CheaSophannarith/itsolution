@@ -16,7 +16,6 @@ export function useCategoryFilters(slug: Ref<string> | string) {
     const { data, status, error } = useFetch<CategoryFilterResponse>(
         () => `${config.public.apiBaseUrl}/api/v1/categories/${slugValue.value}/filters`,
         {
-            key: () => `category-filters-${slugValue.value}`,
             watch: [slugValue],
         }
     );

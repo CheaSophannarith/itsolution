@@ -8,7 +8,6 @@ export function useProductDetail(slug: Ref<string> | string) {
     const { data, status, error } = useFetch<ProductDetailResponse>(
         () => `${config.public.apiBaseUrl}/api/v1/products/${slugValue.value}`,
         {
-            key: () => `product-detail-${slugValue.value}`,
             watch: [slugValue],
         }
     );

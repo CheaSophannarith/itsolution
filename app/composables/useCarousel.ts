@@ -9,9 +9,6 @@ export function useCarousel() {
 
     const { data, status, error } = useFetch<CarouselResponse>(
         `${config.public.apiBaseUrl}/api/v1/carousel`,
-        {
-            key: 'carousel',
-        }
     );
 
     const carouselSlides = computed<Carousel[]>(() => {

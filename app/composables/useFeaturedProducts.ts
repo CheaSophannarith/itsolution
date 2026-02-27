@@ -9,9 +9,6 @@ export function useFeaturedProducts() {
 
     const { data, status, error } = useFetch<FeaturedProductsResponse>(
         `${config.public.apiBaseUrl}/api/v1/products/featured`,
-        {
-            key: 'featured-products',
-        }
     );
 
     const featuredProducts = computed<Product[]>(() => {

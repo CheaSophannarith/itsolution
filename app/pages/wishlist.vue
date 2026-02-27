@@ -82,9 +82,15 @@
                             class="relative aspect-square bg-gray-50 cursor-pointer overflow-hidden"
                             @click="navigateToProduct(item.product.slug)">
 
-                            <img :src="item.product.image || '/placeholder-product.png'"
+                            <img
+                                v-if="item.product.image"
+                                :src="item.product.image"
                                 :alt="item.product.name"
-                                class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" />
+                                class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                            />
+                            <div v-else class="w-full h-full flex items-center justify-center text-gray-300">
+                                <ImageOff class="w-12 h-12" />
+                            </div>
 
                             <!-- Discount Badge -->
                             <div v-if="item.product.compare_at_price && parseFloat(item.product.compare_at_price) > parseFloat(item.product.price)"
@@ -189,7 +195,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { Heart, Trash2, ShoppingBag, ShoppingCart, ArrowLeft, ArrowRight, PackageX, ChevronRight } from 'lucide-vue-next';
+import { Heart, Trash2, ShoppingBag, ShoppingCart, ArrowLeft, ArrowRight, PackageX, ChevronRight, ImageOff } from 'lucide-vue-next';
 import type { WishlistProduct } from '~/types';
 import type { ProductDetailResponse } from '~/types/models/product-detail';
 import AOS from 'aos';

@@ -4,8 +4,15 @@
 
         <!-- Product Image -->
         <div class="relative aspect-square bg-white overflow-hidden cursor-pointer" @click="navigateToDetail">
-            <img :src="product.image || '/placeholder-product.png'" :alt="product.name"
-                class="w-full h-full object-contain p-4 group-hover:scale-105 transition-all duration-300" />
+            <img
+                v-if="product.image"
+                :src="product.image"
+                :alt="product.name"
+                class="w-full h-full object-contain p-4 group-hover:scale-105 transition-all duration-300"
+            />
+            <div v-else class="w-full h-full flex items-center justify-center text-gray-300">
+                <ImageOff class="w-12 h-12" />
+            </div>
 
             <!-- Wishlist Button -->
             <button
@@ -101,7 +108,7 @@
 <script setup lang="ts">
     import { computed, ref } from 'vue';
     import { useRouter } from 'vue-router';
-    import { Heart, ShoppingCart, Check, PackageX } from 'lucide-vue-next';
+    import { Heart, ShoppingCart, Check, PackageX, ImageOff } from 'lucide-vue-next';
     import type { Product } from '~/types';
     import type { ProductDetailResponse } from '~/types/models/product-detail';
 
