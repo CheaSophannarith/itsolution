@@ -5,6 +5,10 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			apiBaseUrl: process.env.API_BASE_URL,
+			reverbAppKey: process.env.REVERB_APP_KEY,
+			reverbHost: process.env.REVERB_HOST,
+			reverbPort: process.env.REVERB_PORT,
+			reverbScheme: process.env.REVERB_SCHEME,
 		},
 	},
 	compatibilityDate: '2025-07-15',
