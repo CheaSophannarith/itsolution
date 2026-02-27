@@ -15,16 +15,12 @@
             </div>
 
             <!-- Wishlist Button -->
-            <button
-                @click.stop="toggleWishlist"
-                :disabled="wishlistLoading"
+            <button @click.stop="toggleWishlist" :disabled="wishlistLoading"
                 class="absolute top-3 right-3 p-2 transition-all duration-300 group/heart z-10"
-                :title="authStore.isAuthenticated ? (isInWishlist ? 'Remove from wishlist' : 'Add to wishlist') : 'Sign in to add to wishlist'"
-            >
+                :title="authStore.isAuthenticated ? (isInWishlist ? 'Remove from wishlist' : 'Add to wishlist') : 'Sign in to add to wishlist'">
                 <Heart
                     class="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 group-hover/heart:scale-125 drop-shadow-md"
-                    :class="isInWishlist ? 'text-red-500 fill-red-500' : 'text-gray-700 group-hover/heart:text-red-500'"
-                />
+                    :class="isInWishlist ? 'text-red-500 fill-red-500' : 'text-gray-700 group-hover/heart:text-red-500'" />
             </button>
         </div>
 
@@ -53,8 +49,10 @@
                 <!-- Price Display -->
                 <div class="flex items-baseline gap-2">
                     <span class="font-bold text-lg text-gray-900">${{ formattedPrice }}</span>
-                    <span v-if="product.compare_at_price" class="text-sm text-gray-400 line-through">${{ formattedComparePrice }}</span>
-                    <span v-if="discountPercent" class="ml-auto text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full">
+                    <span v-if="product.compare_at_price" class="text-sm text-gray-400 line-through">${{
+                        formattedComparePrice }}</span>
+                    <span v-if="discountPercent"
+                        class="ml-auto text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full">
                         -{{ discountPercent }}%
                     </span>
                 </div>
@@ -70,7 +68,8 @@
                 <template v-else>
                     <!-- Already in cart: split button -->
                     <div v-if="isInCart" class="flex gap-2">
-                        <div class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-500 text-white text-sm font-semibold shadow-sm shadow-emerald-200 select-none">
+                        <div
+                            class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-500 text-white text-sm font-semibold shadow-sm shadow-emerald-200 select-none">
                             In Cart
                         </div>
                         <button @click="openCartDrawer"
@@ -81,17 +80,18 @@
                     </div>
 
                     <!-- Add button with loading state -->
-                    <button v-else @click="handleAddToCart" :disabled="adding"
-                        class="w-full relative flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 overflow-hidden
+                    <button v-else @click="handleAddToCart" :disabled="adding" class="w-full relative flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 overflow-hidden
                                bg-gray-900 text-white hover:bg-gray-700 active:scale-[0.97]
                                disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100"
                         :aria-label="adding ? 'Adding to cart…' : 'Add to cart'">
 
                         <!-- Shimmer on hover -->
-                        <span class="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                        <span
+                            class="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
                         <span v-if="adding" class="flex items-center gap-2">
-                            <span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            <span
+                                class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                             Adding…
                         </span>
                         <span v-else class="flex items-center gap-2">
@@ -207,38 +207,45 @@
 </script>
 
 <style scoped>
-@keyframes bounce-once {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    25% {
-        transform: translateY(-8px);
-    }
-    50% {
-        transform: translateY(0);
-    }
-    75% {
-        transform: translateY(-4px);
-    }
-}
+    @keyframes bounce-once {
 
-@keyframes scale-in {
-    0% {
-        transform: scale(0);
-    }
-    50% {
-        transform: scale(1.3);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
+        0%,
+        100% {
+            transform: translateY(0);
+        }
 
-.animate-bounce-once {
-    animation: bounce-once 0.6s ease-in-out;
-}
+        25% {
+            transform: translateY(-8px);
+        }
 
-.animate-scale-in {
-    animation: scale-in 0.4s ease-out;
-}
+        50% {
+            transform: translateY(0);
+        }
+
+        75% {
+            transform: translateY(-4px);
+        }
+    }
+
+    @keyframes scale-in {
+        0% {
+            transform: scale(0);
+        }
+
+        50% {
+            transform: scale(1.3);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .animate-bounce-once {
+        animation: bounce-once 0.6s ease-in-out;
+    }
+
+    .animate-scale-in {
+        animation: scale-in 0.4s ease-out;
+    }
 </style>
