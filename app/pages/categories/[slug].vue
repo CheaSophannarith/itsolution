@@ -285,20 +285,19 @@
             query['filter[search]'] = searchQuery.value.trim();
         }
 
-        // Brands (UUIDs)
+        // Brands (UUIDs) — comma-separated: filter[brands]=uuid1,uuid2
         if (selectedBrands.value.length > 0) {
-            query['filter[brands][]'] = selectedBrands.value;
+            query['filter[brands]'] = selectedBrands.value.join(',');
         }
 
-        // Attributes — collect all selected option UUIDs
-        const attributeUuids: string[] = [];
-        for (const values of Object.values(selectedAttributes.value)) {
+        // Attributes — filter[attributes][attrUuid][]=optionUuid (per backend AllowedFilter)
+        for (const [attrSlug, values] of Object.entries(selectedAttributes.value)) {
             if (values && values.length > 0) {
-                attributeUuids.push(...values);
+                const attr = attributes.value.find(a => a.slug === attrSlug);
+                if (attr) {
+                    query[`filter[attributes][${attr.uuid}][]`] = values;
+                }
             }
-        }
-        if (attributeUuids.length > 0) {
-            query['filter[attributes][uuid][]'] = attributeUuids;
         }
 
         // Price range
