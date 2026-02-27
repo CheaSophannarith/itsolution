@@ -394,7 +394,7 @@
 					</nav>
 
 					<!-- Phone Number -->
-					<a href="tel:+85517868883" class="text-brand-foreground font-semibold py-3 text-sm xl:text-base">
+					<a href="#" class="text-brand-foreground font-semibold py-3 text-sm xl:text-base">
 						+855 17 86 88 83
 					</a>
 				</div>
@@ -493,7 +493,7 @@
 						<Phone class="w-5 h-5" />
 						Contact Us
 					</NuxtLink>
-					<a href="tel:+85517868883"
+					<a href="#"
 						class="flex items-center gap-3 py-2 text-gray-700 hover:text-brand transition-colors">
 						<Phone class="w-5 h-5" />
 						+855 17 86 88 83
