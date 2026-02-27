@@ -2,7 +2,7 @@
     <footer class="bg-brand/9 text-black">
         <!-- Main Footer Content -->
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-10 sm:py-12">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
                 <!-- My Account -->
                 <div>
                     <h3 class="font-bold text-lg sm:text-xl mb-4 sm:mb-5 text-black">My Account</h3>
@@ -20,18 +20,6 @@
                     <h3 class="font-bold text-lg sm:text-xl mb-4 sm:mb-5 text-black">About Us</h3>
                     <ul class="space-y-2 sm:space-y-3">
                         <li v-for="link in aboutLinks" :key="link.name">
-                            <NuxtLink :to="link.path" class="text-sm sm:text-base text-black/80 hover:text-brand">
-                                {{ link.name }}
-                            </NuxtLink>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Support -->
-                <div>
-                    <h3 class="font-bold text-lg sm:text-xl mb-4 sm:mb-5 text-black">Support</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li v-for="link in supportLinks" :key="link.name">
                             <NuxtLink :to="link.path" class="text-sm sm:text-base text-black/80 hover:text-brand">
                                 {{ link.name }}
                             </NuxtLink>
@@ -107,10 +95,6 @@ const aboutLinks = [
     { name: 'Terms & Conditions', path: '/terms-and-conditions' }
 ];
 
-const supportLinks = [
-    { name: 'My Profile', path: '/profile' },
-    
-];
 
 const phoneNumbers = [
     { number: '099 86 88 83', carrier: 'Cellcard' },
