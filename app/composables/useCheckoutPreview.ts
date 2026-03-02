@@ -1,4 +1,4 @@
-import type { CheckoutPreview, CheckoutPreviewResponse } from '~/types/models/checkout'
+import type { CheckoutPreview, CheckoutPreviewResponse, StockWarning } from '~/types/models/checkout'
 
 export const useCheckoutPreview = () => {
     const api = useApi()

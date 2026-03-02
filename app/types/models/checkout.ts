@@ -9,6 +9,13 @@ export interface CheckoutPreviewItem {
     image_url: string | null
 }
 
+export interface StockWarning {
+    sku_uuid: string
+    name: string
+    requested: number
+    available: number
+}
+
 export interface CheckoutPreview {
     items: CheckoutPreviewItem[]
     subtotal: string
@@ -17,7 +24,7 @@ export interface CheckoutPreview {
     tax_amount: string
     total: string
     coupon: any | null
-    stock_warnings: string[]
+    stock_warnings: StockWarning[]
 }
 
 export interface CheckoutPreviewResponse {

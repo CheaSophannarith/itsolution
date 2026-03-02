@@ -344,10 +344,11 @@
 
 						<!-- Place Order Button -->
 						<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-4">
-							<button @click="placeOrder" :disabled="isPlacingOrder"
+							<button @click="placeOrder" :disabled="isPlacingOrder || stockWarnings.length > 0"
 								class="w-full bg-brand text-white px-6 py-3 rounded-2xl font-bold text-base sm:text-lg hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/25 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100">
 								<span class="flex items-center justify-center gap-3">
-									<ShoppingCart v-if="!isPlacingOrder" class="w-5 h-5 sm:w-6 sm:h-6" />
+									<AlertTriangle v-if="stockWarnings.length > 0" class="w-5 h-5 sm:w-6 sm:h-6" />
+									<ShoppingCart v-else-if="!isPlacingOrder" class="w-5 h-5 sm:w-6 sm:h-6" />
 									<svg v-else class="animate-spin h-5 w-5 sm:h-6 sm:w-6"
 										xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 										<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
@@ -356,7 +357,7 @@
 											d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
 										</path>
 									</svg>
-									{{ isPlacingOrder ? 'Processing...' : `Proceed to Payment - $${total.toFixed(2)}` }}
+									{{ isPlacingOrder ? 'Processing...' : stockWarnings.length > 0 ? 'Unavailable items in cart' : `Proceed to Payment - ${total.toFixed(2)}` }}
 								</span>
 							</button>
 						</div>
@@ -370,11 +371,31 @@
 						<h2 class="text-base sm:text-lg font-bold text-gray-900 mb-3">Order Summary</h2>
 
 						<!-- Stock Warnings -->
-						<div v-if="stockWarnings.length > 0" class="mb-2 space-y-1">
-							<p v-for="warning in stockWarnings" :key="warning"
-								class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">
-								⚠️ {{ warning }}
-							</p>
+						<div v-if="stockWarnings.length > 0" class="mb-3">
+							<div class="bg-amber-50 border border-amber-300 rounded-xl p-3 space-y-2">
+								<div class="flex items-center gap-2">
+									<AlertTriangle class="w-4 h-4 text-amber-600 shrink-0" />
+									<p class="text-sm font-semibold text-amber-800">Some items are no longer available</p>
+								</div>
+								<ul class="space-y-1.5">
+									<li v-for="warning in stockWarnings" :key="warning.sku_uuid"
+										class="flex items-center justify-between gap-2 bg-white border border-amber-200 rounded-lg px-2.5 py-1.5">
+										<span class="text-xs font-medium text-gray-800 truncate">{{ warning.name }}</span>
+										<span v-if="warning.available === 0"
+											class="shrink-0 text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded px-1.5 py-0.5">
+											Out of stock
+										</span>
+										<span v-else
+											class="shrink-0 text-xs font-semibold text-amber-700 bg-amber-100 border border-amber-300 rounded px-1.5 py-0.5">
+											Only {{ warning.available }} left
+										</span>
+									</li>
+								</ul>
+								<NuxtLink to="/"
+									class="block text-xs font-semibold text-amber-800 underline hover:text-amber-900 transition-colors pt-1 border-t border-amber-200">
+									Go back and update your cart
+								</NuxtLink>
+							</div>
 						</div>
 
 						<!-- Totals -->
@@ -522,7 +543,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ChevronRight, ShoppingCart, MapPin, Plus, Edit2, Loader2, ImageOff } from 'lucide-vue-next'
+	import { ChevronRight, ShoppingCart, MapPin, Plus, Edit2, Loader2, ImageOff, AlertTriangle } from 'lucide-vue-next'
 	import { computed, ref, onMounted, nextTick, watch } from 'vue'
 	import { useRouter } from 'vue-router'
 	import { useAuthStore } from '~/stores/auth'
