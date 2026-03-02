@@ -170,6 +170,8 @@ definePageMeta({
     middleware: 'guest'
 })
 
+useSeoMeta({ title: 'Reset Password', robots: 'noindex, nofollow' })
+
 const route = useRoute()
 const authStore = useAuthStore()
 const { addToast } = useToast()

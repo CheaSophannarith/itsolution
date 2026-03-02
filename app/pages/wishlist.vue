@@ -206,6 +206,8 @@ definePageMeta({
     title: 'My Wishlist'
 });
 
+useSeoMeta({ title: 'My Wishlist', robots: 'noindex, nofollow' })
+
 const router = useRouter();
 const config = useRuntimeConfig();
 const wishlistStore = useWishlistStore();

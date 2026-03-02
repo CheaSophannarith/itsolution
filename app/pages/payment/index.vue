@@ -116,6 +116,8 @@
 		middleware: 'auth'
 	})
 
+	useSeoMeta({ title: 'Payment', robots: 'noindex, nofollow' })
+
 	const router = useRouter()
 	const route = useRoute()
 	const api = useApi()

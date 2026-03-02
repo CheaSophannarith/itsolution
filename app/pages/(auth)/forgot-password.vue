@@ -77,6 +77,8 @@ definePageMeta({
     middleware: 'guest'
 })
 
+useSeoMeta({ title: 'Forgot Password', robots: 'noindex, nofollow' })
+
 const form = ref({
     email: ''
 })

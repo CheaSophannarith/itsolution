@@ -1,2 +1,13 @@
-User-Agent: *
-Disallow:
+User-agent: *
+Disallow: /signin
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /verify-email
+Disallow: /profile
+Disallow: /orders
+Disallow: /wishlist
+Disallow: /checkout
+Disallow: /payment
+
+Sitemap: https://itsolutiondigital.com/sitemap.xml

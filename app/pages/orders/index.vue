@@ -273,6 +273,8 @@
         middleware: 'auth'
     })
 
+    useSeoMeta({ title: 'My Orders', robots: 'noindex, nofollow' })
+
     const {
         orders, isLoading, error,
         currentPage, lastPage, perPage, total,

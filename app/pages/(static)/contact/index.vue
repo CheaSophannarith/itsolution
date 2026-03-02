@@ -183,11 +183,17 @@
         ShieldCheck
     } from 'lucide-vue-next';
 
-    useHead({
-        title: 'Contact Us | Tan',
-        meta: [
-            { name: 'description', content: 'Get in touch with IT Solution Cambodia. We are here to help with all your IT needs.' }
-        ]
+    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com/contact' }] });
+
+    useSeoMeta({
+        title: 'Contact Us – Phnom Penh, Cambodia',
+        description: 'Contact IT Solution Digital in Phnom Penh, Cambodia. Call 099 86 88 83 or email sales@itsolutiondigital.com. Located at St. Commercial, Chipmong Landmark, Khan Meanchey. Open Mon–Sat 08:00–17:30.',
+        ogTitle: 'Contact IT Solution Digital | Phnom Penh, Cambodia',
+        ogDescription: 'Get in touch with IT Solution Digital. Located at Chipmong Landmark, Khan Meanchey, Phnom Penh. Open Monday–Saturday, 08:00 AM – 05:30 PM.',
+        ogImage: '/logo.jpg',
+        ogType: 'website',
+        twitterCard: 'summary',
+        keywords: 'IT Solution Digital contact, IT support Phnom Penh, IT company Cambodia, contact itsolutiondigital.com',
     });
 
     const trustBadges = [
@@ -250,4 +256,43 @@
             faq.open = !faq.open;
         }
     };
+
+    useHead({
+        script: [
+            {
+                type: 'application/ld+json',
+                innerHTML: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'LocalBusiness',
+                    name: 'IT Solution Digital',
+                    image: 'https://itsolutiondigital.com/logo.jpg',
+                    url: 'https://itsolutiondigital.com',
+                    telephone: ['+855998688883', '+855178688883', '+855708688883'],
+                    email: 'sales@itsolutiondigital.com',
+                    priceRange: '$$',
+                    openingHoursSpecification: [
+                        {
+                            '@type': 'OpeningHoursSpecification',
+                            dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                            opens: '08:00',
+                            closes: '17:30',
+                        },
+                    ],
+                    address: {
+                        '@type': 'PostalAddress',
+                        streetAddress: 'St. Commercial, Chipmong Landmark',
+                        addressLocality: 'Sangkat Chak Angrae Leu, Khan Meanchey',
+                        addressRegion: 'Phnom Penh',
+                        postalCode: '120601',
+                        addressCountry: 'KH',
+                    },
+                    geo: {
+                        '@type': 'GeoCoordinates',
+                        latitude: 11.520857,
+                        longitude: 104.9234743,
+                    },
+                }),
+            },
+        ],
+    });
 </script>

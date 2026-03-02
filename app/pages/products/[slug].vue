@@ -9,7 +9,18 @@
         </div>
 
         <!-- Product Detail -->
-        <div v-else-if="product" class="min-h-screen bg-white">
+        <article v-else-if="product" class="min-h-screen bg-white" itemscope
+            itemtype="https://schema.org/Product">
+
+            <!-- Hidden microdata -->
+            <meta itemprop="name" :content="product.name" />
+            <meta itemprop="description"
+                :content="product.meta_description || product.short_description || product.name" />
+            <meta v-if="product.images.featured?.original" itemprop="image"
+                :content="product.images.featured.original" />
+            <meta itemprop="brand" :content="product.brand.name" />
+            <meta v-if="selectedSku?.uuid" itemprop="sku" :content="selectedSku.uuid" />
+
             <!-- Breadcrumb -->
             <div class="border-b border-gray-100">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
@@ -51,20 +62,21 @@
                         <!-- Main Image -->
                         <div class="bg-white rounded-xl cursor-zoom-in overflow-hidden aspect-[4/3] border border-gray-300"
                             @click="openLightbox(activeImageIndex)">
-                            <img :src="allImages[activeImageIndex]?.original" :alt="product.name"
+                            <img :src="allImages[activeImageIndex]?.original"
+                                :alt="`${product.brand.name} ${product.name}`" itemprop="image"
                                 class="w-full h-full object-contain p-3 sm:p-5 hover:scale-105 transition-transform duration-500" />
                         </div>
 
-                        <!-- Thumbnail Strip — bottom -->
+                        <!-- Thumbnail Strip -->
                         <div v-if="allImages.length > 1" class="flex gap-2 overflow-x-auto scrollbar-hide">
-                            <button v-for="(image, index) in allImages" :key="index" @click="activeImageIndex = index"
-                                :class="[
+                            <button v-for="(image, index) in allImages" :key="index"
+                                @click="activeImageIndex = index" :class="[
                                     'w-20 h-20 sm:w-24 sm:h-24 rounded-lg shrink-0 overflow-hidden border-2 transition-all duration-200 bg-white',
                                     activeImageIndex === index
                                         ? 'border-gray-800'
                                         : 'border-gray-300 hover:border-gray-500'
                                 ]">
-                                <img :src="image.thumb" :alt="`${product.name} - ${index + 1}`"
+                                <img :src="image.thumb" :alt="`${product.brand.name} ${product.name} – view ${index + 1}`"
                                     class="w-full h-full object-contain p-1.5" />
                             </button>
                         </div>
@@ -84,7 +96,8 @@
                                     class="absolute left-6 text-white/80 hover:text-white z-10 bg-white/10 hover:bg-white/20 rounded-full p-4 transition-all duration-300 backdrop-blur-md hover:scale-110">
                                     <ChevronLeft class="w-8 h-8" />
                                 </button>
-                                <img :src="allImages[lightboxIndex]?.original" :alt="product.name"
+                                <img :src="allImages[lightboxIndex]?.original"
+                                    :alt="`${product.brand.name} ${product.name}`"
                                     class="max-h-[90vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl" />
                                 <button v-if="allImages.length > 1" @click="nextImage"
                                     class="absolute right-6 text-white/80 hover:text-white z-10 bg-white/10 hover:bg-white/20 rounded-full p-4 transition-all duration-300 backdrop-blur-md hover:scale-110">
@@ -93,8 +106,7 @@
                                 <div
                                     class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
                                     <span class="text-white text-sm font-semibold">{{ lightboxIndex + 1 }} / {{
-                                        allImages.length
-                                        }}</span>
+                                        allImages.length }}</span>
                                 </div>
                             </div>
                         </Transition>
@@ -103,24 +115,46 @@
                     <!-- Right: Product Info -->
                     <div class="lg:w-[45%] space-y-5">
 
-                        <!-- Brand -->
-                        <p class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400">{{ product.brand.name
-                            }}</p>
+                        <!-- Brand + Category tags -->
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <span
+                                class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400" itemprop="brand"
+                                itemscope itemtype="https://schema.org/Brand">
+                                <span itemprop="name">{{ product.brand.name }}</span>
+                            </span>
+                            
+                        </div>
 
                         <!-- Product Name -->
-                        <h1
+                        <h1 itemprop="name"
                             class="text-2xl sm:text-3xl lg:text-[2.25rem] font-bold text-gray-900 tracking-tight leading-tight -mt-1">
                             {{ product.name }}
                         </h1>
 
-                        <!-- Price -->
-                        <div class="flex items-baseline gap-3">
-                            <span class="text-2xl sm:text-3xl font-bold text-pink-500 tabular-nums">
+                        <!-- Short Description -->
+                        <p v-if="product.short_description" itemprop="description"
+                            class="text-sm text-gray-500 leading-relaxed -mt-1">
+                            {{ product.short_description }}
+                        </p>
+
+                        <!-- Price + Discount badge -->
+                        <div class="flex items-baseline gap-3 flex-wrap" itemprop="offers" itemscope
+                            itemtype="https://schema.org/Offer">
+                            <meta itemprop="priceCurrency" content="USD" />
+                            <meta itemprop="price" :content="selectedSku?.price ?? '0'" />
+                            <meta itemprop="availability"
+                                :content="selectedSku?.is_in_stock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'" />
+                            <meta itemprop="itemCondition" content="https://schema.org/NewCondition" />
+                            <span class="text-2xl sm:text-3xl font-bold text-pink-500 tabular-nums" itemprop="price">
                                 ${{ parseFloat(selectedSku?.price ?? '0').toFixed(2) }}
                             </span>
                             <span v-if="selectedSku?.compare_at_price"
                                 class="text-base text-gray-400 line-through font-medium tabular-nums">
                                 ${{ parseFloat(selectedSku.compare_at_price).toFixed(2) }}
+                            </span>
+                            <span v-if="discountPercent"
+                                class="px-2 py-0.5 bg-pink-500 text-white text-xs font-bold rounded-md">
+                                -{{ discountPercent }}% OFF
                             </span>
                         </div>
 
@@ -129,6 +163,9 @@
                             <template v-if="selectedSku?.is_in_stock">
                                 <span class="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0"></span>
                                 <span class="text-sm text-green-700 font-medium">In Stock</span>
+                                <span v-if="selectedSku.stock_quantity && selectedSku.stock_quantity <= 10"
+                                    class="text-xs text-orange-500 font-medium">(Only {{ selectedSku.stock_quantity }}
+                                    left)</span>
                             </template>
                             <template v-else>
                                 <span class="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0"></span>
@@ -143,8 +180,8 @@
                             <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">Select
                                 Variant</p>
                             <div class="flex flex-wrap gap-2">
-                                <button v-for="sku in product.skus" :key="sku.uuid" @click="selectedSkuUuid = sku.uuid"
-                                    :class="[
+                                <button v-for="sku in product.skus" :key="sku.uuid"
+                                    @click="selectedSkuUuid = sku.uuid" :class="[
                                         'px-4 py-1.5 text-sm font-semibold rounded-full border-2 transition-all duration-200',
                                         selectedSku?.uuid === sku.uuid
                                             ? 'border-gray-900 bg-gray-900 text-white'
@@ -165,8 +202,7 @@
                                 </button>
                                 <span
                                     class="w-9 text-center text-sm font-bold text-gray-900 tabular-nums select-none">{{
-                                    quantity
-                                    }}</span>
+                                    quantity }}</span>
                                 <button @click="incrementQuantity"
                                     :disabled="quantity >= (selectedSku?.stock_quantity ?? 0)"
                                     class="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-900 disabled:opacity-30 rounded-r-full hover:bg-gray-100 transition-colors">
@@ -197,26 +233,26 @@
                         <div>
                             <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">
                                 Specifications</p>
-                            <div
-                                :class="['divide-y divide-gray-50', { 'max-h-52 overflow-y-auto pr-1': productSpecs.length > 5 }]">
+                            <dl :class="['divide-y divide-gray-50', { 'max-h-52 overflow-y-auto pr-1': productSpecs.length > 5 }]">
                                 <div v-for="(item, index) in productSpecs" :key="index"
                                     class="flex items-start gap-4 py-2.5">
-                                    <span
-                                        class="text-xs text-gray-400 font-medium uppercase tracking-wide w-28 shrink-0 pt-px">{{
-                                        item.label }}</span>
-                                    <span class="text-sm text-gray-900 font-medium">{{ item.value }}</span>
+                                    <dt class="text-xs text-gray-400 font-medium uppercase tracking-wide w-28 shrink-0 pt-px">
+                                        {{ item.label }}
+                                    </dt>
+                                    <dd class="text-sm text-gray-900 font-medium">{{ item.value }}</dd>
                                 </div>
-                            </div>
+                            </dl>
                         </div>
                     </div>
                 </div>
 
                 <!-- Description -->
-                <div v-if="product.description" class="mt-16 lg:mt-24 max-w-3xl" data-aos="fade-up">
-                    <p class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400 mb-4">About this Product
-                    </p>
-                    <div class="product-description text-base text-gray-600 leading-relaxed" v-html="product.description"></div>
-                </div>
+                <section v-if="product.description" class="mt-16 lg:mt-24 max-w-3xl" data-aos="fade-up">
+                    <h2 class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400 mb-4">About this Product
+                    </h2>
+                    <div class="product-description text-base text-gray-600 leading-relaxed"
+                        v-html="product.description" itemprop="description"></div>
+                </section>
             </div>
 
             <!-- Related Products -->
@@ -225,8 +261,7 @@
                     <div class="flex items-end justify-between mb-8" data-aos="fade-up">
                         <div>
                             <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-1.5">You might
-                                also like
-                            </p>
+                                also like</p>
                             <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Related Products</h2>
                         </div>
                         <NuxtLink :to="`/categories/${primaryCategory.slug}`"
@@ -242,7 +277,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
 
         <!-- Not Found -->
         <div v-else class="min-h-screen flex items-center justify-center bg-white">
@@ -263,7 +298,19 @@
 </template>
 
 <script setup lang="ts">
-    import { CheckCircle, ChevronLeft, ChevronRight, Info, Minus, Plus, ShoppingCart, X, XCircle } from 'lucide-vue-next';
+    import {
+        Award,
+        ChevronLeft,
+        ChevronRight,
+        Minus,
+        Plus,
+        RotateCcw,
+        ShieldCheck,
+        ShoppingCart,
+        Tag,
+        X,
+        XCircle,
+    } from 'lucide-vue-next';
     import ProductCard from '~/components/ProductCard.vue';
     import {
         Breadcrumb,
@@ -300,17 +347,139 @@
             .slice(0, 5);
     });
 
-    useHead({
-        title: computed(() => product.value?.meta_title || product.value?.name || 'Product Detail'),
-        meta: [
-            {
-                name: 'description',
-                content: computed(() => product.value?.meta_description || product.value?.short_description || ''),
-            },
-        ],
+    useHead({ link: computed(() => [{ rel: 'canonical', href: `https://itsolutiondigital.com/products/${slug.value}` }]) });
+
+    // Strip HTML tags to get plain text from the full description
+    function stripHtml(html: string): string {
+        return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    // Build rich description from brand + specs + short_description + description (plain)
+    const seoDescription = computed(() => {
+        if (!product.value) return '';
+        if (product.value.meta_description) return product.value.meta_description;
+        const parts: string[] = [`Brand: ${product.value.brand?.name ?? ''}`];
+        const specs = product.value.skus[0]?.attribute_options ?? [];
+        if (specs.length) {
+            parts.push(specs.map(opt => `${opt.attribute.name}: ${opt.label}`).join(', '));
+        }
+        if (product.value.short_description) parts.push(product.value.short_description);
+        if (product.value.description) {
+            const plain = stripHtml(product.value.description).slice(0, 200);
+            if (plain && plain !== product.value.short_description) parts.push(plain);
+        }
+        parts.push('Buy at IT Solution Digital – best price in Phnom Penh, Cambodia.');
+        return parts.join('. ').slice(0, 320);
     });
 
-    const { addItem: addToCart, isSyncing } = useCart();
+    // Keywords: product name + brand + categories + spec values
+    const seoKeywords = computed(() => {
+        if (!product.value) return '';
+        const kw: string[] = [
+            product.value.name,
+            product.value.brand?.name ?? '',
+            ...product.value.categories.map(c => c.name),
+            ...(product.value.skus[0]?.attribute_options ?? []).map(opt => opt.label),
+            'IT Solution Digital',
+            'Cambodia',
+            'Phnom Penh',
+        ];
+        return kw.filter(Boolean).join(', ');
+    });
+
+    useSeoMeta({
+        title: computed(() => product.value?.meta_title || product.value?.name || 'Product Detail'),
+        description: seoDescription,
+        ogTitle: computed(() => {
+            if (!product.value) return 'Product | IT Solution Digital';
+            const specs = product.value.skus[0]?.attribute_options ?? [];
+            const specPart = specs.length ? ` – ${specs.map(o => o.label).join(', ')}` : '';
+            return `${product.value.meta_title || product.value.name}${specPart} | IT Solution Digital`;
+        }),
+        ogDescription: seoDescription,
+        ogImage: computed(() => product.value?.images?.featured?.original ?? '/logo.jpg'),
+        ogType: 'website',
+        twitterCard: 'summary_large_image',
+        keywords: seoKeywords,
+    });
+
+    // Product JSON-LD + BreadcrumbList structured data
+    useHead({
+        script: computed(() => {
+            if (!product.value) return [];
+
+            const allImageUrls = [
+                product.value.images.featured?.original,
+                ...(product.value.images.gallery ?? []).map(img => img?.original),
+            ].filter(Boolean);
+
+            // Specs from first SKU's attribute_options → schema:PropertyValue
+            const additionalProperty = (product.value.skus[0]?.attribute_options ?? []).map(opt => ({
+                '@type': 'PropertyValue',
+                name: opt.attribute.name,
+                value: opt.label,
+            }));
+
+            // One Offer per SKU variant (covers all RAM/Storage options)
+            const offers = product.value.skus.map(sku => ({
+                '@type': 'Offer',
+                priceCurrency: 'USD',
+                price: sku.price,
+                ...(sku.compare_at_price ? { priceValidUntil: '2026-12-31' } : {}),
+                availability: sku.is_in_stock
+                    ? 'https://schema.org/InStock'
+                    : 'https://schema.org/OutOfStock',
+                itemCondition: 'https://schema.org/NewCondition',
+                seller: { '@type': 'Organization', name: 'IT Solution Digital' },
+                url: `https://itsolutiondigital.com/products/${product.value!.slug}`,
+                ...(sku.name ? { name: sku.name } : {}),
+            }));
+
+            // BreadcrumbList from category breadcrumbs
+            const primaryCat = product.value.categories[0] ?? null;
+            const breadcrumbItems = [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://itsolutiondigital.com' },
+                ...(primaryCat?.breadcrumbs ?? []).map((crumb, i) => ({
+                    '@type': 'ListItem',
+                    position: i + 2,
+                    name: crumb.name,
+                    item: `https://itsolutiondigital.com/categories/${crumb.slug}`,
+                })),
+                {
+                    '@type': 'ListItem',
+                    position: (primaryCat?.breadcrumbs.length ?? 0) + 2,
+                    name: product.value.name,
+                    item: `https://itsolutiondigital.com/products/${product.value.slug}`,
+                },
+            ];
+
+            return [
+                {
+                    type: 'application/ld+json',
+                    innerHTML: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'Product',
+                        name: product.value.name,
+                        image: allImageUrls,
+                        description: product.value.meta_description || product.value.short_description || '',
+                        brand: { '@type': 'Brand', name: product.value.brand.name },
+                        ...(additionalProperty.length ? { additionalProperty } : {}),
+                        offers: offers.length === 1 ? offers[0] : offers,
+                    }),
+                },
+                {
+                    type: 'application/ld+json',
+                    innerHTML: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'BreadcrumbList',
+                        itemListElement: breadcrumbItems,
+                    }),
+                },
+            ];
+        }),
+    });
+
+    const { addItem: addToCart } = useCart();
     const { addToast } = useToast();
 
     const quantity = ref(1);
@@ -332,10 +501,20 @@
         return product.value?.categories[0] ?? null;
     });
 
+    // Discount percentage badge
+    const discountPercent = computed(() => {
+        if (!selectedSku.value?.compare_at_price || !selectedSku.value?.price) return 0;
+        const compare = parseFloat(selectedSku.value.compare_at_price);
+        const price = parseFloat(selectedSku.value.price);
+        if (compare <= price) return 0;
+        return Math.round(((compare - price) / compare) * 100);
+    });
+
     // Image gallery
     const allImages = computed(() => {
         if (!product.value) return [];
-        return [product.value.images.featured, ...product.value.images.gallery];
+        const gallery = product.value.images.gallery ?? [];
+        return [product.value.images.featured, ...gallery].filter(Boolean);
     });
     const activeImageIndex = ref(0);
 
@@ -398,7 +577,6 @@
         } catch (error: any) {
             console.error('Failed to add to cart:', error);
 
-            // Check if error is due to authentication
             if (error.message?.includes('sign in')) {
                 addToast('Please sign in to add items to cart', 'info');
             } else {

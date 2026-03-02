@@ -180,6 +180,8 @@
         middleware: 'guest'
     })
 
+    useSeoMeta({ title: 'Create Account', robots: 'noindex, nofollow' })
+
     const authStore = useAuthStore()
     const { addToast } = useToast()
 

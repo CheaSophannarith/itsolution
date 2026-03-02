@@ -463,6 +463,8 @@ definePageMeta({
     middleware: 'auth'
 })
 
+useSeoMeta({ title: 'My Profile', robots: 'noindex, nofollow' })
+
 const authStore = useAuthStore()
 
 // Sidebar navigation

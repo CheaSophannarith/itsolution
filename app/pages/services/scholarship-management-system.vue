@@ -609,13 +609,16 @@
         UserCircle
     } from 'lucide-vue-next'
 
-    useHead({
-        title: 'Scholarship Management System - IT Solution',
-        meta: [
-            {
-                name: 'description',
-                content: 'Scholarship Management System - Streamlining the entire scholarship lifecycle from application to selection with enhanced efficiency, transparency, and equity. A project for the Ministry of Education, funded by the Government of Cambodia.'
-            }
-        ]
+    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com/services/scholarship-management-system' }] });
+
+    useSeoMeta({
+        title: 'Scholarship Management System – Digital Scholarship Platform',
+        description: 'A comprehensive digital platform managing Cambodia\'s entire scholarship lifecycle—from application to final selection. Funded by the Government of Cambodia, implemented by IT Solution Digital for the Ministry of Education.',
+        ogTitle: 'Scholarship Management System | IT Solution Digital Cambodia',
+        ogDescription: 'Streamlining Cambodia\'s scholarship lifecycle from application to selection with transparency and efficiency. A Ministry of Education project by IT Solution Digital.',
+        ogImage: '/Images/Scholarship/DGHE Admin/Dashboard.png',
+        ogType: 'website',
+        twitterCard: 'summary_large_image',
+        keywords: 'scholarship management Cambodia, DGHE scholarship system, Cambodia government scholarship, Ministry of Education Cambodia scholarship, IT Solution Digital',
     })
 </script>
