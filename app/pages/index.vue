@@ -9,7 +9,7 @@
                 }" @init-api="onCarouselInit">
                     <CarouselContent>
                         <CarouselItem v-for="slide in carouselSlides" :key="slide.uuid">
-                            <div class="relative w-full aspect-[4/3] sm:aspect-[16/7] lg:aspect-[21/8] overflow-hidden">
+                            <div class="relative w-full aspect-4/3 sm:aspect-16/7 lg:aspect-21/8 overflow-hidden">
                                 <picture>
                                     <source :srcset="slide.desktop" media="(min-width: 640px)" />
                                     <img :src="slide.mobile || slide.desktop" :alt="slide.title || 'Carousel slide'"
@@ -30,7 +30,8 @@
                     </div>
 
                     <!-- Pagination Dots -->
-                    <div class="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 z-20">
+                    <div
+                        class="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 z-20">
                         <button v-for="(slide, index) in carouselSlides" :key="slide.uuid"
                             @click="() => carouselApi?.scrollTo(index)" :class="[
                                 'h-1.5 sm:h-2 rounded-full transition-all duration-300',
