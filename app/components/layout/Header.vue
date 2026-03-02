@@ -1,5 +1,5 @@
 <template>
-	<header :class="['sticky top-0 z-50 transition-transform duration-300', { '-translate-y-full': hideHeader }]">
+	<header :class="['sticky top-0 z-50 transition-transform duration-300', { '-translate-y-full': isHidden }]">
 		<!-- Top Section - White Background -->
 		<div class="bg-white border-b border-gray-200 mx-auto max-w-full">
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
@@ -102,6 +102,7 @@
 						<CartDrawer>
 							<template #trigger>
 								<button
+									id="cart-icon-btn"
 									class="relative p-2 text-brand hover:text-white hover:bg-brand rounded-md transition-all">
 									<ShoppingCart class="w-5 h-5" />
 									<span v-if="cartTotalItems > 0"
@@ -711,7 +712,7 @@
 	}
 
 	// Hide header on scroll down, show on scroll up
-	const hideHeader = ref(false)
+	const { isHidden, setHidden } = useHeaderVisibility()
 	let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0
 	let ticking = false
 
@@ -721,9 +722,9 @@
 			window.requestAnimationFrame(() => {
 				const currentY = window.scrollY
 				if (currentY > lastScrollY && currentY > 80) {
-					hideHeader.value = true
+					setHidden(true)
 				} else {
-					hideHeader.value = false
+					setHidden(false)
 				}
 				// Clear search on any scroll to avoid floating detached dropdown and stale state
 				if (searchQuery.value) searchQuery.value = ''
