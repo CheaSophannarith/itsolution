@@ -122,11 +122,7 @@
                                 itemscope itemtype="https://schema.org/Brand">
                                 <span itemprop="name">{{ product.brand.name }}</span>
                             </span>
-                            <NuxtLink v-if="primaryCategory" :to="`/categories/${primaryCategory.slug}`"
-                                class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-blue-50 text-blue-700 text-xs font-medium rounded-full hover:bg-blue-100 transition-colors">
-                                <Tag class="w-3 h-3" />
-                                {{ primaryCategory.name }}
-                            </NuxtLink>
+                            
                         </div>
 
                         <!-- Product Name -->
@@ -229,25 +225,6 @@
                                     :class="['w-4 h-4 transition-transform', buttonClicked && 'animate-cart-shake']" />
                                 <span>{{ isAddingToCart ? 'Adding...' : 'Add to Cart' }}</span>
                             </button>
-                        </div>
-
-                        <!-- Trust Badges -->
-                        <div class="grid grid-cols-3 gap-2 pt-1">
-                            <div
-                                class="flex flex-col items-center gap-1.5 text-center p-2.5 rounded-xl bg-gray-50 border border-gray-100">
-                                <Award class="w-4 h-4 text-blue-600 shrink-0" />
-                                <span class="text-xs text-gray-600 leading-tight">Original<br>Product</span>
-                            </div>
-                            <div
-                                class="flex flex-col items-center gap-1.5 text-center p-2.5 rounded-xl bg-gray-50 border border-gray-100">
-                                <RotateCcw class="w-4 h-4 text-blue-600 shrink-0" />
-                                <span class="text-xs text-gray-600 leading-tight">30-Day<br>Warranty</span>
-                            </div>
-                            <div
-                                class="flex flex-col items-center gap-1.5 text-center p-2.5 rounded-xl bg-gray-50 border border-gray-100">
-                                <ShieldCheck class="w-4 h-4 text-blue-600 shrink-0" />
-                                <span class="text-xs text-gray-600 leading-tight">Secure<br>Payment</span>
-                            </div>
                         </div>
 
                         <div class="h-px bg-gray-100"></div>
