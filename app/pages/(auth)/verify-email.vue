@@ -18,7 +18,7 @@
                 <!-- VERIFICATION IN PROGRESS STATE (when clicked link from email) -->
                 <div v-if="isVerifying" class="text-center">
                     <NuxtLink to="/" class="inline-block mb-4">
-                        <img src="/logo.png" alt="TanXLM" class="h-18 mx-auto" />
+                        <img src="/logo.jpg" alt="TanXLM" class="h-18 mx-auto" />
                     </NuxtLink>
                     <div class="w-20 h-20 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
                         <Loader2 class="w-10 h-10 text-gray-900 animate-spin" />
@@ -32,7 +32,7 @@
                 <!-- VERIFICATION SUCCESS STATE -->
                 <div v-else-if="verificationSuccess" class="text-center">
                     <NuxtLink to="/" class="inline-block mb-4">
-                        <img src="/logo.png" alt="TanXLM" class="h-18 mx-auto" />
+                        <img src="/logo.jpg" alt="TanXLM" class="h-18 mx-auto" />
                     </NuxtLink>
                     <div class="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-4">
                         <CheckCircle class="w-10 h-10 text-green-600" />
@@ -54,7 +54,7 @@
                 <!-- VERIFICATION FAILED STATE -->
                 <div v-else-if="verificationFailed" class="text-center">
                     <NuxtLink to="/" class="inline-block mb-4">
-                        <img src="/logo.png" alt="TanXLM" class="h-18 mx-auto" />
+                        <img src="/logo.jpg" alt="TanXLM" class="h-18 mx-auto" />
                     </NuxtLink>
                     <div class="w-20 h-20 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-4">
                         <XCircle class="w-10 h-10 text-red-600" />
@@ -80,7 +80,7 @@
                     <!-- Email Icon -->
                     <div class="mb-6 text-center">
                         <NuxtLink to="/" class="inline-block mb-4">
-                            <img src="/logo.png" alt="TanXLM" class="h-18 mx-auto" />
+                            <img src="/logo.jpg" alt="TanXLM" class="h-18 mx-auto" />
                         </NuxtLink>
                         <div class="w-20 h-20 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
                             <Mail class="w-10 h-10 text-gray-900" />

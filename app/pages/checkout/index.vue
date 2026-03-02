@@ -14,7 +14,7 @@
 
 					<!-- Logo -->
 					<NuxtLink to="/" class="absolute left-1/2 -translate-x-1/2">
-						<img src="/logo.png" alt="TanXLM" class="h-8 sm:h-10 hover:opacity-80 transition-opacity" />
+						<img src="/logo.jpg" alt="TanXLM" class="h-8 sm:h-10 hover:opacity-80 transition-opacity" />
 					</NuxtLink>
 				</div>
 			</div>

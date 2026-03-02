@@ -17,7 +17,7 @@
                 <!-- Form Header -->
                 <div class="mb-6 text-center">
                     <NuxtLink to="/" class="inline-block mb-4">
-                        <img src="/logo.png" alt="TanXLM" class="h-18 mx-auto" />
+                        <img src="/logo.jpg" alt="TanXLM" class="h-18 mx-auto" />
                     </NuxtLink>
                     <h1 class="text-3xl font-bold text-gray-900 mb-3">Reset your password</h1>
                     <p class="text-gray-600 text-base">Enter your new password below</p>

@@ -4,7 +4,7 @@
 		<header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-center">
 				<NuxtLink to="/">
-					<img src="/logo.png" alt="TanXLM" class="h-8 sm:h-10 hover:opacity-80 transition-opacity" />
+					<img src="/logo.jpg" alt="TanXLM" class="h-8 sm:h-10 hover:opacity-80 transition-opacity" />
 				</NuxtLink>
 			</div>
 		</header>

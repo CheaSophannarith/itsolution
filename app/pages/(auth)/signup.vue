@@ -19,7 +19,7 @@
                 <!-- Form Header -->
                 <div class="mb-2 text-center">
                     <NuxtLink to="/" class="inline-block mb-1">
-                        <img src="/logo.png" alt="TanXLM" class="h-18 mx-auto" />
+                        <img src="/logo.jpg" alt="TanXLM" class="h-18 mx-auto" />
                     </NuxtLink>
                     <h1 class="text-4xl font-bold text-gray-900 mb-3">Create an account</h1>
                     <p class="text-gray-500 text-lg">Get started with your free account today</p>

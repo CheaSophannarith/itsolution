@@ -5,7 +5,7 @@
                 <!-- Logo/Header -->
                 <div class="text-center mb-8">
                     <NuxtLink to="/" class="inline-block mb-6">
-                        <img src="/logo.png" alt="TanXLM" class="h-18 mx-auto" />
+                        <img src="/logo.jpg" alt="TanXLM" class="h-18 mx-auto" />
                     </NuxtLink>
                     <h2 class="text-3xl font-bold text-gray-900 mb-2">Forgot Password?</h2>
                     <p class="text-gray-600">Enter your email to reset your password</p>
