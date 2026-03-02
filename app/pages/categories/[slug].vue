@@ -467,6 +467,8 @@
     }
 
     // SEO
+    useHead({ link: computed(() => [{ rel: 'canonical', href: `https://itsolutiondigital.com/categories/${slug.value}` }]) });
+
     useSeoMeta({
         title: computed(() => category.value ? category.value.name : 'Categories'),
         description: computed(() => category.value
@@ -479,5 +481,26 @@
         ogImage: computed(() => category.value?.image ?? '/logo.jpg'),
         ogType: 'website',
         twitterCard: 'summary_large_image',
+    });
+
+    // BreadcrumbList JSON-LD
+    useHead({
+        script: computed(() => {
+            if (!category.value) return [];
+            const items: { '@type': string; position: number; name: string; item: string }[] = [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://itsolutiondigital.com' },
+                { '@type': 'ListItem', position: 2, name: category.value.name, item: `https://itsolutiondigital.com/categories/${category.value.slug}` },
+            ];
+            return [
+                {
+                    type: 'application/ld+json',
+                    innerHTML: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'BreadcrumbList',
+                        itemListElement: items,
+                    }),
+                },
+            ];
+        }),
     });
 </script>

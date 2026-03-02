@@ -193,8 +193,6 @@
         Headset,
         Award,
     } from 'lucide-vue-next';
-    import softwareServicesData from '~/assets/data/Service/system.json';
-    import type { Product } from '~/types';
     import type { CarouselApi } from '~/components/ui/carousel';
 
     const { carouselSlides } = useCarousel();
@@ -255,14 +253,167 @@
         stopAutoplay();
     });
 
+    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com' }] });
+
+    // Dynamic description using actual category names
+    const seoDescription = computed(() => {
+        const catNames = (categoriesWithProducts.value ?? []).map(c => c.name);
+        const productNames = (featuredProducts.value ?? []).slice(0, 4).map(p => p.name);
+        if (catNames.length && productNames.length) {
+            return `IT Solution Digital – Shop ${catNames.join(', ')} and more in Phnom Penh, Cambodia. Featured products: ${productNames.join(', ')}. Quality IT hardware and accessories at the best prices.`;
+        }
+        if (catNames.length) {
+            return `IT Solution Digital – Shop ${catNames.join(', ')} and more IT products in Phnom Penh, Cambodia. Quality hardware, computers, monitors and accessories at the best prices.`;
+        }
+        return 'IT Solution Digital – Shop quality IT products, computers, monitors, and hardware in Phnom Penh, Cambodia. Also offering custom software solutions.';
+    });
+
+    // Dynamic keywords from real product names, brand names, and category names
+    const seoKeywords = computed(() => {
+        const base = ['IT products Cambodia', 'computer hardware Phnom Penh', 'IT solution digital', 'buy IT products online'];
+        const catNames = (categoriesWithProducts.value ?? []).map(c => c.name);
+        const featuredNames = (featuredProducts.value ?? []).slice(0, 6).map(p => p.name);
+        const brandNames = [...new Set((featuredProducts.value ?? []).map(p => p.brand?.name).filter(Boolean))];
+        return [...base, ...catNames, ...featuredNames, ...brandNames].filter(Boolean).join(', ');
+    });
+
     useSeoMeta({
-        title: 'Software Solutions in Cambodia',
-        description: 'IT Solution Digital – Shop quality IT products, computers, and hardware in Phnom Penh, Cambodia. Also offering custom software solutions: HEMIS, Scholarship Management System, and more.',
+        title: 'IT Products & Software Solutions in Cambodia',
+        description: seoDescription,
         ogTitle: 'IT Solution Digital | IT Products & Software Solutions in Cambodia',
-        ogDescription: 'Your trusted IT partner in Phnom Penh, Cambodia. Shop quality IT products and explore our custom software solutions.',
+        ogDescription: seoDescription,
         ogImage: '/logo.jpg',
         ogType: 'website',
         twitterCard: 'summary_large_image',
-        keywords: 'IT products Cambodia, computer hardware Phnom Penh, IT solution digital, software development Cambodia, buy IT products online',
+        keywords: seoKeywords,
+    });
+
+    useHead({
+        script: [
+            {
+                type: 'application/ld+json',
+                innerHTML: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@graph': [
+                        {
+                            '@type': 'Organization',
+                            '@id': 'https://itsolutiondigital.com/#organization',
+                            name: 'IT Solution Digital',
+                            url: 'https://itsolutiondigital.com',
+                            logo: 'https://itsolutiondigital.com/logo.jpg',
+                            email: 'sales@itsolutiondigital.com',
+                            telephone: ['+855998688883', '+855178688883', '+855708688883'],
+                            sameAs: [
+                                'https://t.me/hengitsolution',
+                            ],
+                            address: {
+                                '@type': 'PostalAddress',
+                                streetAddress: 'St. Commercial, Chipmong Landmark',
+                                addressLocality: 'Sangkat Chak Angrae Leu, Khan Meanchey',
+                                addressRegion: 'Phnom Penh',
+                                postalCode: '120601',
+                                addressCountry: 'KH',
+                            },
+                        },
+                        {
+                            '@type': 'LocalBusiness',
+                            '@id': 'https://itsolutiondigital.com/#localbusiness',
+                            name: 'IT Solution Digital',
+                            image: 'https://itsolutiondigital.com/logo.jpg',
+                            url: 'https://itsolutiondigital.com',
+                            telephone: '+855998688883',
+                            email: 'sales@itsolutiondigital.com',
+                            priceRange: '$$',
+                            openingHoursSpecification: [
+                                {
+                                    '@type': 'OpeningHoursSpecification',
+                                    dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                                    opens: '08:00',
+                                    closes: '17:30',
+                                },
+                            ],
+                            address: {
+                                '@type': 'PostalAddress',
+                                streetAddress: 'St. Commercial, Chipmong Landmark',
+                                addressLocality: 'Sangkat Chak Angrae Leu, Khan Meanchey',
+                                addressRegion: 'Phnom Penh',
+                                postalCode: '120601',
+                                addressCountry: 'KH',
+                            },
+                            geo: {
+                                '@type': 'GeoCoordinates',
+                                latitude: 11.520857,
+                                longitude: 104.9234743,
+                            },
+                        },
+                        {
+                            '@type': 'WebSite',
+                            '@id': 'https://itsolutiondigital.com/#website',
+                            url: 'https://itsolutiondigital.com',
+                            name: 'IT Solution Digital',
+                            publisher: { '@id': 'https://itsolutiondigital.com/#organization' },
+                            potentialAction: {
+                                '@type': 'SearchAction',
+                                target: {
+                                    '@type': 'EntryPoint',
+                                    urlTemplate: 'https://itsolutiondigital.com/?q={search_term_string}',
+                                },
+                                'query-input': 'required name=search_term_string',
+                            },
+                        },
+                    ],
+                }),
+            },
+        ],
+    });
+
+    // ItemList JSON-LD for featured products and categories
+    useHead({
+        script: computed(() => {
+            const scripts = [];
+
+            // Featured products ItemList
+            const products = featuredProducts.value ?? [];
+            if (products.length) {
+                scripts.push({
+                    type: 'application/ld+json',
+                    innerHTML: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'ItemList',
+                        name: 'Featured Products',
+                        itemListElement: products.map((p, i) => ({
+                            '@type': 'ListItem',
+                            position: i + 1,
+                            name: p.name,
+                            url: `https://itsolutiondigital.com/products/${p.slug}`,
+                            image: p.image,
+                            description: p.short_description || '',
+                        })),
+                    }),
+                });
+            }
+
+            // Categories ItemList
+            const cats = categoriesWithProducts.value ?? [];
+            if (cats.length) {
+                scripts.push({
+                    type: 'application/ld+json',
+                    innerHTML: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'ItemList',
+                        name: 'Product Categories',
+                        itemListElement: cats.map((c, i) => ({
+                            '@type': 'ListItem',
+                            position: i + 1,
+                            name: c.name,
+                            url: `https://itsolutiondigital.com/categories/${c.slug}`,
+                            image: c.image,
+                        })),
+                    }),
+                });
+            }
+
+            return scripts;
+        }),
     });
 </script>

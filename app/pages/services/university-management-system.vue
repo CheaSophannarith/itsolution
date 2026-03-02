@@ -331,6 +331,8 @@
         GraduationCap
     } from 'lucide-vue-next'
 
+    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com/services/university-management-system' }] });
+
     useSeoMeta({
         title: 'HEMIS – Higher Education Management Information System',
         description: 'HEMIS is Cambodia\'s national platform for higher education data management, implemented by IT Solution Digital for the Ministry of Education, Youth and Sport. Centralizing student, staff, and institutional data nationwide.',

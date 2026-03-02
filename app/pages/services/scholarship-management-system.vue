@@ -609,6 +609,8 @@
         UserCircle
     } from 'lucide-vue-next'
 
+    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com/services/scholarship-management-system' }] });
+
     useSeoMeta({
         title: 'Scholarship Management System – Digital Scholarship Platform',
         description: 'A comprehensive digital platform managing Cambodia\'s entire scholarship lifecycle—from application to final selection. Funded by the Government of Cambodia, implemented by IT Solution Digital for the Ministry of Education.',

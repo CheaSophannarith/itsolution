@@ -113,6 +113,8 @@
         return staticPages[service.slug] || `/services/${service.slug}`
     }
 
+    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com/services' }] });
+
     useSeoMeta({
         title: 'IT Software Solutions & Custom Development',
         description: 'Explore IT Solution Digital\'s software solutions: HEMIS (University Management), Scholarship Management System, and custom software development for government and businesses in Cambodia.',

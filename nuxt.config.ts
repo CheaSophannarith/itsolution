@@ -22,6 +22,7 @@ export default defineNuxtConfig({
 			],
 			link: [
 				{ rel: 'icon', type: 'image/png', href: '/Icon.PNG' },
+				{ rel: 'canonical', href: 'https://itsolutiondigital.com' },
 			],
 		},
 	},
