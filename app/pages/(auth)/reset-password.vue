@@ -166,7 +166,7 @@ import { ref, computed, onMounted } from 'vue'
 import { Eye, EyeOff, Loader2, ArrowLeft, Mail, Lock, AlertCircle } from 'lucide-vue-next'
 
 definePageMeta({
-    layout: false,
+    layout: 'auth',
     middleware: 'guest'
 })
 

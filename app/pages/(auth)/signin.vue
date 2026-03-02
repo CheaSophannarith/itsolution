@@ -102,7 +102,7 @@
     import { Eye, EyeOff, Loader2, ArrowLeft, ArrowRight, Mail, Lock } from 'lucide-vue-next'
 
     definePageMeta({
-        layout: false,
+        layout: 'auth',
         middleware: 'guest'
     })
 

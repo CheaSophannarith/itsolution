@@ -153,7 +153,7 @@ import { onMounted, onUnmounted } from 'vue'
 import { Mail, RefreshCw, Loader2, ArrowLeft, ArrowRight, CheckCircle, XCircle } from 'lucide-vue-next'
 
 definePageMeta({
-    layout: false
+    layout: 'auth'
 })
 
 const route = useRoute()

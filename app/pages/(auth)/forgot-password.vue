@@ -73,7 +73,7 @@ import { ref } from 'vue'
 import { Mail, ArrowLeft, Loader2, CheckCircle } from 'lucide-vue-next'
 
 definePageMeta({
-    layout: false,
+    layout: 'auth',
     middleware: 'guest'
 })
 
