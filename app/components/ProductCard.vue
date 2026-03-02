@@ -217,7 +217,7 @@
         gsap.timeline()
             .fromTo(flyEl,
                 { scale: 0, opacity: 0 },
-                { scale: 1, opacity: 1, duration: 0.28, ease: 'back.out(2)' }
+                { scale: 1, opacity: 1, duration: 0.28, ease: 'back.out(4)' }
             )
             .to(flyEl, {
                 x: dx * 0.42,
@@ -228,17 +228,17 @@
             .to(flyEl, {
                 x: dx,
                 y: dy,
-                scale: 0.12,
-                opacity: 0,
-                duration: 0.52,
+                scale: 0.5,
+                opacity: 0.8,
+                duration: 1.5,
                 ease: 'power3.in',
                 onComplete: () => {
                     flyEl.remove();
                     // Elastic bounce on the cart icon
                     gsap.timeline()
-                        .to(cartBtn, { scale: 1.5,  duration: 0.18, ease: 'power2.out' })
-                        .to(cartBtn, { scale: 0.85, duration: 0.12, ease: 'power1.in' })
-                        .to(cartBtn, { scale: 1,    duration: 0.3,  ease: 'elastic.out(1.3, 0.4)' });
+                        .to(cartBtn, { scale: 1.5,  duration: 0.4, ease: 'power2.out' })
+                        .to(cartBtn, { scale: 0.85, duration: 0.4, ease: 'power1.in' })
+                        .to(cartBtn, { scale: 1,    duration: 0.4,  ease: 'elastic.out(1.3, 0.4)' });
                 },
             });
     };
@@ -259,7 +259,7 @@
             if (!sku) return;
 
             await addItem(sku.uuid, 1);
-            if (btnRect) withHeaderVisible(() => flyToCart(btnRect), 2200);
+            if (btnRect) withHeaderVisible(() => flyToCart(btnRect), 3600);
         } catch (error: any) {
             console.error('Failed to add to cart:', error);
             if (error.message?.includes('sign in')) {
