@@ -150,7 +150,7 @@
                 <div class="mt-6 text-center">
                     <NuxtLink to="/signin"
                         class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium">
-                        <ArrowLeft class="w-4 h-4" />
+                        <Home class="w-4 h-4" />
                         Back to Sign In
                     </NuxtLink>
                 </div>
@@ -163,7 +163,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { Eye, EyeOff, Loader2, ArrowLeft, Mail, Lock, AlertCircle } from 'lucide-vue-next'
+import { Eye, EyeOff, Loader2, Home, Mail, Lock, AlertCircle } from 'lucide-vue-next'
 
 definePageMeta({
     layout: 'auth',

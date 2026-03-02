@@ -47,7 +47,7 @@
                         class="w-full flex items-center justify-center gap-2 bg-black text-white py-3.5 rounded-xl font-semibold hover:bg-gray-900 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                     >
                         <span>Continue to Home</span>
-                        <ArrowRight class="w-5 h-5" />
+                        <Home class="w-5 h-5" />
                     </button>
                 </div>
 
@@ -150,7 +150,7 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
-import { Mail, RefreshCw, Loader2, ArrowLeft, ArrowRight, CheckCircle, XCircle } from 'lucide-vue-next'
+import { Mail, RefreshCw, Loader2, Home, CheckCircle, XCircle } from 'lucide-vue-next'
 
 definePageMeta({
     layout: 'auth'
