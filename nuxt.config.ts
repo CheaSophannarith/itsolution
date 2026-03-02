@@ -2,6 +2,14 @@
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineNuxtConfig({
+	app: {
+		head: {
+			title: 'IT Solution Digital',
+			link: [
+				{ rel: 'icon', type: 'image/png', href: '/Icon.PNG' },
+			],
+		},
+	},
 	runtimeConfig: {
 		public: {
 			apiBaseUrl: process.env.API_BASE_URL,
