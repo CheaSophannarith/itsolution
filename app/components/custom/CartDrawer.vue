@@ -19,6 +19,10 @@ const authStore = useAuthStore()
 const router = useRouter()
 const { forceUnlockScroll } = useScrollLock()
 
+const hasOutOfStockItems = computed(() =>
+    items.value.some(item => !item.sku.is_in_stock || item.sku.stock_quantity === 0)
+)
+
 // Force unlock scroll on component mount and when closing
 onMounted(() => {
     forceUnlockScroll()
@@ -128,7 +132,8 @@ const handleCheckout = () => {
                     <div
                         v-for="item in items"
                         :key="item.uuid"
-                        class="group relative bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-3 hover:border-brand transition-all duration-300 border border-brand/10"
+                        class="group relative bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-3 transition-all duration-300 border"
+                        :class="(!item.sku.is_in_stock || item.sku.stock_quantity === 0) ? 'border-red-200 bg-red-50/40' : 'border-brand/10 hover:border-brand'"
                     >
                         <div class="flex gap-2.5 sm:gap-3">
                             <!-- Premium Product Image -->
@@ -163,6 +168,14 @@ const handleCheckout = () => {
                                         <p v-if="item.sku.attribute_options.length > 0" class="text-xs text-gray-500 font-medium">
                                             {{ item.sku.attribute_options.map(o => o.label).join(' / ') }}
                                         </p>
+                                        <span v-if="!item.sku.is_in_stock || item.sku.stock_quantity === 0"
+                                            class="inline-flex items-center gap-1 text-xs font-semibold text-red-600 bg-red-100 border border-red-200 rounded-md px-1.5 py-0.5 mt-1">
+                                             Out of Stock
+                                        </span>
+                                        <span v-else-if="item.quantity > item.sku.stock_quantity"
+                                            class="inline-flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 rounded-md px-1.5 py-0.5 mt-1">
+                                             Only {{ item.sku.stock_quantity }} left
+                                        </span>
                                     </div>
 
                                     <!-- Price -->
@@ -239,9 +252,17 @@ const handleCheckout = () => {
                     </div>
                 </div>
 
+                <!-- Out of Stock Warning -->
+                <div v-if="hasOutOfStockItems"
+                    class="flex items-start gap-2 bg-red-50 border border-red-200 rounded-xl px-3 py-2 text-xs text-red-700">
+                    <span>Some items are out of stock. Remove them before checking out.</span>
+                </div>
+
                 <!-- Checkout Button -->
                 <button
-                    class="w-full bg-gray-900 hover:bg-black text-white py-2 sm:py-2.5 rounded-full font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
+                    class="w-full bg-gray-900 hover:bg-black text-white py-2 sm:py-2.5 rounded-full font-bold text-sm transition-all shadow-md flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    :class="!hasOutOfStockItems ? 'hover:scale-[1.02] active:scale-[0.98] hover:shadow-lg' : ''"
+                    :disabled="hasOutOfStockItems"
                     @click="handleCheckout"
                 >
                     <span>Proceed to Checkout</span>
