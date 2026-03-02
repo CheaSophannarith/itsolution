@@ -184,7 +184,7 @@
                     </div>
 
                     <!-- Address Section -->
-                    <div v-else-if="activeTab === 'address'" class="bg-white rounded-xl border border-gray-200 overflow-hidden md:flex md:flex-col md:h-full">
+                    <div v-else-if="activeTab === 'address'" class="bg-white rounded-xl border border-gray-200 md:flex md:flex-col md:h-full">
                         <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center">
@@ -233,7 +233,6 @@
                                         </div>
 
                                         <p class="font-semibold text-gray-900 mb-1">{{ address.full_name }}</p>
-                                        <p v-if="address.company" class="text-sm text-gray-600 mb-1">{{ address.company }}</p>
                                         <p class="text-sm text-gray-600 leading-relaxed mb-2">{{ address.formatted_address }}</p>
 
                                         <div class="flex flex-wrap gap-3 text-sm text-gray-500">
@@ -298,12 +297,62 @@
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label for="address_type" class="block text-sm font-medium text-gray-700 mb-1">Type <span class="text-red-500">*</span></label>
-                                        <select v-model="addressForm.type" id="address_type" required
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
-                                            <option value="shipping">Shipping</option>
-                                            <option value="billing">Billing</option>
-                                        </select>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Type <span class="text-red-500">*</span></label>
+                                        <div class="relative" @click.stop>
+                                            <button type="button" @click="typeDropdownOpen = !typeDropdownOpen"
+                                                class="w-full flex items-center justify-between gap-2 px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all">
+                                                <div class="flex items-center gap-2.5">
+                                                    <div class="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
+                                                        :class="addressForm.type === 'shipping' ? 'bg-brand/10' : 'bg-purple-100'">
+                                                        <svg v-if="addressForm.type === 'shipping'" class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                                                        </svg>
+                                                        <svg v-else class="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="font-medium capitalize">{{ addressForm.type }}</span>
+                                                </div>
+                                                <svg class="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200" :class="typeDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                                </svg>
+                                            </button>
+                                            <div v-show="typeDropdownOpen" class="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                                                <button type="button" @click="handleTypeSelect('shipping')"
+                                                    class="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                                                    :class="addressForm.type === 'shipping' ? 'bg-brand/5' : ''">
+                                                    <div class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center flex-shrink-0">
+                                                        <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-sm font-medium text-gray-900">Shipping</p>
+                                                        <p class="text-xs text-gray-500">Delivery address</p>
+                                                    </div>
+                                                    <svg v-if="addressForm.type === 'shipping'" class="ml-auto w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                                    </svg>
+                                                </button>
+                                                <div class="border-t border-gray-100 mx-3"></div>
+                                                <button type="button" @click="handleTypeSelect('billing')"
+                                                    class="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                                                    :class="addressForm.type === 'billing' ? 'bg-purple-50/50' : ''">
+                                                    <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                                        <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-sm font-medium text-gray-900">Billing</p>
+                                                        <p class="text-xs text-gray-500">Payment address</p>
+                                                    </div>
+                                                    <svg v-if="addressForm.type === 'billing'" class="ml-auto w-4 h-4 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
                                         <label for="address_label" class="block text-sm font-medium text-gray-700 mb-1">Label</label>
@@ -327,12 +376,6 @@
                                 </div>
 
                                 <div>
-                                    <label for="company" class="block text-sm font-medium text-gray-700 mb-1">Company</label>
-                                    <input v-model="addressForm.company" type="text" id="company" maxlength="200"
-                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
-                                </div>
-
-                                <div>
                                     <label for="address_line_1" class="block text-sm font-medium text-gray-700 mb-1">Address Line 1 <span class="text-red-500">*</span></label>
                                     <input v-model="addressForm.address_line_1" type="text" id="address_line_1" required maxlength="255"
                                         class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
@@ -344,29 +387,35 @@
                                         class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                                 </div>
 
-                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                                    <div class="col-span-2 sm:col-span-1">
-                                        <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City <span class="text-red-500">*</span></label>
-                                        <input v-model="addressForm.city" type="text" id="city" required maxlength="100"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
-                                    </div>
-                                    <div>
-                                        <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
-                                        <input v-model="addressForm.state" type="text" id="state" maxlength="100"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
-                                    </div>
-                                    <div>
-                                        <label for="postal_code" class="block text-sm font-medium text-gray-700 mb-1">Postal Code <span class="text-red-500">*</span></label>
-                                        <input v-model="addressForm.postal_code" type="text" id="postal_code" required maxlength="20"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
-                                    </div>
-                                </div>
-
                                 <div>
-                                    <label for="country_code" class="block text-sm font-medium text-gray-700 mb-1">Country Code <span class="text-red-500">*</span></label>
-                                    <input v-model="addressForm.country_code" type="text" id="country_code" required minlength="2" maxlength="2"
-                                        placeholder="e.g., US, KH, GB"
-                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm uppercase">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Province <span class="text-red-500">*</span></label>
+                                    <div class="relative" @click.stop>
+                                        <button type="button" @click="provinceDropdownOpen = !provinceDropdownOpen"
+                                            class="w-full flex items-center justify-between gap-2 pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg bg-white text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all"
+                                            :class="addressForm.province ? 'text-gray-900' : 'text-gray-400'">
+                                            <div class="pointer-events-none absolute inset-y-0 left-3.5 flex items-center text-gray-400">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                </svg>
+                                            </div>
+                                            <span class="truncate">{{ addressForm.province || 'Select a province' }}</span>
+                                            <svg class="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200" :class="provinceDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                            </svg>
+                                        </button>
+                                        <div v-show="provinceDropdownOpen" class="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-56 overflow-y-auto">
+                                            <button v-for="province in cambodiaProvinces" :key="province" type="button"
+                                                @click="handleProvinceSelect(province)"
+                                                class="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors text-left"
+                                                :class="addressForm.province === province ? 'text-brand font-medium bg-brand/5' : 'text-gray-700'">
+                                                <span>{{ province }}</span>
+                                                <svg v-if="addressForm.province === province" class="w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -455,7 +504,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { User, Eye, EyeOff, Loader2, Upload, Trash2, Lock, MapPin } from 'lucide-vue-next'
 import type { Address, AddressFormData } from '~/types/address'
 
@@ -563,13 +612,9 @@ const addressForm = ref<AddressFormData>({
     type: 'shipping',
     first_name: '',
     last_name: '',
-    company: null,
     address_line_1: '',
     address_line_2: null,
-    city: '',
-    state: null,
-    postal_code: '',
-    country_code: '',
+    province: '',
     phone: null,
     email: null,
     label: null,
@@ -587,13 +632,9 @@ function startEditingAddress(address: Address) {
         type: address.type,
         first_name: address.first_name,
         last_name: address.last_name,
-        company: address.company,
         address_line_1: address.address_line_1,
         address_line_2: address.address_line_2,
-        city: address.city,
-        state: address.state,
-        postal_code: address.postal_code,
-        country_code: address.country_code,
+        province: address.province,
         phone: address.phone,
         email: address.email,
         label: address.label,
@@ -613,13 +654,9 @@ function resetAddressForm() {
         type: 'shipping',
         first_name: '',
         last_name: '',
-        company: null,
         address_line_1: '',
         address_line_2: null,
-        city: '',
-        state: null,
-        postal_code: '',
-        country_code: '',
+        province: '',
         phone: null,
         email: null,
         label: null,
@@ -638,7 +675,11 @@ async function handleAddressSubmit() {
             const { is_default, ...updateData } = addressForm.value
             await updateAddress(currentAddress.value.uuid, updateData as AddressFormData)
         } else {
-            await createAddress(addressForm.value)
+            const formData = { ...addressForm.value }
+            if (addresses.value.length === 0) {
+                formData.is_default = true
+            }
+            await createAddress(formData)
         }
         await fetchAddresses()
         showAddressForm.value = false
@@ -651,7 +692,6 @@ async function handleAddressSubmit() {
 async function handleSetDefault(uuid: string) {
     try {
         await setDefaultAddress(uuid)
-        await fetchAddresses()
     } catch (error) {
         // Error already handled by composable
     }
@@ -669,11 +709,42 @@ async function confirmDelete() {
     }
 }
 
+const cambodiaProvinces = [
+    'Banteay Meanchey', 'Battambang', 'Kampong Cham', 'Kampong Chhnang',
+    'Kampong Speu', 'Kampong Thom', 'Kampot', 'Kandal', 'Kep', 'Koh Kong',
+    'Kratie', 'Mondulkiri', 'Oddar Meanchey', 'Pailin', 'Phnom Penh',
+    'Preah Sihanouk', 'Preah Vihear', 'Prey Veng', 'Pursat', 'Ratanakiri',
+    'Siem Reap', 'Stung Treng', 'Svay Rieng', 'Takeo', 'Tboung Khmum',
+]
+
+const typeDropdownOpen = ref(false)
+const provinceDropdownOpen = ref(false)
+
+function handleTypeSelect(value: 'shipping' | 'billing') {
+    addressForm.value.type = value
+    typeDropdownOpen.value = false
+}
+
+function handleProvinceSelect(value: string) {
+    addressForm.value.province = value
+    provinceDropdownOpen.value = false
+}
+
+function closeAllDropdowns() {
+    typeDropdownOpen.value = false
+    provinceDropdownOpen.value = false
+}
+
 onMounted(async () => {
     await fetchAddresses()
     if (addresses.value.length === 0) {
         showAddressForm.value = true
     }
+    document.addEventListener('click', closeAllDropdowns)
+})
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', closeAllDropdowns)
 })
 </script>
 
