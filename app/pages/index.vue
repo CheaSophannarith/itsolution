@@ -154,7 +154,7 @@
 
 
         <!-- Why Choose Us Section -->
-        <div class="bg-linear-to-b from-gray-50 to-white py-16 sm:py-24">
+        <div class="bg-linear-to-b from-gray-50 to-white py-16 sm:py-24 mt-5">
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
                 <ClientOnly>
                     <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">

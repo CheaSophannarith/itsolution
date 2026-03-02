@@ -831,7 +831,9 @@
 
 	// Build navigation items from API categories tree
 	const navItems = computed<NavItem[]>(() => {
-		const items: NavItem[] = []
+		const items: NavItem[] = [
+			{ name: 'Home', href: '/' },
+		]
 
 		if (categories.value) {
 			for (const rootCategory of categories.value) {

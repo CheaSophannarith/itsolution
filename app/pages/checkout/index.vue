@@ -1,5 +1,5 @@
 <template>
-	<div class="min-h-screen bg-gray-50">
+	<div class="min-h-screen bg-gray-50 flex flex-col">
 		<!-- User-Friendly Checkout Header -->
 		<header class="bg-white border-b border-gray-200 sticky top-0 z-50">
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
@@ -20,10 +20,10 @@
 			</div>
 		</header>
 
-		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex-1">
 
 			<!-- Title Row -->
-			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2">
+			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2 mt-6">
 				<div>
 					<h1 class="text-xl sm:text-2xl font-bold text-gray-900">Complete Your Order</h1>
 				</div>
@@ -366,7 +366,7 @@
 				<!-- Right Column - Summary -->
 				<div class="order-1 lg:order-2 lg:col-span-5 mb-4 lg:mb-0">
 					<div
-						class="bg-white rounded-2xl border border-gray-100 shadow-lg p-3 sm:p-5 lg:sticky lg:top-[52px]">
+						class="bg-white rounded-2xl border border-gray-100 shadow-lg p-3 sm:p-5">
 						<h2 class="text-base sm:text-lg font-bold text-gray-900 mb-3">Order Summary</h2>
 
 						<!-- Stock Warnings -->
@@ -418,8 +418,8 @@
 											class="w-full h-full object-contain p-1" loading="lazy"
 											@error="(e: Event) => (e.target as HTMLImageElement).style.display = 'none'" />
 										<div v-else
-											class="w-full h-full flex items-center justify-center text-gray-300">
-											<ShoppingCart class="w-6 h-6" />
+											class="w-full h-full flex items-center justify-center text-gray-300 border border-gray-200 rounded-lg">
+											<ImageOff class="w-6 h-6" />
 										</div>
 									</div>
 									<!-- Item details -->
@@ -522,7 +522,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ChevronRight, ShoppingCart, MapPin, Plus, Edit2, Loader2 } from 'lucide-vue-next'
+	import { ChevronRight, ShoppingCart, MapPin, Plus, Edit2, Loader2, ImageOff } from 'lucide-vue-next'
 	import { computed, ref, onMounted, nextTick, watch } from 'vue'
 	import { useRouter } from 'vue-router'
 	import { useAuthStore } from '~/stores/auth'
@@ -663,6 +663,11 @@
 
 	async function saveNewAddress() {
 		try {
+			// If this is the user's first shipping address, make it the default
+			const hasNoShippingAddresses = addresses.value.filter(a => a.type === 'shipping').length === 0
+			if (hasNoShippingAddresses) {
+				newAddressForm.value.is_default = true
+			}
 			const created = await createAddress(newAddressForm.value)
 			// Auto-select the newly created address
 			selectedAddress.value = created

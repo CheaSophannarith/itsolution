@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Minus, Plus, ShoppingCart, Trash2, X, ArrowRight, Sparkles } from 'lucide-vue-next'
+import { Minus, Plus, ShoppingCart, Trash2, X, ArrowRight, Sparkles, ImageOff } from 'lucide-vue-next'
 import {
     Drawer,
     DrawerClose,
@@ -138,11 +138,15 @@ const handleCheckout = () => {
                                 @click="handleDrawerClose"
                             >
                                 <img
+                                    v-if="item.sku.product.image"
                                     :src="item.sku.product.image"
                                     :alt="item.sku.product.name"
                                     class="w-full h-full object-contain"
                                     loading="lazy"
                                 />
+                                <div v-else class="w-full h-full flex items-center justify-center text-gray-300 border border-gray-200 rounded-lg sm:rounded-xl">
+                                    <ImageOff class="w-7 h-7" />
+                                </div>
                             </NuxtLink>
 
                             <!-- Product Info -->
