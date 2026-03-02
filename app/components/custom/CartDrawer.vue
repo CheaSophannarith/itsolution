@@ -170,11 +170,11 @@ const handleCheckout = () => {
                                         </p>
                                         <span v-if="!item.sku.is_in_stock || item.sku.stock_quantity === 0"
                                             class="inline-flex items-center gap-1 text-xs font-semibold text-red-600 bg-red-100 border border-red-200 rounded-md px-1.5 py-0.5 mt-1">
-                                            🚫 Out of Stock
+                                             Out of Stock
                                         </span>
                                         <span v-else-if="item.quantity > item.sku.stock_quantity"
                                             class="inline-flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 rounded-md px-1.5 py-0.5 mt-1">
-                                            ⚠️ Only {{ item.sku.stock_quantity }} left
+                                             Only {{ item.sku.stock_quantity }} left
                                         </span>
                                     </div>
 
@@ -255,7 +255,6 @@ const handleCheckout = () => {
                 <!-- Out of Stock Warning -->
                 <div v-if="hasOutOfStockItems"
                     class="flex items-start gap-2 bg-red-50 border border-red-200 rounded-xl px-3 py-2 text-xs text-red-700">
-                    <span class="shrink-0">🚫</span>
                     <span>Some items are out of stock. Remove them before checking out.</span>
                 </div>
 
