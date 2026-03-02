@@ -8,12 +8,15 @@
                     loop: true,
                 }" @init-api="onCarouselInit">
                     <CarouselContent>
-                        <CarouselItem v-for="slide in carouselSlides" :key="slide.uuid">
+                        <CarouselItem v-for="(slide, index) in carouselSlides" :key="slide.uuid">
                             <div class="relative w-full aspect-4/3 sm:aspect-16/7 lg:aspect-21/8 overflow-hidden">
                                 <picture>
                                     <source :srcset="slide.desktop" media="(min-width: 640px)" />
                                     <img :src="slide.mobile || slide.desktop" :alt="slide.title || 'Carousel slide'"
-                                        class="w-full h-full object-cover" />
+                                        class="w-full h-full object-cover"
+                                        width="1920" height="730"
+                                        :fetchpriority="index === 0 ? 'high' : 'auto'"
+                                        :loading="index === 0 ? 'eager' : 'lazy'" />
                                 </picture>
                             </div>
                         </CarouselItem>
