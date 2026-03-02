@@ -80,7 +80,7 @@
                     </div>
 
                     <!-- Add button with loading state -->
-                    <button v-else @click="handleAddToCart" :disabled="adding" class="w-full relative flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 overflow-hidden
+                    <button v-else ref="addToCartBtnRef" @click="handleAddToCart" :disabled="adding" class="w-full relative flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 overflow-hidden
                                bg-gray-900 text-white hover:bg-gray-700 active:scale-[0.97]
                                disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100"
                         :aria-label="adding ? 'Adding to cart…' : 'Add to cart'">
@@ -108,7 +108,8 @@
 <script setup lang="ts">
     import { computed, ref } from 'vue';
     import { useRouter } from 'vue-router';
-    import { Heart, ShoppingCart, Check, PackageX, ImageOff } from 'lucide-vue-next';
+    import { Heart, ShoppingCart, PackageX, ImageOff } from 'lucide-vue-next';
+    import gsap from 'gsap';
     import type { Product } from '~/types';
     import type { ProductDetailResponse } from '~/types/models/product-detail';
 
@@ -126,6 +127,7 @@
 
     const adding = ref(false);
     const wishlistLoading = ref(false);
+    const addToCartBtnRef = ref<HTMLElement | null>(null);
 
     const formattedPrice = computed(() => {
         return parseFloat(props.product.price).toFixed(2);
@@ -145,6 +147,7 @@
     });
 
     const { openCartDrawer } = useCartDrawer();
+    const { withHeaderVisible } = useHeaderVisibility();
 
     // Check if product is already in cart
     const isInCart = computed(() => {
@@ -160,8 +163,91 @@
         router.push(`/products/${props.product.slug}`);
     };
 
+    const flyToCart = (startRect: DOMRect) => {
+        const cartBtn = document.getElementById('cart-icon-btn');
+        if (!cartBtn) return;
+
+        const endRect = cartBtn.getBoundingClientRect();
+
+        const size = 52;
+        const startX = startRect.left + startRect.width / 2 - size / 2;
+        const startY = startRect.top + startRect.height / 2 - size / 2;
+        const endX = endRect.left + endRect.width / 2 - size / 2;
+        const endY = endRect.top + endRect.height / 2 - size / 2;
+        const dx = endX - startX;
+        const dy = endY - startY;
+
+        // Arc height scales with horizontal distance so it always looks natural
+        const arcHeight = Math.min(140, Math.abs(dx) * 0.45 + 60);
+
+        // Build flying element with product image (or cart icon fallback)
+        const flyEl = document.createElement('div');
+        flyEl.style.cssText = `
+            position: fixed;
+            z-index: 9999;
+            width: ${size}px;
+            height: ${size}px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2.5px solid #111827;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+            pointer-events: none;
+            left: ${startX}px;
+            top: ${startY}px;
+            background: #f9fafb;
+        `;
+
+        if (props.product.image) {
+            const img = document.createElement('img');
+            img.src = props.product.image;
+            img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+            flyEl.appendChild(img);
+        } else {
+            flyEl.style.background = '#111827';
+            flyEl.style.display = 'flex';
+            flyEl.style.alignItems = 'center';
+            flyEl.style.justifyContent = 'center';
+            flyEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>`;
+        }
+
+        document.body.appendChild(flyEl);
+
+        // 3-phase arc animation:
+        // 1. Pop in  2. Rise along arc  3. Fall into cart and shrink
+        gsap.timeline()
+            .fromTo(flyEl,
+                { scale: 0, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.28, ease: 'back.out(2)' }
+            )
+            .to(flyEl, {
+                x: dx * 0.42,
+                y: dy * 0.22 - arcHeight,
+                duration: 0.58,
+                ease: 'power2.out',
+            })
+            .to(flyEl, {
+                x: dx,
+                y: dy,
+                scale: 0.12,
+                opacity: 0,
+                duration: 0.52,
+                ease: 'power3.in',
+                onComplete: () => {
+                    flyEl.remove();
+                    // Elastic bounce on the cart icon
+                    gsap.timeline()
+                        .to(cartBtn, { scale: 1.5,  duration: 0.18, ease: 'power2.out' })
+                        .to(cartBtn, { scale: 0.85, duration: 0.12, ease: 'power1.in' })
+                        .to(cartBtn, { scale: 1,    duration: 0.3,  ease: 'elastic.out(1.3, 0.4)' });
+                },
+            });
+    };
+
     const handleAddToCart = async () => {
         if (!props.product.in_stock || adding.value || isInCart.value) return;
+
+        // Capture button position immediately before any async work
+        const btnRect = addToCartBtnRef.value?.getBoundingClientRect();
 
         adding.value = true;
         try {
@@ -173,15 +259,11 @@
             if (!sku) return;
 
             await addItem(sku.uuid, 1);
-            addToast(`${detail.name} added to cart!`, 'success');
+            if (btnRect) withHeaderVisible(() => flyToCart(btnRect), 2200);
         } catch (error: any) {
             console.error('Failed to add to cart:', error);
-
-            // Check if error is due to authentication
             if (error.message?.includes('sign in')) {
-                addToast('Please sign in to add items to cart', 'info');
-            } else {
-                addToast('Failed to add to cart', 'error');
+                router.push('/signin');
             }
         } finally {
             adding.value = false;
@@ -206,46 +288,3 @@
     };
 </script>
 
-<style scoped>
-    @keyframes bounce-once {
-
-        0%,
-        100% {
-            transform: translateY(0);
-        }
-
-        25% {
-            transform: translateY(-8px);
-        }
-
-        50% {
-            transform: translateY(0);
-        }
-
-        75% {
-            transform: translateY(-4px);
-        }
-    }
-
-    @keyframes scale-in {
-        0% {
-            transform: scale(0);
-        }
-
-        50% {
-            transform: scale(1.3);
-        }
-
-        100% {
-            transform: scale(1);
-        }
-    }
-
-    .animate-bounce-once {
-        animation: bounce-once 0.6s ease-in-out;
-    }
-
-    .animate-scale-in {
-        animation: scale-in 0.4s ease-out;
-    }
-</style>
