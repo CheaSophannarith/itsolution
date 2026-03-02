@@ -725,6 +725,9 @@
 				} else {
 					hideHeader.value = false
 				}
+				// Clear search on any scroll to avoid floating detached dropdown and stale state
+				if (searchQuery.value) searchQuery.value = ''
+				if (mobileSearchQuery.value) mobileSearchQuery.value = ''
 				lastScrollY = currentY
 				ticking = false
 			})
