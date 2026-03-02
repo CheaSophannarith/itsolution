@@ -180,6 +180,73 @@
 								</div>
 								<p class="text-xs text-gray-500">* Required field</p>
 
+								<div>
+									<label class="block text-sm font-semibold text-gray-700 mb-2">Type *</label>
+									<div class="relative" @click.stop>
+										<button type="button" @click="checkoutTypeDropdownOpen = !checkoutTypeDropdownOpen"
+											class="w-full flex items-center justify-between gap-2 px-4 py-2.5 border-2 border-gray-200 rounded-xl bg-white text-sm text-gray-700 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200">
+											<div class="flex items-center gap-2.5">
+												<div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+													:class="newAddressForm.type === 'shipping' ? 'bg-brand/10' : 'bg-purple-100'">
+													<svg v-if="newAddressForm.type === 'shipping'" class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+													</svg>
+													<svg v-else class="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+													</svg>
+												</div>
+												<span class="font-medium capitalize">{{ newAddressForm.type }}</span>
+											</div>
+											<svg class="w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" :class="checkoutTypeDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+											</svg>
+										</button>
+										<div v-show="checkoutTypeDropdownOpen" class="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+											<button type="button" @click="handleCheckoutTypeSelect('shipping')"
+												class="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+												:class="newAddressForm.type === 'shipping' ? 'bg-brand/5' : ''">
+												<div class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+													<svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+													</svg>
+												</div>
+												<div>
+													<p class="text-sm font-medium text-gray-900">Shipping</p>
+													<p class="text-xs text-gray-500">Delivery address</p>
+												</div>
+												<svg v-if="newAddressForm.type === 'shipping'" class="ml-auto w-4 h-4 text-brand shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+												</svg>
+											</button>
+											<div class="border-t border-gray-100 mx-3"></div>
+											<button type="button" @click="handleCheckoutTypeSelect('billing')"
+												class="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+												:class="newAddressForm.type === 'billing' ? 'bg-purple-50/50' : ''">
+												<div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center shrink-0">
+													<svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+													</svg>
+												</div>
+												<div>
+													<p class="text-sm font-medium text-gray-900">Billing</p>
+													<p class="text-xs text-gray-500">Payment address</p>
+												</div>
+												<svg v-if="newAddressForm.type === 'billing'" class="ml-auto w-4 h-4 text-purple-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+												</svg>
+											</button>
+										</div>
+									</div>
+								</div>
+
+								<div>
+									<label for="label"
+										class="block text-sm font-semibold text-gray-700 mb-2">Label *</label>
+									<input id="new_phone" v-model="newAddressForm.label" type="text" required maxlength="20"
+										placeholder="Home, Office, etc."
+										class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+								</div>
+
 								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 									<div>
 										<label for="new_first_name"
@@ -199,87 +266,64 @@
 
 								<div>
 									<label for="new_phone"
-										class="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
-									<input id="new_phone" v-model="newAddressForm.phone" type="tel" maxlength="20"
+										class="block text-sm font-semibold text-gray-700 mb-2">Phone *</label>
+									<input id="new_phone" v-model="newAddressForm.phone" type="tel" required maxlength="20"
 										placeholder="e.g., +855 12 345 678"
+										class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
+								</div>
+								<div>
+									<label for="email"
+										class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+									<input id="new_phone" v-model="newAddressForm.email" type="email" required maxlength="20"
+										placeholder="user@gmail.com"
 										class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
 								</div>
 
 								<div>
 									<label for="new_address_line_1"
-										class="block text-sm font-semibold text-gray-700 mb-2">Street Address *</label>
+										class="block text-sm font-semibold text-gray-700 mb-2">Address Line 1*</label>
 									<input id="new_address_line_1" v-model="newAddressForm.address_line_1" type="text"
-										required maxlength="255" placeholder="Street or P.O. Box"
+										required maxlength="255" placeholder="Address Line 1"
 										class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
 								</div>
 
 								<div>
 									<label for="new_address_line_2"
-										class="block text-sm font-semibold text-gray-700 mb-2">Apartment, Suite,
-										Floor</label>
+										class="block text-sm font-semibold text-gray-700 mb-2">Address Line 2 (Optional)</label>
 									<input id="new_address_line_2" v-model="newAddressForm.address_line_2" type="text"
-										maxlength="255" placeholder="Optional"
+										maxlength="255" placeholder="Address Line 2 (Optional)"
 										class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
 								</div>
 
-								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									<div>
-										<label for="new_city"
-											class="block text-sm font-semibold text-gray-700 mb-2">City *</label>
-										<input id="new_city" v-model="newAddressForm.city" type="text" required
-											maxlength="100"
-											class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
-									</div>
-									<div>
-										<label for="new_state"
-											class="block text-sm font-semibold text-gray-700 mb-2">Province *</label>
-										<select id="new_state" v-model="newAddressForm.state"
-											class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand bg-white transition-all duration-200 hover:border-gray-300 cursor-pointer">
-											<option :value="null" class="text-gray-500">Select Province...</option>
-											<option value="Phnom Penh">Phnom Penh</option>
-											<option value="Siem Reap">Siem Reap</option>
-											<option value="Battambang">Battambang</option>
-											<option value="Sihanoukville">Sihanoukville</option>
-											<option value="Kampong Cham">Kampong Cham</option>
-											<option value="Kampong Speu">Kampong Speu</option>
-											<option value="Kampot">Kampot</option>
-											<option value="Kandal">Kandal</option>
-											<option value="Kep">Kep</option>
-											<option value="Koh Kong">Koh Kong</option>
-											<option value="Kratié">Kratié</option>
-											<option value="Mondulkiri">Mondulkiri</option>
-											<option value="Oddar Meanchey">Oddar Meanchey</option>
-											<option value="Pailin">Pailin</option>
-											<option value="Preah Vihear">Preah Vihear</option>
-											<option value="Prey Veng">Prey Veng</option>
-											<option value="Pursat">Pursat</option>
-											<option value="Ratanakiri">Ratanakiri</option>
-											<option value="Stung Treng">Stung Treng</option>
-											<option value="Svay Rieng">Svay Rieng</option>
-											<option value="Takéo">Takéo</option>
-											<option value="Banteay Meanchey">Banteay Meanchey</option>
-											<option value="Kampong Chhnang">Kampong Chhnang</option>
-											<option value="Kampong Thom">Kampong Thom</option>
-											<option value="Preah Sihanouk">Preah Sihanouk</option>
-										</select>
-									</div>
-								</div>
-
-								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									<div>
-										<label for="new_postal_code"
-											class="block text-sm font-semibold text-gray-700 mb-2">Postal Code *</label>
-										<input id="new_postal_code" v-model="newAddressForm.postal_code" type="text"
-											required maxlength="20"
-											class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300" />
-									</div>
-									<div>
-										<label for="new_country_code"
-											class="block text-sm font-semibold text-gray-700 mb-2">Country Code
-											*</label>
-										<input id="new_country_code" v-model="newAddressForm.country_code" type="text"
-											required minlength="2" maxlength="2" placeholder="KH"
-											class="w-full px-4 py-2.5 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200 hover:border-gray-300 uppercase" />
+								<div>
+									<label for="new_province"
+										class="block text-sm font-semibold text-gray-700 mb-2">Province *</label>
+									<div class="relative" @click.stop>
+										<button type="button" @click="checkoutProvinceDropdownOpen = !checkoutProvinceDropdownOpen"
+											class="w-full flex items-center justify-between gap-2 pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-xl bg-white text-sm hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition-all duration-200"
+											:class="newAddressForm.province ? 'text-gray-900' : 'text-gray-400'">
+											<div class="pointer-events-none absolute inset-y-0 left-3.5 flex items-center text-gray-400">
+												<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+												</svg>
+											</div>
+											<span class="truncate">{{ newAddressForm.province || 'Select a province' }}</span>
+											<svg class="w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" :class="checkoutProvinceDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+											</svg>
+										</button>
+										<div v-show="checkoutProvinceDropdownOpen" class="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-56 overflow-y-auto">
+											<button v-for="province in cambodiaProvinces" :key="province" type="button"
+												@click="handleCheckoutProvinceSelect(province)"
+												class="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors text-left"
+												:class="newAddressForm.province === province ? 'text-brand font-medium bg-brand/5' : 'text-gray-700'">
+												<span>{{ province }}</span>
+												<svg v-if="newAddressForm.province === province" class="w-4 h-4 text-brand shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+												</svg>
+											</button>
+										</div>
 									</div>
 								</div>
 
@@ -544,7 +588,7 @@
 
 <script setup lang="ts">
 	import { ChevronRight, ShoppingCart, MapPin, Plus, Edit2, Loader2, ImageOff, AlertTriangle } from 'lucide-vue-next'
-	import { computed, ref, onMounted, nextTick, watch } from 'vue'
+	import { computed, ref, onMounted, nextTick, watch, onBeforeUnmount } from 'vue'
 	import { useRouter } from 'vue-router'
 	import { useAuthStore } from '~/stores/auth'
 	import { useCartStore } from '~/stores/cart'
@@ -603,6 +647,7 @@
 
 		// Fetch addresses and preview in parallel
 		await Promise.all([fetchAddresses(), fetchPreview()])
+		document.addEventListener('click', closeCheckoutDropdowns)
 
 		// Set default address if available
 		const defaultAddress = addresses.value.find(addr => addr.is_default && addr.type === 'shipping')
@@ -618,18 +663,40 @@
 	})
 
 	// New address form data (matches AddressFormData structure)
+	const cambodiaProvinces = [
+		'Banteay Meanchey', 'Battambang', 'Kampong Cham', 'Kampong Chhnang',
+		'Kampong Speu', 'Kampong Thom', 'Kampot', 'Kandal', 'Kep', 'Koh Kong',
+		'Kratie', 'Mondulkiri', 'Oddar Meanchey', 'Pailin', 'Phnom Penh',
+		'Preah Sihanouk', 'Preah Vihear', 'Prey Veng', 'Pursat', 'Ratanakiri',
+		'Siem Reap', 'Stung Treng', 'Svay Rieng', 'Takeo', 'Tboung Khmum',
+	]
+
+	const checkoutTypeDropdownOpen = ref(false)
+	const checkoutProvinceDropdownOpen = ref(false)
+
+	function handleCheckoutTypeSelect(value: 'shipping' | 'billing') {
+		newAddressForm.value.type = value
+		checkoutTypeDropdownOpen.value = false
+	}
+
+	function handleCheckoutProvinceSelect(value: string) {
+		newAddressForm.value.province = value
+		checkoutProvinceDropdownOpen.value = false
+	}
+
+	function closeCheckoutDropdowns() {
+		checkoutTypeDropdownOpen.value = false
+		checkoutProvinceDropdownOpen.value = false
+	}
+
 	const newAddressForm = ref<AddressFormData>({
 		type: 'shipping',
 		first_name: '',
 		last_name: '',
-		company: null,
 		address_line_1: '',
 		address_line_2: null,
-		city: '',
-		state: null,
-		postal_code: '',
-		country_code: 'KH',
-		phone: null,
+		province: '',
+		phone: '',
 		email: null,
 		label: null,
 		is_default: false,
@@ -640,14 +707,10 @@
 			type: 'shipping',
 			first_name: '',
 			last_name: '',
-			company: null,
 			address_line_1: '',
 			address_line_2: null,
-			city: '',
-			state: null,
-			postal_code: '',
-			country_code: 'KH',
-			phone: null,
+			province: '',
+			phone: '',
 			email: null,
 			label: null,
 			is_default: false,
@@ -821,6 +884,10 @@
 	onUnmounted(() => {
 		if (pollInterval) clearInterval(pollInterval)
 		if (paymentChannelDisconnect) paymentChannelDisconnect()
+	})
+
+	onBeforeUnmount(() => {
+		document.removeEventListener('click', closeCheckoutDropdowns)
 	})
 </script>
 

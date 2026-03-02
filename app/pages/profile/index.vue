@@ -4,12 +4,12 @@
             <div class="flex flex-col md:flex-row md:items-stretch gap-6">
 
                 <!-- Sidebar -->
-                <aside class="w-full md:w-64 flex-shrink-0 md:flex md:flex-col">
+                <aside class="w-full md:w-64 shrink-0 md:flex md:flex-col">
                     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden md:flex md:flex-col md:h-full">
                         <!-- User Summary -->
                         <div class="p-5 border-b border-gray-100">
                             <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-brand to-brand/80 flex items-center justify-center ring-2 ring-brand/10 flex-shrink-0">
+                                <div class="w-12 h-12 rounded-full overflow-hidden bg-linear-to-br from-brand to-brand/80 flex items-center justify-center ring-2 ring-brand/10 shrink-0">
                                     <img v-if="avatarUrl" :src="avatarUrl" alt="Avatar" class="w-full h-full object-cover">
                                     <User v-else class="w-6 h-6 text-white" />
                                 </div>
@@ -32,7 +32,7 @@
                                     ? 'bg-brand text-white shadow-sm'
                                     : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'"
                             >
-                                <component :is="item.icon" class="w-4 h-4 flex-shrink-0" />
+                                <component :is="item.icon" class="w-4 h-4 shrink-0" />
                                 {{ item.label }}
                             </button>
                         </nav>
@@ -55,7 +55,7 @@
                             <!-- Avatar & Name -->
                             <div class="flex items-center gap-5 mb-6">
                                 <div class="relative group">
-                                    <div class="w-20 h-20 rounded-full overflow-hidden bg-gradient-to-br from-brand to-brand/80 flex items-center justify-center ring-4 ring-brand/10 shadow-md">
+                                    <div class="w-20 h-20 rounded-full overflow-hidden bg-linear-to-br from-brand to-brand/80 flex items-center justify-center ring-4 ring-brand/10 shadow-md">
                                         <img v-if="avatarUrl" :src="avatarUrl" alt="Profile avatar" class="w-full h-full object-cover">
                                         <User v-else class="w-10 h-10 text-white" />
                                     </div>
@@ -302,7 +302,7 @@
                                             <button type="button" @click="typeDropdownOpen = !typeDropdownOpen"
                                                 class="w-full flex items-center justify-between gap-2 px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all">
                                                 <div class="flex items-center gap-2.5">
-                                                    <div class="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
+                                                    <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
                                                         :class="addressForm.type === 'shipping' ? 'bg-brand/10' : 'bg-purple-100'">
                                                         <svg v-if="addressForm.type === 'shipping'" class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
@@ -313,7 +313,7 @@
                                                     </div>
                                                     <span class="font-medium capitalize">{{ addressForm.type }}</span>
                                                 </div>
-                                                <svg class="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200" :class="typeDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" :class="typeDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                                 </svg>
                                             </button>
@@ -321,7 +321,7 @@
                                                 <button type="button" @click="handleTypeSelect('shipping')"
                                                     class="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
                                                     :class="addressForm.type === 'shipping' ? 'bg-brand/5' : ''">
-                                                    <div class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center flex-shrink-0">
+                                                    <div class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
                                                         <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                                                         </svg>
@@ -330,7 +330,7 @@
                                                         <p class="text-sm font-medium text-gray-900">Shipping</p>
                                                         <p class="text-xs text-gray-500">Delivery address</p>
                                                     </div>
-                                                    <svg v-if="addressForm.type === 'shipping'" class="ml-auto w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg v-if="addressForm.type === 'shipping'" class="ml-auto w-4 h-4 text-brand shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                                     </svg>
                                                 </button>
@@ -338,7 +338,7 @@
                                                 <button type="button" @click="handleTypeSelect('billing')"
                                                     class="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
                                                     :class="addressForm.type === 'billing' ? 'bg-purple-50/50' : ''">
-                                                    <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                                    <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center shrink-0">
                                                         <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                                                         </svg>
@@ -347,7 +347,7 @@
                                                         <p class="text-sm font-medium text-gray-900">Billing</p>
                                                         <p class="text-xs text-gray-500">Payment address</p>
                                                     </div>
-                                                    <svg v-if="addressForm.type === 'billing'" class="ml-auto w-4 h-4 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg v-if="addressForm.type === 'billing'" class="ml-auto w-4 h-4 text-purple-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                                     </svg>
                                                 </button>
@@ -400,7 +400,7 @@
                                                 </svg>
                                             </div>
                                             <span class="truncate">{{ addressForm.province || 'Select a province' }}</span>
-                                            <svg class="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200" :class="provinceDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" :class="provinceDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                             </svg>
                                         </button>
@@ -410,7 +410,7 @@
                                                 class="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors text-left"
                                                 :class="addressForm.province === province ? 'text-brand font-medium bg-brand/5' : 'text-gray-700'">
                                                 <span>{{ province }}</span>
-                                                <svg v-if="addressForm.province === province" class="w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg v-if="addressForm.province === province" class="w-4 h-4 text-brand shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                                 </svg>
                                             </button>
@@ -420,8 +420,8 @@
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                                        <input v-model="addressForm.phone" type="tel" id="phone" maxlength="20"
+                                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone <span class="text-red-500">*</span></label>
+                                        <input v-model="addressForm.phone" type="tel" id="phone" required maxlength="20"
                                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
                                     </div>
                                     <div>
@@ -465,7 +465,7 @@
                 <div class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden" @click.stop>
                     <div class="px-6 pt-6 pb-4">
                         <div class="flex items-start gap-4">
-                            <div class="w-11 h-11 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                            <div class="w-11 h-11 rounded-full bg-red-100 flex items-center justify-center shrink-0">
                                 <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                                 </svg>
@@ -615,7 +615,7 @@ const addressForm = ref<AddressFormData>({
     address_line_1: '',
     address_line_2: null,
     province: '',
-    phone: null,
+    phone: '',
     email: null,
     label: null,
     is_default: false
@@ -657,7 +657,7 @@ function resetAddressForm() {
         address_line_1: '',
         address_line_2: null,
         province: '',
-        phone: null,
+        phone: '',
         email: null,
         label: null,
         is_default: false

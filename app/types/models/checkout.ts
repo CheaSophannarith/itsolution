@@ -44,15 +44,15 @@ export interface CheckoutPayment {
 }
 
 export interface CheckoutOrderAddress {
+    first_name: string
+    last_name: string
     full_name: string
-    company: string | null
     address_line_1: string
     address_line_2: string | null
-    city: string
-    state: string | null
-    postal_code: string
-    country_code: string
+    province: string
     phone: string | null
+    email: string | null
+    label: string | null
 }
 
 export interface CheckoutOrderItem {
