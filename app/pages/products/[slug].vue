@@ -300,14 +300,14 @@
             .slice(0, 5);
     });
 
-    useHead({
+    useSeoMeta({
         title: computed(() => product.value?.meta_title || product.value?.name || 'Product Detail'),
-        meta: [
-            {
-                name: 'description',
-                content: computed(() => product.value?.meta_description || product.value?.short_description || ''),
-            },
-        ],
+        description: computed(() => product.value?.meta_description || product.value?.short_description || `Buy ${product.value?.name ?? 'this product'} at IT Solution Digital – best price in Cambodia.`),
+        ogTitle: computed(() => product.value ? `${product.value.meta_title || product.value.name} | IT Solution Digital` : 'Product | IT Solution Digital'),
+        ogDescription: computed(() => product.value?.meta_description || product.value?.short_description || `Shop ${product.value?.name ?? ''} at IT Solution Digital, Phnom Penh.`),
+        ogImage: computed(() => product.value?.images?.featured ?? '/logo.jpg'),
+        ogType: 'product',
+        twitterCard: 'summary_large_image',
     });
 
     const { addItem: addToCart, isSyncing } = useCart();

@@ -254,4 +254,15 @@
     onUnmounted(() => {
         stopAutoplay();
     });
+
+    useSeoMeta({
+        title: 'Software Solutions in Cambodia',
+        description: 'IT Solution Digital – Shop quality IT products, computers, and hardware in Phnom Penh, Cambodia. Also offering custom software solutions: HEMIS, Scholarship Management System, and more.',
+        ogTitle: 'IT Solution Digital | IT Products & Software Solutions in Cambodia',
+        ogDescription: 'Your trusted IT partner in Phnom Penh, Cambodia. Shop quality IT products and explore our custom software solutions.',
+        ogImage: '/logo.jpg',
+        ogType: 'website',
+        twitterCard: 'summary_large_image',
+        keywords: 'IT products Cambodia, computer hardware Phnom Penh, IT solution digital, software development Cambodia, buy IT products online',
+    });
 </script>

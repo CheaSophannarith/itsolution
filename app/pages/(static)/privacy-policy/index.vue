@@ -127,13 +127,13 @@
 </template>
 
 <script setup lang="ts">
-    import { useHead } from '#imports';
     import { ChevronRight } from 'lucide-vue-next';
 
-    useHead({
-        title: 'Privacy Policy | Tan',
-        meta: [
-            { name: 'description', content: 'Read our return, refund, and exchange policies. 30-day return policy for unused items in original packaging.' }
-        ]
+    useSeoMeta({
+        title: 'Privacy Policy',
+        description: 'Read IT Solution Digital\'s privacy policy. Learn how we handle your data, our 30-day return policy for unused items in original packaging, and your rights as a customer.',
+        ogTitle: 'Privacy Policy | IT Solution Digital',
+        ogDescription: 'IT Solution Digital\'s privacy and return policy. 30-day returns on unused items in original packaging.',
+        ogType: 'website',
     });
 </script>

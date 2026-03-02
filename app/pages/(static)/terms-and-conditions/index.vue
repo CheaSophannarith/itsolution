@@ -271,16 +271,13 @@
 </template>
 
 <script setup lang="ts">
-    import { useHead } from '#imports';
     import { ChevronRight } from 'lucide-vue-next';
 
-    useHead({
-        title: 'Terms and Conditions | Tan',
-        meta: [
-            {
-                name: 'description',
-                content: 'Read the terms and conditions for using tanxlm website. Learn about our policies on cookies, licensing, content liability, and more.'
-            }
-        ]
+    useSeoMeta({
+        title: 'Terms and Conditions',
+        description: 'Read IT Solution Digital\'s terms and conditions. Learn about our policies on cookies, licensing, content liability, and website usage.',
+        ogTitle: 'Terms and Conditions | IT Solution Digital',
+        ogDescription: 'IT Solution Digital\'s terms and conditions for website usage, cookies, licensing, and content policies.',
+        ogType: 'website',
     });
 </script>

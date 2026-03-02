@@ -106,6 +106,8 @@
         middleware: 'guest'
     })
 
+    useSeoMeta({ title: 'Sign In', robots: 'noindex, nofollow' })
+
     const authStore = useAuthStore()
     const { addToast } = useToast()
     const route = useRoute()

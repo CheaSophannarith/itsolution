@@ -543,6 +543,8 @@
 		}
 	})
 
+	useSeoMeta({ title: 'Checkout', robots: 'noindex, nofollow' })
+
 	const router = useRouter()
 	const authStore = useAuthStore()
 	const cartStore = useCartStore()

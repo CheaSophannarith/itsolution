@@ -156,6 +156,8 @@ definePageMeta({
     layout: 'auth'
 })
 
+useSeoMeta({ title: 'Verify Email', robots: 'noindex, nofollow' })
+
 const route = useRoute()
 const authStore = useAuthStore()
 

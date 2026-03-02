@@ -331,13 +331,14 @@
         GraduationCap
     } from 'lucide-vue-next'
 
-    useHead({
-        title: 'HEMIS - University Management System',
-        meta: [
-            {
-                name: 'description',
-                content: 'HEMIS - Higher Education Management Information System. The national platform for higher education data management in Cambodia.'
-            }
-        ]
+    useSeoMeta({
+        title: 'HEMIS – Higher Education Management Information System',
+        description: 'HEMIS is Cambodia\'s national platform for higher education data management, implemented by IT Solution Digital for the Ministry of Education, Youth and Sport. Centralizing student, staff, and institutional data nationwide.',
+        ogTitle: 'HEMIS – Higher Education Management Information System | IT Solution Digital',
+        ogDescription: 'Cambodia\'s official national platform for higher education data management. Implemented by IT Solution Digital for the Ministry of Education, Youth and Sport.',
+        ogImage: '/Images/Hemis/Hemis Admin/Dashboard.png',
+        ogType: 'website',
+        twitterCard: 'summary_large_image',
+        keywords: 'HEMIS Cambodia, higher education management information system, university management Cambodia, Ministry of Education Cambodia, IT Solution Digital HEMIS',
     })
 </script>

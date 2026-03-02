@@ -467,13 +467,17 @@
     }
 
     // SEO
-    useHead({
-        title: computed(() => category.value ? `${category.value.name} | Tan` : 'Categories | Tan'),
-        meta: [
-            {
-                name: 'description',
-                content: computed(() => category.value ? `Browse ${category.value.name} categories` : 'Browse categories'),
-            },
-        ],
+    useSeoMeta({
+        title: computed(() => category.value ? category.value.name : 'Categories'),
+        description: computed(() => category.value
+            ? `Shop ${category.value.name} products at IT Solution Digital. Best prices on IT hardware and accessories in Phnom Penh, Cambodia.`
+            : 'Browse all IT product categories at IT Solution Digital, Phnom Penh, Cambodia.'),
+        ogTitle: computed(() => category.value ? `${category.value.name} | IT Solution Digital` : 'Categories | IT Solution Digital'),
+        ogDescription: computed(() => category.value
+            ? `Shop ${category.value.name} products at IT Solution Digital – best IT hardware prices in Cambodia.`
+            : 'Browse all IT product categories at IT Solution Digital.'),
+        ogImage: computed(() => category.value?.image ?? '/logo.jpg'),
+        ogType: 'website',
+        twitterCard: 'summary_large_image',
     });
 </script>
