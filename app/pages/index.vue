@@ -278,7 +278,7 @@
     });
 
     useSeoMeta({
-        title: 'IT Products & Software Solutions in Cambodia',
+        title: 'Software Solutions in Cambodia',
         description: seoDescription,
         ogTitle: 'IT Solution Digital | IT Products & Software Solutions in Cambodia',
         ogDescription: seoDescription,
