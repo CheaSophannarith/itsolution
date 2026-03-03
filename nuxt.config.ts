@@ -36,6 +36,7 @@ export default defineNuxtConfig({
 		public: {
 			apiBaseUrl: process.env.API_BASE_URL,
 			siteUrl: process.env.SITE_URL,
+			telegramUrl: process.env.TELEGRAM_URL,
 			reverbAppKey: process.env.REVERB_APP_KEY,
 			reverbHost: process.env.REVERB_HOST,
 			reverbPort: process.env.REVERB_PORT,
