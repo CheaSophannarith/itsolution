@@ -346,8 +346,9 @@
         description: 'HEMIS is Cambodia\'s national platform for higher education data management, implemented by IT Solution Digital for the Ministry of Education, Youth and Sport. Centralizing student, staff, and institutional data nationwide.',
         ogTitle: 'HEMIS – Higher Education Management Information System | IT Solution Digital',
         ogDescription: 'Cambodia\'s official national platform for higher education data management. Implemented by IT Solution Digital for the Ministry of Education, Youth and Sport.',
-        ogImage: '/Images/Hemis/Hemis Admin/Dashboard.png',
+        ogImage: `${siteUrl}/logo.jpg`,
         ogType: 'website',
+        ogUrl: `${siteUrl}/services/university-management-system`,
         twitterCard: 'summary_large_image',
         keywords: 'HEMIS Cambodia, higher education management information system, university management Cambodia, Ministry of Education Cambodia, IT Solution Digital HEMIS',
     })

@@ -1,9 +1,7 @@
 <template>
     <div class="min-h-screen bg-white">
         <!-- Hero -->
-        <div
-            class="w-full py-8 sm:py-12"
-            style="background: linear-gradient(135deg, #459bcc 0%, #172554 100%)">
+        <div class="w-full py-8 sm:py-12" style="background: linear-gradient(135deg, #459bcc 0%, #172554 100%)">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <nav class="flex items-center gap-1.5 text-white/70 text-xs sm:text-sm mb-3">
                     <NuxtLink to="/" class="hover:text-white transition-colors">Home</NuxtLink>
@@ -25,25 +23,14 @@
             </div>
 
             <!-- Grid -->
-            <div
-                v-else-if="brands.length > 0"
+            <div v-else-if="brands.length > 0"
                 class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-5 lg:gap-6">
-                <NuxtLink
-                    v-for="brand in brands"
-                    :key="brand.uuid"
-                    :to="`/brands/${brand.slug}`"
-                    :title="brand.name"
+                <NuxtLink v-for="brand in brands" :key="brand.uuid" :to="`/brands/${brand.slug}`" :title="brand.name"
                     class="group flex items-center justify-center aspect-square p-6 sm:p-8 lg:p-10 bg-white rounded-2xl border border-gray-200 hover:border-brand/30 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                    <img
-                        v-if="brand.logo"
-                        :src="brand.logo"
-                        :alt="brand.name"
+                    <img v-if="brand.logo" :src="brand.logo" :alt="brand.name"
                         class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
-                        loading="lazy"
-                        width="160"
-                        height="160" />
-                    <span
-                        v-else
+                        loading="lazy" width="160" height="160" />
+                    <span v-else
                         class="text-sm sm:text-base font-bold text-gray-500 group-hover:text-brand transition-colors text-center leading-tight break-words hyphens-auto px-1">
                         {{ brand.name }}
                     </span>
@@ -53,8 +40,7 @@
             <!-- Empty -->
             <div v-else class="flex flex-col items-center justify-center py-24 text-center">
                 <p class="text-gray-500 text-lg font-medium">No brands found</p>
-                <NuxtLink
-                    to="/"
+                <NuxtLink to="/"
                     class="mt-6 inline-flex items-center gap-2 text-brand hover:text-brand/80 font-semibold transition-colors">
                     Back to Home
                 </NuxtLink>
@@ -78,6 +64,7 @@
         ogDescription: 'Shop IT products by brand at IT Solution Digital, Phnom Penh, Cambodia.',
         ogImage: `${siteUrl}/logo.jpg`,
         ogType: 'website',
+        ogUrl: `${siteUrl}/brands`,
         twitterCard: 'summary_large_image',
     });
 </script>

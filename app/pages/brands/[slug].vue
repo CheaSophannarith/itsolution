@@ -16,8 +16,8 @@
                 <div class="flex items-center gap-4">
                     <div v-if="brand?.logo"
                         class="w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-xl flex items-center justify-center p-2 shrink-0">
-                        <img :src="brand.logo" :alt="brand.name"
-                            class="w-full h-full object-contain" width="64" height="64" />
+                        <img :src="brand.logo" :alt="brand.name" class="w-full h-full object-contain" width="64"
+                            height="64" />
                     </div>
                     <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
                         {{ brand?.name ?? slug }} Products
@@ -56,9 +56,8 @@
                 </div>
 
                 <!-- Pagination -->
-                <Pagination v-if="(meta?.last_page ?? 1) > 1" v-model:page="currentPage"
-                    :total="(meta?.total ?? 0)" :items-per-page="perPage" :sibling-count="1" show-edges
-                    class="mt-8">
+                <Pagination v-if="(meta?.last_page ?? 1) > 1" v-model:page="currentPage" :total="(meta?.total ?? 0)"
+                    :items-per-page="perPage" :sibling-count="1" show-edges class="mt-8">
                     <PaginationContent v-slot="{ items }" class="flex-wrap justify-center gap-1">
                         <PaginationPrevious />
                         <template v-for="(item, index) in items" :key="index">
@@ -147,6 +146,7 @@
             : 'Brand products at IT Solution Digital.'),
         ogImage: computed(() => brand.value?.logo ?? `${siteUrl}/logo.jpg`),
         ogType: 'website',
+        ogUrl: computed(() => `${siteUrl}/brands/${slug.value}`),
         twitterCard: 'summary_large_image',
     });
 </script>

@@ -631,8 +631,9 @@
         description: 'A comprehensive digital platform managing Cambodia\'s entire scholarship lifecycle—from application to final selection. Funded by the Government of Cambodia, implemented by IT Solution Digital for the Ministry of Education.',
         ogTitle: 'Scholarship Management System | IT Solution Digital Cambodia',
         ogDescription: 'Streamlining Cambodia\'s scholarship lifecycle from application to selection with transparency and efficiency. A Ministry of Education project by IT Solution Digital.',
-        ogImage: '/Images/Scholarship/DGHE Admin/Dashboard.png',
+        ogImage: `${siteUrl}/logo.jpg`,
         ogType: 'website',
+        ogUrl: `${siteUrl}/services/scholarship-management-system`,
         twitterCard: 'summary_large_image',
         keywords: 'scholarship management Cambodia, DGHE scholarship system, Cambodia government scholarship, Ministry of Education Cambodia scholarship, IT Solution Digital',
     })

@@ -8,7 +8,7 @@ export default defineNuxtConfig({
 			titleTemplate: '%s | IT Solution Digital',
 			charset: 'utf-8',
 			viewport: 'width=device-width, initial-scale=1',
-			htmlAttrs: { lang: 'km' },
+			htmlAttrs: { lang: 'en' },
 			meta: [
 				{
 					name: 'description',

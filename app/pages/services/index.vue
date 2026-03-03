@@ -37,9 +37,8 @@
                         <!-- Service Image -->
                         <div class="sm:w-48 md:w-56 lg:w-64 shrink-0">
                             <NuxtLink :to="getServiceLink(service)" class="block h-full">
-                                <NuxtImg :src="service.image" :alt="service.name"
-                                    width="256" height="192" format="webp" loading="lazy"
-                                    class="w-full h-48 sm:h-full object-cover" />
+                                <NuxtImg :src="service.image" :alt="service.name" width="256" height="192" format="webp"
+                                    loading="lazy" class="w-full h-48 sm:h-full object-cover" />
                             </NuxtLink>
                         </div>
 
@@ -124,6 +123,7 @@
         ogDescription: 'Custom software development for Cambodia\'s government and businesses. HEMIS, Scholarship Management System, and more tailored digital solutions.',
         ogImage: `${siteUrl}/logo.jpg`,
         ogType: 'website',
+        ogUrl: `${siteUrl}/services`,
         twitterCard: 'summary_large_image',
         keywords: 'software solutions Cambodia, custom software development, university management system, scholarship management Cambodia, IT Solution Digital services',
     })
