@@ -40,8 +40,8 @@
                         </div>
                     </div>
                     <div class="hidden lg:block">
-                        <NuxtImg src="/Images/Hemis/Hemis Admin/Dashboard.png" alt="HEMIS Dashboard"
-                            width="800" height="500" format="webp"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Dashboard.png" alt="HEMIS Dashboard" width="800"
+                            height="500" format="webp"
                             class="w-full rounded-lg shadow-2xl hover:scale-[1.02] transition-transform duration-300" />
                     </div>
                 </div>
@@ -82,8 +82,8 @@
                         </ul>
                     </div>
                     <div class="overflow-hidden rounded-lg">
-                        <NuxtImg src="/Images/Hemis/Hemis Admin/Graphic-Data.png" alt="HEMIS Analytics"
-                            width="800" height="500" format="webp" loading="lazy"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Graphic-Data.png" alt="HEMIS Analytics" width="800"
+                            height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -144,8 +144,8 @@
                 <!-- Feature 1: Student Management -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
                     <div class="overflow-hidden rounded-lg">
-                        <NuxtImg src="/Images/Hemis/Hemis Admin/Students.png" alt="Student Management"
-                            width="800" height="500" format="webp" loading="lazy"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Students.png" alt="Student Management" width="800"
+                            height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div>
@@ -195,8 +195,8 @@
                         </ul>
                     </div>
                     <div class="order-1 lg:order-2 overflow-hidden rounded-lg">
-                        <NuxtImg src="/Images/Hemis/Hemis Admin/Staffs.png" alt="Staff Management"
-                            width="800" height="500" format="webp" loading="lazy"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Staffs.png" alt="Staff Management" width="800"
+                            height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -255,8 +255,8 @@
                         </ul>
                     </div>
                     <div class="order-1 lg:order-2 overflow-hidden rounded-lg">
-                        <NuxtImg src="/Images/Hemis/Hemis Admin/Reports.png" alt="Reports"
-                            width="800" height="500" format="webp" loading="lazy"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Reports.png" alt="Reports" width="800" height="500"
+                            format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>

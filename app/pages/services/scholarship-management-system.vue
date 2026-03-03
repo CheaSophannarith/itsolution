@@ -80,8 +80,8 @@
                         </ul>
                     </div>
                     <div class="overflow-hidden rounded-lg">
-                        <NuxtImg src="/Images/Scholarship/Landing Page.png" alt="Scholarship Landing Page"
-                            width="800" height="500" format="webp" loading="lazy"
+                        <NuxtImg src="/Images/Scholarship/Landing Page.png" alt="Scholarship Landing Page" width="800"
+                            height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -164,8 +164,8 @@
                 <!-- Feature 1: System Configuration -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
                     <div class="overflow-hidden rounded-lg">
-                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Setting.png" alt="System Settings"
-                            width="800" height="500" format="webp" loading="lazy"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Setting.png" alt="System Settings" width="800"
+                            height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div>
@@ -394,8 +394,8 @@
                         </ul>
                     </div>
                     <div class="order-1 lg:order-2 overflow-hidden rounded-lg">
-                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Reports.png" alt="Reports"
-                            width="800" height="500" format="webp" loading="lazy"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Reports.png" alt="Reports" width="800" height="500"
+                            format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -418,8 +418,7 @@
                     <div
                         class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                         <NuxtImg src="/Images/Scholarship/School Account/School-Dashboard.png" alt="School Dashboard"
-                            width="800" height="192" format="webp" loading="lazy"
-                            class="w-full h-48 object-cover" />
+                            width="800" height="192" format="webp" loading="lazy" class="w-full h-48 object-cover" />
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-blue-950 mb-2">School Dashboard</h3>
                             <p class="text-gray-600 text-sm">
@@ -432,8 +431,7 @@
                     <div
                         class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                         <NuxtImg src="/Images/Scholarship/School Account/School Candidates.png" alt="School Candidates"
-                            width="800" height="192" format="webp" loading="lazy"
-                            class="w-full h-48 object-cover" />
+                            width="800" height="192" format="webp" loading="lazy" class="w-full h-48 object-cover" />
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-blue-950 mb-2">Candidate Management</h3>
                             <p class="text-gray-600 text-sm">
@@ -445,8 +443,8 @@
                     <!-- Application Management -->
                     <div
                         class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                        <NuxtImg src="/Images/Scholarship/School Account/School Applications.png" alt="School Applications"
-                            width="800" height="192" format="webp" loading="lazy"
+                        <NuxtImg src="/Images/Scholarship/School Account/School Applications.png"
+                            alt="School Applications" width="800" height="192" format="webp" loading="lazy"
                             class="w-full h-48 object-cover" />
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-blue-950 mb-2">Application Management</h3>
@@ -460,8 +458,7 @@
                     <div
                         class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                         <NuxtImg src="/Images/Scholarship/School Account/School Reports.png" alt="School Reports"
-                            width="800" height="192" format="webp" loading="lazy"
-                            class="w-full h-48 object-cover" />
+                            width="800" height="192" format="webp" loading="lazy" class="w-full h-48 object-cover" />
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-blue-950 mb-2">School Reports</h3>
                             <p class="text-gray-600 text-sm">
@@ -541,8 +538,8 @@
                         </div>
                     </div>
                     <div class="overflow-hidden rounded-lg">
-                        <NuxtImg src="/Images/Scholarship/Student Account/Application Form.png" alt="Student Application"
-                            width="800" height="500" format="webp" loading="lazy"
+                        <NuxtImg src="/Images/Scholarship/Student Account/Application Form.png"
+                            alt="Student Application" width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
