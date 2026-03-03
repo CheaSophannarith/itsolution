@@ -608,8 +608,9 @@
         Building2,
         UserCircle
     } from 'lucide-vue-next'
+    const siteUrl = useRuntimeConfig().public.siteUrl as string;
 
-    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com/services/scholarship-management-system' }] });
+    useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/services/scholarship-management-system` }] });
 
     useSeoMeta({
         title: 'Scholarship Management System – Digital Scholarship Platform',

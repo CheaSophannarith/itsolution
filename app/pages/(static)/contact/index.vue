@@ -182,8 +182,9 @@
         Globe,
         ShieldCheck
     } from 'lucide-vue-next';
+    const siteUrl = useRuntimeConfig().public.siteUrl as string;
 
-    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com/contact' }] });
+    useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/contact` }] });
 
     useSeoMeta({
         title: 'Contact Us – Phnom Penh, Cambodia',
@@ -265,8 +266,8 @@
                     '@context': 'https://schema.org',
                     '@type': 'LocalBusiness',
                     name: 'IT Solution Digital',
-                    image: 'https://itsolutiondigital.com/logo.jpg',
-                    url: 'https://itsolutiondigital.com',
+                    image: `${siteUrl}/logo.jpg`,
+                    url: siteUrl,
                     telephone: ['+855998688883', '+855178688883', '+855708688883'],
                     email: 'sales@itsolutiondigital.com',
                     priceRange: '$$',

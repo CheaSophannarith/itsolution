@@ -1,4 +1,19 @@
 User-agent: *
+Allow: /
+Disallow: /signin
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /verify-email
+Disallow: /profile
+Disallow: /orders
+Disallow: /wishlist
+Disallow: /checkout
+Disallow: /payment
+
+# Google
+User-agent: Googlebot
+Allow: /
 Disallow: /signin
 Disallow: /signup
 Disallow: /forgot-password

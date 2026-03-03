@@ -92,6 +92,7 @@
 <script setup lang="ts">
     import { MessageCircle, Eye } from 'lucide-vue-next'
     import servicesData from '~/assets/data/Service/system.json'
+    const siteUrl = useRuntimeConfig().public.siteUrl as string;
 
     interface Service {
         id: number
@@ -113,7 +114,7 @@
         return staticPages[service.slug] || `/services/${service.slug}`
     }
 
-    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com/services' }] });
+    useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/services` }] });
 
     useSeoMeta({
         title: 'IT Software Solutions & Custom Development',

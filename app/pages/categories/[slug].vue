@@ -198,6 +198,7 @@
     import FilterCategorySection from '~/components/custom/FilterCategorySection.vue';
     import FilterPriceRange from '~/components/custom/FilterPriceRange.vue';
     import type { CategoryTree } from '~/types';
+    const siteUrl = useRuntimeConfig().public.siteUrl as string;
 
     // Custom page transition
     definePageMeta({
@@ -467,7 +468,7 @@
     }
 
     // SEO
-    useHead({ link: computed(() => [{ rel: 'canonical', href: `https://itsolutiondigital.com/categories/${slug.value}` }]) });
+    useHead({ link: computed(() => [{ rel: 'canonical', href: `${siteUrl}/categories/${slug.value}` }]) });
 
     useSeoMeta({
         title: computed(() => category.value ? category.value.name : 'Categories'),
@@ -478,7 +479,7 @@
         ogDescription: computed(() => category.value
             ? `Shop ${category.value.name} products at IT Solution Digital – best IT hardware prices in Cambodia.`
             : 'Browse all IT product categories at IT Solution Digital.'),
-        ogImage: computed(() => category.value?.image ?? '/logo.jpg'),
+        ogImage: computed(() => `${siteUrl}/logo.jpg`),
         ogType: 'website',
         twitterCard: 'summary_large_image',
     });
@@ -488,8 +489,8 @@
         script: computed(() => {
             if (!category.value) return [];
             const items: { '@type': string; position: number; name: string; item: string }[] = [
-                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://itsolutiondigital.com' },
-                { '@type': 'ListItem', position: 2, name: category.value.name, item: `https://itsolutiondigital.com/categories/${category.value.slug}` },
+                { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+                { '@type': 'ListItem', position: 2, name: category.value.name, item: `${siteUrl}/categories/${category.value.slug}` },
             ];
             return [
                 {

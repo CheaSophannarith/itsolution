@@ -330,8 +330,9 @@
         Settings,
         GraduationCap
     } from 'lucide-vue-next'
+    const siteUrl = useRuntimeConfig().public.siteUrl as string;
 
-    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com/services/university-management-system' }] });
+    useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/services/university-management-system` }] });
 
     useSeoMeta({
         title: 'HEMIS – Higher Education Management Information System',

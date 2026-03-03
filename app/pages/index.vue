@@ -164,9 +164,9 @@
                         <span class="text-xs font-semibold tracking-widest uppercase text-brand mb-3 block">Our
                             Advantages</span>
                         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Why
-                            Choose Tan</h2>
-                        <p class="text-gray-500 text-sm sm:text-base max-w-lg mx-auto">Trusted by businesses worldwide
-                            for IT excellence</p>
+                            Choose IT Solution Digital</h2>
+                        <p class="text-gray-500 text-sm sm:text-base max-w-lg mx-auto">Cambodia's trusted IT shop for
+                            computers, phones, monitors, printers & accessories in Phnom Penh</p>
                     </div>
 
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
@@ -197,6 +197,7 @@
         Award,
     } from 'lucide-vue-next';
     import type { CarouselApi } from '~/components/ui/carousel';
+    const siteUrl = useRuntimeConfig().public.siteUrl as string;
 
     const { carouselSlides } = useCarousel();
     const { featuredProducts } = useFeaturedProducts();
@@ -204,10 +205,10 @@
     const { categoriesWithProducts } = await useCategoriesWithLatestProducts(popularCategories);
 
     const whyChooseUs = [
-        { title: 'Fast Shipping', description: 'Quick delivery on all orders', icon: Truck },
-        { title: 'Secure Shopping', description: 'Protected transactions', icon: Shield },
-        { title: 'Expert Support', description: '24/7 technical assistance', icon: Headset },
-        { title: 'Quality Products', description: 'Top brands guaranteed', icon: Award },
+        { title: 'Fast Delivery', description: 'Same-day delivery in Phnom Penh. Nationwide shipping to all provinces across Cambodia.', icon: Truck },
+        { title: 'Genuine Products', description: '100% authentic computers, phones, monitors, printers & IT accessories with full manufacturer warranty.', icon: Shield },
+        { title: 'Khmer Expert Support', description: '24/7 Khmer-speaking tech support. On-site repair & remote IT assistance available nationwide.', icon: Headset },
+        { title: 'Best Price in Cambodia', description: 'Competitive pricing on computers, phones, monitors, printers & all IT accessories. Price-match guarantee.', icon: Award },
     ];
 
     // Carousel state
@@ -256,24 +257,36 @@
         stopAutoplay();
     });
 
-    useHead({ link: [{ rel: 'canonical', href: 'https://itsolutiondigital.com' }] });
+    useHead({ link: [{ rel: 'canonical', href: siteUrl }] });
 
     // Dynamic description using actual category names
     const seoDescription = computed(() => {
         const catNames = (categoriesWithProducts.value ?? []).map(c => c.name);
-        const productNames = (featuredProducts.value ?? []).slice(0, 4).map(p => p.name);
+        const productNames = (featuredProducts.value ?? []).slice(0, 3).map(p => p.name);
         if (catNames.length && productNames.length) {
-            return `IT Solution Digital – Shop ${catNames.join(', ')} and more in Phnom Penh, Cambodia. Featured products: ${productNames.join(', ')}. Quality IT hardware and accessories at the best prices.`;
+            return `IT Solution Digital – Cambodia's #1 IT shop in Phnom Penh. Buy ${catNames.join(', ')} & more. Featured: ${productNames.join(', ')}. Genuine warranty, best prices & Khmer expert support. ហាងបច្ចេកវទ្យា​លេខ​មួយ​នៅ​កម្ពុជា.`;
         }
         if (catNames.length) {
-            return `IT Solution Digital – Shop ${catNames.join(', ')} and more IT products in Phnom Penh, Cambodia. Quality hardware, computers, monitors and accessories at the best prices.`;
+            return `IT Solution Digital – Cambodia's #1 IT shop in Phnom Penh. Buy ${catNames.join(', ')}, computers, phones, monitors & printers. Genuine warranty & expert support. ហាងបច្ចេកវទ្យា​នៅ​ភ្នំពេញ.`;
         }
-        return 'IT Solution Digital – Shop quality IT products, computers, monitors, and hardware in Phnom Penh, Cambodia. Also offering custom software solutions.';
+        return 'IT Solution Digital – Cambodia\'s #1 IT shop in Phnom Penh. Buy computers, laptops, phones, monitors, desktop PCs & printers. Genuine warranty, best prices & Khmer expert support. ហាងបច្ចេកវទ្យា​លេខ​មួយ​នៅ​កម្ពុជា.';
     });
 
     // Dynamic keywords from real product names, brand names, and category names
     const seoKeywords = computed(() => {
-        const base = ['IT products Cambodia', 'computer hardware Phnom Penh', 'IT solution digital', 'buy IT products online'];
+        const base = [
+            // English – core product keywords
+            'computer shop Cambodia', 'laptop shop Phnom Penh', 'phone shop Cambodia',
+            'monitor shop Cambodia', 'printer Cambodia', 'desktop computer Cambodia',
+            'IT products Cambodia', 'IT solution digital', 'buy laptop Cambodia',
+            'computer accessories Phnom Penh', 'IT hardware Cambodia',
+            'gaming PC Cambodia', 'MacBook Cambodia', 'tablet Cambodia',
+            'computer repair Phnom Penh', 'IT support Cambodia',
+            // Khmer keywords
+            'ហាងលក់កុំព្យូទ័រ', 'ហាងលក់ទូរស័ព្ទ', 'ហាងព្រីនទ័រ',
+            'ហាងបច្ចេកវទ្យា', 'IT Solution ភ្នំពេញ', 'ហាង IT កម្ពុជា',
+            'ទិញកុំព្យូទ័រ​កម្ពុជា', 'ហាងលក់​Monitor', 'ជួសជុលកុំព្យូទ័រ',
+        ];
         const catNames = (categoriesWithProducts.value ?? []).map(c => c.name);
         const featuredNames = (featuredProducts.value ?? []).slice(0, 6).map(p => p.name);
         const brandNames = [...new Set((featuredProducts.value ?? []).map(p => p.brand?.name).filter(Boolean))];
@@ -281,13 +294,16 @@
     });
 
     useSeoMeta({
-        title: 'Software Solutions in Cambodia',
+        title: '#1 Computer, Phone, Monitor & Printer Shop in Cambodia',
         description: seoDescription,
-        ogTitle: 'IT Solution Digital | IT Products & Software Solutions in Cambodia',
+        ogTitle: 'IT Solution Digital – Buy Computers, Phones, Monitors & Printers in Phnom Penh',
         ogDescription: seoDescription,
-        ogImage: '/logo.jpg',
+        ogImage: `${siteUrl}/logo.jpg`,
+        ogUrl: siteUrl,
         ogType: 'website',
         twitterCard: 'summary_large_image',
+        twitterTitle: 'IT Solution Digital | #1 IT Shop in Cambodia',
+        twitterDescription: seoDescription,
         keywords: seoKeywords,
     });
 
@@ -300,10 +316,10 @@
                     '@graph': [
                         {
                             '@type': 'Organization',
-                            '@id': 'https://itsolutiondigital.com/#organization',
+                            '@id': `${siteUrl}/#organization`,
                             name: 'IT Solution Digital',
-                            url: 'https://itsolutiondigital.com',
-                            logo: 'https://itsolutiondigital.com/logo.jpg',
+                            url: siteUrl,
+                            logo: `${siteUrl}/logo.jpg`,
                             email: 'sales@itsolutiondigital.com',
                             telephone: ['+855998688883', '+855178688883', '+855708688883'],
                             sameAs: [
@@ -320,10 +336,10 @@
                         },
                         {
                             '@type': 'LocalBusiness',
-                            '@id': 'https://itsolutiondigital.com/#localbusiness',
+                            '@id': `${siteUrl}/#localbusiness`,
                             name: 'IT Solution Digital',
-                            image: 'https://itsolutiondigital.com/logo.jpg',
-                            url: 'https://itsolutiondigital.com',
+                            image: `${siteUrl}/logo.jpg`,
+                            url: siteUrl,
                             telephone: '+855998688883',
                             email: 'sales@itsolutiondigital.com',
                             priceRange: '$$',
@@ -348,21 +364,87 @@
                                 latitude: 11.520857,
                                 longitude: 104.9234743,
                             },
+                            serviceArea: {
+                                '@type': 'GeoCircle',
+                                geoMidpoint: {
+                                    '@type': 'GeoCoordinates',
+                                    latitude: 11.5564,
+                                    longitude: 104.9282,
+                                },
+                                geoRadius: '100000',
+                            },
+                            hasOfferCatalog: {
+                                '@type': 'OfferCatalog',
+                                name: 'IT Products & Solutions Cambodia',
+                                itemListElement: [
+                                    { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Laptop & Computer' } },
+                                    { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Smartphone & Mobile Phone' } },
+                                    { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Monitor & Display' } },
+                                    { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Desktop PC' } },
+                                    { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Printer & Scanner' } },
+                                    { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'IT Accessories & Networking' } },
+                                ],
+                            },
                         },
                         {
                             '@type': 'WebSite',
-                            '@id': 'https://itsolutiondigital.com/#website',
-                            url: 'https://itsolutiondigital.com',
+                            '@id': `${siteUrl}/#website`,
+                            url: siteUrl,
                             name: 'IT Solution Digital',
-                            publisher: { '@id': 'https://itsolutiondigital.com/#organization' },
+                            publisher: { '@id': `${siteUrl}/#organization` },
                             potentialAction: {
                                 '@type': 'SearchAction',
                                 target: {
                                     '@type': 'EntryPoint',
-                                    urlTemplate: 'https://itsolutiondigital.com/?q={search_term_string}',
+                                    urlTemplate: `${siteUrl}/?q={search_term_string}`,
                                 },
                                 'query-input': 'required name=search_term_string',
                             },
+                        },
+                        {
+                            '@type': 'FAQPage',
+                            mainEntity: [
+                                {
+                                    '@type': 'Question',
+                                    name: 'Where is IT Solution Digital located?',
+                                    acceptedAnswer: {
+                                        '@type': 'Answer',
+                                        text: 'IT Solution Digital is located at St. Commercial, Chipmong Landmark, Sangkat Chak Angrae Leu, Khan Meanchey, Phnom Penh, Cambodia. Contact us at +855 99 868 888 3.',
+                                    },
+                                },
+                                {
+                                    '@type': 'Question',
+                                    name: 'What IT products does IT Solution Digital sell?',
+                                    acceptedAnswer: {
+                                        '@type': 'Answer',
+                                        text: 'IT Solution Digital sells computers, laptops, smartphones, monitors, desktop PCs, printers, scanners, tablets, networking equipment, and IT accessories from top brands in Cambodia.',
+                                    },
+                                },
+                                {
+                                    '@type': 'Question',
+                                    name: 'Does IT Solution Digital deliver nationwide in Cambodia?',
+                                    acceptedAnswer: {
+                                        '@type': 'Answer',
+                                        text: 'Yes. IT Solution Digital offers same-day delivery in Phnom Penh and nationwide shipping to all provinces across Cambodia.',
+                                    },
+                                },
+                                {
+                                    '@type': 'Question',
+                                    name: 'What are IT Solution Digital opening hours?',
+                                    acceptedAnswer: {
+                                        '@type': 'Answer',
+                                        text: 'IT Solution Digital is open Monday to Saturday from 08:00 to 17:30.',
+                                    },
+                                },
+                                {
+                                    '@type': 'Question',
+                                    name: 'Does IT Solution Digital sell genuine products with warranty?',
+                                    acceptedAnswer: {
+                                        '@type': 'Answer',
+                                        text: 'Yes. All products sold at IT Solution Digital are 100% genuine with full manufacturer warranty. We stock HP, Dell, Lenovo, Apple, Samsung, and other top brands.',
+                                    },
+                                },
+                            ],
                         },
                     ],
                 }),
@@ -388,7 +470,7 @@
                             '@type': 'ListItem',
                             position: i + 1,
                             name: p.name,
-                            url: `https://itsolutiondigital.com/products/${p.slug}`,
+                            url: `${siteUrl}/products/${p.slug}`,
                             image: p.image,
                             description: p.short_description || '',
                         })),
@@ -409,7 +491,7 @@
                             '@type': 'ListItem',
                             position: i + 1,
                             name: c.name,
-                            url: `https://itsolutiondigital.com/categories/${c.slug}`,
+                            url: `${siteUrl}/categories/${c.slug}`,
                             image: c.image,
                         })),
                     }),

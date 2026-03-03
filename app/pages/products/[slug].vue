@@ -321,6 +321,7 @@
         BreadcrumbSeparator,
     } from '@/components/ui/breadcrumb';
     import type { ProductSku } from '~/types';
+    const siteUrl = useRuntimeConfig().public.siteUrl as string;
 
     // Custom page transition
     definePageMeta({
@@ -347,7 +348,7 @@
             .slice(0, 5);
     });
 
-    useHead({ link: computed(() => [{ rel: 'canonical', href: `https://itsolutiondigital.com/products/${slug.value}` }]) });
+    useHead({ link: computed(() => [{ rel: 'canonical', href: `${siteUrl}/products/${slug.value}` }]) });
 
     // Strip HTML tags to get plain text from the full description
     function stripHtml(html: string): string {
@@ -431,25 +432,25 @@
                     : 'https://schema.org/OutOfStock',
                 itemCondition: 'https://schema.org/NewCondition',
                 seller: { '@type': 'Organization', name: 'IT Solution Digital' },
-                url: `https://itsolutiondigital.com/products/${product.value!.slug}`,
+                url: `${siteUrl}/products/${product.value!.slug}`,
                 ...(sku.name ? { name: sku.name } : {}),
             }));
 
             // BreadcrumbList from category breadcrumbs
             const primaryCat = product.value.categories[0] ?? null;
             const breadcrumbItems = [
-                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://itsolutiondigital.com' },
+                { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
                 ...(primaryCat?.breadcrumbs ?? []).map((crumb, i) => ({
                     '@type': 'ListItem',
                     position: i + 2,
                     name: crumb.name,
-                    item: `https://itsolutiondigital.com/categories/${crumb.slug}`,
+                    item: `${siteUrl}/categories/${crumb.slug}`,
                 })),
                 {
                     '@type': 'ListItem',
                     position: (primaryCat?.breadcrumbs.length ?? 0) + 2,
                     name: product.value.name,
-                    item: `https://itsolutiondigital.com/products/${product.value.slug}`,
+                    item: `${siteUrl}/products/${product.value.slug}`,
                 },
             ];
 
