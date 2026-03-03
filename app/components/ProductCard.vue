@@ -104,6 +104,15 @@
                         </span>
                     </button>
                 </template>
+
+                <!-- Telegram Inquiry Link -->
+                <a :href="telegramUrl" target="_blank" rel="noopener noreferrer"
+                    class="flex items-center justify-center gap-1.5 text-xs text-sky-500 hover:text-sky-600 transition-colors duration-200 py-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                    </svg>
+                    Ask on Telegram
+                </a>
             </div>
         </div>
     </div>
@@ -151,6 +160,23 @@
     });
 
     const { openCartDrawer } = useCartDrawer();
+
+    const telegramUrl = computed(() => {
+        const siteUrl = config.public.siteUrl || 'https://itsolutiondigital.com';
+        const tgBase = config.public.telegramUrl as string;
+        const lines = [
+            `Hello, I would like to inquire about the following product:`,
+            ``,
+            `Product: ${props.product.name}`,
+            `Brand: ${props.product.brand.name}`,
+            `Price: $${formattedPrice.value}`,
+            ``,
+            `${siteUrl}/products/${props.product.slug}`,
+            ``,
+            `Thank you!`,
+        ];
+        return `${tgBase}?text=${encodeURIComponent(lines.join('\n'))}`;
+    });
     const { withHeaderVisible } = useHeaderVisibility();
 
     // Check if product is already in cart
