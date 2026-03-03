@@ -55,8 +55,7 @@
                             <!-- Search Box -->
                             <div class="flex shadow-sm">
                                 <input type="text" placeholder="Search products..." v-model="searchQuery"
-                                    class="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 focus:outline-none focus:border-brand focus:ring-brand text-sm rounded"
-                                />
+                                    class="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 focus:outline-none focus:border-brand focus:ring-brand text-sm rounded" />
                             </div>
 
                             <!-- Categories Navigation with Dropdown -->
@@ -106,8 +105,9 @@
                             </div>
 
                             <!-- Brand Filter -->
-                            <FilterCategorySection v-if="brandItems.length > 0" label="Brand" :items="brandItems" v-model="selectedBrands"
-                                :expanded="expandedSections.brand ?? true" @toggle="toggleFilterSection('brand')" />
+                            <FilterCategorySection v-if="brandItems.length > 0" label="Brand" :items="brandItems"
+                                v-model="selectedBrands" :expanded="expandedSections.brand ?? true"
+                                @toggle="toggleFilterSection('brand')" />
 
                             <!-- Dynamic Attribute Filters -->
                             <FilterCategorySection v-for="attr in attributeItems" :key="attr.slug" :label="attr.name"
@@ -117,8 +117,8 @@
                                 @toggle="toggleFilterSection(attr.slug)" />
 
                             <!-- Price Range Filter -->
-                            <FilterPriceRange v-if="priceRange && priceRange.max > priceRange.min" :min="priceRange.min" :max="priceRange.max"
-                                v-model:min-value="priceMin" v-model:max-value="priceMax"
+                            <FilterPriceRange v-if="priceRange && priceRange.max > priceRange.min" :min="priceRange.min"
+                                :max="priceRange.max" v-model:min-value="priceMin" v-model:max-value="priceMax"
                                 :expanded="expandedSections.price ?? true" @toggle="toggleFilterSection('price')" />
 
                             <!-- In Stock Filter -->
@@ -160,7 +160,8 @@
                         </div>
                         <template v-if="products.length > 0">
                             <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4">
-                                <ProductCard v-for="product in paginatedProducts" :key="product.uuid" :product="product" />
+                                <ProductCard v-for="product in paginatedProducts" :key="product.uuid"
+                                    :product="product" />
                             </div>
                         </template>
                         <div v-else class="flex flex-col items-center justify-center py-16 text-center">
@@ -481,6 +482,7 @@
             : 'Browse all IT product categories at IT Solution Digital.'),
         ogImage: computed(() => `${siteUrl}/logo.jpg`),
         ogType: 'website',
+        ogUrl: computed(() => `${siteUrl}/categories/${slug.value}`),
         twitterCard: 'summary_large_image',
     });
 

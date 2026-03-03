@@ -7,6 +7,10 @@ interface ProductItem {
     slug: string;
 }
 
+interface BrandItem {
+    slug: string;
+}
+
 function extractCategorySlugs(cats: CategoryNode[]): string[] {
     return cats.flatMap(cat => [cat.slug, ...extractCategorySlugs(cat.children ?? [])]);
 }
@@ -18,18 +22,21 @@ export default defineEventHandler(async (event) => {
 
     const today = new Date().toISOString().split('T')[0];
 
+    // Pages with stable content get a fixed lastmod; frequently updated pages use today
     const staticPages = [
-        { url: '/',                                       priority: '1.0', changefreq: 'daily'   },
-        { url: '/services',                               priority: '0.8', changefreq: 'weekly'  },
-        { url: '/services/university-management-system',  priority: '0.7', changefreq: 'monthly' },
-        { url: '/services/scholarship-management-system', priority: '0.7', changefreq: 'monthly' },
-        { url: '/contact',                                priority: '0.7', changefreq: 'monthly' },
-        { url: '/privacy-policy',                         priority: '0.3', changefreq: 'yearly'  },
-        { url: '/terms-and-conditions',                   priority: '0.3', changefreq: 'yearly'  },
+        { url: '/',                                       lastmod: today,        priority: '1.0', changefreq: 'daily'   },
+        { url: '/services',                               lastmod: today,        priority: '0.8', changefreq: 'weekly'  },
+        { url: '/brands',                                 lastmod: today,        priority: '0.6', changefreq: 'weekly'  },
+        { url: '/services/university-management-system',  lastmod: '2025-01-01', priority: '0.7', changefreq: 'monthly' },
+        { url: '/services/scholarship-management-system', lastmod: '2025-01-01', priority: '0.7', changefreq: 'monthly' },
+        { url: '/contact',                                lastmod: '2025-01-01', priority: '0.7', changefreq: 'monthly' },
+        { url: '/privacy-policy',                         lastmod: '2025-01-01', priority: '0.3', changefreq: 'yearly'  },
+        { url: '/terms-and-conditions',                   lastmod: '2025-01-01', priority: '0.3', changefreq: 'yearly'  },
     ];
 
     let categorySlugs: string[] = [];
     let productSlugs: string[] = [];
+    let brandSlugs: string[] = [];
 
     // Fetch all category slugs (tree, recursive)
     try {
@@ -65,19 +72,38 @@ export default defineEventHandler(async (event) => {
         // proceed with what we have
     }
 
+    // Fetch all brand slugs
+    try {
+        const brandRes = await $fetch<{ data: BrandItem[] }>(
+            `${API_BASE}/api/v1/brands`,
+        );
+        brandSlugs = (brandRes.data ?? []).map(b => b.slug);
+    } catch {
+        // proceed without brands if API is unreachable
+    }
+
     const urlEntries = [
         ...staticPages.map(p => ({
             loc: `${SITE_URL}${p.url}`,
+            lastmod: p.lastmod,
             priority: p.priority,
             changefreq: p.changefreq,
         })),
         ...categorySlugs.map(slug => ({
             loc: `${SITE_URL}/categories/${slug}`,
+            lastmod: today,
             priority: '0.9',
-            changefreq: 'daily',
+            changefreq: 'weekly',
+        })),
+        ...brandSlugs.map(slug => ({
+            loc: `${SITE_URL}/brands/${slug}`,
+            lastmod: today,
+            priority: '0.7',
+            changefreq: 'weekly',
         })),
         ...productSlugs.map(slug => ({
             loc: `${SITE_URL}/products/${slug}`,
+            lastmod: today,
             priority: '0.8',
             changefreq: 'weekly',
         })),
@@ -87,7 +113,7 @@ export default defineEventHandler(async (event) => {
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
         ...urlEntries.map(u =>
-            `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`
+            `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`
         ),
         '</urlset>',
     ].join('\n');

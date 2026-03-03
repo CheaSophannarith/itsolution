@@ -20,6 +20,7 @@ const { orientation, canScrollPrev, scrollPrev } = useCarousel()
 
 <template>
   <Button
+    v-show="canScrollPrev"
     data-slot="carousel-previous"
     :disabled="!canScrollPrev"
     :class="cn(

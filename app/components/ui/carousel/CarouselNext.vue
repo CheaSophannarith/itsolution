@@ -20,6 +20,7 @@ const { orientation, canScrollNext, scrollNext } = useCarousel()
 
 <template>
   <Button
+    v-show="canScrollNext"
     data-slot="carousel-next"
     :disabled="!canScrollNext"
     :class="cn(

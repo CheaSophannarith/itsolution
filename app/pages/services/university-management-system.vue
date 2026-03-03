@@ -40,7 +40,8 @@
                         </div>
                     </div>
                     <div class="hidden lg:block">
-                        <img src="/Images/Hemis/Hemis Admin/Dashboard.png" alt="HEMIS Dashboard"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Dashboard.png" alt="HEMIS Dashboard" width="800"
+                            height="500" format="webp"
                             class="w-full rounded-lg shadow-2xl hover:scale-[1.02] transition-transform duration-300" />
                     </div>
                 </div>
@@ -81,7 +82,8 @@
                         </ul>
                     </div>
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Hemis/Hemis Admin/Graphic-Data.png" alt="HEMIS Analytics"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Graphic-Data.png" alt="HEMIS Analytics" width="800"
+                            height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -142,7 +144,8 @@
                 <!-- Feature 1: Student Management -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Hemis/Hemis Admin/Students.png" alt="Student Management"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Students.png" alt="Student Management" width="800"
+                            height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div>
@@ -192,7 +195,8 @@
                         </ul>
                     </div>
                     <div class="order-1 lg:order-2 overflow-hidden rounded-lg">
-                        <img src="/Images/Hemis/Hemis Admin/Staffs.png" alt="Staff Management"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Staffs.png" alt="Staff Management" width="800"
+                            height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -200,7 +204,8 @@
                 <!-- Feature 3: Institution Management -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Hemis/Hemis Admin/Institutions.png" alt="Institution Management"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Institutions.png" alt="Institution Management"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div>
@@ -250,7 +255,8 @@
                         </ul>
                     </div>
                     <div class="order-1 lg:order-2 overflow-hidden rounded-lg">
-                        <img src="/Images/Hemis/Hemis Admin/Reports.png" alt="Reports"
+                        <NuxtImg src="/Images/Hemis/Hemis Admin/Reports.png" alt="Reports" width="800" height="500"
+                            format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -287,7 +293,8 @@
                         </div>
                     </div>
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Hemis/University Account/Landing-Page.png" alt="University Portal"
+                        <NuxtImg src="/Images/Hemis/University Account/Landing-Page.png" alt="University Portal"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -339,8 +346,9 @@
         description: 'HEMIS is Cambodia\'s national platform for higher education data management, implemented by IT Solution Digital for the Ministry of Education, Youth and Sport. Centralizing student, staff, and institutional data nationwide.',
         ogTitle: 'HEMIS – Higher Education Management Information System | IT Solution Digital',
         ogDescription: 'Cambodia\'s official national platform for higher education data management. Implemented by IT Solution Digital for the Ministry of Education, Youth and Sport.',
-        ogImage: '/Images/Hemis/Hemis Admin/Dashboard.png',
+        ogImage: `${siteUrl}/logo.jpg`,
         ogType: 'website',
+        ogUrl: `${siteUrl}/services/university-management-system`,
         twitterCard: 'summary_large_image',
         keywords: 'HEMIS Cambodia, higher education management information system, university management Cambodia, Ministry of Education Cambodia, IT Solution Digital HEMIS',
     })

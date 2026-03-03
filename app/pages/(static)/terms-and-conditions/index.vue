@@ -283,6 +283,7 @@
         ogTitle: 'Terms and Conditions | IT Solution Digital',
         ogDescription: 'IT Solution Digital\'s terms and conditions for website usage, cookies, licensing, and content policies.',
         ogType: 'website',
+        ogUrl: `${siteUrl}/terms-and-conditions`,
         ogImage: `${siteUrl}/logo.jpg`,
         keywords: 'IT Solution Digital terms and conditions, website terms Cambodia, usage policy IT shop',
     });

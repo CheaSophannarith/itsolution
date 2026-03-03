@@ -193,6 +193,7 @@
         ogDescription: 'Get in touch with IT Solution Digital. Located at Chipmong Landmark, Khan Meanchey, Phnom Penh. Open Monday–Saturday, 08:00 AM – 05:30 PM.',
         ogImage: `${siteUrl}/logo.jpg`,
         ogType: 'website',
+        ogUrl: `${siteUrl}/contact`,
         twitterCard: 'summary',
         keywords: 'IT Solution Digital contact, IT support Phnom Penh, IT company Cambodia, contact itsolutiondigital.com',
     });

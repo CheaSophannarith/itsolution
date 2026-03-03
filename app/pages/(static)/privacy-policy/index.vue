@@ -139,6 +139,7 @@
         ogTitle: 'Privacy Policy | IT Solution Digital',
         ogDescription: 'IT Solution Digital\'s privacy and return policy. 30-day returns on unused items in original packaging.',
         ogType: 'website',
+        ogUrl: `${siteUrl}/privacy-policy`,
         ogImage: `${siteUrl}/logo.jpg`,
         keywords: 'IT Solution Digital privacy policy, return policy Cambodia, data privacy IT shop',
     });

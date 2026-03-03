@@ -9,8 +9,7 @@
         </div>
 
         <!-- Product Detail -->
-        <article v-else-if="product" class="min-h-screen bg-white" itemscope
-            itemtype="https://schema.org/Product">
+        <article v-else-if="product" class="min-h-screen bg-white" itemscope itemtype="https://schema.org/Product">
 
             <!-- Hidden microdata -->
             <meta itemprop="name" :content="product.name" />
@@ -63,23 +62,23 @@
                         <div class="bg-white rounded-xl cursor-zoom-in overflow-hidden aspect-[4/3] border border-gray-300"
                             @click="openLightbox(activeImageIndex)">
                             <NuxtImg :src="allImages[activeImageIndex]?.original"
-                                :alt="`${product.brand.name} ${product.name}`" itemprop="image"
-                                width="800" height="600" format="webp"
+                                :alt="`${product.brand.name} ${product.name}`" itemprop="image" width="800" height="600"
+                                format="webp"
                                 class="w-full h-full object-contain p-3 sm:p-5 hover:scale-105 transition-transform duration-500" />
                         </div>
 
                         <!-- Thumbnail Strip -->
                         <div v-if="allImages.length > 1" class="flex gap-2 overflow-x-auto scrollbar-hide">
-                            <button v-for="(image, index) in allImages" :key="index"
-                                @click="activeImageIndex = index" :class="[
+                            <button v-for="(image, index) in allImages" :key="index" @click="activeImageIndex = index"
+                                :class="[
                                     'w-20 h-20 sm:w-24 sm:h-24 rounded-lg shrink-0 overflow-hidden border-2 transition-all duration-200 bg-white',
                                     activeImageIndex === index
                                         ? 'border-gray-800'
                                         : 'border-gray-300 hover:border-gray-500'
                                 ]">
-                                <NuxtImg :src="image.thumb" :alt="`${product.brand.name} ${product.name} – view ${index + 1}`"
-                                    width="96" height="96" format="webp"
-                                    class="w-full h-full object-contain p-1.5" />
+                                <NuxtImg :src="image.thumb"
+                                    :alt="`${product.brand.name} ${product.name} – view ${index + 1}`" width="96"
+                                    height="96" format="webp" class="w-full h-full object-contain p-1.5" />
                             </button>
                         </div>
                     </div>
@@ -99,8 +98,8 @@
                                     <ChevronLeft class="w-8 h-8" />
                                 </button>
                                 <NuxtImg :src="allImages[lightboxIndex]?.original"
-                                    :alt="`${product.brand.name} ${product.name}`"
-                                    width="1200" height="900" format="webp"
+                                    :alt="`${product.brand.name} ${product.name}`" width="1200" height="900"
+                                    format="webp"
                                     class="max-h-[90vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl" />
                                 <button v-if="allImages.length > 1" @click="nextImage"
                                     class="absolute right-6 text-white/80 hover:text-white z-10 bg-white/10 hover:bg-white/20 rounded-full p-4 transition-all duration-300 backdrop-blur-md hover:scale-110">
@@ -120,12 +119,11 @@
 
                         <!-- Brand + Category tags -->
                         <div class="flex items-center gap-3 flex-wrap">
-                            <span
-                                class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400" itemprop="brand"
-                                itemscope itemtype="https://schema.org/Brand">
+                            <span class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400"
+                                itemprop="brand" itemscope itemtype="https://schema.org/Brand">
                                 <span itemprop="name">{{ product.brand.name }}</span>
                             </span>
-                            
+
                         </div>
 
                         <!-- Product Name -->
@@ -183,8 +181,8 @@
                             <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">Select
                                 Variant</p>
                             <div class="flex flex-wrap gap-2">
-                                <button v-for="sku in product.skus" :key="sku.uuid"
-                                    @click="selectedSkuUuid = sku.uuid" :class="[
+                                <button v-for="sku in product.skus" :key="sku.uuid" @click="selectedSkuUuid = sku.uuid"
+                                    :class="[
                                         'px-4 py-1.5 text-sm font-semibold rounded-full border-2 transition-all duration-200',
                                         selectedSku?.uuid === sku.uuid
                                             ? 'border-gray-900 bg-gray-900 text-white'
@@ -206,7 +204,7 @@
                                     </button>
                                     <span
                                         class="w-9 text-center text-sm font-bold text-gray-900 tabular-nums select-none">{{
-                                        quantity }}</span>
+                                            quantity }}</span>
                                     <button @click="incrementQuantity"
                                         :disabled="quantity >= (selectedSku?.stock_quantity ?? 0)"
                                         class="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-900 disabled:opacity-30 rounded-r-full hover:bg-gray-100 transition-colors">
@@ -234,8 +232,10 @@
                             <!-- Telegram Inquiry -->
                             <a :href="telegramUrl" target="_blank" rel="noopener noreferrer"
                                 class="flex items-center justify-center gap-2 w-full h-11 rounded-full border border-sky-200 text-sky-500 hover:bg-sky-50 hover:border-sky-400 transition-all duration-200 text-sm font-semibold">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
                                 </svg>
                                 Ask on Telegram
                             </a>
@@ -247,10 +247,12 @@
                         <div>
                             <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">
                                 Specifications</p>
-                            <dl :class="['divide-y divide-gray-50', { 'max-h-52 overflow-y-auto pr-1': productSpecs.length > 5 }]">
+                            <dl
+                                :class="['divide-y divide-gray-50', { 'max-h-52 overflow-y-auto pr-1': productSpecs.length > 5 }]">
                                 <div v-for="(item, index) in productSpecs" :key="index"
                                     class="flex items-start gap-4 py-2.5">
-                                    <dt class="text-xs text-gray-400 font-medium uppercase tracking-wide w-28 shrink-0 pt-px">
+                                    <dt
+                                        class="text-xs text-gray-400 font-medium uppercase tracking-wide w-28 shrink-0 pt-px">
                                         {{ item.label }}
                                     </dt>
                                     <dd class="text-sm text-gray-900 font-medium">{{ item.value }}</dd>
@@ -414,6 +416,7 @@
         ogDescription: seoDescription,
         ogImage: computed(() => product.value?.images?.featured?.original ?? '/logo.jpg'),
         ogType: 'website',
+        ogUrl: computed(() => `${siteUrl}/products/${slug.value}`),
         twitterCard: 'summary_large_image',
         keywords: seoKeywords,
     });

@@ -4,6 +4,7 @@ export * from './models/category';
 export * from './models/category-tree';
 export * from './models/category-filter';
 export * from './models/auth';
+export * from './models/brand';
 export * from './models/carousel';
 export * from './models/wishlist';
 export * from './models/cart';
