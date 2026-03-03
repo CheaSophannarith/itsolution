@@ -37,7 +37,8 @@
                         <!-- Service Image -->
                         <div class="sm:w-48 md:w-56 lg:w-64 shrink-0">
                             <NuxtLink :to="getServiceLink(service)" class="block h-full">
-                                <img :src="service.image" :alt="service.name"
+                                <NuxtImg :src="service.image" :alt="service.name"
+                                    width="256" height="192" format="webp" loading="lazy"
                                     class="w-full h-48 sm:h-full object-cover" />
                             </NuxtLink>
                         </div>
@@ -121,7 +122,7 @@
         description: 'Explore IT Solution Digital\'s software solutions: HEMIS (University Management), Scholarship Management System, and custom software development for government and businesses in Cambodia.',
         ogTitle: 'IT Software Solutions | IT Solution Digital Cambodia',
         ogDescription: 'Custom software development for Cambodia\'s government and businesses. HEMIS, Scholarship Management System, and more tailored digital solutions.',
-        ogImage: '/logo.jpg',
+        ogImage: `${siteUrl}/logo.jpg`,
         ogType: 'website',
         twitterCard: 'summary_large_image',
         keywords: 'software solutions Cambodia, custom software development, university management system, scholarship management Cambodia, IT Solution Digital services',

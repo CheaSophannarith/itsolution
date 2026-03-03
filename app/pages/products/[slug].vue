@@ -62,8 +62,9 @@
                         <!-- Main Image -->
                         <div class="bg-white rounded-xl cursor-zoom-in overflow-hidden aspect-[4/3] border border-gray-300"
                             @click="openLightbox(activeImageIndex)">
-                            <img :src="allImages[activeImageIndex]?.original"
+                            <NuxtImg :src="allImages[activeImageIndex]?.original"
                                 :alt="`${product.brand.name} ${product.name}`" itemprop="image"
+                                width="800" height="600" format="webp"
                                 class="w-full h-full object-contain p-3 sm:p-5 hover:scale-105 transition-transform duration-500" />
                         </div>
 
@@ -76,7 +77,8 @@
                                         ? 'border-gray-800'
                                         : 'border-gray-300 hover:border-gray-500'
                                 ]">
-                                <img :src="image.thumb" :alt="`${product.brand.name} ${product.name} – view ${index + 1}`"
+                                <NuxtImg :src="image.thumb" :alt="`${product.brand.name} ${product.name} – view ${index + 1}`"
+                                    width="96" height="96" format="webp"
                                     class="w-full h-full object-contain p-1.5" />
                             </button>
                         </div>
@@ -96,8 +98,9 @@
                                     class="absolute left-6 text-white/80 hover:text-white z-10 bg-white/10 hover:bg-white/20 rounded-full p-4 transition-all duration-300 backdrop-blur-md hover:scale-110">
                                     <ChevronLeft class="w-8 h-8" />
                                 </button>
-                                <img :src="allImages[lightboxIndex]?.original"
+                                <NuxtImg :src="allImages[lightboxIndex]?.original"
                                     :alt="`${product.brand.name} ${product.name}`"
+                                    width="1200" height="900" format="webp"
                                     class="max-h-[90vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl" />
                                 <button v-if="allImages.length > 1" @click="nextImage"
                                     class="absolute right-6 text-white/80 hover:text-white z-10 bg-white/10 hover:bg-white/20 rounded-full p-4 transition-all duration-300 backdrop-blur-md hover:scale-110">

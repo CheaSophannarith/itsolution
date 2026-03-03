@@ -129,11 +129,17 @@
 <script setup lang="ts">
     import { ChevronRight } from 'lucide-vue-next';
 
+    const siteUrl = useRuntimeConfig().public.siteUrl as string;
+
+    useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/privacy-policy` }] });
+
     useSeoMeta({
         title: 'Privacy Policy',
         description: 'Read IT Solution Digital\'s privacy policy. Learn how we handle your data, our 30-day return policy for unused items in original packaging, and your rights as a customer.',
         ogTitle: 'Privacy Policy | IT Solution Digital',
         ogDescription: 'IT Solution Digital\'s privacy and return policy. 30-day returns on unused items in original packaging.',
         ogType: 'website',
+        ogImage: `${siteUrl}/logo.jpg`,
+        keywords: 'IT Solution Digital privacy policy, return policy Cambodia, data privacy IT shop',
     });
 </script>

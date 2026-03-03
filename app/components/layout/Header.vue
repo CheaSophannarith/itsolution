@@ -11,7 +11,7 @@
 
 					<!-- Logo -->
 					<NuxtLink to="/" class="shrink-0">
-						<img src="/logo.jpg" alt="TanXLM" class="h-8 sm:h-12" />
+						<NuxtImg src="/logo.jpg" alt="IT Solution Digital" width="160" height="48" fetchpriority="high" class="h-8 sm:h-12" />
 					</NuxtLink>
 
 					<!-- Search Bar - Hidden on mobile, shown on md+ -->
@@ -30,7 +30,7 @@
 								leave-active-class="transition ease-in duration-150"
 								leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-1">
 								<div v-if="showSearchDropdown && searchQuery.length > 0"
-									class="absolute top-full mt-2 w-full bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-[500px] overflow-y-auto">
+									class="absolute top-full mt-2 w-full bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-125 overflow-y-auto">
 									<!-- Loading State -->
 									<div v-if="searchStatus === 'pending'" class="p-4 text-center text-gray-500">
 										<div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand mx-auto">
@@ -50,8 +50,9 @@
 												:to="`/products/${product.slug}`" @click="closeSearch"
 												class="flex items-center gap-3 px-3 py-2 bg-white border border-gray-200 rounded-lg hover:border-brand hover:bg-gray-50 transition-all cursor-pointer">
 												<div
-													class="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden">
+													class="w-16 h-16 shrink-0 bg-gray-100 rounded-md overflow-hidden">
 													<img v-if="product.image" :src="product.image" :alt="product.name"
+														width="64" height="64" loading="lazy"
 														class="w-full h-full object-cover" />
 													<div v-else class="w-full h-full flex items-center justify-center">
 														<Search class="w-6 h-6 text-gray-400" />
@@ -127,12 +128,13 @@
 								class="flex items-center gap-2 p-2 text-brand hover:bg-gray-100 rounded-full transition-all">
 								<!-- Profile Image or Initials -->
 								<div v-if="authStore.user?.avatar"
-									class="w-9 h-9 border border-brand rounded-full overflow-hidden flex-shrink-0 ring-2 ring-transparent hover:ring-brand transition-all">
+									class="w-9 h-9 border border-brand rounded-full overflow-hidden shrink-0 ring-2 ring-transparent hover:ring-brand transition-all">
 									<img :src="authStore.user.avatar" :alt="authStore.user.name"
+										width="36" height="36" loading="lazy"
 										class="w-full h-full object-cover" />
 								</div>
 								<div v-else
-									class="w-9 h-9 bg-brand text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 ring-2 ring-transparent hover:ring-brand/50 transition-all">
+									class="w-9 h-9 bg-brand text-white rounded-full flex items-center justify-center text-sm font-semibold shrink-0 ring-2 ring-transparent hover:ring-brand/50 transition-all">
 									{{ userInitials }}
 								</div>
 							</button>
@@ -150,12 +152,13 @@
 										<div class="flex items-center gap-3">
 											<!-- Profile Image or Initials -->
 											<div v-if="authStore.user?.avatar"
-												class="w-12 h-12 border border-brand rounded-full overflow-hidden flex-shrink-0">
+												class="w-12 h-12 border border-brand rounded-full overflow-hidden shrink-0">
 												<img :src="authStore.user.avatar" :alt="authStore.user.name"
+													width="48" height="48" loading="lazy"
 													class="w-full h-full object-cover" />
 											</div>
 											<div v-else
-												class="w-12 h-12 bg-brand text-white rounded-full flex items-center justify-center text-base font-bold flex-shrink-0">
+												class="w-12 h-12 bg-brand text-white rounded-full flex items-center justify-center text-base font-bold shrink-0">
 												{{ userInitials }}
 											</div>
 											<div class="flex-1 min-w-0">
@@ -215,6 +218,7 @@
 								<div v-if="authStore.user?.avatar"
 									class="w-8 h-8 border border-brand  rounded-full overflow-hidden">
 									<img :src="authStore.user.avatar" :alt="authStore.user.name"
+										width="32" height="32" loading="lazy"
 										class="w-full h-full object-cover" />
 								</div>
 								<div v-else
@@ -244,8 +248,9 @@
 										<div class="flex items-center gap-3 pr-8">
 											<!-- Profile Image or Initials -->
 											<div v-if="authStore.user?.avatar"
-												class="w-12 h-12 border border-brand  rounded-full overflow-hidden flex-shrink-0">
+												class="w-12 h-12 border border-brand  rounded-full overflow-hidden shrink-0">
 												<img :src="authStore.user.avatar" :alt="authStore.user.name"
+													width="48" height="48" loading="lazy"
 													class="w-full h-full object-cover" />
 											</div>
 											<div v-else
@@ -316,7 +321,7 @@
 								leave-active-class="transition ease-in duration-150"
 								leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-1">
 								<div v-if="showMobileSearchDropdown && mobileSearchQuery.length > 0"
-									class="absolute top-full mt-2 w-full bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-[400px] overflow-y-auto">
+									class="absolute top-full mt-2 w-full bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-100 overflow-y-auto">
 									<!-- Loading State -->
 									<div v-if="mobileSearchStatus === 'pending'" class="p-4 text-center text-gray-500">
 										<div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand mx-auto">
@@ -336,8 +341,9 @@
 												:to="`/products/${product.slug}`" @click="closeMobileSearch"
 												class="flex items-center gap-3 px-3 py-2 bg-white border border-gray-200 rounded-lg hover:border-brand hover:bg-gray-50 transition-all">
 												<div
-													class="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden">
+													class="w-16 h-16 shrink-0 bg-gray-100 rounded-md overflow-hidden">
 													<img v-if="product.image" :src="product.image" :alt="product.name"
+														width="64" height="64" loading="lazy"
 														class="w-full h-full object-cover" />
 													<div v-else class="w-full h-full flex items-center justify-center">
 														<Search class="w-6 h-6 text-gray-400" />
@@ -431,7 +437,7 @@
 				<!-- Mobile Menu Header -->
 				<div class="flex items-center justify-between p-4 border-b border-gray-200 bg-brand">
 					<NuxtLink to="/" @click="closeMobileMenu">
-						<img src="/logo.jpg" alt="TanXLM" class="h-8" />
+						<NuxtImg src="/logo.jpg" alt="IT Solution Digital" width="120" height="32" class="h-8" />
 					</NuxtLink>
 					<button @click="closeMobileMenu" class="p-2 text-white hover:bg-white/10 rounded-md">
 						<X class="w-6 h-6" />
