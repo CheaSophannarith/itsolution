@@ -53,7 +53,7 @@ export default defineNuxtConfig({
 	},
 	compatibilityDate: '2025-07-15',
 	devtools: { enabled: process.env.NODE_ENV !== 'production' },
-	modules: ['shadcn-nuxt', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt', '@nuxt/image'],
+	modules: ['shadcn-nuxt', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt', '@nuxt/image', '@nuxt/test-utils/module'],
 
 	image: {
 		domains: ['tanxlm-api.test'],
