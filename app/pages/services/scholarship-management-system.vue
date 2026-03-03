@@ -40,7 +40,8 @@
                         </div>
                     </div>
                     <div class="hidden lg:block">
-                        <img src="/Images/Scholarship/DGHE Admin/Dashboard.png" alt="Scholarship Dashboard"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Dashboard.png" alt="Scholarship Dashboard"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-2xl hover:scale-[1.02] transition-transform duration-300" />
                     </div>
                 </div>
@@ -79,7 +80,8 @@
                         </ul>
                     </div>
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/Landing Page.png" alt="Scholarship Landing Page"
+                        <NuxtImg src="/Images/Scholarship/Landing Page.png" alt="Scholarship Landing Page"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -162,7 +164,8 @@
                 <!-- Feature 1: System Configuration -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/DGHE Admin/Setting.png" alt="System Settings"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Setting.png" alt="System Settings"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div>
@@ -212,7 +215,8 @@
                         </ul>
                     </div>
                     <div class="order-1 lg:order-2 overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/DGHE Admin/Highschool.png" alt="High School Management"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Highschool.png" alt="High School Management"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -220,7 +224,8 @@
                 <!-- Feature 3: Ministries Management -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/DGHE Admin/Ministries.png" alt="Ministries Management"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Ministries.png" alt="Ministries Management"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div>
@@ -270,7 +275,8 @@
                         </ul>
                     </div>
                     <div class="order-1 lg:order-2 overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/DGHE Admin/Institutions.png" alt="Institutions Management"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Institutions.png" alt="Institutions Management"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -278,7 +284,8 @@
                 <!-- Feature 5: Specialties Management -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/DGHE Admin/Specialties.png" alt="Specialties Management"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Specialties.png" alt="Specialties Management"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div>
@@ -327,7 +334,8 @@
                         </ul>
                     </div>
                     <div class="order-1 lg:order-2 overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/DGHE Admin/Candidates.png" alt="Candidates Management"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Candidates.png" alt="Candidates Management"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -335,7 +343,8 @@
                 <!-- Feature 7: Applications Management -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/DGHE Admin/Applications.png" alt="Applications Management"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Applications.png" alt="Applications Management"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div>
@@ -385,7 +394,8 @@
                         </ul>
                     </div>
                     <div class="order-1 lg:order-2 overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/DGHE Admin/Reports.png" alt="Reports"
+                        <NuxtImg src="/Images/Scholarship/DGHE Admin/Reports.png" alt="Reports"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -407,7 +417,8 @@
                     <!-- School Dashboard -->
                     <div
                         class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                        <img src="/Images/Scholarship/School Account/School-Dashboard.png" alt="School Dashboard"
+                        <NuxtImg src="/Images/Scholarship/School Account/School-Dashboard.png" alt="School Dashboard"
+                            width="800" height="192" format="webp" loading="lazy"
                             class="w-full h-48 object-cover" />
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-blue-950 mb-2">School Dashboard</h3>
@@ -420,7 +431,8 @@
                     <!-- Candidate Management -->
                     <div
                         class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                        <img src="/Images/Scholarship/School Account/School Candidates.png" alt="School Candidates"
+                        <NuxtImg src="/Images/Scholarship/School Account/School Candidates.png" alt="School Candidates"
+                            width="800" height="192" format="webp" loading="lazy"
                             class="w-full h-48 object-cover" />
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-blue-950 mb-2">Candidate Management</h3>
@@ -433,7 +445,8 @@
                     <!-- Application Management -->
                     <div
                         class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                        <img src="/Images/Scholarship/School Account/School Applications.png" alt="School Applications"
+                        <NuxtImg src="/Images/Scholarship/School Account/School Applications.png" alt="School Applications"
+                            width="800" height="192" format="webp" loading="lazy"
                             class="w-full h-48 object-cover" />
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-blue-950 mb-2">Application Management</h3>
@@ -446,7 +459,8 @@
                     <!-- School Reports -->
                     <div
                         class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                        <img src="/Images/Scholarship/School Account/School Reports.png" alt="School Reports"
+                        <NuxtImg src="/Images/Scholarship/School Account/School Reports.png" alt="School Reports"
+                            width="800" height="192" format="webp" loading="lazy"
                             class="w-full h-48 object-cover" />
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-blue-950 mb-2">School Reports</h3>
@@ -464,7 +478,8 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/Ministry Account/Ministries.png" alt="Ministry Portal"
+                        <NuxtImg src="/Images/Scholarship/Ministry Account/Ministries.png" alt="Ministry Portal"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div>
@@ -526,7 +541,8 @@
                         </div>
                     </div>
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/Student Account/Application Form.png" alt="Student Application"
+                        <NuxtImg src="/Images/Scholarship/Student Account/Application Form.png" alt="Student Application"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
@@ -538,7 +554,8 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div class="overflow-hidden rounded-lg">
-                        <img src="/Images/Scholarship/Specialties by Institution.png" alt="Specialties Portal"
+                        <NuxtImg src="/Images/Scholarship/Specialties by Institution.png" alt="Specialties Portal"
+                            width="800" height="500" format="webp" loading="lazy"
                             class="w-full rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div>

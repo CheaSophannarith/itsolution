@@ -37,7 +37,8 @@
                         <!-- Service Image -->
                         <div class="sm:w-48 md:w-56 lg:w-64 shrink-0">
                             <NuxtLink :to="getServiceLink(service)" class="block h-full">
-                                <img :src="service.image" :alt="service.name"
+                                <NuxtImg :src="service.image" :alt="service.name"
+                                    width="256" height="192" format="webp" loading="lazy"
                                     class="w-full h-48 sm:h-full object-cover" />
                             </NuxtLink>
                         </div>
