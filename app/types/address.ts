@@ -7,7 +7,7 @@ export interface Address {
     address_line_1: string;
     address_line_2: string | null;
     province: string;
-    phone: string | null;
+    phone: string;
     email: string | null;
     label: string | null;
     is_default: boolean;
@@ -21,7 +21,7 @@ export interface AddressFormData {
     address_line_1: string;
     address_line_2?: string | null;
     province: string;
-    phone?: string | null;
+    phone: string;
     email?: string | null;
     label?: string | null;
     is_default: boolean;
