@@ -273,11 +273,17 @@
 <script setup lang="ts">
     import { ChevronRight } from 'lucide-vue-next';
 
+    const siteUrl = useRuntimeConfig().public.siteUrl as string;
+
+    useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/terms-and-conditions` }] });
+
     useSeoMeta({
         title: 'Terms and Conditions',
         description: 'Read IT Solution Digital\'s terms and conditions. Learn about our policies on cookies, licensing, content liability, and website usage.',
         ogTitle: 'Terms and Conditions | IT Solution Digital',
         ogDescription: 'IT Solution Digital\'s terms and conditions for website usage, cookies, licensing, and content policies.',
         ogType: 'website',
+        ogImage: `${siteUrl}/logo.jpg`,
+        keywords: 'IT Solution Digital terms and conditions, website terms Cambodia, usage policy IT shop',
     });
 </script>

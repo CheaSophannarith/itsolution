@@ -28,7 +28,8 @@ export default defineNuxtConfig({
 			],
 			link: [
 				{ rel: 'icon', type: 'image/png', href: '/Icon.PNG' },
-				{ rel: 'canonical', href: process.env.SITE_URL},
+				{ rel: 'canonical', href: process.env.SITE_URL },
+				{ rel: 'preconnect', href: process.env.API_BASE_URL },
 			],
 		},
 	},
@@ -44,7 +45,7 @@ export default defineNuxtConfig({
 		},
 	},
 	compatibilityDate: '2025-07-15',
-	devtools: { enabled: true },
+	devtools: { enabled: process.env.NODE_ENV !== 'production' },
 	modules: ['shadcn-nuxt', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt', '@nuxt/image'],
 
 	image: {

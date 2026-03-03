@@ -121,7 +121,7 @@
         description: 'Explore IT Solution Digital\'s software solutions: HEMIS (University Management), Scholarship Management System, and custom software development for government and businesses in Cambodia.',
         ogTitle: 'IT Software Solutions | IT Solution Digital Cambodia',
         ogDescription: 'Custom software development for Cambodia\'s government and businesses. HEMIS, Scholarship Management System, and more tailored digital solutions.',
-        ogImage: '/logo.jpg',
+        ogImage: `${siteUrl}/logo.jpg`,
         ogType: 'website',
         twitterCard: 'summary_large_image',
         keywords: 'software solutions Cambodia, custom software development, university management system, scholarship management Cambodia, IT Solution Digital services',
