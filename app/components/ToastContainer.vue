@@ -1,19 +1,19 @@
 <template>
     <Teleport to="body">
-        <div class="fixed top-4 right-4 z-[9999] flex flex-col gap-2 pointer-events-none">
+        <div v-if="mounted" class="fixed top-4 right-4 z-9999 flex flex-col gap-2 pointer-events-none">
             <TransitionGroup name="toast">
                 <div
                     v-for="toast in toasts"
                     :key="toast.id"
                     :class="[
-                        'pointer-events-auto rounded-lg shadow-2xl px-4 py-3 min-w-[280px] max-w-md flex items-center gap-3 backdrop-blur-sm border',
+                        'pointer-events-auto rounded-lg shadow-2xl px-4 py-3 min-w-70 max-w-md flex items-center gap-3 backdrop-blur-sm border',
                         toast.type === 'success' && 'bg-green-500/95 text-white border-green-600',
                         toast.type === 'error' && 'bg-red-500/95 text-white border-red-600',
                         toast.type === 'info' && 'bg-blue-500/95 text-white border-blue-600',
                     ]"
                 >
                     <!-- Icon -->
-                    <div class="flex-shrink-0">
+                    <div class="shrink-0">
                         <CheckCircle v-if="toast.type === 'success'" class="w-5 h-5" />
                         <XCircle v-else-if="toast.type === 'error'" class="w-5 h-5" />
                         <Info v-else class="w-5 h-5" />
@@ -25,7 +25,7 @@
                     <!-- Close Button -->
                     <button
                         @click="removeToast(toast.id)"
-                        class="flex-shrink-0 opacity-70 hover:opacity-100 transition-opacity"
+                        class="shrink-0 opacity-70 hover:opacity-100 transition-opacity"
                     >
                         <X class="w-4 h-4" />
                     </button>
@@ -36,9 +36,12 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import { CheckCircle, XCircle, Info, X } from 'lucide-vue-next';
 
 const { toasts, removeToast } = useToast();
+const mounted = ref(false);
+onMounted(() => { mounted.value = true; });
 </script>
 
 <style scoped>

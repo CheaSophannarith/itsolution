@@ -37,7 +37,12 @@ export default defineNuxtConfig({
 	},
 	compatibilityDate: '2025-07-15',
 	devtools: { enabled: true },
-	modules: ['shadcn-nuxt', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
+	modules: ['shadcn-nuxt', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt', '@nuxt/image'],
+
+	image: {
+		domains: ['tanxlm-api.test'],
+		format: ['webp'],
+	},
 
 	css: ['~/assets/css/tailwind.css'],
 

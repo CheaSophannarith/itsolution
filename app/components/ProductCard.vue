@@ -4,10 +4,14 @@
 
         <!-- Product Image -->
         <div class="relative aspect-square bg-white overflow-hidden cursor-pointer" @click="navigateToDetail">
-            <img
+            <NuxtImg
                 v-if="product.image"
                 :src="product.image"
                 :alt="product.name"
+                width="400"
+                height="400"
+                format="webp"
+                loading="lazy"
                 class="w-full h-full object-contain p-4 group-hover:scale-105 transition-all duration-300"
             />
             <div v-else class="w-full h-full flex items-center justify-center text-gray-300">
@@ -87,7 +91,7 @@
 
                         <!-- Shimmer on hover -->
                         <span
-                            class="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                            class="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-linear-to-r from-transparent via-white/10 to-transparent" />
 
                         <span v-if="adding" class="flex items-center gap-2">
                             <span
