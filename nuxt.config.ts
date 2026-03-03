@@ -10,8 +10,16 @@ export default defineNuxtConfig({
 			viewport: 'width=device-width, initial-scale=1',
 			htmlAttrs: { lang: 'km' },
 			meta: [
-				{ name: 'description', content: 'IT Solution Digital - Cambodia #1 IT shop in Phnom Penh. Buy computers, laptops, phones, monitors, desktop PCs and printers at the best prices. Genuine warranty and expert support.' },
-				{ name: 'keywords', content: 'IT solution digital, computer shop Cambodia, laptop Phnom Penh, phone shop Cambodia, monitor Cambodia, printer Cambodia, desktop computer Cambodia, IT products Phnom Penh, computer repair Cambodia, IT accessories Cambodia, gaming PC Cambodia, MacBook Cambodia, HP laptop Cambodia, Dell Cambodia, Lenovo Cambodia' },
+				{
+					name: 'description',
+					content:
+						'IT Solution Digital - Cambodia #1 IT shop in Phnom Penh. Buy computers, laptops, phones, monitors, desktop PCs and printers at the best prices. Genuine warranty and expert support.',
+				},
+				{
+					name: 'keywords',
+					content:
+						'IT solution digital, computer shop Cambodia, laptop Phnom Penh, phone shop Cambodia, monitor Cambodia, printer Cambodia, desktop computer Cambodia, IT products Phnom Penh, computer repair Cambodia, IT accessories Cambodia, gaming PC Cambodia, MacBook Cambodia, HP laptop Cambodia, Dell Cambodia, Lenovo Cambodia',
+				},
 				{ name: 'author', content: 'IT Solution Digital' },
 				{ name: 'robots', content: 'index, follow' },
 				{ name: 'geo.region', content: 'KH-12' },
@@ -29,7 +37,6 @@ export default defineNuxtConfig({
 			link: [
 				{ rel: 'icon', type: 'image/png', href: '/Icon.PNG' },
 				{ rel: 'canonical', href: process.env.SITE_URL },
-				{ rel: 'preconnect', href: process.env.API_BASE_URL },
 			],
 		},
 	},
