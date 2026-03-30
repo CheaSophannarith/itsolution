@@ -192,7 +192,7 @@
 
                     <!-- Submit -->
                     <button type="submit" :disabled="isSubmittingContact"
-                        class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white px-8 py-3 rounded-lg text-sm font-medium transition-colors">
+                        class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white px-8 py-3 rounded-lg text-sm font-medium transition-colors">
                         <Loader2 v-if="isSubmittingContact" class="w-4 h-4 animate-spin" />
                         <Send v-else class="w-4 h-4" />
                         {{ isSubmittingContact ? 'Sending...' : 'Send Message' }}
