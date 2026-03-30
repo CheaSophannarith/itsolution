@@ -10,7 +10,7 @@
         <HomeBrandsCarousel :brands="brands" />
 
         <!-- Category Products Sections -->
-        <div v-if="categoriesWithProducts && categoriesWithProducts.length > 0" class="bg-white py-4 sm:py-0">
+        <div v-if="categoriesWithProducts && categoriesWithProducts.length > 0" class="bg-white py-4 sm:py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <ClientOnly>
                     <div class="mb-4 sm:mb-6" data-aos="fade-up">
@@ -19,13 +19,63 @@
                         </span>
                     </div>
 
-                    <div class="space-y-8 sm:space-y-16">
-                        <HomeCategorySection
-                            v-for="(category, index) in categoriesWithProducts"
+                    <!-- Mobile: horizontal scrollable category filter tabs -->
+                    <div class="flex lg:hidden gap-2 overflow-x-auto pb-3 mb-4 scrollbar-hide">
+                        <button
+                            v-for="category in categoriesWithProducts"
                             :key="category.uuid"
-                            :category="category"
-                            data-aos="fade-up"
-                            :data-aos-delay="index * 100" />
+                            @click="activeCategory = category"
+                            :class="[
+                                'flex-shrink-0 px-4 py-2 text-sm font-medium rounded-full border transition-colors',
+                                activeCategory?.uuid === category.uuid
+                                    ? 'bg-brand text-white border-brand'
+                                    : 'bg-white text-gray-700 border-gray-200 hover:border-brand hover:text-brand',
+                            ]">
+                            {{ category.name }}
+                        </button>
+                    </div>
+
+                    <!-- Layout: left sidebar (desktop) + right product grid -->
+                    <div class="flex gap-6 items-start">
+                        <!-- Left: category filter sidebar (desktop only) -->
+                        <aside class="hidden lg:block w-52 flex-shrink-0">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2 px-3">Categories</p>
+                            <ul class="space-y-0.5">
+                                <li v-for="category in categoriesWithProducts" :key="category.uuid">
+                                    <button
+                                        @click="activeCategory = category"
+                                        :class="[
+                                            'w-full text-left px-3 py-2.5 text-sm font-medium rounded-lg flex items-center gap-3 transition-colors',
+                                            activeCategory?.uuid === category.uuid
+                                                ? 'bg-brand text-white'
+                                                : 'text-gray-700 hover:bg-gray-100 hover:text-brand',
+                                        ]">
+                                        <img
+                                            v-if="category.image"
+                                            :src="category.image"
+                                            :alt="category.name"
+                                            class="w-8 h-8 object-cover rounded flex-shrink-0" />
+                                        <span class="truncate flex-1">{{ category.name }}</span>
+                                        <span :class="[
+                                            'text-xs font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0',
+                                            activeCategory?.uuid === category.uuid
+                                                ? 'bg-white/20 text-white'
+                                                : 'bg-gray-100 text-gray-500',
+                                        ]">{{ category.products.length }}</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </aside>
+
+                        <!-- Right: filtered product grid -->
+                        <div class="flex-1 min-w-0">
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4" data-aos="fade-up">
+                                <ProductCard
+                                    v-for="product in filteredProducts"
+                                    :key="product.uuid"
+                                    :product="product" />
+                            </div>
+                        </div>
                     </div>
                 </ClientOnly>
             </div>
@@ -44,6 +94,15 @@
     const { brands } = useBrands();
     const { popularCategories } = await usePopularCategories();
     const { categoriesWithProducts } = await useCategoriesWithLatestProducts(popularCategories);
+
+    const activeCategory = ref<null | (typeof categoriesWithProducts.value)[0]>(categoriesWithProducts.value?.[0] ?? null);
+
+    const filteredProducts = computed(() => {
+        if (activeCategory.value === null) {
+            return (categoriesWithProducts.value ?? []).flatMap(c => c.products);
+        }
+        return activeCategory.value.products ?? [];
+    });
 
     useHead({ link: [{ rel: 'canonical', href: siteUrl }] });
 
