@@ -1,26 +1,6 @@
 <template>
 	<div class="min-h-screen bg-gray-50 flex flex-col">
-		<!-- User-Friendly Checkout Header -->
-		<header class="bg-white border-b border-gray-200 sticky top-0 z-50">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
-				<div class="flex items-center justify-between">
-					<!-- Back Button -->
-					<NuxtLink to="/"
-						class="flex items-center gap-2 text-gray-600 hover:text-brand transition-colors group">
-						<ChevronRight class="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" />
-						<span class="text-sm font-medium hidden sm:inline">Continue Shopping</span>
-						<span class="text-sm font-medium sm:hidden">Back</span>
-					</NuxtLink>
-
-					<!-- Logo -->
-					<NuxtLink to="/" class="absolute left-1/2 -translate-x-1/2">
-						<img src="/logo.jpg" alt="TanXLM" class="h-8 sm:h-10 hover:opacity-80 transition-opacity" />
-					</NuxtLink>
-				</div>
-			</div>
-		</header>
-
-		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex-1">
+		<div class="max-w-7xl mx-auto py-4 flex-1">
 
 			<!-- Title Row -->
 			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2 mt-6">
@@ -601,7 +581,6 @@
 
 	// Disable default layout and add custom transition
 	definePageMeta({
-		layout: false,
 		pageTransition: {
 			name: 'scale',
 			mode: 'out-in'

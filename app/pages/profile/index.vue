@@ -4,184 +4,16 @@
             <div class="flex flex-col md:flex-row md:items-stretch gap-6">
 
                 <!-- Sidebar -->
-                <aside class="w-full md:w-64 shrink-0 md:flex md:flex-col">
-                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden md:flex md:flex-col md:h-full">
-                        <!-- User Summary -->
-                        <div class="p-5 border-b border-gray-100">
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 rounded-full overflow-hidden bg-linear-to-br from-brand to-brand/80 flex items-center justify-center ring-2 ring-brand/10 shrink-0">
-                                    <img v-if="avatarUrl" :src="avatarUrl" alt="Avatar" class="w-full h-full object-cover">
-                                    <User v-else class="w-6 h-6 text-white" />
-                                </div>
-                                <div class="min-w-0">
-                                    <p class="font-semibold text-gray-900 text-sm truncate">{{ authStore.user?.name }}</p>
-                                    <p class="text-xs text-gray-500 truncate">{{ authStore.user?.email }}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Navigation -->
-                        <nav class="p-2">
-                            <button
-                                v-for="item in navItems"
-                                :key="item.key"
-                                @click="activeTab = item.key"
-                                type="button"
-                                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all mb-1 last:mb-0"
-                                :class="activeTab === item.key
-                                    ? 'bg-brand text-white shadow-sm'
-                                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'"
-                            >
-                                <component :is="item.icon" class="w-4 h-4 shrink-0" />
-                                {{ item.label }}
-                            </button>
-                        </nav>
-                    </div>
-                </aside>
+                <ProfileSidebar v-model="activeTab" />
 
                 <!-- Main Content -->
                 <div class="flex-1 min-w-0 md:flex md:flex-col">
 
                     <!-- Profile Section -->
-                    <div v-if="activeTab === 'profile'" class="bg-white rounded-xl border border-gray-200 overflow-hidden md:flex md:flex-col md:h-full">
-                        <div class="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center">
-                                <User class="w-4 h-4 text-brand" />
-                            </div>
-                            <h2 class="text-base font-semibold text-gray-900">Profile Information</h2>
-                        </div>
-
-                        <div class="p-6">
-                            <!-- Avatar & Name -->
-                            <div class="flex items-center gap-5 mb-6">
-                                <div class="relative group">
-                                    <div class="w-20 h-20 rounded-full overflow-hidden bg-linear-to-br from-brand to-brand/80 flex items-center justify-center ring-4 ring-brand/10 shadow-md">
-                                        <img v-if="avatarUrl" :src="avatarUrl" alt="Profile avatar" class="w-full h-full object-cover">
-                                        <User v-else class="w-10 h-10 text-white" />
-                                    </div>
-                                    <div class="absolute -bottom-1 -right-1 flex gap-1.5">
-                                        <label class="cursor-pointer bg-brand hover:bg-brand/90 text-white p-2 rounded-full shadow-md transition-all hover:scale-110 ring-2 ring-white">
-                                            <Upload class="w-3.5 h-3.5" />
-                                            <input type="file" accept="image/*" @change="handleAvatarChange" class="hidden">
-                                        </label>
-                                        <button v-if="avatarUrl" @click="deleteAvatar" type="button"
-                                            class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-md transition-all hover:scale-110 ring-2 ring-white">
-                                            <Trash2 class="w-3.5 h-3.5" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-base font-bold text-gray-900">{{ authStore.user?.name }}</p>
-                                    <p class="text-sm text-gray-500">{{ authStore.user?.email }}</p>
-                                </div>
-                            </div>
-
-                            <!-- Edit Form -->
-                            <form @submit.prevent="updateProfile" class="space-y-4">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
-                                        <input v-model="profileForm.name" type="text" id="name"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm"
-                                            placeholder="Enter your full name">
-                                    </div>
-                                    <div>
-                                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
-                                        <input v-model="profileForm.email" type="email" id="email"
-                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm"
-                                            placeholder="Enter your email">
-                                    </div>
-                                </div>
-                                <div class="flex justify-end pt-2 border-t border-gray-100">
-                                    <button type="submit" :disabled="isUpdating"
-                                        class="px-5 py-2.5 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors disabled:opacity-50 text-sm font-semibold flex items-center gap-2">
-                                        <Loader2 v-if="isUpdating" class="w-4 h-4 animate-spin" />
-                                        <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                        </svg>
-                                        Save Changes
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <ProfileSection v-if="activeTab === 'profile'" />
 
                     <!-- Change Password Section -->
-                    <div v-else-if="activeTab === 'password'" class="bg-white rounded-xl border border-gray-200 overflow-hidden md:flex md:flex-col md:h-full">
-                        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center">
-                                    <Lock class="w-4 h-4 text-brand" />
-                                </div>
-                                <h2 class="text-base font-semibold text-gray-900">Change Password</h2>
-                            </div>
-                        </div>
-
-                        <div class="p-6">
-                            <form @submit.prevent="updatePassword" class="space-y-4 max-w-md">
-                                <div>
-                                    <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1.5">Current Password</label>
-                                    <div class="relative">
-                                        <input v-model="currentPassword" :type="showCurrentPassword ? 'text' : 'password'" id="current_password"
-                                            class="w-full px-4 py-2.5 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
-                                        <button type="button" @click="toggleCurrentPasswordVisibility"
-                                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                                            <Eye v-if="showCurrentPassword" class="w-5 h-5" />
-                                            <EyeOff v-else class="w-5 h-5" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1.5">New Password</label>
-                                    <div class="relative">
-                                        <input v-model="newPassword" :type="showNewPassword ? 'text' : 'password'" id="new_password"
-                                            class="w-full px-4 py-2.5 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand transition-colors text-sm">
-                                        <button type="button" @click="toggleNewPasswordVisibility"
-                                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                                            <Eye v-if="showNewPassword" class="w-5 h-5" />
-                                            <EyeOff v-else class="w-5 h-5" />
-                                        </button>
-                                    </div>
-                                    <div v-if="newPassword" class="mt-2 space-y-1 text-xs">
-                                        <p :class="passwordRequirements.minLength ? 'text-green-600' : 'text-gray-400'">
-                                            {{ passwordRequirements.minLength ? '✓' : '○' }} At least 8 characters
-                                        </p>
-                                        <p :class="passwordRequirements.hasUppercase ? 'text-green-600' : 'text-gray-400'">
-                                            {{ passwordRequirements.hasUppercase ? '✓' : '○' }} One uppercase letter
-                                        </p>
-                                        <p :class="passwordRequirements.hasNumber ? 'text-green-600' : 'text-gray-400'">
-                                            {{ passwordRequirements.hasNumber ? '✓' : '○' }} One number
-                                        </p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-1.5">Confirm New Password</label>
-                                    <div class="relative">
-                                        <input v-model="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" id="confirm_password"
-                                            :class="confirmPassword && newPassword !== confirmPassword ? 'border-red-400 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-brand focus:border-brand'"
-                                            class="w-full px-4 py-2.5 pr-10 border rounded-lg focus:ring-2 transition-colors text-sm">
-                                        <button type="button" @click="toggleConfirmPasswordVisibility"
-                                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                                            <Eye v-if="showConfirmPassword" class="w-5 h-5" />
-                                            <EyeOff v-else class="w-5 h-5" />
-                                        </button>
-                                    </div>
-                                    <p v-if="confirmPassword && newPassword !== confirmPassword"
-                                        class="mt-1.5 text-xs text-red-500 font-medium">
-                                        Passwords do not match
-                                    </p>
-                                </div>
-
-                                <div class="flex justify-end pt-2 border-t border-gray-100">
-                                    <button type="submit" :disabled="isUpdatingPassword"
-                                        class="px-5 py-2.5 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors disabled:opacity-50 text-sm font-semibold flex items-center gap-2">
-                                        <Loader2 v-if="isUpdatingPassword" class="w-4 h-4 animate-spin" />
-                                        Save Password
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                   <ChangePasswordSection v-else-if="activeTab === 'password'" />
 
                     <!-- Address Section -->
                     <div v-else-if="activeTab === 'address'" class="bg-white rounded-xl border border-gray-200 md:flex md:flex-col md:h-full">
@@ -507,6 +339,7 @@
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { User, Eye, EyeOff, Loader2, Upload, Trash2, Lock, MapPin } from 'lucide-vue-next'
 import type { Address, AddressFormData } from '~/types/address'
+import ChangePasswordSection from '~/components/profile/change-password-section.vue'
 
 definePageMeta({
     middleware: 'auth'
@@ -514,84 +347,10 @@ definePageMeta({
 
 useSeoMeta({ title: 'My Profile', robots: 'noindex, nofollow' })
 
-const authStore = useAuthStore()
-
-// Sidebar navigation
+// Tab management
 const activeTab = ref<'profile' | 'password' | 'address'>('profile')
 
-const navItems = [
-    { key: 'profile' as const, label: 'Profile', icon: User },
-    { key: 'password' as const, label: 'Change Password', icon: Lock },
-    { key: 'address' as const, label: 'Addresses', icon: MapPin },
-]
 
-// Profile form composable
-const {
-    formData: profileForm,
-    isEditing: showProfileForm,
-    isSubmitting: isUpdating,
-    startEdit: startProfileEdit,
-    cancelEdit: cancelProfileEdit,
-    updateProfileWithFormData,
-} = useProfileForm()
-
-// Avatar upload composable
-const {
-    avatarFile,
-    shouldDeleteAvatar,
-    handleFileChange: handleAvatarChange,
-    markForDeletion: markAvatarForDeletion,
-    getPreviewUrl,
-    reset: resetAvatar,
-} = useAvatarUpload()
-
-const avatarUrl = computed(() => getPreviewUrl(authStore.user?.avatar))
-
-// Password form composable
-const {
-    currentPassword,
-    newPassword,
-    confirmPassword,
-    isEditing: showPasswordForm,
-    isSubmitting: isUpdatingPassword,
-    showCurrentPassword,
-    showNewPassword,
-    showConfirmPassword,
-    startEdit: startPasswordEdit,
-    cancelEdit: cancelPasswordEdit,
-    submitPasswordChange,
-    toggleCurrentPasswordVisibility,
-    toggleNewPasswordVisibility,
-    toggleConfirmPasswordVisibility,
-} = usePasswordForm()
-
-const passwordRequirements = computed(() => ({
-    minLength: newPassword.value.length >= 8,
-    hasUppercase: /[A-Z]/.test(newPassword.value),
-    hasNumber: /[0-9]/.test(newPassword.value)
-}))
-
-async function updateProfile() {
-    try {
-        await updateProfileWithFormData(avatarFile.value, shouldDeleteAvatar.value)
-        resetAvatar()
-    } catch (error) {
-        // Error already handled by composable
-    }
-}
-
-async function updatePassword() {
-    await submitPasswordChange()
-}
-
-function deleteAvatar() {
-    markAvatarForDeletion()
-}
-
-function handleCancelProfileEdit() {
-    cancelProfileEdit()
-    resetAvatar()
-}
 
 // Address management
 const {
