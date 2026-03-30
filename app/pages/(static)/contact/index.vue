@@ -116,6 +116,91 @@
             </div>
         </div>
 
+        <!-- Contact Form Section -->
+        <div class="bg-white py-12 sm:py-16 border-t border-gray-200">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-8 sm:mb-10">
+                    <h2 class="text-xl sm:text-2xl font-bold text-blue-950 mb-2">Send Us a Message</h2>
+                    <p class="text-gray-600 text-sm sm:text-base">Fill out the form below and we'll get back to you as soon as possible.</p>
+                </div>
+
+                <!-- Success Message -->
+                <div v-if="contactSuccess"
+                    class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
+                    <CheckCircle class="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+                    <p class="text-green-700 text-sm">{{ contactSuccess }}</p>
+                </div>
+
+                <!-- Rate Limit / General Error -->
+                <div v-if="contactError"
+                    class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
+                    <AlertCircle class="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                    <p class="text-red-700 text-sm">{{ contactError }}</p>
+                </div>
+
+                <form @submit.prevent="handleContactSubmit" class="space-y-5">
+                    <!-- Name -->
+                    <div>
+                        <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Full Name <span class="text-red-500">*</span>
+                        </label>
+                        <input id="contact-name" v-model="contactForm.name" type="text" placeholder="John Doe"
+                            class="w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                            :class="contactFieldErrors.name ? 'border-red-400 bg-red-50' : 'border-gray-300'" />
+                        <p v-if="contactFieldErrors.name" class="mt-1 text-xs text-red-600">{{
+                            contactFieldErrors.name }}</p>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="contact-email" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Email Address <span class="text-red-500">*</span>
+                        </label>
+                        <input id="contact-email" v-model="contactForm.email" type="email"
+                            placeholder="john@example.com"
+                            class="w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                            :class="contactFieldErrors.email ? 'border-red-400 bg-red-50' : 'border-gray-300'" />
+                        <p v-if="contactFieldErrors.email" class="mt-1 text-xs text-red-600">{{
+                            contactFieldErrors.email }}</p>
+                    </div>
+
+                    <!-- Subject -->
+                    <div>
+                        <label for="contact-subject" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Subject <span class="text-red-500">*</span>
+                        </label>
+                        <input id="contact-subject" v-model="contactForm.subject" type="text"
+                            placeholder="Product Inquiry"
+                            class="w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                            :class="contactFieldErrors.subject ? 'border-red-400 bg-red-50' : 'border-gray-300'" />
+                        <p v-if="contactFieldErrors.subject" class="mt-1 text-xs text-red-600">{{
+                            contactFieldErrors.subject }}</p>
+                    </div>
+
+                    <!-- Message -->
+                    <div>
+                        <label for="contact-message" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Message <span class="text-red-500">*</span>
+                        </label>
+                        <textarea id="contact-message" v-model="contactForm.message" rows="5"
+                            placeholder="Hello, I would like to know more about..."
+                            class="w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                            :class="contactFieldErrors.message ? 'border-red-400 bg-red-50' : 'border-gray-300'"></textarea>
+                        <p v-if="contactFieldErrors.message" class="mt-1 text-xs text-red-600">{{
+                            contactFieldErrors.message }}</p>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" :disabled="isSubmittingContact"
+                        class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white px-8 py-3 rounded-lg text-sm font-medium transition-colors">
+                        <Loader2 v-if="isSubmittingContact" class="w-4 h-4 animate-spin" />
+                        <Send v-else class="w-4 h-4" />
+                        {{ isSubmittingContact ? 'Sending...' : 'Send Message' }}
+                    </button>
+                </form>
+            </div>
+        </div>
+
         <!-- Trust Badges Section -->
         <div class="bg-gray-50 py-12 sm:py-16 border-t border-gray-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
@@ -180,7 +265,10 @@
         Award,
         RotateCcw,
         Globe,
-        ShieldCheck
+        ShieldCheck,
+        CheckCircle,
+        AlertCircle,
+        Loader2,
     } from 'lucide-vue-next';
     const siteUrl = useRuntimeConfig().public.siteUrl as string;
 
@@ -258,6 +346,15 @@
             faq.open = !faq.open;
         }
     };
+
+    const {
+        contactForm,
+        fieldErrors: contactFieldErrors,
+        error: contactError,
+        success: contactSuccess,
+        isSubmitting: isSubmittingContact,
+        sendMessage: handleContactSubmit,
+    } = useContact();
 
     useHead({
         script: [
