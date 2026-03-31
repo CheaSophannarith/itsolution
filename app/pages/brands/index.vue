@@ -1,15 +1,15 @@
 <template>
     <div class="min-h-screen bg-white">
         <!-- Hero -->
-        <div class="w-full py-8 sm:py-12" style="background: linear-gradient(135deg, #459bcc 0%, #172554 100%)">
+        <div class="w-full px-4 sm:px-8 lg:px-12 py-4 sm:py-4 lg:py-4 border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <nav class="flex items-center gap-1.5 text-white/70 text-xs sm:text-sm mb-3">
-                    <NuxtLink to="/" class="hover:text-white transition-colors">Home</NuxtLink>
+                <nav class="flex items-center gap-1.5 text-brand/70 text-xs sm:text-sm mb-3">
+                    <NuxtLink to="/" class="hover:text-brand transition-colors">Home</NuxtLink>
                     <ChevronRight class="w-3.5 h-3.5" />
-                    <span class="text-white">All Brands</span>
+                    <span class="text-brand">All Brands</span>
                 </nav>
-                <h1 class="text-2xl sm:text-3xl font-bold text-white">All Brands</h1>
-                <p v-if="brands.length > 0" class="text-white/60 text-sm mt-1">
+                <h1 class="text-2xl sm:text-3xl font-bold text-brand">All Brands</h1>
+                <p v-if="brands.length > 0" class="text-brand/60 text-sm mt-1">
                     {{ brands.length }} brands available
                 </p>
             </div>

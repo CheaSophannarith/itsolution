@@ -1,22 +1,22 @@
 <template>
     <div class="min-h-screen">
         <!-- Hero Section -->
-        <div class="w-full px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16"
-            style="background: linear-gradient(135deg, #459bcc 0%, #172554 100%)">
+        <div class="w-full px-4 sm:px-8 lg:px-12 py-4 sm:py-4 lg:py-4 border-b border-gray-200"
+          >
             <div class="max-w-7xl mx-auto px-2 sm:px-6">
                 <!-- Breadcrumb -->
-                <nav class="flex items-center gap-1 sm:gap-2 text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
-                    <NuxtLink to="/" class="hover:text-white">Home</NuxtLink>
+                <nav class="flex items-center gap-1 sm:gap-2 text-brand/70 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
+                    <NuxtLink to="/" class="hover:text-brand">Home</NuxtLink>
                     <template v-for="crumb in breadcrumbs" :key="crumb.slug">
                         <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                        <NuxtLink v-if="crumb.slug !== slug" :to="`/categories/${crumb.slug}`" class="hover:text-white">
+                        <NuxtLink v-if="crumb.slug !== slug" :to="`/categories/${crumb.slug}`" class="hover:text-brand">
                             {{ crumb.name }}
                         </NuxtLink>
-                        <span v-else class="text-white">{{ crumb.name }}</span>
+                        <span v-else class="text-brand">{{ crumb.name }}</span>
                     </template>
                 </nav>
 
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 sm:mb-6">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-brand mb-4 sm:mb-6">
                     {{ category?.name }}
                 </h1>
             </div>

@@ -1,20 +1,19 @@
 <template>
     <div class="min-h-screen">
         <!-- Hero Section with Breadcrumb -->
-        <div class="w-full px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16"
-            style="background: linear-gradient(135deg, #459bcc 0%, #172554 100%)">
+        <div class="w-full px-4 sm:px-8 lg:px-12 py-4 sm:py-4 lg:py-4 border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-2 sm:px-6">
                 <!-- Breadcrumb -->
-                <nav class="flex items-center gap-1 sm:gap-2 text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
-                    <NuxtLink to="/" class="hover:text-white">Home</NuxtLink>
+                <nav class="flex items-center gap-1 sm:gap-2 text-brand/70 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
+                    <NuxtLink to="/" class="hover:text-brand">Home</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span class="text-white">Contact Us</span>
+                    <span class="text-brand">Contact Us</span>
                 </nav>
 
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-brand mb-2 sm:mb-4">
                     Contact Us
                 </h1>
-                <p class="text-white/90 max-w-2xl text-sm sm:text-base">
+                <p class="text-brand/90 max-w-2xl text-sm sm:text-base">
                     Have a question or need IT solutions? We'd love to hear from you.
                 </p>
             </div>
@@ -94,12 +93,12 @@
                 <!-- Social/Quick Links -->
                 <div class="flex gap-3 mt-8">
                     <a href="https://wa.me/855998688883" target="_blank"
-                        class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                        class="flex items-center gap-2 bg-brand hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
                         <MessageCircle class="w-5 h-5" />
                         WhatsApp
                     </a>
                     <a href="https://t.me/+855998688883" target="_blank"
-                        class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                        class="flex items-center gap-2 bg-brand hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
                         <Send class="w-5 h-5" />
                         Telegram
                     </a>
@@ -192,7 +191,7 @@
 
                     <!-- Submit -->
                     <button type="submit" :disabled="isSubmittingContact"
-                        class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white px-8 py-3 rounded-lg text-sm font-medium transition-colors">
+                        class="w-full flex items-center justify-center gap-2 bg-brand hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white px-8 py-3 rounded-lg text-sm font-medium transition-colors">
                         <Loader2 v-if="isSubmittingContact" class="w-4 h-4 animate-spin" />
                         <Send v-else class="w-4 h-4" />
                         {{ isSubmittingContact ? 'Sending...' : 'Send Message' }}
@@ -291,28 +290,28 @@
             title: 'Original Product',
             description: '100% Original product covered warranty by the vendor.',
             icon: Award,
-            bgColor: 'bg-blue-500',
+            bgColor: 'bg-brand',
             iconColor: 'text-white'
         },
         {
             title: '30 Days Warranty',
             description: 'You have the right to return your orders within 30 days.',
             icon: RotateCcw,
-            bgColor: 'bg-blue-500',
+            bgColor: 'bg-brand',
             iconColor: 'text-white'
         },
         {
             title: 'Global Shipping',
             description: 'Your orders are shipped seamlessly between countries.',
             icon: Globe,
-            bgColor: 'bg-blue-500',
+            bgColor: 'bg-brand',
             iconColor: 'text-white'
         },
         {
             title: '100% Secure',
             description: 'Your payments are secure with our private security network.',
             icon: ShieldCheck,
-            bgColor: 'bg-blue-500',
+            bgColor: 'bg-brand',
             iconColor: 'text-white'
         }
     ];
