@@ -8,6 +8,7 @@ export interface OrderAddress {
     postal_code: string
     country_code: string
     phone: string | null
+    province: string
 }
 
 export interface OrderItem {

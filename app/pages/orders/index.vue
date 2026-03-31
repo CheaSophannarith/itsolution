@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 sm:py-12">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
             <!-- Page Header -->
             <div class="mb-8" data-aos="fade-down">
@@ -106,11 +106,6 @@
                         <div class="flex flex-wrap items-center justify-between gap-3">
                             <div class="flex items-center gap-4 sm:gap-5">
                                 <div>
-                                    <p class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-0.5">Order</p>
-                                    <p class="font-bold text-gray-900 text-sm font-mono tracking-tight">{{ order.order_number }}</p>
-                                </div>
-                                <div class="w-px h-8 bg-gray-200"></div>
-                                <div>
                                     <p class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-0.5">Placed</p>
                                     <p class="text-sm font-medium text-gray-700">{{ formatDate(order.created_at) }}</p>
                                 </div>
@@ -168,7 +163,7 @@
                             <div v-for="item in order.items" :key="item.uuid"
                                 class="flex items-center gap-3 sm:gap-4 p-3 rounded-xl bg-gray-50 hover:bg-gray-100/70 transition-colors group/item">
                                 <div
-                                    class="w-11 h-11 rounded-xl bg-white border border-gray-200 flex items-center justify-center shrink-0 group-hover/item:border-brand/30 transition-colors shadow-sm">
+                                    class="w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center shrink-0 group-hover/item:border-brand/30 transition-colors shadow-sm">
                                     <Package class="w-5 h-5 text-gray-300 group-hover/item:text-brand/40 transition-colors" />
                                 </div>
                                 <div class="flex-1 min-w-0">
@@ -177,6 +172,14 @@
                                         <span v-if="item.variant_name" class="text-xs text-gray-500">{{ item.variant_name }}</span>
                                         <span v-if="item.variant_name" class="text-xs text-gray-300">·</span>
                                         <span class="text-xs text-gray-400">{{ item.quantity }} × ${{ item.unit_price }}</span>
+                                    </div>
+                                    <!-- Attributes (e.g. Color, Size) -->
+                                    <div v-if="item.attributes && item.attributes.length > 0" class="flex flex-wrap gap-1 mt-1">
+                                        <span v-for="attr in item.attributes" :key="attr.name"
+                                            class="inline-flex items-center gap-0.5 text-[10px] text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">
+                                            <span class="font-semibold text-gray-400 uppercase tracking-wide">{{ attr.name }}:</span>
+                                            <span>{{ attr.value }}</span>
+                                        </span>
                                     </div>
                                 </div>
                                 <p class="text-sm font-bold text-gray-900 shrink-0">${{ item.subtotal }}</p>
@@ -187,13 +190,18 @@
                     <!-- Order Footer -->
                     <div class="px-5 sm:px-6 py-3.5 bg-gray-50/70 border-t border-gray-100">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div class="flex items-center gap-1.5 text-xs text-gray-500 min-w-0">
-                                <MapPin class="w-3.5 h-3.5 shrink-0 text-gray-400" />
-                                <span class="truncate">
-                                    {{ order.shipping_address.full_name }},
-                                    {{ order.shipping_address.address_line_1 }},
-                                    {{ order.shipping_address.city }}
-                                </span>
+                            <div class="flex flex-col gap-1 min-w-0">
+                                <div class="flex items-start gap-1.5 text-xs text-gray-500 min-w-0">
+                                    <MapPin class="w-3.5 h-3.5 shrink-0 text-gray-400 mt-px" />
+                                    <div class="min-w-0">
+                                        <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mr-1">Ship:</span>
+                                        <span class="truncate">
+                                            {{ order.shipping_address.full_name }},
+                                            {{ order.shipping_address.address_line_1 }}<template v-if="order.shipping_address.address_line_2">, {{ order.shipping_address.address_line_2 }}</template>,
+                                            {{ order.shipping_address.province }}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="flex items-center gap-5 shrink-0">
                                 <div v-if="parseFloat(order.discount_amount) > 0" class="text-right">

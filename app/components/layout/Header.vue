@@ -99,19 +99,14 @@
 							</span>
 						</NuxtLink>
 
-						<!-- Cart Drawer -->
-						<CartDrawer>
-							<template #trigger>
-								<button
-									id="cart-icon-btn"
-									class="relative p-2 text-brand hover:text-white hover:bg-brand rounded-md transition-all">
-									<ShoppingCart class="w-5 h-5" />
-									<span v-if="cartTotalItems > 0"
-										class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{
-											cartTotalItems }}</span>
-								</button>
-							</template>
-						</CartDrawer>
+						<!-- Cart Page Link -->
+						<NuxtLink id="cart-icon-btn" to="/cart"
+							class="relative p-2 text-brand hover:text-white hover:bg-brand rounded-md transition-all">
+							<ShoppingCart class="w-5 h-5" />
+							<span v-if="cartTotalItems > 0"
+								class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{
+									cartTotalItems }}</span>
+						</NuxtLink>
 
 						<!-- Contact Us - Hidden on mobile -->
 						<span class="hidden sm:block text-gray-300">|</span>
@@ -582,7 +577,6 @@
 	import { ChevronDown, ChevronRight, CircleUser, LogOut, Menu, Phone, Search, ShoppingCart, X, Heart } from 'lucide-vue-next'
 	import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 	import { useRoute } from 'vue-router'
-	import CartDrawer from '~/components/custom/CartDrawer.vue'
 
 	const { ItemCount: cartTotalItems } = useCart()
 	const authStore = useAuthStore()

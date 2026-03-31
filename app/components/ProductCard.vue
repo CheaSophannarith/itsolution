@@ -76,11 +76,11 @@
                             class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-500 text-white text-sm font-semibold shadow-sm shadow-emerald-200 select-none">
                             In Cart
                         </div>
-                        <button @click="openCartDrawer"
+                        <NuxtLink to="/cart"
                             class="px-3 py-2.5 rounded-xl border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-50 transition-colors duration-200 text-sm font-medium"
                             title="View cart">
                             <ShoppingCart class="w-4 h-4" />
-                        </button>
+                        </NuxtLink>
                     </div>
 
                     <!-- Add button with loading state -->
@@ -159,7 +159,6 @@
         return Math.round(((orig - curr) / orig) * 100);
     });
 
-    const { openCartDrawer } = useCartDrawer();
 
     const telegramUrl = computed(() => {
         const siteUrl = config.public.siteUrl || 'https://itsolutiondigital.com';

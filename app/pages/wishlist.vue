@@ -153,11 +153,11 @@
                                     <div class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-500 text-white text-sm font-semibold shadow-sm shadow-emerald-200 select-none">
                                         In Cart
                                     </div>
-                                    <button @click="openCartDrawer"
+                                    <NuxtLink to="/cart"
                                         class="px-3 py-2.5 rounded-xl border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-50 transition-colors duration-200"
                                         title="View cart">
                                         <ShoppingCart class="w-4 h-4" />
-                                    </button>
+                                    </NuxtLink>
                                 </div>
 
                                 <!-- Add to Cart -->
@@ -217,7 +217,6 @@ const { addToast } = useToast();
 
 const removing = ref<string | null>(null);
 const addingToCart = ref<string | null>(null);
-const { openCartDrawer } = useCartDrawer();
 
 await wishlistStore.initializeWishlist();
 
