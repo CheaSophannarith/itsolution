@@ -163,11 +163,12 @@
     const telegramUrl = computed(() => {
         const siteUrl = config.public.siteUrl || 'https://itsolutiondigital.com';
         const tgBase = config.public.telegramUrl as string;
+        const brandName = props.product.brand?.name || 'N/A';
         const lines = [
             `Hello, I would like to inquire about the following product:`,
             ``,
             `Product: ${props.product.name}`,
-            `Brand: ${props.product.brand.name}`,
+            `Brand: ${brandName}`,
             `Price: $${formattedPrice.value}`,
             ``,
             `${siteUrl}/products/${props.product.slug}`,

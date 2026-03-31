@@ -17,7 +17,7 @@
                 :content="product.meta_description || product.short_description || product.name" />
             <meta v-if="product.images.featured?.original" itemprop="image"
                 :content="product.images.featured.original" />
-            <meta itemprop="brand" :content="product.brand.name" />
+            <meta itemprop="brand" :content="productBrandName" />
             <meta v-if="selectedSku?.uuid" itemprop="sku" :content="selectedSku.uuid" />
 
             <!-- Breadcrumb -->
@@ -62,7 +62,7 @@
                         <div class="bg-white rounded-xl cursor-zoom-in overflow-hidden aspect-[4/3] border border-gray-300"
                             @click="openLightbox(activeImageIndex)">
                             <NuxtImg :src="allImages[activeImageIndex]?.original"
-                                :alt="`${product.brand.name} ${product.name}`" itemprop="image" width="800" height="600"
+                                :alt="`${productBrandName} ${product.name}`" itemprop="image" width="800" height="600"
                                 format="webp"
                                 class="w-full h-full object-contain p-3 sm:p-5 hover:scale-105 transition-transform duration-500" />
                         </div>
@@ -77,7 +77,7 @@
                                         : 'border-gray-300 hover:border-gray-500'
                                 ]">
                                 <NuxtImg :src="image.thumb"
-                                    :alt="`${product.brand.name} ${product.name} – view ${index + 1}`" width="96"
+                                    :alt="`${productBrandName} ${product.name} – view ${index + 1}`" width="96"
                                     height="96" format="webp" class="w-full h-full object-contain p-1.5" />
                             </button>
                         </div>
@@ -98,7 +98,7 @@
                                     <ChevronLeft class="w-8 h-8" />
                                 </button>
                                 <NuxtImg :src="allImages[lightboxIndex]?.original"
-                                    :alt="`${product.brand.name} ${product.name}`" width="1200" height="900"
+                                    :alt="`${productBrandName} ${product.name}`" width="1200" height="900"
                                     format="webp"
                                     class="max-h-[90vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl" />
                                 <button v-if="allImages.length > 1" @click="nextImage"
@@ -121,7 +121,7 @@
                         <div class="flex items-center gap-3 flex-wrap">
                             <span class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400"
                                 itemprop="brand" itemscope itemtype="https://schema.org/Brand">
-                                <span itemprop="name">{{ product.brand.name }}</span>
+                                <span itemprop="name">{{ productBrandName }}</span>
                             </span>
 
                         </div>
@@ -135,7 +135,8 @@
                         <!-- Short Description -->
                         <p v-if="product.short_description" itemprop="description"
                             class="text-sm text-gray-500 leading-relaxed -mt-1">
-                            {{ product.short_description }}
+                            <div class="product-description text-base text-gray-600 leading-relaxed"
+                        v-html="product.short_description" itemprop="description"></div>
                         </p>
 
                         <!-- Price + Discount badge -->
@@ -196,7 +197,7 @@
 
                         <!-- Specifications -->
                         <div>
-                            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">
+                            <p v-if="productSpecs.length" class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">
                                 Specifications</p>
                             <dl
                                 :class="['divide-y divide-gray-50', { 'max-h-52 overflow-y-auto pr-1': productSpecs.length > 5 }]">
@@ -264,7 +265,7 @@
 
                 <!-- Description -->
                 <section v-if="product.description" class="mt-16 lg:mt-24 max-w-3xl" data-aos="fade-up">
-                    <h2 class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400 mb-4">About this Product
+                    <h2 class="text-xs font-semibold tracking-[0.18em] uppercase text-gray-400 mb-4">Descriptions
                     </h2>
                     <div class="product-description text-base text-gray-600 leading-relaxed"
                         v-html="product.description" itemprop="description"></div>
@@ -351,6 +352,7 @@
     const slug = computed(() => route.params.slug as string);
 
     const { product, status } = useProductDetail(slug);
+    const productBrandName = computed(() => product.value?.brand?.name );
 
     // Fetch related products from the primary category
     const categorySlug = computed(() => product.value?.categories[0]?.slug ?? '');
@@ -480,7 +482,7 @@
                         name: product.value.name,
                         image: allImageUrls,
                         description: product.value.meta_description || product.value.short_description || '',
-                        brand: { '@type': 'Brand', name: product.value.brand.name },
+                        brand: { '@type': 'Brand', name: product.value.brand?.name},
                         ...(additionalProperty.length ? { additionalProperty } : {}),
                         offers: offers.length === 1 ? offers[0] : offers,
                     }),
@@ -557,16 +559,27 @@
         return sku.attribute_options.map(opt => opt.label).join(' / ');
     };
 
-    const productSpecs = computed(() => {
-        if (!product.value || !selectedSku.value) return [];
-        const specs: { label: string; value: string }[] = [
-            { label: 'Brand', value: product.value.brand.name },
-        ];
-        for (const opt of selectedSku.value.attribute_options) {
-            specs.push({ label: opt.attribute.name, value: opt.label });
-        }
-        return specs;
-    });
+   const productSpecs = computed(() => {
+    if (!product.value || !selectedSku.value) return [];
+
+    const specs: { label: string; value: string }[] = [];
+
+    // // add brand as the first spec
+    if (product.value.brand?.name) {
+        specs.push({ label: 'Brand', value: product.value.brand.name });
+    }
+
+    // Add SKU attributes
+    for (const opt of selectedSku.value.attribute_options) {
+        specs.push({
+            label: opt.attribute.name,
+            value: opt.label,
+        });
+    }
+
+    return specs;
+});
+
 
     const tgBase = useRuntimeConfig().public.telegramUrl as string;
 
@@ -580,7 +593,7 @@
             `Hello, I would like to inquire about the following product:`,
             ``,
             `Product: ${product.value.name}`,
-            `Brand: ${product.value.brand.name}`,
+            `Brand: ${product.value.brand?.name}`,
             ...specLines,
             `Price: $${price}`,
             ``,

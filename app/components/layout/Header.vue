@@ -377,19 +377,19 @@
 				<div class="flex items-center justify-between">
 					<!-- Navigation Links -->
 					<nav class="flex items-center">
-						<div v-for="item in navItems" :key="item.name" class="relative"
+						<div v-for="item in desktopNavItems" :key="item.name" class="relative"
 							@mouseenter="openDropdown(item.name)" @mouseleave="closeDropdown">
 							<NuxtLink v-if="!item.children" :to="item.href" :class="[
-								'px-4 xl:px-6 py-3 text-brand-foreground font-medium transition-colors flex items-center gap-1 cursor-pointer text-sm xl:text-base',
+								'px-4 xl:px-6 py-3 text-brand-foreground font-medium transition-colors flex items-center gap-1 cursor-pointer text-sm xl:text-base whitespace-nowrap',
 								activeDropdown === item.name ? 'bg-white/20' : 'hover:bg-white/10'
 							]">
-								{{ item.name }}
+								<span class="max-w-[180px] xl:max-w-[220px] truncate" :title="item.name">{{ item.name }}</span>
 							</NuxtLink>
 							<button v-else type="button" :class="[
-								'px-4 xl:px-6 py-3 text-brand-foreground font-medium transition-colors flex items-center gap-1 cursor-pointer text-sm xl:text-base',
+								'px-4 xl:px-6 py-3 text-brand-foreground font-medium transition-colors flex items-center gap-1 cursor-pointer text-sm xl:text-base whitespace-nowrap',
 								activeDropdown === item.name ? 'bg-white/20' : 'hover:bg-white/10'
 							]">
-								{{ item.name }}
+								<span class="max-w-[180px] xl:max-w-[220px] truncate" :title="item.name">{{ item.name }}</span>
 								<ChevronDown class="w-4 h-4" />
 							</button>
 						</div>
@@ -397,7 +397,7 @@
 
 					<!-- Phone Number & Social Icons -->
 					<div class="flex items-center gap-4">
-						<a href="#" class="text-brand-foreground font-semibold py-3 text-sm xl:text-base">
+						<a href="#" class="hidden xl:block text-brand-foreground font-semibold py-3 text-sm xl:text-base whitespace-nowrap">
 							+855 17 86 88 83
 						</a>
 						<a href="https://www.facebook.com/ITSolutionCam/" target="_blank" rel="noopener noreferrer" class="text-brand-foreground/80 hover:text-brand-foreground">
@@ -770,6 +770,8 @@
 		children?: NavSubcategory[]
 	}
 
+	const DESKTOP_NAV_LIMIT = 6
+
 	// Mobile menu state
 	const mobileMenuOpen = ref(false)
 	const mobileSearchOpen = ref(false)
@@ -844,10 +846,10 @@
 				items.push({
 					name: rootCategory.name,
 					href: `/categories/${rootCategory.slug}`,
-					children: [
+					children: rootCategory.children.length ? [
 						{ name: `All ${rootCategory.name}`, href: `/categories/${rootCategory.slug}` },
 						...buildNavChildren(rootCategory),
-					],
+					] : undefined
 				})
 			}
 		}
@@ -864,13 +866,42 @@
 		return items
 	})
 
+	function toOverflowSubcategory(item: NavItem): NavSubcategory {
+		return {
+			name: item.name,
+			href: item.href,
+			children: item.children?.map(child => ({
+				name: child.name,
+				href: child.href,
+			})),
+		}
+	}
+
+	const desktopNavItems = computed<NavItem[]>(() => {
+		if (navItems.value.length <= DESKTOP_NAV_LIMIT) {
+			return navItems.value
+		}
+
+		const visibleItems = navItems.value.slice(0, DESKTOP_NAV_LIMIT - 1)
+		const overflowItems = navItems.value.slice(DESKTOP_NAV_LIMIT - 1)
+
+		return [
+			...visibleItems,
+			{
+				name: 'Show More',
+				href: '#',
+				children: overflowItems.map(toOverflowSubcategory),
+			},
+		]
+	})
+
 	const activeDropdown = ref<string | null>(null)
 	const activeSubcategory = ref<NavSubcategory | null>(null)
 	let closeTimeout: ReturnType<typeof setTimeout> | null = null
 	let openTimeout: ReturnType<typeof setTimeout> | null = null
 
 	const activeNavItem = computed(() => {
-		return navItems.value.find(item => item.name === activeDropdown.value)
+		return desktopNavItems.value.find(item => item.name === activeDropdown.value)
 	})
 
 	function openDropdown(name: string) {
@@ -882,7 +913,7 @@
 			clearTimeout(openTimeout)
 			openTimeout = null
 		}
-		const item = navItems.value.find(i => i.name === name)
+		const item = desktopNavItems.value.find(i => i.name === name)
 		if (item?.children) {
 			openTimeout = setTimeout(() => {
 				activeDropdown.value = name
