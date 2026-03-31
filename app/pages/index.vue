@@ -141,7 +141,7 @@
     });
 
     useSeoMeta({
-        title: '#1 Computer, Phone, Monitor & Printer Shop in Cambodia',
+        title: 'IT Solution Digital | #1 IT Shop in Cambodia – Computers, Phones, Monitors & Printers in Phnom Penh',
         description: seoDescription,
         ogTitle: 'IT Solution Digital – Buy Computers, Phones, Monitors & Printers in Phnom Penh',
         ogDescription: seoDescription,
