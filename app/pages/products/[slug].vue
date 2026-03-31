@@ -192,6 +192,24 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="h-px bg-gray-100"></div>
+
+                        <!-- Specifications -->
+                        <div>
+                            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">
+                                Specifications</p>
+                            <dl
+                                :class="['divide-y divide-gray-50', { 'max-h-52 overflow-y-auto pr-1': productSpecs.length > 5 }]">
+                                <div v-for="(item, index) in productSpecs" :key="index"
+                                    class="flex items-start gap-4 py-2.5">
+                                    <dt
+                                        class="text-xs text-gray-400 font-medium uppercase tracking-wide w-28 shrink-0 pt-px">
+                                        {{ item.label }}
+                                    </dt>
+                                    <dd class="text-sm text-gray-900 font-medium">{{ item.value }}</dd>
+                                </div>
+                            </dl>
+                        </div>
 
                         <!-- Quantity + Add to Cart -->
                         <div class="space-y-3">
@@ -241,24 +259,6 @@
                             </a>
                         </div>
 
-                        <div class="h-px bg-gray-100"></div>
-
-                        <!-- Specifications -->
-                        <div>
-                            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">
-                                Specifications</p>
-                            <dl
-                                :class="['divide-y divide-gray-50', { 'max-h-52 overflow-y-auto pr-1': productSpecs.length > 5 }]">
-                                <div v-for="(item, index) in productSpecs" :key="index"
-                                    class="flex items-start gap-4 py-2.5">
-                                    <dt
-                                        class="text-xs text-gray-400 font-medium uppercase tracking-wide w-28 shrink-0 pt-px">
-                                        {{ item.label }}
-                                    </dt>
-                                    <dd class="text-sm text-gray-900 font-medium">{{ item.value }}</dd>
-                                </div>
-                            </dl>
-                        </div>
                     </div>
                 </div>
 
