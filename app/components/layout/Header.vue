@@ -61,8 +61,8 @@
 												<div class="flex-1 min-w-0">
 													<h4 class="text-sm font-semibold text-gray-900 truncate">{{
 														product.name }}</h4>
-													<p class="text-xs text-gray-600 line-clamp-1 mt-0.5">{{
-														product.short_description }}</p>
+														<div class="text-xs text-gray-600 line-clamp-1 mt-0.5" v-html="product.short_description">
+														</div>
 													<p class="text-sm font-bold text-brand mt-1">${{ product.price }}
 													</p>
 												</div>
@@ -853,6 +853,7 @@
 				})
 			}
 		}
+			items.push({ name: 'brands', href: '/brands' })
 
 		// Static nav items
 		items.push({

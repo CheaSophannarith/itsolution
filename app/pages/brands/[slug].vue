@@ -1,16 +1,15 @@
 <template>
     <div class="min-h-screen">
         <!-- Hero Section -->
-        <div class="w-full px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16"
-            style="background: linear-gradient(135deg, #459bcc 0%, #172554 100%)">
+        <div class="w-full px-4 sm:px-8 lg:px-12 py-4 sm:py-4 lg:py-4 border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-2 sm:px-6">
                 <!-- Breadcrumb -->
-                <nav class="flex items-center gap-1 sm:gap-2 text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
-                    <NuxtLink to="/" class="hover:text-white">Home</NuxtLink>
+                <nav class="flex items-center gap-1 sm:gap-2 text-brand text-xs sm:text-sm mb-3 sm:mb-4 flex-wrap">
+                    <NuxtLink to="/" class="hover:text-brand">Home</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <NuxtLink to="/#brands" class="hover:text-white">Brands</NuxtLink>
+                    <NuxtLink to="/#brands" class="hover:text-brand">Brands</NuxtLink>
                     <ChevronRight class="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span class="text-white">{{ brand?.name ?? slug }}</span>
+                    <span class="text-brand">{{ brand?.name ?? slug }}</span>
                 </nav>
 
                 <div class="flex items-center gap-4">
@@ -19,7 +18,7 @@
                         <img :src="brand.logo" :alt="brand.name" class="w-full h-full object-contain" width="64"
                             height="64" />
                     </div>
-                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
+                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-brand">
                         {{ brand?.name ?? slug }} Products
                     </h1>
                 </div>
