@@ -98,8 +98,7 @@
                                     <ChevronLeft class="w-8 h-8" />
                                 </button>
                                 <NuxtImg :src="allImages[lightboxIndex]?.original"
-                                    :alt="`${productBrandName} ${product.name}`" width="1200" height="900"
-                                    format="webp"
+                                    :alt="`${productBrandName} ${product.name}`" width="1200" height="900" format="webp"
                                     class="max-h-[90vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl" />
                                 <button v-if="allImages.length > 1" @click="nextImage"
                                     class="absolute right-6 text-white/80 hover:text-white z-10 bg-white/10 hover:bg-white/20 rounded-full p-4 transition-all duration-300 backdrop-blur-md hover:scale-110">
@@ -133,11 +132,9 @@
                         </h1>
 
                         <!-- Short Description -->
-                        <p v-if="product.short_description" itemprop="description"
-                            class="text-sm text-gray-500 leading-relaxed -mt-1">
-                            <div class="product-description text-base text-gray-600 leading-relaxed"
-                        v-html="product.short_description" itemprop="description"></div>
-                        </p>
+                        <div v-if="product.short_description"
+                            class="product-description text-base text-gray-600 leading-relaxed -mt-1"
+                            v-html="product.short_description" itemprop="description"></div>
 
                         <!-- Price + Discount badge -->
                         <div class="flex items-baseline gap-3 flex-wrap" itemprop="offers" itemscope
@@ -197,7 +194,8 @@
 
                         <!-- Specifications -->
                         <div>
-                            <p v-if="productSpecs.length" class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">
+                            <p v-if="productSpecs.length"
+                                class="text-xs font-semibold tracking-[0.12em] uppercase text-gray-400 mb-3">
                                 Specifications</p>
                             <dl
                                 :class="['divide-y divide-gray-50', { 'max-h-52 overflow-y-auto pr-1': productSpecs.length > 5 }]">
@@ -352,7 +350,7 @@
     const slug = computed(() => route.params.slug as string);
 
     const { product, status } = useProductDetail(slug);
-    const productBrandName = computed(() => product.value?.brand?.name );
+    const productBrandName = computed(() => product.value?.brand?.name);
 
     // Fetch related products from the primary category
     const categorySlug = computed(() => product.value?.categories[0]?.slug ?? '');
@@ -482,7 +480,7 @@
                         name: product.value.name,
                         image: allImageUrls,
                         description: product.value.meta_description || product.value.short_description || '',
-                        brand: { '@type': 'Brand', name: product.value.brand?.name},
+                        brand: { '@type': 'Brand', name: product.value.brand?.name },
                         ...(additionalProperty.length ? { additionalProperty } : {}),
                         offers: offers.length === 1 ? offers[0] : offers,
                     }),
@@ -559,26 +557,26 @@
         return sku.attribute_options.map(opt => opt.label).join(' / ');
     };
 
-   const productSpecs = computed(() => {
-    if (!product.value || !selectedSku.value) return [];
+    const productSpecs = computed(() => {
+        if (!product.value || !selectedSku.value) return [];
 
-    const specs: { label: string; value: string }[] = [];
+        const specs: { label: string; value: string }[] = [];
 
-    // // add brand as the first spec
-    if (product.value.brand?.name) {
-        specs.push({ label: 'Brand', value: product.value.brand.name });
-    }
+        // // add brand as the first spec
+        if (product.value.brand?.name) {
+            specs.push({ label: 'Brand', value: product.value.brand.name });
+        }
 
-    // Add SKU attributes
-    for (const opt of selectedSku.value.attribute_options) {
-        specs.push({
-            label: opt.attribute.name,
-            value: opt.label,
-        });
-    }
+        // Add SKU attributes
+        for (const opt of selectedSku.value.attribute_options) {
+            specs.push({
+                label: opt.attribute.name,
+                value: opt.label,
+            });
+        }
 
-    return specs;
-});
+        return specs;
+    });
 
 
     const tgBase = useRuntimeConfig().public.telegramUrl as string;
